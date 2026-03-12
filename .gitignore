@@ -1,1 +1,7 @@
 codeql-osx64.zip
+*.zip
+*.tar.gz
+*.dmg
+*.bin
+tools/*
+!tools/README.md
