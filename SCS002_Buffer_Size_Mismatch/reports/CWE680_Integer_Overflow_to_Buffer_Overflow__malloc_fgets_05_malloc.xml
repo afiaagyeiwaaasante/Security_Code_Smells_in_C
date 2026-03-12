@@ -1,0 +1,7 @@
+p=malloc(sizeof(int))
+
+intPointer = (int*)malloc(data * sizeof(int))
+
+intPointer = (int*)malloc(data * sizeof(int))
+
+intPointer = (int*)malloc(data * sizeof(int))

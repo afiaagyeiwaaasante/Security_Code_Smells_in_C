@@ -1,0 +1,52 @@
+executing /dev/fd/63
+Exception in thread "main" java.nio.charset.MalformedInputException: Input length = 1
+	at java.base/java.nio.charset.CoderResult.throwException(CoderResult.java:274)
+	at java.base/sun.nio.cs.StreamDecoder.implRead(StreamDecoder.java:343)
+	at java.base/sun.nio.cs.StreamDecoder.read(StreamDecoder.java:190)
+	at java.base/java.io.InputStreamReader.read(InputStreamReader.java:177)
+	at java.base/java.io.BufferedReader.fill(BufferedReader.java:162)
+	at java.base/java.io.BufferedReader.readLine(BufferedReader.java:329)
+	at java.base/java.io.BufferedReader.readLine(BufferedReader.java:396)
+	at scala.io.BufferedSource$BufferedLineIterator.hasNext(BufferedSource.scala:73)
+	at scala.collection.immutable.List.prependedAll(List.scala:152)
+	at scala.collection.immutable.List$.from(List.scala:685)
+	at scala.collection.immutable.List$.from(List.scala:682)
+	at scala.collection.SeqFactory$Delegate.from(Factory.scala:306)
+	at scala.collection.immutable.Seq$.from(Seq.scala:42)
+	at scala.collection.IterableOnceOps.toSeq(IterableOnce.scala:1473)
+	at scala.collection.IterableOnceOps.toSeq$(IterableOnce.scala:1473)
+	at scala.collection.AbstractIterator.toSeq(Iterator.scala:1303)
+	at replpp.util.package$.linesFromFile$$anonfun$1(package.scala:23)
+	at scala.util.Using$.resource(Using.scala:296)
+	at replpp.util.package$.linesFromFile(package.scala:23)
+	at replpp.UsingDirectives$.findImportedFilesRecursively(UsingDirectives.scala:18)
+	at replpp.package$.allPredefFiles$$anonfun$2(package.scala:60)
+	at scala.Option.foreach(Option.scala:437)
+	at replpp.package$.allPredefFiles(package.scala:59)
+	at replpp.package$.allSourceFiles(package.scala:45)
+	at replpp.package$.allSourceLines(package.scala:68)
+	at replpp.util.ClasspathHelper$.dependencyArtifacts(ClasspathHelper.scala:77)
+	at replpp.util.ClasspathHelper$.fromConfig(ClasspathHelper.scala:53)
+	at replpp.util.ClasspathHelper$.create(ClasspathHelper.scala:24)
+	at replpp.package$.compilerArgs(package.scala:34)
+	at replpp.scripting.NonForkingScriptRunner$.exec(NonForkingScriptRunner.scala:42)
+	at replpp.scripting.NonForkingScriptRunner$.main(NonForkingScriptRunner.scala:21)
+	at replpp.scripting.NonForkingScriptRunner.main(NonForkingScriptRunner.scala)
+        0.58 real         1.13 user         0.08 sys
+           209076224  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+               24238  page reclaims
+                  16  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   1  signals received
+                  31  voluntary context switches
+                2784  involuntary context switches
+            33183939  instructions retired
+            14157063  cycles elapsed
+             1212680  peak memory footprint

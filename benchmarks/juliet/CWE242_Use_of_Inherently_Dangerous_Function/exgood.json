@@ -1,0 +1,17 @@
+{
+"argc-2-23-3a4ceee03fedc2163c26d9222cc3e5f733edec71":{
+    "file":"exgood.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"good1",
+    "type":"int",
+    "name":"argc",
+    "initial":"exgood.c:2:23",
+    "dependence":[],
+    "aliases":[],
+    "calls":[],
+    "use":[],
+    "definition":["exgood.c:2:23"]
+}
+}

@@ -1,0 +1,25 @@
+[31msrcml: WARNING The srcql query 'FIND malloc() OR calloc() OR realloc() CONTAINS sizeof()'
+does not contain a srcql logical variable that starts with a [1m$[0m.
+[31mIf your srcql query was meant to contain a logical variable, then enclose the
+entire query in single quotes, not double quotes, to prevent shell variable
+expansion. If not, you can safely ignore this message or disable it with the
+option [1;31m--srcql-warning-off[0m [31mor [1;31m-F[0m[31m.[0m
+
+        0.00 real         0.00 user         0.00 sys
+             8749056  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+                 773  page reclaims
+                   0  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                   1  voluntary context switches
+                  50  involuntary context switches
+            89383177  instructions retired
+            26373304  cycles elapsed
+             3228008  peak memory footprint

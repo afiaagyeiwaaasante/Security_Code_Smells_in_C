@@ -1,0 +1,9 @@
+executing scripts/joern/gets.sc
+Creating project `cpg.bin` for CPG at `/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/cpg.bin`
+Project with name cpg.bin already exists - overwriting
+Creating working copy of CPG to be safe
+Loading base CPG from: /Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/workspace/cpg.bin/cpg.bin.tmp
+Overlay dataflowOss already exists - skipping
+The graph has been modified. You may want to use the `save` command to persist changes to disk.  All changes will also be saved collectively on exit
+closing/saving project `cpg.bin`
+        2.52 real         5.73 user         0.26 sys

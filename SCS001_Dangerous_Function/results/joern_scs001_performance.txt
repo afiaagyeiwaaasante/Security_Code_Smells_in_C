@@ -1,0 +1,26 @@
+executing scripts/joern/gets.sc
+Creating project `cpg.bin` for CPG at `/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/cpg.bin`
+Project with name cpg.bin already exists - overwriting
+Creating working copy of CPG to be safe
+Loading base CPG from: /Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/workspace/cpg.bin/cpg.bin.tmp
+Overlay dataflowOss already exists - skipping
+The graph has been modified. You may want to use the `save` command to persist changes to disk.  All changes will also be saved collectively on exit
+closing/saving project `cpg.bin`
+        2.55 real         7.31 user         0.28 sys
+           384155648  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+               46214  page reclaims
+                  20  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   8  messages sent
+                   8  messages received
+                   5  signals received
+                 289  voluntary context switches
+               16665  involuntary context switches
+            33247385  instructions retired
+            20600411  cycles elapsed
+             1212680  peak memory footprint

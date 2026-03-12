@@ -1,0 +1,32 @@
+{
+"m-1-12-f68ae98f52a593509b0ae8928e68097051634b46":{
+    "file":"mainslice.cpp",
+    "language":"C++",
+    "namespace":[],
+    "class":"",
+    "function":"f",
+    "type":"int",
+    "name":"m",
+    "initial":"mainslice.cpp:1:12",
+    "dependence":[],
+    "aliases":[],
+    "calls":[],
+    "use":["mainslice.cpp:3:18"],
+    "definition":["mainslice.cpp:1:12"]
+},
+"n-8-9-f68ae98f52a593509b0ae8928e68097051634b46":{
+    "file":"mainslice.cpp",
+    "language":"C++",
+    "namespace":[],
+    "class":"",
+    "function":"g",
+    "type":"int",
+    "name":"n",
+    "initial":"mainslice.cpp:8:9",
+    "dependence":[],
+    "aliases":[],
+    "calls":[{"functionName":"f","parameter":"1","definitionPosition":"mainslice.cpp:1:1","invoke":"mainslice.cpp:10:5"}],
+    "use":["mainslice.cpp:1:12","mainslice.cpp:3:18","mainslice.cpp:10:7"],
+    "definition":["mainslice.cpp:8:9"]
+}
+}

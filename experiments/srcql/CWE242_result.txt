@@ -1,0 +1,37 @@
+result = gets(dest)
+
+result = gets(dest)
+
+result = gets(dest)
+
+result = gets(dest)
+
+result = gets(dest)
+
+result = gets(dest)
+
+result = gets(dest)
+
+result = gets(dest)
+
+result = gets(dest)
+
+result = gets(dest)
+
+result = gets(dest)
+
+result = gets(dest)
+
+result = gets(dest)
+
+result = gets(dest)
+
+result = gets(dest)
+
+result = gets(dest)
+
+result = gets(dest)
+
+result = gets(dest)
+
+result = gets(dest)

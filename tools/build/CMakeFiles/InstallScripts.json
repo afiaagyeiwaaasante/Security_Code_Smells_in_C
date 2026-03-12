@@ -1,0 +1,15 @@
+{
+	"InstallScripts" : 
+	[
+		"/Users/afiaasante/Security-Code-Smells/tools/build/cmake_install.cmake",
+		"/Users/afiaasante/Security-Code-Smells/tools/build/src/cmake_install.cmake",
+		"/Users/afiaasante/Security-Code-Smells/tools/build/test/cmake_install.cmake",
+		"/Users/afiaasante/Security-Code-Smells/tools/build/srcDispatch/cmake_install.cmake",
+		"/Users/afiaasante/Security-Code-Smells/tools/build/srcDispatch/srcSAX/CMake/cmake_install.cmake",
+		"/Users/afiaasante/Security-Code-Smells/tools/build/srcDispatch/srcSAX/src/cmake_install.cmake",
+		"/Users/afiaasante/Security-Code-Smells/tools/build/srcDispatch/src/cmake_install.cmake",
+		"/Users/afiaasante/Security-Code-Smells/tools/build/srcDispatch/test/cmake_install.cmake",
+		"/Users/afiaasante/Security-Code-Smells/tools/build/srcDispatch/test/suite/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

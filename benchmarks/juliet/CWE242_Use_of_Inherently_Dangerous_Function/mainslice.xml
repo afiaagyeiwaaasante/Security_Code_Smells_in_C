@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" xmlns:pos="http://www.srcML.org/srcML/position" revision="1.0.0" language="C++" filename="mainslice.cpp" pos:tabs="8" hash="f68ae98f52a593509b0ae8928e68097051634b46"><function pos:start="1:1" pos:end="4:1"><type pos:start="1:1" pos:end="1:4"><name pos:start="1:1" pos:end="1:4">void</name></type> <name pos:start="1:6" pos:end="1:6">f</name><parameter_list pos:start="1:7" pos:end="1:13">(<parameter pos:start="1:8" pos:end="1:12"><decl pos:start="1:8" pos:end="1:12"><type pos:start="1:8" pos:end="1:10"><name pos:start="1:8" pos:end="1:10">int</name></type> <name pos:start="1:12" pos:end="1:12">m</name></decl></parameter>)</parameter_list> <block pos:start="1:15" pos:end="4:1">{<block_content pos:start="1:16" pos:end="4:0">
+
+    <expr_stmt pos:start="3:5" pos:end="3:19"><expr pos:start="3:5" pos:end="3:18"><name pos:start="3:5" pos:end="3:13"><name pos:start="3:5" pos:end="3:7">std</name><operator pos:start="3:8" pos:end="3:9">::</operator><name pos:start="3:10" pos:end="3:13">cout</name></name> <operator pos:start="3:15" pos:end="3:16">&lt;&lt;</operator> <name pos:start="3:18" pos:end="3:18">m</name></expr>;</expr_stmt>
+</block_content>}</block></function>
+
+<function pos:start="6:1" pos:end="11:1"><type pos:start="6:1" pos:end="6:4"><name pos:start="6:1" pos:end="6:4">void</name></type> <name pos:start="6:6" pos:end="6:6">g</name><parameter_list pos:start="6:7" pos:end="6:8">()</parameter_list> <block pos:start="6:10" pos:end="11:1">{<block_content pos:start="6:11" pos:end="11:0">
+
+    <decl_stmt pos:start="8:5" pos:end="8:14"><decl pos:start="8:5" pos:end="8:13"><type pos:start="8:5" pos:end="8:7"><name pos:start="8:5" pos:end="8:7">int</name></type> <name pos:start="8:9" pos:end="8:9">n</name> <init pos:start="8:11" pos:end="8:13">= <expr pos:start="8:13" pos:end="8:13"><literal type="number" pos:start="8:13" pos:end="8:13">0</literal></expr></init></decl>;</decl_stmt>
+
+    <expr_stmt pos:start="10:5" pos:end="10:9"><expr pos:start="10:5" pos:end="10:8"><call pos:start="10:5" pos:end="10:8"><name pos:start="10:5" pos:end="10:5">f</name><argument_list pos:start="10:6" pos:end="10:8">(<argument pos:start="10:7" pos:end="10:7"><expr pos:start="10:7" pos:end="10:7"><name pos:start="10:7" pos:end="10:7">n</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+</block_content>}</block></function></unit>

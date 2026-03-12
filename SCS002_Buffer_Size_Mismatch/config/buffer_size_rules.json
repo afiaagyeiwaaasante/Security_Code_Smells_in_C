@@ -1,0 +1,14 @@
+{
+  "SCS002_Buffer_Size_Mismatch": {
+    "cwe": "CWE-680",
+    "description": "Memory allocation size incorrectly calculated due to misuse of sizeof, applied to a pointer instead of the object or type.",
+    "severity": "high",
+    "alloc_functions": [
+        "malloc",
+        "calloc",
+        "realloc"
+    ]
+
+  }
+}
+  
