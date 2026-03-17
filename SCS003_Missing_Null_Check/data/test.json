@@ -1,0 +1,17 @@
+{
+"data-3-12-5319ec49bd5de322adb0022d380bd7ae79fdcea3":{
+    "file":"test.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"goodG2B",
+    "type":"char*",
+    "name":"data",
+    "initial":"test.c:3:12",
+    "dependence":[],
+    "aliases":[],
+    "calls":[{"functionName":"printHexCharLine","parameter":"1","definitionPosition":"","invoke":"test.c:8:5"}],
+    "use":["test.c:8:22"],
+    "definition":["test.c:3:12","test.c:5:5"]
+}
+}
