@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" xmlns:cpp="http://www.srcML.org/srcML/cpp" xmlns:pre="foo.com" revision="1.0.0" language="C" filename="CWE476_NULL_Pointer_Dereference__binary_if_01.c"><comment type="block">/* TEMPLATE GENERATED TESTCASE FILE
+Filename: CWE476_NULL_Pointer_Dereference__binary_if_01.c
+Label Definition File: CWE476_NULL_Pointer_Dereference.pointflaw.label.xml
+Template File: point-flaw-01.tmpl.c
+*/</comment>
+<comment type="block">/*
+ * @description
+ * CWE: 476 NULL Pointer Dereference
+ * Sinks: binary_if
+ *    GoodSink: Do not check for NULL after the pointer has been dereferenced
+ *    BadSink : Check for NULL after a pointer has already been dereferenced
+ * Flow Variant: 01 Baseline
+ *
+ * */</comment>
+
+<cpp:include>#<cpp:directive>include</cpp:directive> <cpp:file>"std_testcase.h"</cpp:file></cpp:include>
+
+<cpp:ifndef>#<cpp:directive>ifndef</cpp:directive> <name>OMITBAD</name></cpp:ifndef>
+
+<function><type><name>void</name></type> <name>CWE476_NULL_Pointer_Dereference__binary_if_01_bad</name><parameter_list>()</parameter_list>
+<block>{<block_content>
+    <block>{<block_content>
+        <decl_stmt><decl><type><name>twoIntsStruct</name> <modifier>*</modifier></type><name>twoIntsStructPointer</name> <init>= <expr><name>NULL</name></expr></init></decl>;</decl_stmt>
+        <comment type="block">/* FLAW: Using a single &amp; in the if statement will cause both sides of the expression to be evaluated
+         * thus causing a NPD */</comment>
+        <if_stmt><if>if <condition>(<expr><operator>(</operator><name>twoIntsStructPointer</name> <operator>!=</operator> <name>NULL</name><operator>)</operator> <operator>&amp;</operator> <operator>(</operator><name><name>twoIntsStructPointer</name><operator>-&gt;</operator><name>intOne</name></name> <operator>==</operator> <literal type="number">5</literal><operator>)</operator></expr>)</condition>
+        <block>{<block_content>
+            <expr_stmt><expr><call><name>printLine</name><argument_list>(<argument><expr><literal type="string">"intOne == 5"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+        </block_content>}</block></if></if_stmt>
+    </block_content>}</block>
+</block_content>}</block></function>
+
+<cpp:endif>#<cpp:directive>endif</cpp:directive></cpp:endif> <comment type="block">/* OMITBAD */</comment>
+
+<cpp:ifndef>#<cpp:directive>ifndef</cpp:directive> <name>OMITGOOD</name></cpp:ifndef>
+
+<function><type><specifier>static</specifier> <name>void</name></type> <name>good1</name><parameter_list>()</parameter_list>
+<block>{<block_content>
+    <block>{<block_content>
+        <decl_stmt><decl><type><name>twoIntsStruct</name> <modifier>*</modifier></type><name>twoIntsStructPointer</name> <init>= <expr><name>NULL</name></expr></init></decl>;</decl_stmt>
+        <comment type="block">/* FIX: Use &amp;&amp; in the if statement so that if the left side of the expression fails then
+         * the right side will not be evaluated */</comment>
+        <if_stmt><if>if <condition>(<expr><operator>(</operator><name>twoIntsStructPointer</name> <operator>!=</operator> <name>NULL</name><operator>)</operator> <operator>&amp;&amp;</operator> <operator>(</operator><name><name>twoIntsStructPointer</name><operator>-&gt;</operator><name>intOne</name></name> <operator>==</operator> <literal type="number">5</literal><operator>)</operator></expr>)</condition>
+        <block>{<block_content>
+            <expr_stmt><expr><call><name>printLine</name><argument_list>(<argument><expr><literal type="string">"intOne == 5"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+        </block_content>}</block></if></if_stmt>
+    </block_content>}</block>
+</block_content>}</block></function>
+
+<function><type><name>void</name></type> <name>CWE476_NULL_Pointer_Dereference__binary_if_01_good</name><parameter_list>()</parameter_list>
+<block>{<block_content>
+    <expr_stmt><expr><call><name>good1</name><argument_list>()</argument_list></call></expr>;</expr_stmt>
+</block_content>}</block></function>
+
+<cpp:endif>#<cpp:directive>endif</cpp:directive></cpp:endif> <comment type="block">/* OMITGOOD */</comment>
+
+<comment type="block">/* Below is the main(). It is only used when building this testcase on
+   its own for testing or for building a binary to use in testing binary
+   analysis tools. It is not used when compiling all the testcases as one
+   application, which is how source code analysis tools are tested. */</comment>
+
+<cpp:ifdef>#<cpp:directive>ifdef</cpp:directive> <name>INCLUDEMAIN</name></cpp:ifdef>
+
+<function><type><name>int</name></type> <name>main</name><parameter_list>(<parameter><decl><type><name>int</name></type> <name>argc</name></decl></parameter>, <parameter><decl><type><name>char</name> <modifier>*</modifier></type> <name><name>argv</name><index>[]</index></name></decl></parameter>)</parameter_list>
+<block>{<block_content>
+    <comment type="block">/* seed randomness */</comment>
+    <expr_stmt><expr><call><name>srand</name><argument_list>( <argument><expr><operator>(</operator><name>unsigned</name><operator>)</operator><call><name>time</name><argument_list>(<argument><expr><name>NULL</name></expr></argument>)</argument_list></call></expr></argument> )</argument_list></call></expr>;</expr_stmt>
+<cpp:ifndef>#<cpp:directive>ifndef</cpp:directive> <name>OMITGOOD</name></cpp:ifndef>
+    <expr_stmt><expr><call><name>printLine</name><argument_list>(<argument><expr><literal type="string">"Calling good()..."</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+    <expr_stmt><expr><call><name>CWE476_NULL_Pointer_Dereference__binary_if_01_good</name><argument_list>()</argument_list></call></expr>;</expr_stmt>
+    <expr_stmt><expr><call><name>printLine</name><argument_list>(<argument><expr><literal type="string">"Finished good()"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+<cpp:endif>#<cpp:directive>endif</cpp:directive></cpp:endif> <comment type="block">/* OMITGOOD */</comment>
+<cpp:ifndef>#<cpp:directive>ifndef</cpp:directive> <name>OMITBAD</name></cpp:ifndef>
+    <expr_stmt><expr><call><name>printLine</name><argument_list>(<argument><expr><literal type="string">"Calling bad()..."</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+    <expr_stmt><expr><call><name>CWE476_NULL_Pointer_Dereference__binary_if_01_bad</name><argument_list>()</argument_list></call></expr>;</expr_stmt>
+    <expr_stmt><expr><call><name>printLine</name><argument_list>(<argument><expr><literal type="string">"Finished bad()"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+<cpp:endif>#<cpp:directive>endif</cpp:directive></cpp:endif> <comment type="block">/* OMITBAD */</comment>
+    <return>return <expr><literal type="number">0</literal></expr>;</return>
+</block_content>}</block></function>
+
+<cpp:endif>#<cpp:directive>endif</cpp:directive></cpp:endif>
+</unit>
