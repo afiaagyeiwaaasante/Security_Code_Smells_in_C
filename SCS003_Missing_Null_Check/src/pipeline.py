@@ -44,9 +44,9 @@ import sys
 import os
 from lxml import etree
 
-import step1_detect
-import step2_locate
-import step3_annotate
+import Step1detect
+import Step2locate
+import Step3annotate
 
 
 # ─────────────────────────────────────────────
@@ -88,8 +88,8 @@ def main():
     with open(json_file) as f:
         slice_profile = json.load(f)
 
-    findings = step1_detect.detect(slice_profile)
-    step1_detect.print_report(findings, json_file)
+    findings = Step1detect.detect(slice_profile)
+    Step1detect.print_report(findings, json_file)
 
     if not findings:
         print("  No findings. Exiting pipeline.\n")
@@ -114,13 +114,13 @@ def main():
 
     sink_results = []
     for finding in findings:
-        sink = step2_locate.locate(tree, finding)
+        sink = Step2locate.locate(tree, finding)
         sink_results.append(sink)
 
-    step2_locate.print_report(sink_results)
+    Step2locate.print_report(sink_results)
 
     # save sink report to reports folder
-    step2_locate.save_report(sink_results, json_file, REPORTS_DIR)
+    Step2locate.save_report(sink_results, json_file, REPORTS_DIR)
 
     # ══════════════════════════════════════════
     # STEP 3 — XML ANNOTATION
@@ -133,10 +133,10 @@ def main():
     for sink in sink_results:
         if sink and sink["confirmed"]:
             # annotate full XML
-            step3_annotate.annotate(tree, sink, output_file)
+            Step3annotate.annotate(tree, sink, output_file)
 
             # save sink element to results folder
-            step3_annotate.save_sink_element(
+            Step3annotate.save_sink_element(
                 tree, sink, RESULTS_DIR, json_file
             )
 
