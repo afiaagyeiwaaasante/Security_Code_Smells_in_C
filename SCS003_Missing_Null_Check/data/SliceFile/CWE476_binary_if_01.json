@@ -1,0 +1,62 @@
+{
+"twoIntsStructPointer-22-24-c082193966acbeeda77ac3ba0cb3839c03610f14":{
+    "file":"CWE476_NULL_Pointer_Dereference__binary_if_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"CWE476_NULL_Pointer_Dereference__binary_if_01_bad",
+    "type":"twoIntsStruct*",
+    "name":"twoIntsStructPointer",
+    "initial":"CWE476_NULL_Pointer_Dereference__binary_if_01.c:22:24",
+    "dependence":[],
+    "aliases":[],
+    "calls":[],
+    "use":["CWE476_NULL_Pointer_Dereference__binary_if_01.c:25:14","CWE476_NULL_Pointer_Dereference__binary_if_01.c:25:47"],
+    "definition":["CWE476_NULL_Pointer_Dereference__binary_if_01.c:22:24"]
+},
+"twoIntsStructPointer-37-24-c082193966acbeeda77ac3ba0cb3839c03610f14":{
+    "file":"CWE476_NULL_Pointer_Dereference__binary_if_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"good1",
+    "type":"twoIntsStruct*",
+    "name":"twoIntsStructPointer",
+    "initial":"CWE476_NULL_Pointer_Dereference__binary_if_01.c:37:24",
+    "dependence":[],
+    "aliases":[],
+    "calls":[],
+    "use":["CWE476_NULL_Pointer_Dereference__binary_if_01.c:40:14","CWE476_NULL_Pointer_Dereference__binary_if_01.c:40:48"],
+    "definition":["CWE476_NULL_Pointer_Dereference__binary_if_01.c:37:24"]
+},
+"argv-60-27-c082193966acbeeda77ac3ba0cb3839c03610f14":{
+    "file":"CWE476_NULL_Pointer_Dereference__binary_if_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"main",
+    "type":"char*",
+    "name":"argv",
+    "initial":"CWE476_NULL_Pointer_Dereference__binary_if_01.c:60:27",
+    "dependence":[],
+    "aliases":[],
+    "calls":[],
+    "use":[],
+    "definition":["CWE476_NULL_Pointer_Dereference__binary_if_01.c:60:27"]
+},
+"argc-60-14-c082193966acbeeda77ac3ba0cb3839c03610f14":{
+    "file":"CWE476_NULL_Pointer_Dereference__binary_if_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"main",
+    "type":"int",
+    "name":"argc",
+    "initial":"CWE476_NULL_Pointer_Dereference__binary_if_01.c:60:14",
+    "dependence":[],
+    "aliases":[],
+    "calls":[],
+    "use":[],
+    "definition":["CWE476_NULL_Pointer_Dereference__binary_if_01.c:60:14"]
+}
+}

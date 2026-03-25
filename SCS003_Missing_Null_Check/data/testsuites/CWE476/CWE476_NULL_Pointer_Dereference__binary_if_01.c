@@ -19,7 +19,6 @@ Template File: point-flaw-01.tmpl.c
 
 void CWE476_NULL_Pointer_Dereference__binary_if_01_bad()
 {
-    {
         twoIntsStruct *twoIntsStructPointer = NULL;
         /* FLAW: Using a single & in the if statement will cause both sides of the expression to be evaluated
          * thus causing a NPD */
@@ -27,7 +26,6 @@ void CWE476_NULL_Pointer_Dereference__binary_if_01_bad()
         {
             printLine("intOne == 5");
         }
-    }
 }
 
 #endif /* OMITBAD */
@@ -36,7 +34,6 @@ void CWE476_NULL_Pointer_Dereference__binary_if_01_bad()
 
 static void good1()
 {
-    {
         twoIntsStruct *twoIntsStructPointer = NULL;
         /* FIX: Use && in the if statement so that if the left side of the expression fails then
          * the right side will not be evaluated */
@@ -44,7 +41,6 @@ static void good1()
         {
             printLine("intOne == 5");
         }
-    }
 }
 
 void CWE476_NULL_Pointer_Dereference__binary_if_01_good()
