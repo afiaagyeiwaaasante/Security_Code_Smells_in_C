@@ -3,13 +3,13 @@
         "variable": "twoIntsStructPointer",
         "type": "twoIntsStruct*",
         "function": "CWE476_NULL_Pointer_Dereference__binary_if_01_bad",
-        "file": "CWE476_NULL_Pointer_Dereference__binary_if_01.c",
+        "file": "../testsuites/CWE476/binary_if/CWE476_NULL_Pointer_Dereference__binary_if_01.c",
         "defined_at": [
-            "CWE476_NULL_Pointer_Dereference__binary_if_01.c:22:24"
+            "../testsuites/CWE476/binary_if/CWE476_NULL_Pointer_Dereference__binary_if_01.c:22:24"
         ],
         "used_at": [
-            "CWE476_NULL_Pointer_Dereference__binary_if_01.c:25:14",
-            "CWE476_NULL_Pointer_Dereference__binary_if_01.c:25:47"
+            "../testsuites/CWE476/binary_if/CWE476_NULL_Pointer_Dereference__binary_if_01.c:25:14",
+            "../testsuites/CWE476/binary_if/CWE476_NULL_Pointer_Dereference__binary_if_01.c:25:47"
         ],
         "smell": "null-pointer-dereference",
         "cwe": "CWE-476",

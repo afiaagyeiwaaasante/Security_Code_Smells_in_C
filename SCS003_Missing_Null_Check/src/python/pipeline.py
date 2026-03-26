@@ -59,22 +59,26 @@ RESULTS_DIR = "../results/binary_if"
 
 def main():
     if len(sys.argv) < 4:
-        print("Usage  : python3 pipeline.py <slice.json> <srcml.xml> <output.xml>")
+        print("Usage  : python3 pipeline.py <slice.json> <srcml.xml> <output.xml> [scenario]")
         print("Example: python3 pipeline.py \\")
         print("             ../data/SliceFile/CWE476_binary_if_01.json \\")
         print("             ../data/XMLFile/CWE476_binary_if_01.xml \\")
-        print("             ../data/AttributeFile/CWE476_binary_if_01_annotated.xml")
+        print("             ../data/AttributeFile/CWE476_binary_if_01_annotated.xml \\")
+        print("             binary_if")
+        print("\nScenarios: binary_if, char")
         sys.exit(1)
-
+ 
     json_file   = sys.argv[1]
     xml_file    = sys.argv[2]
     output_file = sys.argv[3]
-
+    scenario    = sys.argv[4] if len(sys.argv) > 4 else "binary_if"
+ 
     # validate inputs
     for f in [json_file, xml_file]:
         if not os.path.exists(f):
             print(f"  Error: File not found: {f}")
             sys.exit(1)
+ 
 
     # ══════════════════════════════════════════
     # STEP 1 — DETECTION RULES

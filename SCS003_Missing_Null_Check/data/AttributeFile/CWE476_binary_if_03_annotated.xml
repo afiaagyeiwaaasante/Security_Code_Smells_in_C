@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<unit xmlns="http://www.srcML.org/srcML/src" xmlns:cpp="http://www.srcML.org/srcML/cpp" xmlns:pos="http://www.srcML.org/srcML/position" revision="1.0.0" language="C" filename="../testsuites/CWE476/binary_if/CWE476_NULL_Pointer_Dereference__binary_if_03.c" pos:tabs="8" hash="7624f959734aaa1c07d1f1dba7e977f7d7df5b81"><comment type="block" pos:start="1:1" pos:end="5:2">/* TEMPLATE GENERATED TESTCASE FILE
+Filename: CWE476_NULL_Pointer_Dereference__binary_if_03.c
+Label Definition File: CWE476_NULL_Pointer_Dereference.pointflaw.label.xml
+Template File: point-flaw-03.tmpl.c
+*/</comment>
+<comment type="block" pos:start="6:1" pos:end="14:5">/*
+ * @description
+ * CWE: 476 NULL Pointer Dereference
+ * Sinks: binary_if
+ *    GoodSink: Do not check for NULL after the pointer has been dereferenced
+ *    BadSink : Check for NULL after a pointer has already been dereferenced
+ * Flow Variant: 03 Control flow: if(5==5) and if(5!=5)
+ *
+ * */</comment>
+
+<cpp:include pos:start="16:1" pos:end="16:25">#<cpp:directive pos:start="16:2" pos:end="16:8">include</cpp:directive> <cpp:file pos:start="16:10" pos:end="16:25">"std_testcase.h"</cpp:file></cpp:include>
+
+<cpp:ifndef pos:start="18:1" pos:end="18:15">#<cpp:directive pos:start="18:2" pos:end="18:7">ifndef</cpp:directive> <name pos:start="18:9" pos:end="18:15">OMITBAD</name></cpp:ifndef>
+
+<function pos:start="20:1" pos:end="32:1"><type pos:start="20:1" pos:end="20:4"><name pos:start="20:1" pos:end="20:4">void</name></type> <name pos:start="20:6" pos:end="20:54">CWE476_NULL_Pointer_Dereference__binary_if_03_bad</name><parameter_list pos:start="20:55" pos:end="20:56">()</parameter_list>
+<block pos:start="21:1" pos:end="32:1">{<block_content pos:start="21:2" pos:end="32:0">
+    <if_stmt pos:start="22:5" pos:end="31:5"><if pos:start="22:5" pos:end="31:5">if<condition pos:start="22:7" pos:end="22:12">(<expr pos:start="22:8" pos:end="22:11"><literal type="number" pos:start="22:8" pos:end="22:8">5</literal><operator pos:start="22:9" pos:end="22:10">==</operator><literal type="number" pos:start="22:11" pos:end="22:11">5</literal></expr>)</condition>
+    <block pos:start="23:5" pos:end="31:5">{<block_content pos:start="23:6" pos:end="31:4">
+        <decl_stmt pos:start="24:9" pos:end="24:51"><decl pos:start="24:9" pos:end="24:50"><type pos:start="24:9" pos:end="24:23"><name pos:start="24:9" pos:end="24:21">twoIntsStruct</name> <modifier pos:start="24:23" pos:end="24:23">*</modifier></type><name pos:start="24:24" pos:end="24:43">twoIntsStructPointer</name> <init pos:start="24:45" pos:end="24:50">= <expr pos:start="24:47" pos:end="24:50"><name pos:start="24:47" pos:end="24:50">NULL</name></expr></init></decl>;</decl_stmt>
+        <comment type="block" pos:start="25:9" pos:end="26:31">/* FLAW: Using a single &amp; in the if statement will cause both sides of the expression to be evaluated
+        * thus causing a NPD */</comment>
+        <if_stmt xmlns:ns0="security.smells" pos:start="27:9" pos:end="30:9" ns0:smell="CWE476-null-pointer-dereference-binary-if-high"><if pos:start="27:9" pos:end="30:9">if <condition pos:start="27:12" pos:end="27:81">(<expr pos:start="27:13" pos:end="27:80"><operator pos:start="27:13" pos:end="27:13">(</operator><name pos:start="27:14" pos:end="27:33">twoIntsStructPointer</name> <operator pos:start="27:35" pos:end="27:36">!=</operator> <name pos:start="27:38" pos:end="27:41">NULL</name><operator pos:start="27:42" pos:end="27:42">)</operator> <operator pos:start="27:44" pos:end="27:44">&amp;</operator> <operator pos:start="27:46" pos:end="27:46">(</operator><name pos:start="27:47" pos:end="27:74"><name pos:start="27:47" pos:end="27:66">twoIntsStructPointer</name><operator pos:start="27:67" pos:end="27:68">-&gt;</operator><name pos:start="27:69" pos:end="27:74">intOne</name></name> <operator pos:start="27:76" pos:end="27:77">==</operator> <literal type="number" pos:start="27:79" pos:end="27:79">5</literal><operator pos:start="27:80" pos:end="27:80">)</operator></expr>)</condition>
+        <block pos:start="28:9" pos:end="30:9">{<block_content pos:start="28:10" pos:end="30:8">
+            <expr_stmt pos:start="29:13" pos:end="29:37"><expr pos:start="29:13" pos:end="29:36"><call pos:start="29:13" pos:end="29:36"><name pos:start="29:13" pos:end="29:21">printLine</name><argument_list pos:start="29:22" pos:end="29:36">(<argument pos:start="29:23" pos:end="29:35"><expr pos:start="29:23" pos:end="29:35"><literal type="string" pos:start="29:23" pos:end="29:35">"intOne == 5"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+        </block_content>}</block></if></if_stmt>
+    </block_content>}</block></if></if_stmt>
+</block_content>}</block></function>
+
+<cpp:endif pos:start="34:1" pos:end="34:6">#<cpp:directive pos:start="34:2" pos:end="34:6">endif</cpp:directive></cpp:endif> <comment type="block" pos:start="34:8" pos:end="34:20">/* OMITBAD */</comment>
+
+<cpp:ifndef pos:start="36:1" pos:end="36:16">#<cpp:directive pos:start="36:2" pos:end="36:7">ifndef</cpp:directive> <name pos:start="36:9" pos:end="36:16">OMITGOOD</name></cpp:ifndef>
+
+<comment type="block" pos:start="38:1" pos:end="38:47">/* good1() uses if(5!=5) instead of if(5==5) */</comment>
+<function pos:start="39:1" pos:end="56:1"><type pos:start="39:1" pos:end="39:11"><specifier pos:start="39:1" pos:end="39:6">static</specifier> <name pos:start="39:8" pos:end="39:11">void</name></type> <name pos:start="39:13" pos:end="39:17">good1</name><parameter_list pos:start="39:18" pos:end="39:19">()</parameter_list>
+<block pos:start="40:1" pos:end="56:1">{<block_content pos:start="40:2" pos:end="56:0">
+    <if_stmt pos:start="41:5" pos:end="55:5"><if pos:start="41:5" pos:end="45:5">if<condition pos:start="41:7" pos:end="41:12">(<expr pos:start="41:8" pos:end="41:11"><literal type="number" pos:start="41:8" pos:end="41:8">5</literal><operator pos:start="41:9" pos:end="41:10">!=</operator><literal type="number" pos:start="41:11" pos:end="41:11">5</literal></expr>)</condition>
+    <block pos:start="42:5" pos:end="45:5">{<block_content pos:start="42:6" pos:end="45:4">
+        <comment type="block" pos:start="43:9" pos:end="43:74">/* INCIDENTAL: CWE 561 Dead Code, the code below will never run */</comment>
+        <expr_stmt pos:start="44:9" pos:end="44:42"><expr pos:start="44:9" pos:end="44:41"><call pos:start="44:9" pos:end="44:41"><name pos:start="44:9" pos:end="44:17">printLine</name><argument_list pos:start="44:18" pos:end="44:41">(<argument pos:start="44:19" pos:end="44:40"><expr pos:start="44:19" pos:end="44:40"><literal type="string" pos:start="44:19" pos:end="44:40">"Benign, fixed string"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+    </block_content>}</block></if>
+    <else pos:start="46:5" pos:end="55:5">else
+    <block pos:start="47:5" pos:end="55:5">{<block_content pos:start="47:6" pos:end="55:4">
+            <decl_stmt pos:start="48:13" pos:end="48:55"><decl pos:start="48:13" pos:end="48:54"><type pos:start="48:13" pos:end="48:27"><name pos:start="48:13" pos:end="48:25">twoIntsStruct</name> <modifier pos:start="48:27" pos:end="48:27">*</modifier></type><name pos:start="48:28" pos:end="48:47">twoIntsStructPointer</name> <init pos:start="48:49" pos:end="48:54">= <expr pos:start="48:51" pos:end="48:54"><name pos:start="48:51" pos:end="48:54">NULL</name></expr></init></decl>;</decl_stmt>
+            <comment type="block" pos:start="49:13" pos:end="50:54">/* FIX: Use &amp;&amp; in the if statement so that if the left side of the expression fails then
+             * the right side will not be evaluated */</comment>
+            <if_stmt pos:start="51:13" pos:end="54:13"><if pos:start="51:13" pos:end="54:13">if <condition pos:start="51:16" pos:end="51:86">(<expr pos:start="51:17" pos:end="51:85"><operator pos:start="51:17" pos:end="51:17">(</operator><name pos:start="51:18" pos:end="51:37">twoIntsStructPointer</name> <operator pos:start="51:39" pos:end="51:40">!=</operator> <name pos:start="51:42" pos:end="51:45">NULL</name><operator pos:start="51:46" pos:end="51:46">)</operator> <operator pos:start="51:48" pos:end="51:49">&amp;&amp;</operator> <operator pos:start="51:51" pos:end="51:51">(</operator><name pos:start="51:52" pos:end="51:79"><name pos:start="51:52" pos:end="51:71">twoIntsStructPointer</name><operator pos:start="51:72" pos:end="51:73">-&gt;</operator><name pos:start="51:74" pos:end="51:79">intOne</name></name> <operator pos:start="51:81" pos:end="51:82">==</operator> <literal type="number" pos:start="51:84" pos:end="51:84">5</literal><operator pos:start="51:85" pos:end="51:85">)</operator></expr>)</condition>
+            <block pos:start="52:13" pos:end="54:13">{<block_content pos:start="52:14" pos:end="54:12">
+                <expr_stmt pos:start="53:17" pos:end="53:41"><expr pos:start="53:17" pos:end="53:40"><call pos:start="53:17" pos:end="53:40"><name pos:start="53:17" pos:end="53:25">printLine</name><argument_list pos:start="53:26" pos:end="53:40">(<argument pos:start="53:27" pos:end="53:39"><expr pos:start="53:27" pos:end="53:39"><literal type="string" pos:start="53:27" pos:end="53:39">"intOne == 5"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+            </block_content>}</block></if></if_stmt>
+    </block_content>}</block></else></if_stmt>
+</block_content>}</block></function>
+
+<comment type="block" pos:start="58:1" pos:end="58:53">/* good2() reverses the bodies in the if statement */</comment>
+<function pos:start="59:1" pos:end="71:1"><type pos:start="59:1" pos:end="59:11"><specifier pos:start="59:1" pos:end="59:6">static</specifier> <name pos:start="59:8" pos:end="59:11">void</name></type> <name pos:start="59:13" pos:end="59:17">good2</name><parameter_list pos:start="59:18" pos:end="59:19">()</parameter_list>
+<block pos:start="60:1" pos:end="71:1">{<block_content pos:start="60:2" pos:end="71:0">
+    <if_stmt pos:start="61:5" pos:end="70:5"><if pos:start="61:5" pos:end="70:5">if<condition pos:start="61:7" pos:end="61:12">(<expr pos:start="61:8" pos:end="61:11"><literal type="number" pos:start="61:8" pos:end="61:8">5</literal><operator pos:start="61:9" pos:end="61:10">==</operator><literal type="number" pos:start="61:11" pos:end="61:11">5</literal></expr>)</condition>
+    <block pos:start="62:5" pos:end="70:5">{<block_content pos:start="62:6" pos:end="70:4">
+        <decl_stmt pos:start="63:9" pos:end="63:51"><decl pos:start="63:9" pos:end="63:50"><type pos:start="63:9" pos:end="63:23"><name pos:start="63:9" pos:end="63:21">twoIntsStruct</name> <modifier pos:start="63:23" pos:end="63:23">*</modifier></type><name pos:start="63:24" pos:end="63:43">twoIntsStructPointer</name> <init pos:start="63:45" pos:end="63:50">= <expr pos:start="63:47" pos:end="63:50"><name pos:start="63:47" pos:end="63:50">NULL</name></expr></init></decl>;</decl_stmt>
+        <comment type="block" pos:start="64:9" pos:end="65:53">/* FIX: Use &amp;&amp; in the if statement so that if the left side of the expression fails then
+            * the right side will not be evaluated */</comment>
+        <if_stmt pos:start="66:9" pos:end="69:9"><if pos:start="66:9" pos:end="69:9">if <condition pos:start="66:12" pos:end="66:82">(<expr pos:start="66:13" pos:end="66:81"><operator pos:start="66:13" pos:end="66:13">(</operator><name pos:start="66:14" pos:end="66:33">twoIntsStructPointer</name> <operator pos:start="66:35" pos:end="66:36">!=</operator> <name pos:start="66:38" pos:end="66:41">NULL</name><operator pos:start="66:42" pos:end="66:42">)</operator> <operator pos:start="66:44" pos:end="66:45">&amp;&amp;</operator> <operator pos:start="66:47" pos:end="66:47">(</operator><name pos:start="66:48" pos:end="66:75"><name pos:start="66:48" pos:end="66:67">twoIntsStructPointer</name><operator pos:start="66:68" pos:end="66:69">-&gt;</operator><name pos:start="66:70" pos:end="66:75">intOne</name></name> <operator pos:start="66:77" pos:end="66:78">==</operator> <literal type="number" pos:start="66:80" pos:end="66:80">5</literal><operator pos:start="66:81" pos:end="66:81">)</operator></expr>)</condition>
+        <block pos:start="67:9" pos:end="69:9">{<block_content pos:start="67:10" pos:end="69:8">
+            <expr_stmt pos:start="68:13" pos:end="68:37"><expr pos:start="68:13" pos:end="68:36"><call pos:start="68:13" pos:end="68:36"><name pos:start="68:13" pos:end="68:21">printLine</name><argument_list pos:start="68:22" pos:end="68:36">(<argument pos:start="68:23" pos:end="68:35"><expr pos:start="68:23" pos:end="68:35"><literal type="string" pos:start="68:23" pos:end="68:35">"intOne == 5"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+        </block_content>}</block></if></if_stmt>
+    </block_content>}</block></if></if_stmt>
+</block_content>}</block></function>
+
+<function pos:start="73:1" pos:end="77:1"><type pos:start="73:1" pos:end="73:4"><name pos:start="73:1" pos:end="73:4">void</name></type> <name pos:start="73:6" pos:end="73:55">CWE476_NULL_Pointer_Dereference__binary_if_03_good</name><parameter_list pos:start="73:56" pos:end="73:57">()</parameter_list>
+<block pos:start="74:1" pos:end="77:1">{<block_content pos:start="74:2" pos:end="77:0">
+    <expr_stmt pos:start="75:5" pos:end="75:12"><expr pos:start="75:5" pos:end="75:11"><call pos:start="75:5" pos:end="75:11"><name pos:start="75:5" pos:end="75:9">good1</name><argument_list pos:start="75:10" pos:end="75:11">()</argument_list></call></expr>;</expr_stmt>
+    <expr_stmt pos:start="76:5" pos:end="76:12"><expr pos:start="76:5" pos:end="76:11"><call pos:start="76:5" pos:end="76:11"><name pos:start="76:5" pos:end="76:9">good2</name><argument_list pos:start="76:10" pos:end="76:11">()</argument_list></call></expr>;</expr_stmt>
+</block_content>}</block></function>
+
+<cpp:endif pos:start="79:1" pos:end="79:6">#<cpp:directive pos:start="79:2" pos:end="79:6">endif</cpp:directive></cpp:endif> <comment type="block" pos:start="79:8" pos:end="79:21">/* OMITGOOD */</comment>
+
+<comment type="block" pos:start="81:1" pos:end="84:70">/* Below is the main(). It is only used when building this testcase on
+   its own for testing or for building a binary to use in testing binary
+   analysis tools. It is not used when compiling all the testcases as one
+   application, which is how source code analysis tools are tested. */</comment>
+
+<cpp:ifdef pos:start="86:1" pos:end="86:18">#<cpp:directive pos:start="86:2" pos:end="86:6">ifdef</cpp:directive> <name pos:start="86:8" pos:end="86:18">INCLUDEMAIN</name></cpp:ifdef>
+
+<function pos:start="88:1" pos:end="103:1"><type pos:start="88:1" pos:end="88:3"><name pos:start="88:1" pos:end="88:3">int</name></type> <name pos:start="88:5" pos:end="88:8">main</name><parameter_list pos:start="88:9" pos:end="88:33">(<parameter pos:start="88:10" pos:end="88:17"><decl pos:start="88:10" pos:end="88:17"><type pos:start="88:10" pos:end="88:12"><name pos:start="88:10" pos:end="88:12">int</name></type> <name pos:start="88:14" pos:end="88:17">argc</name></decl></parameter>, <parameter pos:start="88:20" pos:end="88:32"><decl pos:start="88:20" pos:end="88:32"><type pos:start="88:20" pos:end="88:25"><name pos:start="88:20" pos:end="88:23">char</name> <modifier pos:start="88:25" pos:end="88:25">*</modifier></type> <name pos:start="88:27" pos:end="88:32"><name pos:start="88:27" pos:end="88:30">argv</name><index pos:start="88:31" pos:end="88:32">[]</index></name></decl></parameter>)</parameter_list>
+<block pos:start="89:1" pos:end="103:1">{<block_content pos:start="89:2" pos:end="103:0">
+    <comment type="block" pos:start="90:5" pos:end="90:25">/* seed randomness */</comment>
+    <expr_stmt pos:start="91:5" pos:end="91:34"><expr pos:start="91:5" pos:end="91:33"><call pos:start="91:5" pos:end="91:33"><name pos:start="91:5" pos:end="91:9">srand</name><argument_list pos:start="91:10" pos:end="91:33">( <argument pos:start="91:12" pos:end="91:31"><expr pos:start="91:12" pos:end="91:31"><operator pos:start="91:12" pos:end="91:12">(</operator><name pos:start="91:13" pos:end="91:20">unsigned</name><operator pos:start="91:21" pos:end="91:21">)</operator><call pos:start="91:22" pos:end="91:31"><name pos:start="91:22" pos:end="91:25">time</name><argument_list pos:start="91:26" pos:end="91:31">(<argument pos:start="91:27" pos:end="91:30"><expr pos:start="91:27" pos:end="91:30"><name pos:start="91:27" pos:end="91:30">NULL</name></expr></argument>)</argument_list></call></expr></argument> )</argument_list></call></expr>;</expr_stmt>
+<cpp:ifndef pos:start="92:1" pos:end="92:16">#<cpp:directive pos:start="92:2" pos:end="92:7">ifndef</cpp:directive> <name pos:start="92:9" pos:end="92:16">OMITGOOD</name></cpp:ifndef>
+    <expr_stmt pos:start="93:5" pos:end="93:35"><expr pos:start="93:5" pos:end="93:34"><call pos:start="93:5" pos:end="93:34"><name pos:start="93:5" pos:end="93:13">printLine</name><argument_list pos:start="93:14" pos:end="93:34">(<argument pos:start="93:15" pos:end="93:33"><expr pos:start="93:15" pos:end="93:33"><literal type="string" pos:start="93:15" pos:end="93:33">"Calling good()..."</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+    <expr_stmt pos:start="94:5" pos:end="94:57"><expr pos:start="94:5" pos:end="94:56"><call pos:start="94:5" pos:end="94:56"><name pos:start="94:5" pos:end="94:54">CWE476_NULL_Pointer_Dereference__binary_if_03_good</name><argument_list pos:start="94:55" pos:end="94:56">()</argument_list></call></expr>;</expr_stmt>
+    <expr_stmt pos:start="95:5" pos:end="95:33"><expr pos:start="95:5" pos:end="95:32"><call pos:start="95:5" pos:end="95:32"><name pos:start="95:5" pos:end="95:13">printLine</name><argument_list pos:start="95:14" pos:end="95:32">(<argument pos:start="95:15" pos:end="95:31"><expr pos:start="95:15" pos:end="95:31"><literal type="string" pos:start="95:15" pos:end="95:31">"Finished good()"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+<cpp:endif pos:start="96:1" pos:end="96:6">#<cpp:directive pos:start="96:2" pos:end="96:6">endif</cpp:directive></cpp:endif> <comment type="block" pos:start="96:8" pos:end="96:21">/* OMITGOOD */</comment>
+<cpp:ifndef pos:start="97:1" pos:end="97:15">#<cpp:directive pos:start="97:2" pos:end="97:7">ifndef</cpp:directive> <name pos:start="97:9" pos:end="97:15">OMITBAD</name></cpp:ifndef>
+    <expr_stmt pos:start="98:5" pos:end="98:34"><expr pos:start="98:5" pos:end="98:33"><call pos:start="98:5" pos:end="98:33"><name pos:start="98:5" pos:end="98:13">printLine</name><argument_list pos:start="98:14" pos:end="98:33">(<argument pos:start="98:15" pos:end="98:32"><expr pos:start="98:15" pos:end="98:32"><literal type="string" pos:start="98:15" pos:end="98:32">"Calling bad()..."</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+    <expr_stmt pos:start="99:5" pos:end="99:56"><expr pos:start="99:5" pos:end="99:55"><call pos:start="99:5" pos:end="99:55"><name pos:start="99:5" pos:end="99:53">CWE476_NULL_Pointer_Dereference__binary_if_03_bad</name><argument_list pos:start="99:54" pos:end="99:55">()</argument_list></call></expr>;</expr_stmt>
+    <expr_stmt pos:start="100:5" pos:end="100:32"><expr pos:start="100:5" pos:end="100:31"><call pos:start="100:5" pos:end="100:31"><name pos:start="100:5" pos:end="100:13">printLine</name><argument_list pos:start="100:14" pos:end="100:31">(<argument pos:start="100:15" pos:end="100:30"><expr pos:start="100:15" pos:end="100:30"><literal type="string" pos:start="100:15" pos:end="100:30">"Finished bad()"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+<cpp:endif pos:start="101:1" pos:end="101:6">#<cpp:directive pos:start="101:2" pos:end="101:6">endif</cpp:directive></cpp:endif> <comment type="block" pos:start="101:8" pos:end="101:20">/* OMITBAD */</comment>
+    <return pos:start="102:5" pos:end="102:13">return <expr pos:start="102:12" pos:end="102:12"><literal type="number" pos:start="102:12" pos:end="102:12">0</literal></expr>;</return>
+</block_content>}</block></function>
+
+<cpp:endif pos:start="105:1" pos:end="105:6">#<cpp:directive pos:start="105:2" pos:end="105:6">endif</cpp:directive></cpp:endif>
+</unit>

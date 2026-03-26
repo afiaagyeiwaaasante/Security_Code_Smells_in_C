@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" xmlns:cpp="http://www.srcML.org/srcML/cpp" xmlns:pos="http://www.srcML.org/srcML/position" revision="1.0.0" language="C" filename="../testsuites/CWE476/char/CWE476_NULL_Pointer_Dereference__char_01.c" pos:tabs="8" hash="c854171b244e173c3d35db1b1134a07c3b6482b5"><comment type="block" pos:start="1:1" pos:end="5:2">/* TEMPLATE GENERATED TESTCASE FILE
+Filename: CWE476_NULL_Pointer_Dereference__char_01.c
+Label Definition File: CWE476_NULL_Pointer_Dereference.label.xml
+Template File: sources-sinks-01.tmpl.c
+*/</comment>
+<comment type="block" pos:start="6:1" pos:end="16:5">/*
+ * @description
+ * CWE: 476 NULL Pointer Dereference
+ * BadSource:  Set data to NULL
+ * GoodSource: Initialize data
+ * Sinks:
+ *    GoodSink: Check for NULL before attempting to print data
+ *    BadSink : Print data
+ * Flow Variant: 01 Baseline
+ *
+ * */</comment>
+
+<cpp:include pos:start="18:1" pos:end="18:25">#<cpp:directive pos:start="18:2" pos:end="18:8">include</cpp:directive> <cpp:file pos:start="18:10" pos:end="18:25">"std_testcase.h"</cpp:file></cpp:include>
+
+<cpp:include pos:start="20:1" pos:end="20:18">#<cpp:directive pos:start="20:2" pos:end="20:8">include</cpp:directive> <cpp:file pos:start="20:10" pos:end="20:18">&lt;wchar.h&gt;</cpp:file></cpp:include>
+
+<cpp:ifndef pos:start="22:1" pos:end="22:15">#<cpp:directive pos:start="22:2" pos:end="22:7">ifndef</cpp:directive> <name pos:start="22:9" pos:end="22:15">OMITBAD</name></cpp:ifndef>
+
+<function pos:start="24:1" pos:end="32:1"><type pos:start="24:1" pos:end="24:4"><name pos:start="24:1" pos:end="24:4">void</name></type> <name pos:start="24:6" pos:end="24:49">CWE476_NULL_Pointer_Dereference__char_01_bad</name><parameter_list pos:start="24:50" pos:end="24:51">()</parameter_list>
+<block pos:start="25:1" pos:end="32:1">{<block_content pos:start="25:2" pos:end="32:0">
+    <decl_stmt pos:start="26:5" pos:end="26:16"><decl pos:start="26:5" pos:end="26:15"><type pos:start="26:5" pos:end="26:10"><name pos:start="26:5" pos:end="26:8">char</name> <modifier pos:start="26:10" pos:end="26:10">*</modifier></type> <name pos:start="26:12" pos:end="26:15">data</name></decl>;</decl_stmt>
+    <comment type="block" pos:start="27:5" pos:end="27:42">/* POTENTIAL FLAW: Set data to NULL */</comment>
+    <expr_stmt pos:start="28:5" pos:end="28:16"><expr pos:start="28:5" pos:end="28:15"><name pos:start="28:5" pos:end="28:8">data</name> <operator pos:start="28:10" pos:end="28:10">=</operator> <name pos:start="28:12" pos:end="28:15">NULL</name></expr>;</expr_stmt>
+    <comment type="block" pos:start="29:5" pos:end="29:64">/* POTENTIAL FLAW: Attempt to use data, which may be NULL */</comment>
+    <comment type="block" pos:start="30:5" pos:end="30:63">/* printLine() checks for NULL, so we cannot use it here */</comment>
+    <expr_stmt pos:start="31:5" pos:end="31:30"><expr pos:start="31:5" pos:end="31:29"><call pos:start="31:5" pos:end="31:29"><name pos:start="31:5" pos:end="31:20">printHexCharLine</name><argument_list pos:start="31:21" pos:end="31:29">(<argument pos:start="31:22" pos:end="31:28"><expr pos:start="31:22" pos:end="31:28"><name pos:start="31:22" pos:end="31:28"><name pos:start="31:22" pos:end="31:25">data</name><index pos:start="31:26" pos:end="31:28">[<expr pos:start="31:27" pos:end="31:27"><literal type="number" pos:start="31:27" pos:end="31:27">0</literal></expr>]</index></name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+</block_content>}</block></function>
+
+<cpp:endif pos:start="34:1" pos:end="34:6">#<cpp:directive pos:start="34:2" pos:end="34:6">endif</cpp:directive></cpp:endif> <comment type="block" pos:start="34:8" pos:end="34:20">/* OMITBAD */</comment>
+
+<cpp:ifndef pos:start="36:1" pos:end="36:16">#<cpp:directive pos:start="36:2" pos:end="36:7">ifndef</cpp:directive> <name pos:start="36:9" pos:end="36:16">OMITGOOD</name></cpp:ifndef>
+
+<comment type="block" pos:start="38:1" pos:end="38:50">/* goodG2B uses the GoodSource with the BadSink */</comment>
+<function pos:start="39:1" pos:end="47:1"><type pos:start="39:1" pos:end="39:11"><specifier pos:start="39:1" pos:end="39:6">static</specifier> <name pos:start="39:8" pos:end="39:11">void</name></type> <name pos:start="39:13" pos:end="39:19">goodG2B</name><parameter_list pos:start="39:20" pos:end="39:21">()</parameter_list>
+<block pos:start="40:1" pos:end="47:1">{<block_content pos:start="40:2" pos:end="47:0">
+    <decl_stmt pos:start="41:5" pos:end="41:16"><decl pos:start="41:5" pos:end="41:15"><type pos:start="41:5" pos:end="41:10"><name pos:start="41:5" pos:end="41:8">char</name> <modifier pos:start="41:10" pos:end="41:10">*</modifier></type> <name pos:start="41:12" pos:end="41:15">data</name></decl>;</decl_stmt>
+    <comment type="block" pos:start="42:5" pos:end="42:30">/* FIX: Initialize data */</comment>
+    <expr_stmt pos:start="43:5" pos:end="43:18"><expr pos:start="43:5" pos:end="43:17"><name pos:start="43:5" pos:end="43:8">data</name> <operator pos:start="43:10" pos:end="43:10">=</operator> <literal type="string" pos:start="43:12" pos:end="43:17">"Good"</literal></expr>;</expr_stmt>
+    <comment type="block" pos:start="44:5" pos:end="44:64">/* POTENTIAL FLAW: Attempt to use data, which may be NULL */</comment>
+    <comment type="block" pos:start="45:5" pos:end="45:63">/* printLine() checks for NULL, so we cannot use it here */</comment>
+    <expr_stmt pos:start="46:5" pos:end="46:30"><expr pos:start="46:5" pos:end="46:29"><call pos:start="46:5" pos:end="46:29"><name pos:start="46:5" pos:end="46:20">printHexCharLine</name><argument_list pos:start="46:21" pos:end="46:29">(<argument pos:start="46:22" pos:end="46:28"><expr pos:start="46:22" pos:end="46:28"><name pos:start="46:22" pos:end="46:28"><name pos:start="46:22" pos:end="46:25">data</name><index pos:start="46:26" pos:end="46:28">[<expr pos:start="46:27" pos:end="46:27"><literal type="number" pos:start="46:27" pos:end="46:27">0</literal></expr>]</index></name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+</block_content>}</block></function>
+
+<comment type="block" pos:start="49:1" pos:end="49:50">/* goodB2G uses the BadSource with the GoodSink */</comment>
+<function pos:start="50:1" pos:end="65:1"><type pos:start="50:1" pos:end="50:11"><specifier pos:start="50:1" pos:end="50:6">static</specifier> <name pos:start="50:8" pos:end="50:11">void</name></type> <name pos:start="50:13" pos:end="50:19">goodB2G</name><parameter_list pos:start="50:20" pos:end="50:21">()</parameter_list>
+<block pos:start="51:1" pos:end="65:1">{<block_content pos:start="51:2" pos:end="65:0">
+    <decl_stmt pos:start="52:5" pos:end="52:16"><decl pos:start="52:5" pos:end="52:15"><type pos:start="52:5" pos:end="52:10"><name pos:start="52:5" pos:end="52:8">char</name> <modifier pos:start="52:10" pos:end="52:10">*</modifier></type> <name pos:start="52:12" pos:end="52:15">data</name></decl>;</decl_stmt>
+    <comment type="block" pos:start="53:5" pos:end="53:42">/* POTENTIAL FLAW: Set data to NULL */</comment>
+    <expr_stmt pos:start="54:5" pos:end="54:16"><expr pos:start="54:5" pos:end="54:15"><name pos:start="54:5" pos:end="54:8">data</name> <operator pos:start="54:10" pos:end="54:10">=</operator> <name pos:start="54:12" pos:end="54:15">NULL</name></expr>;</expr_stmt>
+    <comment type="block" pos:start="55:5" pos:end="55:61">/* FIX: Check for NULL before attempting to print data */</comment>
+    <if_stmt pos:start="56:5" pos:end="64:5"><if pos:start="56:5" pos:end="60:5">if <condition pos:start="56:8" pos:end="56:21">(<expr pos:start="56:9" pos:end="56:20"><name pos:start="56:9" pos:end="56:12">data</name> <operator pos:start="56:14" pos:end="56:15">!=</operator> <name pos:start="56:17" pos:end="56:20">NULL</name></expr>)</condition>
+    <block pos:start="57:5" pos:end="60:5">{<block_content pos:start="57:6" pos:end="60:4">
+        <comment type="block" pos:start="58:9" pos:end="58:67">/* printLine() checks for NULL, so we cannot use it here */</comment>
+        <expr_stmt pos:start="59:9" pos:end="59:34"><expr pos:start="59:9" pos:end="59:33"><call pos:start="59:9" pos:end="59:33"><name pos:start="59:9" pos:end="59:24">printHexCharLine</name><argument_list pos:start="59:25" pos:end="59:33">(<argument pos:start="59:26" pos:end="59:32"><expr pos:start="59:26" pos:end="59:32"><name pos:start="59:26" pos:end="59:32"><name pos:start="59:26" pos:end="59:29">data</name><index pos:start="59:30" pos:end="59:32">[<expr pos:start="59:31" pos:end="59:31"><literal type="number" pos:start="59:31" pos:end="59:31">0</literal></expr>]</index></name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+    </block_content>}</block></if>
+    <else pos:start="61:5" pos:end="64:5">else
+    <block pos:start="62:5" pos:end="64:5">{<block_content pos:start="62:6" pos:end="64:4">
+        <expr_stmt pos:start="63:9" pos:end="63:34"><expr pos:start="63:9" pos:end="63:33"><call pos:start="63:9" pos:end="63:33"><name pos:start="63:9" pos:end="63:17">printLine</name><argument_list pos:start="63:18" pos:end="63:33">(<argument pos:start="63:19" pos:end="63:32"><expr pos:start="63:19" pos:end="63:32"><literal type="string" pos:start="63:19" pos:end="63:32">"data is NULL"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+    </block_content>}</block></else></if_stmt>
+</block_content>}</block></function>
+
+<function pos:start="67:1" pos:end="71:1"><type pos:start="67:1" pos:end="67:4"><name pos:start="67:1" pos:end="67:4">void</name></type> <name pos:start="67:6" pos:end="67:50">CWE476_NULL_Pointer_Dereference__char_01_good</name><parameter_list pos:start="67:51" pos:end="67:52">()</parameter_list>
+<block pos:start="68:1" pos:end="71:1">{<block_content pos:start="68:2" pos:end="71:0">
+    <expr_stmt pos:start="69:5" pos:end="69:14"><expr pos:start="69:5" pos:end="69:13"><call pos:start="69:5" pos:end="69:13"><name pos:start="69:5" pos:end="69:11">goodG2B</name><argument_list pos:start="69:12" pos:end="69:13">()</argument_list></call></expr>;</expr_stmt>
+    <expr_stmt pos:start="70:5" pos:end="70:14"><expr pos:start="70:5" pos:end="70:13"><call pos:start="70:5" pos:end="70:13"><name pos:start="70:5" pos:end="70:11">goodB2G</name><argument_list pos:start="70:12" pos:end="70:13">()</argument_list></call></expr>;</expr_stmt>
+</block_content>}</block></function>
+
+<cpp:endif pos:start="73:1" pos:end="73:6">#<cpp:directive pos:start="73:2" pos:end="73:6">endif</cpp:directive></cpp:endif> <comment type="block" pos:start="73:8" pos:end="73:21">/* OMITGOOD */</comment>
+
+<comment type="block" pos:start="75:1" pos:end="78:70">/* Below is the main(). It is only used when building this testcase on
+   its own for testing or for building a binary to use in testing binary
+   analysis tools. It is not used when compiling all the testcases as one
+   application, which is how source code analysis tools are tested. */</comment>
+
+<cpp:ifdef pos:start="80:1" pos:end="80:18">#<cpp:directive pos:start="80:2" pos:end="80:6">ifdef</cpp:directive> <name pos:start="80:8" pos:end="80:18">INCLUDEMAIN</name></cpp:ifdef>
+
+<function pos:start="82:1" pos:end="97:1"><type pos:start="82:1" pos:end="82:3"><name pos:start="82:1" pos:end="82:3">int</name></type> <name pos:start="82:5" pos:end="82:8">main</name><parameter_list pos:start="82:9" pos:end="82:33">(<parameter pos:start="82:10" pos:end="82:17"><decl pos:start="82:10" pos:end="82:17"><type pos:start="82:10" pos:end="82:12"><name pos:start="82:10" pos:end="82:12">int</name></type> <name pos:start="82:14" pos:end="82:17">argc</name></decl></parameter>, <parameter pos:start="82:20" pos:end="82:32"><decl pos:start="82:20" pos:end="82:32"><type pos:start="82:20" pos:end="82:25"><name pos:start="82:20" pos:end="82:23">char</name> <modifier pos:start="82:25" pos:end="82:25">*</modifier></type> <name pos:start="82:27" pos:end="82:32"><name pos:start="82:27" pos:end="82:30">argv</name><index pos:start="82:31" pos:end="82:32">[]</index></name></decl></parameter>)</parameter_list>
+<block pos:start="83:1" pos:end="97:1">{<block_content pos:start="83:2" pos:end="97:0">
+    <comment type="block" pos:start="84:5" pos:end="84:25">/* seed randomness */</comment>
+    <expr_stmt pos:start="85:5" pos:end="85:34"><expr pos:start="85:5" pos:end="85:33"><call pos:start="85:5" pos:end="85:33"><name pos:start="85:5" pos:end="85:9">srand</name><argument_list pos:start="85:10" pos:end="85:33">( <argument pos:start="85:12" pos:end="85:31"><expr pos:start="85:12" pos:end="85:31"><operator pos:start="85:12" pos:end="85:12">(</operator><name pos:start="85:13" pos:end="85:20">unsigned</name><operator pos:start="85:21" pos:end="85:21">)</operator><call pos:start="85:22" pos:end="85:31"><name pos:start="85:22" pos:end="85:25">time</name><argument_list pos:start="85:26" pos:end="85:31">(<argument pos:start="85:27" pos:end="85:30"><expr pos:start="85:27" pos:end="85:30"><name pos:start="85:27" pos:end="85:30">NULL</name></expr></argument>)</argument_list></call></expr></argument> )</argument_list></call></expr>;</expr_stmt>
+<cpp:ifndef pos:start="86:1" pos:end="86:16">#<cpp:directive pos:start="86:2" pos:end="86:7">ifndef</cpp:directive> <name pos:start="86:9" pos:end="86:16">OMITGOOD</name></cpp:ifndef>
+    <expr_stmt pos:start="87:5" pos:end="87:35"><expr pos:start="87:5" pos:end="87:34"><call pos:start="87:5" pos:end="87:34"><name pos:start="87:5" pos:end="87:13">printLine</name><argument_list pos:start="87:14" pos:end="87:34">(<argument pos:start="87:15" pos:end="87:33"><expr pos:start="87:15" pos:end="87:33"><literal type="string" pos:start="87:15" pos:end="87:33">"Calling good()..."</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+    <expr_stmt pos:start="88:5" pos:end="88:52"><expr pos:start="88:5" pos:end="88:51"><call pos:start="88:5" pos:end="88:51"><name pos:start="88:5" pos:end="88:49">CWE476_NULL_Pointer_Dereference__char_01_good</name><argument_list pos:start="88:50" pos:end="88:51">()</argument_list></call></expr>;</expr_stmt>
+    <expr_stmt pos:start="89:5" pos:end="89:33"><expr pos:start="89:5" pos:end="89:32"><call pos:start="89:5" pos:end="89:32"><name pos:start="89:5" pos:end="89:13">printLine</name><argument_list pos:start="89:14" pos:end="89:32">(<argument pos:start="89:15" pos:end="89:31"><expr pos:start="89:15" pos:end="89:31"><literal type="string" pos:start="89:15" pos:end="89:31">"Finished good()"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+<cpp:endif pos:start="90:1" pos:end="90:6">#<cpp:directive pos:start="90:2" pos:end="90:6">endif</cpp:directive></cpp:endif> <comment type="block" pos:start="90:8" pos:end="90:21">/* OMITGOOD */</comment>
+<cpp:ifndef pos:start="91:1" pos:end="91:15">#<cpp:directive pos:start="91:2" pos:end="91:7">ifndef</cpp:directive> <name pos:start="91:9" pos:end="91:15">OMITBAD</name></cpp:ifndef>
+    <expr_stmt pos:start="92:5" pos:end="92:34"><expr pos:start="92:5" pos:end="92:33"><call pos:start="92:5" pos:end="92:33"><name pos:start="92:5" pos:end="92:13">printLine</name><argument_list pos:start="92:14" pos:end="92:33">(<argument pos:start="92:15" pos:end="92:32"><expr pos:start="92:15" pos:end="92:32"><literal type="string" pos:start="92:15" pos:end="92:32">"Calling bad()..."</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+    <expr_stmt pos:start="93:5" pos:end="93:51"><expr pos:start="93:5" pos:end="93:50"><call pos:start="93:5" pos:end="93:50"><name pos:start="93:5" pos:end="93:48">CWE476_NULL_Pointer_Dereference__char_01_bad</name><argument_list pos:start="93:49" pos:end="93:50">()</argument_list></call></expr>;</expr_stmt>
+    <expr_stmt pos:start="94:5" pos:end="94:32"><expr pos:start="94:5" pos:end="94:31"><call pos:start="94:5" pos:end="94:31"><name pos:start="94:5" pos:end="94:13">printLine</name><argument_list pos:start="94:14" pos:end="94:31">(<argument pos:start="94:15" pos:end="94:30"><expr pos:start="94:15" pos:end="94:30"><literal type="string" pos:start="94:15" pos:end="94:30">"Finished bad()"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+<cpp:endif pos:start="95:1" pos:end="95:6">#<cpp:directive pos:start="95:2" pos:end="95:6">endif</cpp:directive></cpp:endif> <comment type="block" pos:start="95:8" pos:end="95:20">/* OMITBAD */</comment>
+    <return pos:start="96:5" pos:end="96:13">return <expr pos:start="96:12" pos:end="96:12"><literal type="number" pos:start="96:12" pos:end="96:12">0</literal></expr>;</return>
+</block_content>}</block></function>
+
+<cpp:endif pos:start="99:1" pos:end="99:6">#<cpp:directive pos:start="99:2" pos:end="99:6">endif</cpp:directive></cpp:endif>
+</unit>

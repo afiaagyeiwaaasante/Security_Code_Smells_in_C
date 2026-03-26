@@ -1,0 +1,24 @@
+[
+    {
+        "variable": "data",
+        "type": "char*",
+        "function": "CWE476_NULL_Pointer_Dereference__char_01_bad",
+        "file": "../testsuites/CWE476/char/CWE476_NULL_Pointer_Dereference__char_01.c",
+        "defined_at": [
+            "../testsuites/CWE476/char/CWE476_NULL_Pointer_Dereference__char_01.c:26:12",
+            "../testsuites/CWE476/char/CWE476_NULL_Pointer_Dereference__char_01.c:28:5"
+        ],
+        "used_at": [
+            "../testsuites/CWE476/char/CWE476_NULL_Pointer_Dereference__char_01.c:31:22"
+        ],
+        "smell": "null-pointer-dereference",
+        "cwe": "CWE-476",
+        "severity": "HIGH",
+        "rules_hit": {
+            "rule1_is_pointer": true,
+            "rule2_no_null_check": true,
+            "rule3_pointer_is_used": true,
+            "rule4_in_known_sink": true
+        }
+    }
+]
