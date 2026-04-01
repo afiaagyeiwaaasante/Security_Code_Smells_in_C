@@ -91,11 +91,29 @@ echo
 # Pattern: callee dereferences pointer param, caller passes unguarded ptr
 # -----------------------------------------------------------------------
 echo "--- interprocedural ---"
-run_case "interprocedural/bad_interprocedural.c" \
-    "detected" "bad — callee derefs, caller no guard"
-run_case "interprocedural/good_interprocedural.c" \
-    "clean"    "good — caller guards before passing"
+run_case "interprocedural/bad_interprocedural_01.c" \
+    "detected" "bad callee deref no guard + unguarded caller"
+run_case "interprocedural/good_interprocedural_01.c" \
+    "detected" "good_callee smell — no internal check, good_caller correctly excluded"
+run_case "interprocedural/bad_char_interprocedural_01.c" \
+    "detected" "char interprocedural — array index sink, NULL caller + smell caller"
 echo
+
+echo "--- interprocedural multi-file (variant 22) ---"
+# Multi-file test requires smell_report_multi.sh
+MULTI_OUTPUT=$(bash "$(dirname "$0")/../../src/smell_report_multi.sh" \
+    "$(dirname "$0")/char/CWE476_NULL_Pointer_Dereference__char_22a.c" \
+    "$(dirname "$0")/char/CWE476_NULL_Pointer_Dereference__char_22b.c" \
+    2>/dev/null)
+
+if echo "$MULTI_OUTPUT" | grep -qE "error:|warning:"; then
+    echo "  PASS  char variant 22 minimal— cross-file interprocedural detection"
+    PASS=$((PASS + 1))
+else
+    echo "  FAIL  char variant 22 minimal — expected detection, got none"
+    FAIL=$((FAIL + 1))
+fi
+TOTAL=$((TOTAL + 1))
 
 # -----------------------------------------------------------------------
 # deref_no_check — Detector 3 (error level)

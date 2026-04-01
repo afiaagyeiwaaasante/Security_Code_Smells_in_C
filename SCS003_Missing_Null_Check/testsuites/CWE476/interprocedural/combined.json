@@ -1,0 +1,62 @@
+{
+"data-24-29-2da1a5cebdcb34cd11dda95cd53780502357e129":{
+    "file":"../interprocedural/bad_char_interprocedural_22a.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"bad_char_22_sink",
+    "type":"char*",
+    "name":"data",
+    "initial":"../interprocedural/bad_char_interprocedural_22a.c:24:29",
+    "dependence":[],
+    "aliases":[],
+    "calls":[],
+    "use":[],
+    "definition":["../interprocedural/bad_char_interprocedural_22a.c:24:29"]
+},
+"data-29-11-2da1a5cebdcb34cd11dda95cd53780502357e129":{
+    "file":"../interprocedural/bad_char_interprocedural_22a.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"bad_char_22_bad",
+    "type":"char*",
+    "name":"data",
+    "initial":"../interprocedural/bad_char_interprocedural_22a.c:29:11",
+    "dependence":[],
+    "aliases":[],
+    "calls":[{"functionName":"bad_char_22_sink","parameter":"1","definitionPosition":"../interprocedural/bad_char_interprocedural_22a.c:24:1","invoke":"../interprocedural/bad_char_interprocedural_22a.c:34:5"}],
+    "use":["../interprocedural/bad_char_interprocedural_22a.c:34:22"],
+    "definition":["../interprocedural/bad_char_interprocedural_22a.c:29:11","../interprocedural/bad_char_interprocedural_22a.c:32:5"]
+},
+"data-40-11-2da1a5cebdcb34cd11dda95cd53780502357e129":{
+    "file":"../interprocedural/bad_char_interprocedural_22a.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"bad_char_22_smell",
+    "type":"char*",
+    "name":"data",
+    "initial":"../interprocedural/bad_char_interprocedural_22a.c:40:11",
+    "dependence":[],
+    "aliases":[],
+    "calls":[{"functionName":"bad_char_22_sink","parameter":"1","definitionPosition":"../interprocedural/bad_char_interprocedural_22a.c:24:1","invoke":"../interprocedural/bad_char_interprocedural_22a.c:45:5"}],
+    "use":["../interprocedural/bad_char_interprocedural_22a.c:24:29","../interprocedural/bad_char_interprocedural_22a.c:45:22"],
+    "definition":["../interprocedural/bad_char_interprocedural_22a.c:40:11","../interprocedural/bad_char_interprocedural_22a.c:43:5"]
+},
+"bad_char_22_global-21-5-":{
+    "file":"../interprocedural/bad_char_interprocedural_22a.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"",
+    "type":"int",
+    "name":"bad_char_22_global",
+    "initial":"../interprocedural/bad_char_interprocedural_22a.c:21:5",
+    "dependence":[],
+    "aliases":[],
+    "calls":[],
+    "use":[],
+    "definition":["../interprocedural/bad_char_interprocedural_22a.c:21:5","../interprocedural/bad_char_interprocedural_22a.c:33:5","../interprocedural/bad_char_interprocedural_22a.c:44:5"]
+}
+}

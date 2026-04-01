@@ -62,6 +62,18 @@ these variants.
 | 02 | if(1) | bad_char_01.c | tested — CONTAINS handles nesting |
 | 03 | if(5==5) | bad_char_01.c | tested — CONTAINS handles nesting |
 
+
+## char declaration pattern coverage
+
+| pattern | style | query | status |
+|---|---|---|---|
+| char *data = NULL; data[0] | initializer | $TYPE $PTR = NULL FOLLOWED BY $PTR[$IDX] | tested |
+| char *data; data = NULL; data[0] | separate assignment | $PTR = NULL FOLLOWED BY $PTR[$IDX] | tested |
+| twoIntsStruct *ptr = NULL; ptr->field | initializer | $TYPE * $PTR = NULL FOLLOWED BY $PTR->$FIELD | tested |
+| twoIntsStruct *ptr; ptr = NULL; ptr->field | separate assignment | $PT * $PTR = NULL FOLLOWED BY $PTR->$FIELD | tested |
+
+Both patterns are covered by UNION in detect_null_deref.sh.
+
 All three use the same sink pattern — data[0] with no null guard.
 The wrapper depth is irrelevant to detection.
 Detector 3 null_deref array index query handles all three.
@@ -73,3 +85,36 @@ tests/CWE476/char/
 ├── bad_char_01.c      — bad_char_null_deref() — expect error [null_deref]
 ├── smell_char_01.c    — smell_char_no_guard()  — expect warning [missing_guard]
 └── good_char_01.c     — good_char_guarded()    — expect clean
+
+## interprocedural severity taxonomy
+
+| finding | source | severity | rule |
+|---|---|---|---|
+| callee dereferences param, no internal null check | Pass 1 | warning | missingNullCheck |
+| caller passes NULL to unsafe callee | Pass 2a | error | nullPointer |
+| caller passes unguarded ptr to unsafe callee | Pass 2b | warning | missingNullCheck |
+| caller guards before passing (if(ptr!=NULL){callee(ptr)}) | excluded | — | — |
+
+## interprocedural test cases
+| file | dereference | expected findings |
+|---|---|---|
+| bad_interprocedural_01.c | ptr->field | callee smell + caller warning |
+| good_interprocedural_01.c | ptr->field | callee smell only |
+| bad_char_interprocedural_01.c | ptr[idx] | callee smell + error + warning |
+
+## multi-file variant coverage
+
+| variant | files | pipeline | status |
+|---|---|---|---|
+| char_22 | 22a.c + 22b.c | smell_report_multi.sh | tested |
+| char_51 | 51a.c + 51b.c | smell_report_multi.sh | to test |
+| char_52 | 52a+b+c.c | smell_report_multi.sh | to test |
+| char_53 | 53a+b+c+d.c | smell_report_multi.sh | to test |
+| char_54 | 54a+b+c+d+e.c | smell_report_multi.sh | to test |
+
+## Key finding
+srcML can combine multiple source files into one archive.
+srcslice tracks data flow across file boundaries in the combined archive.
+The interprocedural detector works without modification on the combined XML.
+The only infrastructure change is smell_report_multi.sh which accepts
+multiple source files and combines them before running the pipeline.

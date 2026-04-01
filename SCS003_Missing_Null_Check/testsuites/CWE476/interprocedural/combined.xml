@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" xmlns:pos="http://www.srcML.org/srcML/position" xmlns:slice="http://www.srcML.org/srcML/slice" revision="1.0.0" pos:tabs="8">
+
+<unit xmlns:cpp="http://www.srcML.org/srcML/cpp" revision="1.0.0" language="C" filename="../interprocedural/bad_char_interprocedural_22a.c" pos:tabs="8" hash="2da1a5cebdcb34cd11dda95cd53780502357e129"><comment type="block" pos:start="1:1" pos:end="16:3">/* tests/CWE476/interprocedural/bad_char_interprocedural_22a.c
+ *
+ * CWE-476 NULL Pointer Dereference
+ * Scenario : interprocedural multi-file â char array index variant
+ * Flow     : variant 22 â global variable controls sink execution,
+ *            source and sink in separate files
+ * Detector : Detector 2 (interprocedural) via smell_report_multi.sh
+ *
+ * This file contains the SOURCE (caller).
+ * The SINK (callee) is in bad_char_interprocedural_22b.c
+ *
+ * Expected findings:
+ *   22b.c: warning â bad_char_22_sink dereferences without null check
+ *   22a.c: error   â bad_char_22_bad passes NULL to sink
+ *   22a.c: warning â bad_char_22_smell passes unguarded ptr to sink
+ */</comment>
+
+<cpp:include pos:start="18:1" pos:end="18:45">#<cpp:directive pos:start="18:2" pos:end="18:8">include</cpp:directive> <cpp:file pos:start="18:10" pos:end="18:45">"../testsuitesupport/std_testcase.h"</cpp:file></cpp:include>
+
+<comment type="block" pos:start="20:1" pos:end="20:68">/* Global variable controls whether sink executes the dereference */</comment>
+<decl_stmt pos:start="21:1" pos:end="21:27"><decl pos:start="21:1" pos:end="21:26" slice:decl="7f1c65c5801c4088608f9025bf238ebc4d56bc77"><type pos:start="21:1" pos:end="21:3"><name pos:start="21:1" pos:end="21:3">int</name></type> <name pos:start="21:5" pos:end="21:22">bad_char_22_global</name> <init pos:start="21:24" pos:end="21:26">= <expr pos:start="21:26" pos:end="21:26"><literal type="number" pos:start="21:26" pos:end="21:26">0</literal></expr></init></decl>;</decl_stmt>
+
+<comment type="block" pos:start="23:1" pos:end="23:49">/* Forward declaration â sink defined in 22b */</comment>
+<function_decl pos:start="24:1" pos:end="24:34"><type pos:start="24:1" pos:end="24:4"><name pos:start="24:1" pos:end="24:4">void</name></type> <name pos:start="24:6" pos:end="24:21">bad_char_22_sink</name><parameter_list pos:start="24:22" pos:end="24:33">(<parameter pos:start="24:23" pos:end="24:32"><decl pos:start="24:23" pos:end="24:32" slice:decl="67a250732b531c010950d840cba925a7baf1b713" slice:use="ccabd8cefb6beff777bfbbf2ec74e9a54441b601"><type pos:start="24:23" pos:end="24:28"><name pos:start="24:23" pos:end="24:26">char</name> <modifier pos:start="24:28" pos:end="24:28">*</modifier></type><name pos:start="24:29" pos:end="24:32">data</name></decl></parameter>)</parameter_list>;</function_decl>
+
+<comment type="block" pos:start="26:1" pos:end="26:63">/* Bad caller â assigns NULL, sets global true, calls sink */</comment>
+<function pos:start="27:1" pos:end="35:1"><type pos:start="27:1" pos:end="27:4"><name pos:start="27:1" pos:end="27:4">void</name></type> <name pos:start="27:6" pos:end="27:20">bad_char_22_bad</name><parameter_list pos:start="27:21" pos:end="27:26">(<parameter pos:start="27:22" pos:end="27:25"><decl pos:start="27:22" pos:end="27:25"><type pos:start="27:22" pos:end="27:25"><name pos:start="27:22" pos:end="27:25">void</name></type></decl></parameter>)</parameter_list>
+<block pos:start="28:1" pos:end="35:1">{<block_content pos:start="28:2" pos:end="35:0">
+    <decl_stmt pos:start="29:5" pos:end="29:15"><decl pos:start="29:5" pos:end="29:14" slice:decl="457e5a4d3db282f048b926b6d89203f5f9a6cf72"><type pos:start="29:5" pos:end="29:10"><name pos:start="29:5" pos:end="29:8">char</name> <modifier pos:start="29:10" pos:end="29:10">*</modifier></type><name pos:start="29:11" pos:end="29:14">data</name></decl>;</decl_stmt>
+
+    <comment type="block" pos:start="31:5" pos:end="31:68">/* FLAW: data assigned NULL then passed to sink without guard */</comment>
+    <expr_stmt pos:start="32:5" pos:end="32:16"><expr pos:start="32:5" pos:end="32:15" slice:def="457e5a4d3db282f048b926b6d89203f5f9a6cf72"><name pos:start="32:5" pos:end="32:8">data</name> <operator pos:start="32:10" pos:end="32:10">=</operator> <name pos:start="32:12" pos:end="32:15">NULL</name></expr>;</expr_stmt>
+    <expr_stmt pos:start="33:5" pos:end="33:27"><expr pos:start="33:5" pos:end="33:26" slice:def="7f1c65c5801c4088608f9025bf238ebc4d56bc77"><name pos:start="33:5" pos:end="33:22">bad_char_22_global</name> <operator pos:start="33:24" pos:end="33:24">=</operator> <literal type="number" pos:start="33:26" pos:end="33:26">1</literal></expr>;</expr_stmt>
+    <expr_stmt pos:start="34:5" pos:end="34:27"><expr pos:start="34:5" pos:end="34:26" slice:use="457e5a4d3db282f048b926b6d89203f5f9a6cf72"><call pos:start="34:5" pos:end="34:26"><name pos:start="34:5" pos:end="34:20">bad_char_22_sink</name><argument_list pos:start="34:21" pos:end="34:26">(<argument pos:start="34:22" pos:end="34:25"><expr pos:start="34:22" pos:end="34:25"><name pos:start="34:22" pos:end="34:25">data</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+</block_content>}</block></function>
+
+<comment type="block" pos:start="37:1" pos:end="37:61">/* Smell caller â assigns non-NULL, no guard before call */</comment>
+<function pos:start="38:1" pos:end="46:1"><type pos:start="38:1" pos:end="38:4"><name pos:start="38:1" pos:end="38:4">void</name></type> <name pos:start="38:6" pos:end="38:22">bad_char_22_smell</name><parameter_list pos:start="38:23" pos:end="38:28">(<parameter pos:start="38:24" pos:end="38:27"><decl pos:start="38:24" pos:end="38:27"><type pos:start="38:24" pos:end="38:27"><name pos:start="38:24" pos:end="38:27">void</name></type></decl></parameter>)</parameter_list>
+<block pos:start="39:1" pos:end="46:1">{<block_content pos:start="39:2" pos:end="46:0">
+    <decl_stmt pos:start="40:5" pos:end="40:15"><decl pos:start="40:5" pos:end="40:14" slice:decl="ccabd8cefb6beff777bfbbf2ec74e9a54441b601"><type pos:start="40:5" pos:end="40:10"><name pos:start="40:5" pos:end="40:8">char</name> <modifier pos:start="40:10" pos:end="40:10">*</modifier></type><name pos:start="40:11" pos:end="40:14">data</name></decl>;</decl_stmt>
+
+    <comment type="block" pos:start="42:5" pos:end="42:71">/* SMELL: data assigned but no null guard before passing to sink */</comment>
+    <expr_stmt pos:start="43:5" pos:end="43:18"><expr pos:start="43:5" pos:end="43:17" slice:def="ccabd8cefb6beff777bfbbf2ec74e9a54441b601"><name pos:start="43:5" pos:end="43:8">data</name> <operator pos:start="43:10" pos:end="43:10">=</operator> <literal type="string" pos:start="43:12" pos:end="43:17">"Good"</literal></expr>;</expr_stmt>
+    <expr_stmt pos:start="44:5" pos:end="44:27"><expr pos:start="44:5" pos:end="44:26" slice:def="7f1c65c5801c4088608f9025bf238ebc4d56bc77"><name pos:start="44:5" pos:end="44:22">bad_char_22_global</name> <operator pos:start="44:24" pos:end="44:24">=</operator> <literal type="number" pos:start="44:26" pos:end="44:26">1</literal></expr>;</expr_stmt>
+    <expr_stmt pos:start="45:5" pos:end="45:27"><expr pos:start="45:5" pos:end="45:26" slice:use="ccabd8cefb6beff777bfbbf2ec74e9a54441b601"><call pos:start="45:5" pos:end="45:26"><name pos:start="45:5" pos:end="45:20">bad_char_22_sink</name><argument_list pos:start="45:21" pos:end="45:26">(<argument pos:start="45:22" pos:end="45:25"><expr pos:start="45:22" pos:end="45:25"><name pos:start="45:22" pos:end="45:25">data</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+</block_content>}</block></function></unit>
+
+<unit xmlns:cpp="http://www.srcML.org/srcML/cpp" revision="1.0.0" language="C" filename="../interprocedural/bad_char_interprocedural_22b.c" pos:tabs="8" hash="7d5cd575db898bb46b76b373e7a185ae5a9a4322"><comment type="block" pos:start="1:1" pos:end="12:3">/* tests/CWE476/interprocedural/bad_char_interprocedural_22b.c
+ *
+ * CWE-476 NULL Pointer Dereference
+ * Scenario : interprocedural multi-file â char array index variant
+ * Flow     : variant 22 â sink file
+ *
+ * This file contains the SINK (callee).
+ * The SOURCE (caller) is in bad_char_interprocedural_22a.c
+ *
+ * Expected finding:
+ *   warning â bad_char_22_sink dereferences data[0] without null check
+ */</comment>
+
+<cpp:include pos:start="14:1" pos:end="14:45">#<cpp:directive pos:start="14:2" pos:end="14:8">include</cpp:directive> <cpp:file pos:start="14:10" pos:end="14:45">"../testsuitesupport/std_testcase.h"</cpp:file></cpp:include>
+
+<decl_stmt pos:start="16:1" pos:end="16:30"><decl pos:start="16:1" pos:end="16:29"><type pos:start="16:1" pos:end="16:10"><specifier pos:start="16:1" pos:end="16:6">extern</specifier> <name pos:start="16:8" pos:end="16:10">int</name></type> <name pos:start="16:12" pos:end="16:29">bad_char_22_global</name></decl>;</decl_stmt>
+
+<comment type="block" pos:start="18:1" pos:end="18:70">/* Sink: dereferences data[0] when global is true â no null check */</comment>
+<function pos:start="19:1" pos:end="26:1"><type pos:start="19:1" pos:end="19:4"><name pos:start="19:1" pos:end="19:4">void</name></type> <name pos:start="19:6" pos:end="19:21">bad_char_22_sink</name><parameter_list pos:start="19:22" pos:end="19:33">(<parameter pos:start="19:23" pos:end="19:32"><decl pos:start="19:23" pos:end="19:32"><type pos:start="19:23" pos:end="19:28"><name pos:start="19:23" pos:end="19:26">char</name> <modifier pos:start="19:28" pos:end="19:28">*</modifier></type><name pos:start="19:29" pos:end="19:32">data</name></decl></parameter>)</parameter_list>
+<block pos:start="20:1" pos:end="26:1">{<block_content pos:start="20:2" pos:end="26:0">
+    <if_stmt pos:start="21:5" pos:end="25:5"><if pos:start="21:5" pos:end="25:5">if <condition pos:start="21:8" pos:end="21:27">(<expr pos:start="21:9" pos:end="21:26"><name pos:start="21:9" pos:end="21:26">bad_char_22_global</name></expr>)</condition>
+    <block pos:start="22:5" pos:end="25:5">{<block_content pos:start="22:6" pos:end="25:4">
+        <comment type="block" pos:start="23:9" pos:end="23:49">/* SMELL: no null check before data[0] */</comment>
+        <expr_stmt pos:start="24:9" pos:end="24:34"><expr pos:start="24:9" pos:end="24:33"><call pos:start="24:9" pos:end="24:33"><name pos:start="24:9" pos:end="24:24">printHexCharLine</name><argument_list pos:start="24:25" pos:end="24:33">(<argument pos:start="24:26" pos:end="24:32"><expr pos:start="24:26" pos:end="24:32"><name pos:start="24:26" pos:end="24:32"><name pos:start="24:26" pos:end="24:29">data</name><index pos:start="24:30" pos:end="24:32">[<expr pos:start="24:31" pos:end="24:31"><literal type="number" pos:start="24:31" pos:end="24:31">0</literal></expr>]</index></name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+    </block_content>}</block></if></if_stmt>
+</block_content>}</block></function></unit>
+
+</unit>
