@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" xmlns:cpp="http://www.srcML.org/srcML/cpp" xmlns:pos="http://www.srcML.org/srcML/position" xmlns:slice="http://www.srcML.org/srcML/slice" revision="1.0.0" language="C" filename="bad_char_01.c" pos:tabs="8" hash="11ddf07c94bdb5a38dea84284cda12db67206744"><comment type="block" pos:start="1:1" pos:end="10:3">/*
+ * CWE-476 NULL Pointer Dereference
+ * Scenario : char â flow variants 01-03 representative
+ * Sink     : array index dereference data[0] with no null guard
+ * Detector : Detector 3 (null_deref) â array index query
+ * Expected : error [nullPointer] [null_deref]
+ *
+ * Variants covered: 01 baseline, 02 if(1), 03 if(5==5)
+ * CONTAINS finds the pattern regardless of wrapper depth.
+ */</comment>
+<cpp:include pos:start="11:1" pos:end="11:45">#<cpp:directive pos:start="11:2" pos:end="11:8">include</cpp:directive> <cpp:file pos:start="11:10" pos:end="11:45">"../testsuitesupport/std_testcase.h"</cpp:file></cpp:include>
+
+<function pos:start="13:1" pos:end="19:1"><type pos:start="13:1" pos:end="13:4"><name pos:start="13:1" pos:end="13:4">void</name></type> <name pos:start="13:6" pos:end="13:24">bad_char_null_deref</name><parameter_list pos:start="13:25" pos:end="13:30">(<parameter pos:start="13:26" pos:end="13:29"><decl pos:start="13:26" pos:end="13:29"><type pos:start="13:26" pos:end="13:29"><name pos:start="13:26" pos:end="13:29">void</name></type></decl></parameter>)</parameter_list>
+<block pos:start="14:1" pos:end="19:1">{<block_content pos:start="14:2" pos:end="19:0">
+    <decl_stmt pos:start="15:5" pos:end="15:22"><decl pos:start="15:5" pos:end="15:21" slice:decl="922f9d490ece59bcead77f5b74d6b00e8a9dd07f"><type pos:start="15:5" pos:end="15:10"><name pos:start="15:5" pos:end="15:8">char</name> <modifier pos:start="15:10" pos:end="15:10">*</modifier></type><name pos:start="15:11" pos:end="15:14">data</name> <init pos:start="15:16" pos:end="15:21">= <expr pos:start="15:18" pos:end="15:21"><name pos:start="15:18" pos:end="15:21">NULL</name></expr></init></decl>;</decl_stmt>
+
+    <comment type="block" pos:start="17:5" pos:end="17:71">/* FLAW: data is NULL, no guard before data[0] â certain crash */</comment>
+    <expr_stmt pos:start="18:5" pos:end="18:30"><expr pos:start="18:5" pos:end="18:29" slice:use="922f9d490ece59bcead77f5b74d6b00e8a9dd07f"><call pos:start="18:5" pos:end="18:29"><name pos:start="18:5" pos:end="18:20">printHexCharLine</name><argument_list pos:start="18:21" pos:end="18:29">(<argument pos:start="18:22" pos:end="18:28"><expr pos:start="18:22" pos:end="18:28"><name pos:start="18:22" pos:end="18:28"><name pos:start="18:22" pos:end="18:25">data</name><index pos:start="18:26" pos:end="18:28">[<expr pos:start="18:27" pos:end="18:27"><literal type="number" pos:start="18:27" pos:end="18:27">0</literal></expr>]</index></name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+</block_content>}</block></function></unit>

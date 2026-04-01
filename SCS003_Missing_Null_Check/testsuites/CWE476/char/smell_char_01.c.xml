@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" xmlns:cpp="http://www.srcML.org/srcML/cpp" xmlns:pos="http://www.srcML.org/srcML/position" xmlns:slice="http://www.srcML.org/srcML/slice" revision="1.0.0" language="C" filename="smell_char_01.c" pos:tabs="8" hash="865838e5f91e6d142749b5e3a50085a883593bd1"><comment type="block" pos:start="1:1" pos:end="11:3">/*
+ * CWE-476 NULL Pointer Dereference
+ * Scenario : char â smell (warning level)
+ * Sink     : array index dereference data[0], non-NULL assigned, no guard
+ * Detector : Detector 4 (missing_guard) â array index query
+ * Expected : warning [missingNullCheck] [missing_guard]
+ *
+ * This is a security code smell â data is currently valid but the
+ * absence of a null guard makes it fragile. Any future change to
+ * the data source that introduces NULL will cause a crash.
+ */</comment>
+<cpp:include pos:start="12:1" pos:end="12:45">#<cpp:directive pos:start="12:2" pos:end="12:8">include</cpp:directive> <cpp:file pos:start="12:10" pos:end="12:45">"../testsuitesupport/std_testcase.h"</cpp:file></cpp:include>
+
+<function pos:start="14:1" pos:end="20:1"><type pos:start="14:1" pos:end="14:4"><name pos:start="14:1" pos:end="14:4">void</name></type> <name pos:start="14:6" pos:end="14:24">smell_char_no_guard</name><parameter_list pos:start="14:25" pos:end="14:30">(<parameter pos:start="14:26" pos:end="14:29"><decl pos:start="14:26" pos:end="14:29"><type pos:start="14:26" pos:end="14:29"><name pos:start="14:26" pos:end="14:29">void</name></type></decl></parameter>)</parameter_list>
+<block pos:start="15:1" pos:end="20:1">{<block_content pos:start="15:2" pos:end="20:0">
+    <decl_stmt pos:start="16:5" pos:end="16:24"><decl pos:start="16:5" pos:end="16:23" slice:decl="675e8918d9b2bed4fb4564d09970a3699fc74f8a"><type pos:start="16:5" pos:end="16:10"><name pos:start="16:5" pos:end="16:8">char</name> <modifier pos:start="16:10" pos:end="16:10">*</modifier></type><name pos:start="16:11" pos:end="16:14">data</name> <init pos:start="16:16" pos:end="16:23">= <expr pos:start="16:18" pos:end="16:23"><literal type="string" pos:start="16:18" pos:end="16:23">"Good"</literal></expr></init></decl>;</decl_stmt>
+
+    <comment type="block" pos:start="18:5" pos:end="18:64">/* SMELL: data is valid now but no null guard â fragile */</comment>
+    <expr_stmt pos:start="19:5" pos:end="19:30"><expr pos:start="19:5" pos:end="19:29" slice:use="675e8918d9b2bed4fb4564d09970a3699fc74f8a"><call pos:start="19:5" pos:end="19:29"><name pos:start="19:5" pos:end="19:20">printHexCharLine</name><argument_list pos:start="19:21" pos:end="19:29">(<argument pos:start="19:22" pos:end="19:28"><expr pos:start="19:22" pos:end="19:28"><name pos:start="19:22" pos:end="19:28"><name pos:start="19:22" pos:end="19:25">data</name><index pos:start="19:26" pos:end="19:28">[<expr pos:start="19:27" pos:end="19:27"><literal type="number" pos:start="19:27" pos:end="19:27">0</literal></expr>]</index></name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+</block_content>}</block></function></unit>

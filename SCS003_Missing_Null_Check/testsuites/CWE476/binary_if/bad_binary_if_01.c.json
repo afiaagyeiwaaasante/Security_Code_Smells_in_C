@@ -1,0 +1,17 @@
+{
+"ptr-19-20-d1992f34f8ce37f69fbf1089c505866465bab836":{
+    "file":"bad_binary_if_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"bad_binary_if",
+    "type":"twoIntsStruct*",
+    "name":"ptr",
+    "initial":"bad_binary_if_01.c:19:20",
+    "dependence":[],
+    "aliases":[],
+    "calls":[],
+    "use":["bad_binary_if_01.c:22:10","bad_binary_if_01.c:22:26"],
+    "definition":["bad_binary_if_01.c:19:20"]
+}
+}

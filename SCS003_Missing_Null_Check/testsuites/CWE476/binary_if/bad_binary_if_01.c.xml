@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" xmlns:cpp="http://www.srcML.org/srcML/cpp" xmlns:pos="http://www.srcML.org/srcML/position" xmlns:slice="http://www.srcML.org/srcML/slice" revision="1.0.0" language="C" filename="bad_binary_if_01.c" pos:tabs="8" hash="d1992f34f8ce37f69fbf1089c505866465bab836"><comment type="block" pos:start="1:1" pos:end="13:3">/*
+ * CWE-476 NULL Pointer Dereference
+ * Scenario : binary_if â bad
+ * Smell    : bitwise &amp; used instead of logical &amp;&amp; in null-check condition
+ * Detector : Detector 1 (binary_if)
+ * Expected : error [nullPointer] [binary_if]
+ *
+ * Why this is bad:
+ *   The &amp; operator does not short-circuit. Both sides of the expression
+ *   are always evaluated. When twoIntsStructPointer is NULL, the right
+ *   side (twoIntsStructPointer-&gt;intOne) is evaluated anyway, causing
+ *   a null pointer dereference.
+ */</comment>
+
+<cpp:include pos:start="15:1" pos:end="15:45">#<cpp:directive pos:start="15:2" pos:end="15:8">include</cpp:directive> <cpp:file pos:start="15:10" pos:end="15:45">"../testsuitesupport/std_testcase.h"</cpp:file></cpp:include>
+
+<function pos:start="17:1" pos:end="26:1"><type pos:start="17:1" pos:end="17:4"><name pos:start="17:1" pos:end="17:4">void</name></type> <name pos:start="17:6" pos:end="17:18">bad_binary_if</name><parameter_list pos:start="17:19" pos:end="17:24">(<parameter pos:start="17:20" pos:end="17:23"><decl pos:start="17:20" pos:end="17:23"><type pos:start="17:20" pos:end="17:23"><name pos:start="17:20" pos:end="17:23">void</name></type></decl></parameter>)</parameter_list>
+<block pos:start="18:1" pos:end="26:1">{<block_content pos:start="18:2" pos:end="26:0">
+    <decl_stmt pos:start="19:5" pos:end="19:30"><decl pos:start="19:5" pos:end="19:29" slice:decl="ec22158c9c77ebc19955b4143c3527bb15aa274b"><type pos:start="19:5" pos:end="19:19"><name pos:start="19:5" pos:end="19:17">twoIntsStruct</name> <modifier pos:start="19:19" pos:end="19:19">*</modifier></type><name pos:start="19:20" pos:end="19:22">ptr</name> <init pos:start="19:24" pos:end="19:29">= <expr pos:start="19:26" pos:end="19:29"><name pos:start="19:26" pos:end="19:29">NULL</name></expr></init></decl>;</decl_stmt>
+
+    <comment type="block" pos:start="21:5" pos:end="21:81">/* FLAW: &amp; does not short-circuit â ptr-&gt;intOne evaluated even when NULL */</comment>
+    <if_stmt pos:start="22:5" pos:end="25:5"><if pos:start="22:5" pos:end="25:5">if <condition pos:start="22:8" pos:end="22:43">(<expr pos:start="22:9" pos:end="22:42" slice:use="ec22158c9c77ebc19955b4143c3527bb15aa274b"><operator pos:start="22:9" pos:end="22:9">(</operator><name pos:start="22:10" pos:end="22:12">ptr</name> <operator pos:start="22:14" pos:end="22:15">!=</operator> <name pos:start="22:17" pos:end="22:20">NULL</name><operator pos:start="22:21" pos:end="22:21">)</operator> <operator pos:start="22:23" pos:end="22:23">&amp;</operator> <operator pos:start="22:25" pos:end="22:25">(</operator><name pos:start="22:26" pos:end="22:36"><name pos:start="22:26" pos:end="22:28">ptr</name><operator pos:start="22:29" pos:end="22:30">-&gt;</operator><name pos:start="22:31" pos:end="22:36">intOne</name></name> <operator pos:start="22:38" pos:end="22:39">==</operator> <literal type="number" pos:start="22:41" pos:end="22:41">5</literal><operator pos:start="22:42" pos:end="22:42">)</operator></expr>)</condition>
+    <block pos:start="23:5" pos:end="25:5">{<block_content pos:start="23:6" pos:end="25:4">
+        <expr_stmt pos:start="24:9" pos:end="24:33"><expr pos:start="24:9" pos:end="24:32"><call pos:start="24:9" pos:end="24:32"><name pos:start="24:9" pos:end="24:17">printLine</name><argument_list pos:start="24:18" pos:end="24:32">(<argument pos:start="24:19" pos:end="24:31"><expr pos:start="24:19" pos:end="24:31"><literal type="string" pos:start="24:19" pos:end="24:31">"intOne == 5"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+    </block_content>}</block></if></if_stmt>
+</block_content>}</block></function></unit>

@@ -1,0 +1,62 @@
+{
+"ptr-32-24-18dd7bbf84093b00f41f63110a69f61e8473f283":{
+    "file":"bad_binary_if_flow05.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"bad_binary_if_flow05",
+    "type":"twoIntsStruct*",
+    "name":"ptr",
+    "initial":"bad_binary_if_flow05.c:32:24",
+    "dependence":[],
+    "aliases":[],
+    "calls":[],
+    "use":["bad_binary_if_flow05.c:35:14","bad_binary_if_flow05.c:35:30"],
+    "definition":["bad_binary_if_flow05.c:32:24"]
+},
+"ptr-51-24-18dd7bbf84093b00f41f63110a69f61e8473f283":{
+    "file":"bad_binary_if_flow05.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"bad_binary_if_flow06",
+    "type":"twoIntsStruct*",
+    "name":"ptr",
+    "initial":"bad_binary_if_flow05.c:51:24",
+    "dependence":[],
+    "aliases":[],
+    "calls":[],
+    "use":["bad_binary_if_flow05.c:54:14","bad_binary_if_flow05.c:54:30"],
+    "definition":["bad_binary_if_flow05.c:51:24"]
+},
+"staticFalse-26-12-":{
+    "file":"bad_binary_if_flow05.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"",
+    "type":"int",
+    "name":"staticFalse",
+    "initial":"bad_binary_if_flow05.c:26:12",
+    "dependence":[],
+    "aliases":[],
+    "calls":[],
+    "use":["bad_binary_if_flow05.c:44:9"],
+    "definition":["bad_binary_if_flow05.c:26:12"]
+},
+"staticTrue-23-12-":{
+    "file":"bad_binary_if_flow05.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"",
+    "type":"int",
+    "name":"staticTrue",
+    "initial":"bad_binary_if_flow05.c:23:12",
+    "dependence":[],
+    "aliases":[],
+    "calls":[],
+    "use":["bad_binary_if_flow05.c:30:9"],
+    "definition":["bad_binary_if_flow05.c:23:12"]
+}
+}

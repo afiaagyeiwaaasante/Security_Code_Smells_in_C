@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" xmlns:cpp="http://www.srcML.org/srcML/cpp" xmlns:pos="http://www.srcML.org/srcML/position" xmlns:slice="http://www.srcML.org/srcML/slice" revision="1.0.0" language="C" filename="good_binary_if_01.c" pos:tabs="8" hash="7756a02181f8b3859bf74b079bbb4b4b733b0b98"><comment type="block" pos:start="1:1" pos:end="11:3">/*
+ * CWE-476 NULL Pointer Dereference
+ * Scenario : binary_if â good
+ * Fix      : use logical &amp;&amp; which short-circuits on NULL
+ * Detector : Detector 1 (binary_if)
+ * Expected : no detection
+ *
+ * Why this is safe:
+ *   The &amp;&amp; operator short-circuits. If ptr is NULL the left side
+ *   evaluates to false and the right side is never evaluated.
+ */</comment>
+<cpp:include pos:start="12:1" pos:end="12:45">#<cpp:directive pos:start="12:2" pos:end="12:8">include</cpp:directive> <cpp:file pos:start="12:10" pos:end="12:45">"../testsuitesupport/std_testcase.h"</cpp:file></cpp:include>
+
+<function pos:start="14:1" pos:end="23:1"><type pos:start="14:1" pos:end="14:4"><name pos:start="14:1" pos:end="14:4">void</name></type> <name pos:start="14:6" pos:end="14:19">good_binary_if</name><parameter_list pos:start="14:20" pos:end="14:25">(<parameter pos:start="14:21" pos:end="14:24"><decl pos:start="14:21" pos:end="14:24"><type pos:start="14:21" pos:end="14:24"><name pos:start="14:21" pos:end="14:24">void</name></type></decl></parameter>)</parameter_list>
+<block pos:start="15:1" pos:end="23:1">{<block_content pos:start="15:2" pos:end="23:0">
+    <decl_stmt pos:start="16:5" pos:end="16:30"><decl pos:start="16:5" pos:end="16:29" slice:decl="efc1539eb76615c2196149654c015441c28a1559"><type pos:start="16:5" pos:end="16:19"><name pos:start="16:5" pos:end="16:17">twoIntsStruct</name> <modifier pos:start="16:19" pos:end="16:19">*</modifier></type><name pos:start="16:20" pos:end="16:22">ptr</name> <init pos:start="16:24" pos:end="16:29">= <expr pos:start="16:26" pos:end="16:29"><name pos:start="16:26" pos:end="16:29">NULL</name></expr></init></decl>;</decl_stmt>
+
+    <comment type="block" pos:start="18:5" pos:end="18:80">/* FIX: &amp;&amp; short-circuits â ptr-&gt;intOne only evaluated when ptr != NULL */</comment>
+    <if_stmt pos:start="19:5" pos:end="22:5"><if pos:start="19:5" pos:end="22:5">if <condition pos:start="19:8" pos:end="19:44">(<expr pos:start="19:9" pos:end="19:43" slice:use="efc1539eb76615c2196149654c015441c28a1559"><operator pos:start="19:9" pos:end="19:9">(</operator><name pos:start="19:10" pos:end="19:12">ptr</name> <operator pos:start="19:14" pos:end="19:15">!=</operator> <name pos:start="19:17" pos:end="19:20">NULL</name><operator pos:start="19:21" pos:end="19:21">)</operator> <operator pos:start="19:23" pos:end="19:24">&amp;&amp;</operator> <operator pos:start="19:26" pos:end="19:26">(</operator><name pos:start="19:27" pos:end="19:37"><name pos:start="19:27" pos:end="19:29">ptr</name><operator pos:start="19:30" pos:end="19:31">-&gt;</operator><name pos:start="19:32" pos:end="19:37">intOne</name></name> <operator pos:start="19:39" pos:end="19:40">==</operator> <literal type="number" pos:start="19:42" pos:end="19:42">5</literal><operator pos:start="19:43" pos:end="19:43">)</operator></expr>)</condition>
+    <block pos:start="20:5" pos:end="22:5">{<block_content pos:start="20:6" pos:end="22:4">
+        <expr_stmt pos:start="21:9" pos:end="21:33"><expr pos:start="21:9" pos:end="21:32"><call pos:start="21:9" pos:end="21:32"><name pos:start="21:9" pos:end="21:17">printLine</name><argument_list pos:start="21:18" pos:end="21:32">(<argument pos:start="21:19" pos:end="21:31"><expr pos:start="21:19" pos:end="21:31"><literal type="string" pos:start="21:19" pos:end="21:31">"intOne == 5"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+    </block_content>}</block></if></if_stmt>
+</block_content>}</block></function></unit>

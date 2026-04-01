@@ -1,0 +1,17 @@
+{
+"ptr-18-20-3608d2b82a7f87137493ce8930a628ca58eaf175":{
+    "file":"../deref_no_check/bad_null_deref_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"bad_null_deref",
+    "type":"twoIntsStruct*",
+    "name":"ptr",
+    "initial":"../deref_no_check/bad_null_deref_01.c:18:20",
+    "dependence":[],
+    "aliases":[],
+    "calls":[],
+    "use":["../deref_no_check/bad_null_deref_01.c:21:9"],
+    "definition":["../deref_no_check/bad_null_deref_01.c:18:20"]
+}
+}
