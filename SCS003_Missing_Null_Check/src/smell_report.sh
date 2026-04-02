@@ -61,7 +61,11 @@ FINDINGS=$(mktemp /tmp/cwe476_findings_XXXXXX)
     echo
     bash "$DETECTORS_DIR/detect_null_deref.sh"      "$XML" "$SRC" "$FINDINGS"
     echo
-    bash "$DETECTORS_DIR/detect_missing_guard.sh"   "$XML" "$SRC" "$FINDINGS"
+    bash "$DETECTORS_DIR/detect_missing_guard.sh"     "$XML" "$SRC" "$FINDINGS"
+    echo
+    bash "$DETECTORS_DIR/detect_deref_after_check.sh"  "$XML" "$SRC" "$FINDINGS"
+    echo
+    bash "$DETECTORS_DIR/detect_check_after_deref.sh"  "$XML" "$SRC" "$FINDINGS"
     echo
 
     # Save findings

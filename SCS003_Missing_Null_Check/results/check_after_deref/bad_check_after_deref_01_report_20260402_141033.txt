@@ -1,0 +1,161 @@
+========================================
+ CWE-476 NULL Pointer Dereference Detector
+ Source  : bad_check_after_deref_01.c
+ Report  : /Users/afiaasante/Security-Code-Smells/SCS003_Missing_Null_Check/results/check_after_deref/bad_check_after_deref_01_report_20260402_141033.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/SCS003_Missing_Null_Check/results/check_after_deref/bad_check_after_deref_01_findings_20260402_141033.json
+ Date    : Thu Apr  2 14:10:33 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.009s
+user	0m0.003s
+sys	0m0.003s
+
+=== Stage 2: srcslice ===
+Writing to :: ./bad_check_after_deref_01.c.json
+Output Saved to :: ./bad_check_after_deref_01.c.json
+
+real	0m0.177s
+user	0m0.010s
+sys	0m0.004s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.017s
+user	0m0.005s
+sys	0m0.004s
+
+=== Detector 1: binary_if ===
+    query  : FIND if(($PTR != NULL) & ($PTR->$FIELD == $VAL)) {}
+    input  : ./bad_check_after_deref_01.c.xml
+    output : /tmp/cwe476_findings_JJ4l4G
+
+
+real	0m0.005s
+user	0m0.003s
+sys	0m0.002s
+
+[ binary_if ] No smell detected.
+
+=== Detector 2: interprocedural ===
+    input  : ./bad_check_after_deref_01.c.xml
+    output : /tmp/cwe476_findings_JJ4l4G
+
+--- Pass 1: finding unsafe callees ---
+
+real	0m0.006s
+user	0m0.005s
+sys	0m0.005s
+
+[ interprocedural ] No unsafe callees found.
+
+=== Detector 3: null_deref ===
+    input  : ./bad_check_after_deref_01.c.xml
+    output : /tmp/cwe476_findings_JJ4l4G
+
+--- struct member (->) ---
+
+real	0m0.006s
+user	0m0.004s
+sys	0m0.002s
+
+    no findings
+
+--- array index ([]) ---
+
+real	0m0.005s
+user	0m0.004s
+sys	0m0.002s
+
+    no findings
+
+[ null_deref ] 0 finding(s) written to /tmp/cwe476_findings_JJ4l4G
+
+=== Detector 4: missing_guard ===
+    input  : ./bad_check_after_deref_01.c.xml
+    output : /tmp/cwe476_findings_JJ4l4G
+
+--- struct member (->) ---
+
+real	0m0.019s
+user	0m0.006s
+sys	0m0.004s
+
+    no findings
+
+--- array index ([]) ---
+
+real	0m0.006s
+user	0m0.004s
+sys	0m0.002s
+
+    no findings
+
+[ missing_guard ] 0 finding(s) written to /tmp/cwe476_findings_JJ4l4G
+
+=== Detector 5: deref_after_check ===
+    query  : FIND if($PTR == NULL) {} CONTAINS *$PTR
+    input  : ./bad_check_after_deref_01.c.xml
+    output : /tmp/cwe476_findings_JJ4l4G
+
+
+real	0m0.005s
+user	0m0.003s
+sys	0m0.002s
+
+[ deref_after_check ] No smell detected.
+
+=== Detector 6: check_after_deref ===
+    query  : FIND $T $FUNC() {} CONTAINS *$PTR FOLLOWED BY if($PTR != NULL) {}
+    input  : ./bad_check_after_deref_01.c.xml
+    output : /tmp/cwe476_findings_JJ4l4G
+
+
+real	0m0.005s
+user	0m0.003s
+sys	0m0.002s
+
+--- extracting positions ---
+
+real	0m0.004s
+user	0m0.003s
+sys	0m0.004s
+
+--- building findings ---
+    matches found: 1
+    finding 1: bad_check_after_deref_01.c:27:5 — ptr
+
+real	0m0.019s
+user	0m0.007s
+sys	0m0.012s
+
+[ check_after_deref ] 1 finding(s) written to /tmp/cwe476_findings_JJ4l4G
+
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "check_after_deref",
+  "severity": "warning",
+  "rule": "missingNullCheck",
+  "file": "bad_check_after_deref_01.c",
+  "line": 27,
+  "col": 5,
+  "varname": "ptr",
+  "note": {
+    "line": 23,
+    "col": 6,
+    "message": "Pointer 'ptr' already dereferenced here before null check"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   check_after_deref         1
+========================================
