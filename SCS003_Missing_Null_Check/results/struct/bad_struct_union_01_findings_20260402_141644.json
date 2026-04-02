@@ -1,0 +1,14 @@
+{
+  "detector": "missing_guard",
+  "severity": "warning",
+  "rule": "missingNullCheck",
+  "file": "bad_struct_union_01.c",
+  "line": 34,
+  "col": 27,
+  "varname": "retrieved",
+  "note": {
+    "line": 31,
+    "col": 5,
+    "message": "Pointer 'retrieved' assigned here without subsequent null guard"
+  }
+}

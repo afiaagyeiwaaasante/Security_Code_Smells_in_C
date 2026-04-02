@@ -1,0 +1,14 @@
+{
+  "detector": "missing_guard",
+  "severity": "warning",
+  "rule": "missingNullCheck",
+  "file": "bad_struct_copy_01.c",
+  "line": 25,
+  "col": 26,
+  "varname": "dataCopy",
+  "note": {
+    "line": 22,
+    "col": 5,
+    "message": "Pointer 'dataCopy' assigned here without subsequent null guard"
+  }
+}

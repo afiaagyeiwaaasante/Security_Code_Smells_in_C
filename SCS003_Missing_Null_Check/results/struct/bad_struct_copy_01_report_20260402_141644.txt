@@ -1,0 +1,148 @@
+========================================
+ CWE-476 NULL Pointer Dereference Detector
+ Source  : bad_struct_copy_01.c
+ Report  : /Users/afiaasante/Security-Code-Smells/SCS003_Missing_Null_Check/results/struct/bad_struct_copy_01_report_20260402_141644.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/SCS003_Missing_Null_Check/results/struct/bad_struct_copy_01_findings_20260402_141644.json
+ Date    : Thu Apr  2 14:16:44 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.009s
+user	0m0.003s
+sys	0m0.003s
+
+=== Stage 2: srcslice ===
+Writing to :: ./bad_struct_copy_01.c.json
+Output Saved to :: ./bad_struct_copy_01.c.json
+
+real	0m0.173s
+user	0m0.009s
+sys	0m0.004s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.017s
+user	0m0.005s
+sys	0m0.004s
+
+=== Detector 1: binary_if ===
+    query  : FIND if(($PTR != NULL) & ($PTR->$FIELD == $VAL)) {}
+    input  : ./bad_struct_copy_01.c.xml
+    output : /tmp/cwe476_findings_zwJaTQ
+
+
+real	0m0.005s
+user	0m0.003s
+sys	0m0.002s
+
+[ binary_if ] No smell detected.
+
+=== Detector 2: interprocedural ===
+    input  : ./bad_struct_copy_01.c.xml
+    output : /tmp/cwe476_findings_zwJaTQ
+
+--- Pass 1: finding unsafe callees ---
+
+real	0m0.007s
+user	0m0.005s
+sys	0m0.006s
+
+[ interprocedural ] No unsafe callees found.
+
+=== Detector 3: null_deref ===
+    input  : ./bad_struct_copy_01.c.xml
+    output : /tmp/cwe476_findings_zwJaTQ
+
+--- struct member (->) ---
+
+real	0m0.006s
+user	0m0.004s
+sys	0m0.002s
+
+    no findings
+
+--- array index ([]) ---
+
+real	0m0.006s
+user	0m0.004s
+sys	0m0.002s
+
+    no findings
+
+[ null_deref ] 0 finding(s) written to /tmp/cwe476_findings_zwJaTQ
+
+=== Detector 4: missing_guard ===
+    input  : ./bad_struct_copy_01.c.xml
+    output : /tmp/cwe476_findings_zwJaTQ
+
+--- struct member (->) ---
+
+real	0m0.006s
+user	0m0.004s
+sys	0m0.002s
+
+    matches: 1
+    finding 1: bad_struct_copy_01.c:25:26 — dataCopy [struct member (->)]
+
+--- array index ([]) ---
+
+real	0m0.005s
+user	0m0.003s
+sys	0m0.002s
+
+    no findings
+
+[ missing_guard ] 1 finding(s) written to /tmp/cwe476_findings_zwJaTQ
+
+=== Detector 5: deref_after_check ===
+    query  : FIND if($PTR == NULL) {} CONTAINS *$PTR
+    input  : ./bad_struct_copy_01.c.xml
+    output : /tmp/cwe476_findings_zwJaTQ
+
+
+real	0m0.005s
+user	0m0.003s
+sys	0m0.002s
+
+[ deref_after_check ] No smell detected.
+
+=== Detector 6: check_after_deref ===
+    query  : FIND $T $FUNC() {} CONTAINS *$PTR FOLLOWED BY if($PTR != NULL) {}
+    input  : ./bad_struct_copy_01.c.xml
+    output : /tmp/cwe476_findings_zwJaTQ
+
+
+real	0m0.005s
+user	0m0.003s
+sys	0m0.002s
+
+[ check_after_deref ] No smell detected.
+
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "missing_guard",
+  "severity": "warning",
+  "rule": "missingNullCheck",
+  "file": "bad_struct_copy_01.c",
+  "line": 25,
+  "col": 26,
+  "varname": "dataCopy",
+  "note": {
+    "line": 22,
+    "col": 5,
+    "message": "Pointer 'dataCopy' assigned here without subsequent null guard"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   missing_guard             1
+========================================
