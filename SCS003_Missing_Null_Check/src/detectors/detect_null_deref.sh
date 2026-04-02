@@ -19,7 +19,9 @@
 #   Appends one JSON object per finding to <findings.json>
 #
 # Requires: srcml, xmllint
-set -e
+
+source "$(dirname "$0")/../lib/write_finding.sh"
+
 
 XML=$1
 SRC=$2
@@ -72,20 +74,21 @@ run_query() {
 
     # Run query and save to temp file to avoid subshell variable scope issues
     local TMPRESULT
-    TMPRESULT=$(mktemp /tmp/srcql_result_XXXXXX.xml)
+    TMPRESULT=$(mktemp /tmp/srcql_result_XXXXXX)
     trap "rm -f $TMPRESULT" RETURN
 
     { time srcml "$XML" --srcql "$QUERY" -q > "$TMPRESULT"; } 2>&1
     echo
+
+    FILENAME=$(xmllint --xpath \
+        'string(//*[local-name()="unit"]/@filename)' "$TMPRESULT" 2>/dev/null)
 
     if [ -z "$(grep '<function' "$TMPRESULT")" ]; then
         echo "    no findings"
         return
     fi
 
-    FILENAME=$(xmllint --xpath \
-        'string(//*[local-name()="unit"]/@filename)' "$TMPRESULT" 2>/dev/null)
-
+    
     if [ "$DEREF_TOKEN" = "->" ]; then
         ARROW_POSITIONS=$(xmllint --xpath \
             '//*[local-name()="operator"][.="->"]/@*[local-name()="start"]' \
@@ -146,24 +149,19 @@ run_query() {
         local SOURCE_LINE_ESC=$(echo "$SOURCE_LINE" | sed 's/\\/\\\\/g; s/"/\\"/g')
         local DECL_SOURCE_LINE_ESC=$(echo "$DECL_SOURCE_LINE" | sed 's/\\/\\\\/g; s/"/\\"/g')
 
-        cat >> "$FINDINGS" << EOF
-{
-  "detector": "null_deref",
-  "severity": "error",
-  "rule": "nullPointer",
-  "file": "${FILENAME}",
-  "line": ${ARROW_LINE},
-  "col": ${ARROW_COL},
-  "source_line": "${SOURCE_LINE_ESC}",
-  "varname": "${VARNAME}",
-  "note": {
-    "line": ${DECL_LINE},
-    "col": ${DECL_COL},
-    "source_line": "${DECL_SOURCE_LINE_ESC}",
-    "message": "Assignment '${VARNAME}=NULL', assigned value is 0"
-  }
-}
-EOF
+        write_finding \
+            --findings  "$FINDINGS" \
+            --detector  "null_deref" \
+            --severity  "error" \
+            --rule      "nullPointer" \
+            --file      "$FILENAME" \
+            --line      "$ARROW_LINE" \
+            --col       "$ARROW_COL" \
+            --varname   "$VARNAME" \
+            --note-line "$DECL_LINE" \
+            --note-col  "$DECL_COL" \
+            --note-msg  "Assignment '${VARNAME}=NULL', assigned value is 0"
+
 
         FOUND_COUNT=$((FOUND_COUNT + 1))
         echo "    finding $FOUND_COUNT: ${FILENAME}:${ARROW_LINE}:${ARROW_COL} — ${VARNAME} [$LABEL]"

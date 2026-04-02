@@ -1,0 +1,125 @@
+========================================
+ CWE-476 NULL Pointer Dereference Detector
+ Source  : ../interprocedural/good_interprocedural_01.c
+ Report  : ../interprocedural/good_interprocedural_01_report_20260402_093313.txt
+ Findings: ../interprocedural/good_interprocedural_01_findings_20260402_093313.json
+ Date    : Thu Apr  2 09:33:13 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.005s
+user	0m0.003s
+sys	0m0.002s
+
+=== Stage 2: srcslice ===
+Writing to :: ../interprocedural/good_interprocedural_01.c.json
+Output Saved to :: ../interprocedural/good_interprocedural_01.c.json
+
+real	0m0.172s
+user	0m0.009s
+sys	0m0.002s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.014s
+user	0m0.009s
+sys	0m0.004s
+
+=== Detector 1: binary_if ===
+    query  : FIND if(($PTR != NULL) & ($PTR->$FIELD == $VAL)) {}
+    input  : ../interprocedural/good_interprocedural_01.c.xml
+    output : /tmp/cwe476_findings_XXXXXX.json
+
+
+real	0m0.007s
+user	0m0.004s
+sys	0m0.002s
+
+[ binary_if ] No smell detected.
+
+=== Detector 2: interprocedural ===
+    input  : ../interprocedural/good_interprocedural_01.c.xml
+    output : /tmp/cwe476_findings_XXXXXX.json
+
+--- Pass 1: finding unsafe callees ---
+
+real	0m0.008s
+user	0m0.006s
+sys	0m0.005s
+
+    candidate callees:
+      good_callee
+
+    CALLEE SMELL: good_callee at 12:1
+
+--- Pass 2: classifying callers by severity ---
+
+[ interprocedural ] 1 finding(s) written to /tmp/cwe476_findings_XXXXXX.json
+
+=== Detector 3: null_deref ===
+    input  : ../interprocedural/good_interprocedural_01.c.xml
+    output : /tmp/cwe476_findings_XXXXXX.json
+
+--- struct member (->) ---
+
+real	0m0.006s
+user	0m0.004s
+sys	0m0.002s
+
+    no findings
+
+--- array index ([]) ---
+
+real	0m0.006s
+user	0m0.004s
+sys	0m0.002s
+
+    no findings
+
+[ null_deref ] 0 finding(s) written to /tmp/cwe476_findings_XXXXXX.json
+
+=== Detector 4: missing_guard ===
+    input  : ../interprocedural/good_interprocedural_01.c.xml
+    output : /tmp/cwe476_findings_XXXXXX.json
+
+--- struct member (->) ---
+
+real	0m0.006s
+user	0m0.004s
+sys	0m0.002s
+
+    no findings
+
+--- array index ([]) ---
+
+real	0m0.005s
+user	0m0.003s
+sys	0m0.002s
+
+    no findings
+
+[ missing_guard ] 0 finding(s) written to /tmp/cwe476_findings_XXXXXX.json
+
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "interprocedural",
+  "severity": "warning",
+  "rule": "missingNullCheck",
+  "file": "../interprocedural/good_interprocedural_01.c",
+  "line": 12,
+  "col": 1,
+  "varname": "good_callee"
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   interprocedural           1
+========================================

@@ -1,0 +1,14 @@
+{
+  "detector": "binary_if",
+  "severity": "error",
+  "rule": "nullPointer",
+  "file": "bad_binary_if_flow02.c",
+  "line": 22,
+  "col": 33,
+  "varname": "ptr",
+  "note": {
+    "line": 19,
+    "col": 9,
+    "message": "Assignment 'ptr=NULL', assigned value is 0"
+  }
+}

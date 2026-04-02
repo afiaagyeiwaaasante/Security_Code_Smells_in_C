@@ -14,11 +14,9 @@
 #   Multiple matches per file are handled by collecting all -> positions
 #   and all variable names as parallel arrays and iterating over them.
 #
-# Output:
-#   Appends one JSON object per finding to <findings.json>
-#
-# Requires: srcml, xmllint
-set -e
+# Requires: srcml, srcslice, srcattributor, srcql
+
+source "$(dirname "$0")/../lib/write_finding.sh"
 
 XML=$1       # annotated srcML XML from pipeline.sh
 SRC=$2       # original source file for reading source lines
@@ -34,13 +32,14 @@ echo
 
 # -----------------------------------------------------------------------
 # Run the srcQL query
-# -----------------------------------------------------------------------
-echo "--- srcQL query ---"
-{ time RESULT=$(srcml "$XML" --srcql "$QUERY" -q); } 2>&1
+# -----------------------------------------------------------------------I
+TMPRESULT=$(mktemp /tmp/srcql_result_XXXXXX)
+trap "rm -f $TMPRESULT" EXIT
+
+{ time srcml "$XML" --srcql "$QUERY" -q > "$TMPRESULT"; } 2>&1
 echo
 
-# Check for any matched if statement
-if [ -z "$(echo "$RESULT" | grep '<if')" ]; then
+if [ -z "$(grep '<if' "$TMPRESULT")" ]; then
     echo "[ binary_if ] No smell detected."
     exit 0
 fi
@@ -51,31 +50,21 @@ fi
 # the bare colon in pos:start attribute names
 # -----------------------------------------------------------------------
 echo "--- extracting positions ---"
+
+FILENAME=$(xmllint --xpath \
+        'string(//*[local-name()="unit"]/@filename)' "$TMPRESULT" 2>/dev/null)
 { time {
 
-    ARROW_POSITIONS=$(echo "$RESULT" | xmllint --xpath \
+    ARROW_POSITIONS=$(xmllint --xpath \
         '//*[local-name()="operator"][.="->"]/@*[local-name()="start"]' \
-        - 2>/dev/null | grep -o '[0-9][0-9]*:[0-9][0-9]*')
+        "$TMPRESULT" 2>/dev/null | grep -o '[0-9][0-9]*:[0-9][0-9]*')
 
-    # Extract first name from each condition's direct expr child
-    # to get the variable name without duplicates from ptr->field
-    VARNAMES=$(echo "$RESULT" | xmllint --xpath \
+    VARNAMES=$(xmllint --xpath \
         '//*[local-name()="condition"]/*[local-name()="expr"]/*[local-name()="name"][1]' \
-        - 2>/dev/null | sed 's/<[^>]*>//g' | grep -v '^$')
-
-    FILENAME=$(echo "$RESULT" | xmllint --xpath \
-        'string(//*[local-name()="unit"]/@filename)' - 2>/dev/null)
+        "$TMPRESULT" 2>/dev/null | sed 's/<[^>]*>//g' | grep -v '^$')
 
 }; } 2>&1
 echo
-
-# -----------------------------------------------------------------------
-# Read source lines for report output
-# -----------------------------------------------------------------------
-SRC_LINES=()
-while IFS= read -r line; do
-    SRC_LINES+=("$line")
-done < "$SRC"
 
 # -----------------------------------------------------------------------
 # Build parallel arrays and iterate — one finding per match
@@ -103,7 +92,7 @@ echo "--- building findings ---"
             | grep -o '[0-9][0-9]*:[0-9][0-9]*' \
             | awk -F: -v arrow="$ARROW_LINE" '$1 < arrow {last=$0} END {print last}')
      
-
+        #Init value - navigate directly into init/expr/name
         DECL_LINE=$(echo "$DECL_POS" | cut -d: -f1)
         DECL_COL=$(echo  "$DECL_POS" | cut -d: -f2)
 
@@ -112,32 +101,19 @@ echo "--- building findings ---"
             "string(//*[local-name()='decl'][@*[local-name()='start'][starts-with(.,'${DECL_LINE}:')]]/*[local-name()='init']/*[local-name()='expr']/*[local-name()='name'])" \
             "$XML" 2>/dev/null)
 
-        SOURCE_LINE="${SRC_LINES[$((ARROW_LINE - 1))]}"
-        DECL_SOURCE_LINE="${SRC_LINES[$((DECL_LINE - 1))]}"
+        write_finding \
+            --findings  "$FINDINGS" \
+            --detector  "binary_if" \
+            --severity  "error" \
+            --rule      "nullPointer" \
+            --file      "$FILENAME" \
+            --line      "$ARROW_LINE" \
+            --col       "$ARROW_COL" \
+            --varname   "$VARNAME" \
+            --note-line "$DECL_LINE" \
+            --note-col  "$DECL_COL" \
+            --note-msg  "Assignment '${VARNAME}=${INIT_VAL}', assigned value is 0"
 
-        # Escape strings for JSON
-        SOURCE_LINE_ESC=$(echo "$SOURCE_LINE" | sed 's/\\/\\\\/g; s/"/\\"/g')
-        DECL_SOURCE_LINE_ESC=$(echo "$DECL_SOURCE_LINE" | sed 's/\\/\\\\/g; s/"/\\"/g')
-
-        # Append finding to JSON file
-        cat >> "$FINDINGS" << EOF
-{
-  "detector": "binary_if",
-  "severity": "error",
-  "rule": "nullPointer",
-  "file": "${FILENAME}",
-  "line": ${ARROW_LINE},
-  "col": ${ARROW_COL},
-  "source_line": "${SOURCE_LINE_ESC}",
-  "varname": "${VARNAME}",
-  "note": {
-    "line": ${DECL_LINE},
-    "col": ${DECL_COL},
-    "source_line": "${DECL_SOURCE_LINE_ESC}",
-    "message": "Assignment '${VARNAME}=${INIT_VAL}', assigned value is 0"
-  }
-}
-EOF
 
         echo "    finding $((i+1)): ${FILENAME}:${ARROW_LINE}:${ARROW_COL} — ${VARNAME}"
 

@@ -20,13 +20,16 @@
 #   Pass 1 — find unsafe callees: dereference without null check
 #             UNION covers -> and [] patterns
 #             DIFFERENCE excludes callees with any null check
+#             Write a callee-level smell warning for each
 #
 #   Pass 2a — error: for each callee, find callers that pass NULL
 #   Pass 2b — warning: for each callee, find callers that pass any
-#              unguarded pointer, minus those already found by 2a
+#              unguarded pointer, minus those caught by 2a and
+#              minus those that guard before the call
 #
 # Requires: srcml, xmllint
-set -e
+
+source "$(dirname "$0")/../lib/write_finding.sh"
 
 XML=$1
 SRC=$2
@@ -37,64 +40,20 @@ echo "    input  : $XML"
 echo "    output : $FINDINGS"
 echo
 
-# Read source lines once
-SRC_LINES=()
-while IFS= read -r line; do
-    SRC_LINES+=("$line")
-done < "$SRC"
-
 FOUND_COUNT=0
 
 # -----------------------------------------------------------------------
-# Helper: write one finding to FINDINGS file
-# -----------------------------------------------------------------------
-write_finding() {
-    local SEVERITY=$1
-    local RULE=$2
-    local FILENAME=$3
-    local CALL_LINE=$4
-    local CALL_COL=$5
-    local CALLEE=$6
-    local SOURCE_LINE=$7
-    local NOTE_MSG=$8
-
-    local SOURCE_LINE_ESC
-    SOURCE_LINE_ESC=$(echo "$SOURCE_LINE" | sed 's/\\/\\\\/g; s/"/\\"/g')
-
-    cat >> "$FINDINGS" << EOF
-{
-  "detector": "interprocedural",
-  "severity": "${SEVERITY}",
-  "rule": "${RULE}",
-  "file": "${FILENAME}",
-  "line": ${CALL_LINE},
-  "col": ${CALL_COL},
-  "source_line": "${SOURCE_LINE_ESC}",
-  "varname": "${CALLEE}",
-  "note": {
-    "line": ${CALL_LINE},
-    "col": ${CALL_COL},
-    "source_line": "${SOURCE_LINE_ESC}",
-    "message": "${NOTE_MSG}"
-  }
-}
-EOF
-    FOUND_COUNT=$((FOUND_COUNT + 1))
-}
-
-# -----------------------------------------------------------------------
-# Helper: extract call position from srcQL result
+# Helper: extract call site position from srcQL result
 # -----------------------------------------------------------------------
 get_call_pos() {
     local RESULT=$1
     local CALLEE=$2
-
     local POS
+
     POS=$(echo "$RESULT" | xmllint --xpath \
         "//*[local-name()='call'][*[local-name()='name'][.='${CALLEE}']]/@*[local-name()='start']" \
         - 2>/dev/null | grep -o '[0-9][0-9]*:[0-9][0-9]*' | head -1)
 
-    # Fall back to function start
     if [ -z "$POS" ]; then
         POS=$(echo "$RESULT" | xmllint --xpath \
             'string(//*[local-name()="function"]/@*[local-name()="start"])' \
@@ -106,9 +65,6 @@ get_call_pos() {
 
 # -----------------------------------------------------------------------
 # Pass 1: find unsafe callees
-# Callees that dereference a pointer parameter without any null check.
-# UNION covers both -> and [] dereference tokens.
-# DIFFERENCE excludes callees that have if($PTR != NULL) inside.
 # -----------------------------------------------------------------------
 echo "--- Pass 1: finding unsafe callees ---"
 
@@ -119,7 +75,7 @@ PASS1_QUERY='FIND $RT $FNAME($PT * $PTR) {} CONTAINS $PTR->$FIELD WHERE NOT (if(
         --srcql "$PASS1_QUERY" \
         -q | xmllint --xpath \
         '//*[local-name()="function"]/*[local-name()="name"]' \
-        - 2>/dev/null | sed 's/<[^>]*>//g' | grep -v '^$')
+        - 2>/dev/null | sed 's/<[^>]*>//g' | grep -v '^$' || true)
 }; } 2>&1
 echo
 
@@ -134,11 +90,12 @@ echo "$UNSAFE_CALLEES" | while IFS= read -r name; do
 done
 echo
 
-# After Pass 1 collects UNSAFE_CALLEES, write a warning for each callee itself
+# -----------------------------------------------------------------------
+# Write callee-level smell warning for each unsafe callee
+# -----------------------------------------------------------------------
 while IFS= read -r CALLEE; do
     [ -z "$CALLEE" ] && continue
 
-    # Find the callee function position
     CALLEE_RESULT=$(srcml "$XML" \
         --srcql "FIND \$RT ${CALLEE}(\$PT * \$PTR) {}" \
         -q 2>/dev/null)
@@ -155,16 +112,22 @@ while IFS= read -r CALLEE; do
     CALLEE_LINE=${CALLEE_LINE:-1}
     CALLEE_COL=${CALLEE_COL:-1}
 
-    SOURCE_LINE="${SRC_LINES[$((CALLEE_LINE - 1))]}"
+    write_finding \
+        --findings  "$FINDINGS" \
+        --detector  "interprocedural" \
+        --severity  "warning" \
+        --rule      "missingNullCheck" \
+        --file      "$FILENAME" \
+        --line      "$CALLEE_LINE" \
+        --col       "$CALLEE_COL" \
+        --varname   "$CALLEE" \
+        --note-msg  "Function '${CALLEE}' dereferences pointer parameter without internal null check"
 
-    write_finding "warning" "missingNullCheck" \
-        "$FILENAME" "$CALLEE_LINE" "$CALLEE_COL" "$CALLEE" \
-        "$SOURCE_LINE" \
-        "Function '${CALLEE}' dereferences pointer parameter without internal null check"
-
-    echo "    CALLEE SMELL: ${CALLEE} at ${CALLEE_LINE}:${CALLEE_COL} — no internal null check"
+    FOUND_COUNT=$((FOUND_COUNT + 1))
+    echo "    CALLEE SMELL: ${CALLEE} at ${CALLEE_LINE}:${CALLEE_COL}"
 
 done <<< "$UNSAFE_CALLEES"
+echo
 
 # -----------------------------------------------------------------------
 # Pass 2: for each callee find callers at two severity levels
@@ -174,11 +137,7 @@ echo "--- Pass 2: classifying callers by severity ---"
 while IFS= read -r CALLEE; do
     [ -z "$CALLEE" ] && continue
 
-    # ------------------------------------------------------------------
-    # Pass 2a — ERROR: caller provably passes NULL to callee
-    # Covers both assignment style (ptr = NULL) and declaration with
-    # initializer ($TYPE $PTR = NULL)
-    # ------------------------------------------------------------------
+    # Pass 2a — ERROR: caller provably passes NULL
     P2A_RESULT=$(srcml "$XML" \
         --srcql "FIND \$T \$FUNC() {} CONTAINS \$PTR = NULL FOLLOWED BY ${CALLEE}(\$PTR) WHERE NOT (if(\$PTR != NULL) {})" \
         -q 2>/dev/null)
@@ -192,21 +151,23 @@ while IFS= read -r CALLEE; do
         CALL_POS=$(get_call_pos "$P2A_RESULT" "$CALLEE")
         CALL_LINE=$(echo "$CALL_POS" | cut -d: -f1)
         CALL_COL=$(echo  "$CALL_POS" | cut -d: -f2)
-        SOURCE_LINE="${SRC_LINES[$((CALL_LINE - 1))]}"
 
-        write_finding "error" "nullPointer" \
-            "$FILENAME" "$CALL_LINE" "$CALL_COL" "$CALLEE" \
-            "$SOURCE_LINE" \
-            "Null pointer passed to '${CALLEE}' which dereferences without guard"
+        write_finding \
+            --findings  "$FINDINGS" \
+            --detector  "interprocedural" \
+            --severity  "error" \
+            --rule      "nullPointer" \
+            --file      "$FILENAME" \
+            --line      "$CALL_LINE" \
+            --col       "$CALL_COL" \
+            --varname   "$CALLEE" \
+            --note-msg  "Null pointer passed to '${CALLEE}' which dereferences without guard"
 
+        FOUND_COUNT=$((FOUND_COUNT + 1))
         echo "    ERROR:   ${CALLER_NAME} → ${CALLEE} at ${CALL_LINE}:${CALL_COL} (passes NULL)"
     fi
 
-    # ------------------------------------------------------------------
-    # Pass 2b — WARNING: caller passes unguarded pointer, not NULL
-    # DIFFERENCE subtracts the NULL case already caught by 2a
-    # Covers both uninitialized ptr and non-NULL assigned ptr
-    # ------------------------------------------------------------------
+    # Pass 2b — WARNING: caller passes unguarded pointer
     P2B_RESULT=$(srcml "$XML" \
         --srcql "FIND \$T \$FUNC() {} CONTAINS \$PT * \$PTR FOLLOWED BY ${CALLEE}(\$PTR) WHERE NOT (if(\$PTR != NULL) {}) DIFFERENCE FIND \$T \$FUNC() {} CONTAINS \$PTR = NULL FOLLOWED BY ${CALLEE}(\$PTR) DIFFERENCE FIND \$T \$FUNC() {} CONTAINS if(\$PTR != NULL) { ${CALLEE}(\$PTR); }" \
         -q 2>/dev/null)
@@ -220,13 +181,19 @@ while IFS= read -r CALLEE; do
         CALL_POS=$(get_call_pos "$P2B_RESULT" "$CALLEE")
         CALL_LINE=$(echo "$CALL_POS" | cut -d: -f1)
         CALL_COL=$(echo  "$CALL_POS" | cut -d: -f2)
-        SOURCE_LINE="${SRC_LINES[$((CALL_LINE - 1))]}"
 
-        write_finding "warning" "missingNullCheck" \
-            "$FILENAME" "$CALL_LINE" "$CALL_COL" "$CALLEE" \
-            "$SOURCE_LINE" \
-            "Unguarded pointer passed to '${CALLEE}' which dereferences without guard"
+        write_finding \
+            --findings  "$FINDINGS" \
+            --detector  "interprocedural" \
+            --severity  "warning" \
+            --rule      "missingNullCheck" \
+            --file      "$FILENAME" \
+            --line      "$CALL_LINE" \
+            --col       "$CALL_COL" \
+            --varname   "$CALLEE" \
+            --note-msg  "Unguarded pointer passed to '${CALLEE}' which dereferences without guard"
 
+        FOUND_COUNT=$((FOUND_COUNT + 1))
         echo "    WARNING: ${CALLER_NAME} → ${CALLEE} at ${CALL_LINE}:${CALL_COL} (unguarded ptr)"
     fi
 

@@ -11,13 +11,20 @@ fi
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DETECTORS_DIR="$SCRIPT_DIR/detectors"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
-# Use first file's directory for output
+# Derive output dir from first file's parent directory name
+SRC_ABS_DIR=$(cd "$(dirname "$1")" && pwd)
+CATEGORY=$(basename "$SRC_ABS_DIR")
+OUTPUT_DIR=${OUTPUT_DIR:-"$PROJECT_ROOT/results/$CATEGORY"}
+mkdir -p "$OUTPUT_DIR"
+
+# Use first file's directory for intermediates
 DIR=$(dirname "$1")
 BASE="combined"
 XML="$DIR/$BASE.xml"
 JSON="$DIR/$BASE.json"
-FINDINGS=$(mktemp /tmp/cwe476_findings_XXXXXX.json)
+FINDINGS=$(mktemp /tmp/cwe476_findings_XXXXXX)
 trap "rm -f $FINDINGS" EXIT
 
 echo "========================================"

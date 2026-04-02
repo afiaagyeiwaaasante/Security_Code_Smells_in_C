@@ -1,0 +1,106 @@
+========================================
+ CWE-476 NULL Pointer Dereference Detector
+ Source  : good_guarded_01.c
+ Report  : /Users/afiaasante/Security-Code-Smells/SCS003_Missing_Null_Check/results/deref_no_check/good_guarded_01_report_20260402_134140.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/SCS003_Missing_Null_Check/results/deref_no_check/good_guarded_01_findings_20260402_134140.json
+ Date    : Thu Apr  2 13:41:40 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.010s
+user	0m0.003s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: ./good_guarded_01.c.json
+Output Saved to :: ./good_guarded_01.c.json
+
+real	0m0.181s
+user	0m0.010s
+sys	0m0.004s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.021s
+user	0m0.007s
+sys	0m0.005s
+
+=== Detector 1: binary_if ===
+    query  : FIND if(($PTR != NULL) & ($PTR->$FIELD == $VAL)) {}
+    input  : ./good_guarded_01.c.xml
+    output : /tmp/cwe476_findings_UDZqip
+
+
+real	0m0.006s
+user	0m0.004s
+sys	0m0.002s
+
+[ binary_if ] No smell detected.
+
+=== Detector 2: interprocedural ===
+    input  : ./good_guarded_01.c.xml
+    output : /tmp/cwe476_findings_UDZqip
+
+--- Pass 1: finding unsafe callees ---
+
+real	0m0.007s
+user	0m0.005s
+sys	0m0.005s
+
+[ interprocedural ] No unsafe callees found.
+
+=== Detector 3: null_deref ===
+    input  : ./good_guarded_01.c.xml
+    output : /tmp/cwe476_findings_UDZqip
+
+--- struct member (->) ---
+
+real	0m0.006s
+user	0m0.004s
+sys	0m0.002s
+
+    no findings
+
+--- array index ([]) ---
+
+real	0m0.015s
+user	0m0.006s
+sys	0m0.003s
+
+    no findings
+
+[ null_deref ] 0 finding(s) written to /tmp/cwe476_findings_UDZqip
+
+=== Detector 4: missing_guard ===
+    input  : ./good_guarded_01.c.xml
+    output : /tmp/cwe476_findings_UDZqip
+
+--- struct member (->) ---
+
+real	0m0.009s
+user	0m0.005s
+sys	0m0.003s
+
+    no findings
+
+--- array index ([]) ---
+
+real	0m0.005s
+user	0m0.003s
+sys	0m0.002s
+
+    no findings
+
+[ missing_guard ] 0 finding(s) written to /tmp/cwe476_findings_UDZqip
+
+========================================
+ Findings JSON
+========================================
+
+========================================
+ Summary
+ Total findings : 0
+ Errors         : 0
+ Warnings       : 0
+========================================

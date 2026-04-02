@@ -1,0 +1,152 @@
+========================================
+ CWE-476 NULL Pointer Dereference Detector
+ Source  : bad_binary_if_flow05.c
+ Report  : ./bad_binary_if_flow05_report_20260402_093311.txt
+ Findings: ./bad_binary_if_flow05_findings_20260402_093311.json
+ Date    : Thu Apr  2 09:33:11 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.006s
+user	0m0.003s
+sys	0m0.003s
+
+=== Stage 2: srcslice ===
+Writing to :: ./bad_binary_if_flow05.c.json
+Output Saved to :: ./bad_binary_if_flow05.c.json
+
+real	0m0.172s
+user	0m0.010s
+sys	0m0.002s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.012s
+user	0m0.008s
+sys	0m0.003s
+
+=== Detector 1: binary_if ===
+    query  : FIND if(($PTR != NULL) & ($PTR->$FIELD == $VAL)) {}
+    input  : ./bad_binary_if_flow05.c.xml
+    output : /tmp/cwe476_findings_XXXXXX.json
+
+
+real	0m0.007s
+user	0m0.004s
+sys	0m0.002s
+
+--- extracting positions ---
+
+real	0m0.005s
+user	0m0.003s
+sys	0m0.004s
+
+--- building findings ---
+    matches found: 2
+    finding 1: bad_binary_if_flow05.c:35:33 — ptr
+    finding 2: bad_binary_if_flow05.c:54:33 — ptr
+
+real	0m0.039s
+user	0m0.014s
+sys	0m0.026s
+
+[ binary_if ] 2 finding(s) written to /tmp/cwe476_findings_XXXXXX.json
+
+=== Detector 2: interprocedural ===
+    input  : ./bad_binary_if_flow05.c.xml
+    output : /tmp/cwe476_findings_XXXXXX.json
+
+--- Pass 1: finding unsafe callees ---
+
+real	0m0.007s
+user	0m0.005s
+sys	0m0.004s
+
+[ interprocedural ] No unsafe callees found.
+
+=== Detector 3: null_deref ===
+    input  : ./bad_binary_if_flow05.c.xml
+    output : /tmp/cwe476_findings_XXXXXX.json
+
+--- struct member (->) ---
+
+real	0m0.007s
+user	0m0.005s
+sys	0m0.002s
+
+    no findings
+
+--- array index ([]) ---
+
+real	0m0.006s
+user	0m0.004s
+sys	0m0.002s
+
+    no findings
+
+[ null_deref ] 0 finding(s) written to /tmp/cwe476_findings_XXXXXX.json
+
+=== Detector 4: missing_guard ===
+    input  : ./bad_binary_if_flow05.c.xml
+    output : /tmp/cwe476_findings_XXXXXX.json
+
+--- struct member (->) ---
+
+real	0m0.006s
+user	0m0.004s
+sys	0m0.002s
+
+    no findings
+
+--- array index ([]) ---
+
+real	0m0.005s
+user	0m0.003s
+sys	0m0.002s
+
+    no findings
+
+[ missing_guard ] 0 finding(s) written to /tmp/cwe476_findings_XXXXXX.json
+
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "binary_if",
+  "severity": "error",
+  "rule": "nullPointer",
+  "file": "bad_binary_if_flow05.c",
+  "line": 35,
+  "col": 33,
+  "varname": "ptr",
+  "note": {
+    "line": 32,
+    "col": 9,
+    "message": "Assignment 'ptr=NULL', assigned value is 0"
+  }
+}
+{
+  "detector": "binary_if",
+  "severity": "error",
+  "rule": "nullPointer",
+  "file": "bad_binary_if_flow05.c",
+  "line": 54,
+  "col": 33,
+  "varname": "ptr",
+  "note": {
+    "line": 51,
+    "col": 9,
+    "message": "Assignment 'ptr=NULL', assigned value is 0"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 2
+ Warnings       : 0
+
+ Breakdown by detector:
+   binary_if                 2
+========================================

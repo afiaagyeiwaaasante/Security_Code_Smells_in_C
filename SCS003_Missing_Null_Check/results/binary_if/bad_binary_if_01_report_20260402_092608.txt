@@ -1,0 +1,59 @@
+========================================
+ CWE-476 NULL Pointer Dereference Detector
+ Source  : bad_binary_if_01.c
+ Report  : ./bad_binary_if_01_report_20260402_092608.txt
+ Findings: ./bad_binary_if_01_findings_20260402_092608.json
+ Date    : Thu Apr  2 09:26:08 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.010s
+user	0m0.003s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: ./bad_binary_if_01.c.json
+Output Saved to :: ./bad_binary_if_01.c.json
+
+real	0m0.182s
+user	0m0.010s
+sys	0m0.005s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.024s
+user	0m0.008s
+sys	0m0.007s
+
+=== Detector 1: binary_if ===
+    query  : FIND if(($PTR != NULL) & ($PTR->$FIELD == $VAL)) {}
+    input  : ./bad_binary_if_01.c.xml
+    output : /tmp/cwe476_findings_XXXXXX.json
+
+
+real	0m0.007s
+user	0m0.004s
+sys	0m0.003s
+
+--- extracting positions ---
+
+real	0m0.005s
+user	0m0.003s
+sys	0m0.004s
+
+--- building findings ---
+    matches found: 1
+    finding 1: bad_binary_if_01.c:22:29 — ptr
+
+real	0m0.021s
+user	0m0.007s
+sys	0m0.014s
+
+[ binary_if ] 1 finding(s) written to /tmp/cwe476_findings_XXXXXX.json
+
+=== Detector 2: interprocedural ===
+    input  : ./bad_binary_if_01.c.xml
+    output : /tmp/cwe476_findings_XXXXXX.json
+
+--- Pass 1: finding unsafe callees ---

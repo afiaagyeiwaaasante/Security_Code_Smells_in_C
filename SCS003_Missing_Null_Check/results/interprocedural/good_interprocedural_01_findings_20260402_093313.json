@@ -1,0 +1,9 @@
+{
+  "detector": "interprocedural",
+  "severity": "warning",
+  "rule": "missingNullCheck",
+  "file": "../interprocedural/good_interprocedural_01.c",
+  "line": 12,
+  "col": 1,
+  "varname": "good_callee"
+}

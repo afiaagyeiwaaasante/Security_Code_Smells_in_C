@@ -1,0 +1,137 @@
+========================================
+ CWE-476 NULL Pointer Dereference Detector
+ Source  : bad_binary_if_flow02.c
+ Report  : /Users/afiaasante/Security-Code-Smells/SCS003_Missing_Null_Check/results/binary_if/bad_binary_if_flow02_report_20260402_133731.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/SCS003_Missing_Null_Check/results/binary_if/bad_binary_if_flow02_findings_20260402_133731.json
+ Date    : Thu Apr  2 13:37:31 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.017s
+user	0m0.005s
+sys	0m0.006s
+
+=== Stage 2: srcslice ===
+Writing to :: ./bad_binary_if_flow02.c.json
+Output Saved to :: ./bad_binary_if_flow02.c.json
+
+real	0m0.175s
+user	0m0.013s
+sys	0m0.005s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.019s
+user	0m0.006s
+sys	0m0.005s
+
+=== Detector 1: binary_if ===
+    query  : FIND if(($PTR != NULL) & ($PTR->$FIELD == $VAL)) {}
+    input  : ./bad_binary_if_flow02.c.xml
+    output : /tmp/cwe476_findings_7cdRXf
+
+
+real	0m0.006s
+user	0m0.003s
+sys	0m0.002s
+
+--- extracting positions ---
+
+real	0m0.005s
+user	0m0.003s
+sys	0m0.004s
+
+--- building findings ---
+    matches found: 1
+    finding 1: bad_binary_if_flow02.c:22:33 — ptr
+
+real	0m0.021s
+user	0m0.007s
+sys	0m0.013s
+
+[ binary_if ] 1 finding(s) written to /tmp/cwe476_findings_7cdRXf
+
+=== Detector 2: interprocedural ===
+    input  : ./bad_binary_if_flow02.c.xml
+    output : /tmp/cwe476_findings_7cdRXf
+
+--- Pass 1: finding unsafe callees ---
+
+real	0m0.007s
+user	0m0.005s
+sys	0m0.005s
+
+[ interprocedural ] No unsafe callees found.
+
+=== Detector 3: null_deref ===
+    input  : ./bad_binary_if_flow02.c.xml
+    output : /tmp/cwe476_findings_7cdRXf
+
+--- struct member (->) ---
+
+real	0m0.006s
+user	0m0.004s
+sys	0m0.002s
+
+    no findings
+
+--- array index ([]) ---
+
+real	0m0.006s
+user	0m0.004s
+sys	0m0.002s
+
+    no findings
+
+[ null_deref ] 0 finding(s) written to /tmp/cwe476_findings_7cdRXf
+
+=== Detector 4: missing_guard ===
+    input  : ./bad_binary_if_flow02.c.xml
+    output : /tmp/cwe476_findings_7cdRXf
+
+--- struct member (->) ---
+
+real	0m0.006s
+user	0m0.004s
+sys	0m0.002s
+
+    no findings
+
+--- array index ([]) ---
+
+real	0m0.005s
+user	0m0.003s
+sys	0m0.002s
+
+    no findings
+
+[ missing_guard ] 0 finding(s) written to /tmp/cwe476_findings_7cdRXf
+
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "binary_if",
+  "severity": "error",
+  "rule": "nullPointer",
+  "file": "bad_binary_if_flow02.c",
+  "line": 22,
+  "col": 33,
+  "varname": "ptr",
+  "note": {
+    "line": 19,
+    "col": 9,
+    "message": "Assignment 'ptr=NULL', assigned value is 0"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 1
+ Warnings       : 0
+
+ Breakdown by detector:
+   binary_if                 1
+========================================
