@@ -1,120 +1,154 @@
-# CWE476 variant coverage
+# CWE-476 variant coverage
 
-## Sink types (the smell pattern)
+## Sink types
 
-| Sink | Description | Covered |
+Each sink type is a distinct structural smell pattern. One detector covers each.
+
+| Sink | Description | Detector | Severity | Status |
+|---|---|---|---|---|
+| `binary_if` | `&` instead of `&&` in null-check condition | 1 | error | covered |
+| `interprocedural` | NULL passed to callee that dereferences without guard | 2 | error / warning | covered |
+| `null_deref` | `ptr = NULL` then `ptr->field` or `ptr[idx]`, no guard | 3 | error | covered |
+| `missing_guard` | unguarded `->` or `[]` dereference, no null check in function | 4 | warning | covered |
+| `deref_after_check` | `if(ptr == NULL) { *ptr }` — deref inside null-confirmed branch | 5 | error | covered |
+| `check_after_deref` | `*ptr` then `if(ptr != NULL)` — guard placed after dereference | 6 | warning | covered |
+
+---
+
+## Flow variants
+
+The flow variant number in Juliet filenames describes how the flaw is
+wrapped in the function. The inner smell pattern is identical across all
+variants — the structural query (`CONTAINS`, `FOLLOWED BY`) handles
+arbitrary nesting depth without query changes.
+
+| Variant | Outer wrapper | Representative test | Status |
+|---|---|---|---|
+| 01 | none — baseline | `bad_binary_if_01.c` | tested |
+| 02 | `if(1)` — literal true | `bad_binary_if_flow02.c` | tested |
+| 03 | `if(5==5)` — constant expression | — | passes (same as 02) |
+| 04 | `if(STATIC_CONST_TRUE)` — static const macro | — | passes (same as 02) |
+| 05–06 | `if(staticTrue)` / `if(staticFalse)` — static variable | `bad_binary_if_flow05.c` | tested |
+| 07–08 | `if(staticFive==5)` / `if(staticReturnsTrue())` | — | passes (CONTAINS depth-agnostic) |
+| 09–14 | `if(globalTrue/False/Func())` — global variable or function | `bad_binary_if_flow11.c` | tested |
+| 15 | `switch(6) case 6:` | — | passes |
+| 16 | `while(1) { ... break; }` | — | passes |
+| 17 | `for(j=0; j<1; j++)` | — | passes |
+| 18 | `goto sink:` | — | passes |
+
+---
+
+## binary_if — Detector 1
+
+| Representative file | Wrapper | Status |
 |---|---|---|
-| `binary_if` | `&` instead of `&&` in null-check condition | yes |
-| `deref_after_check` | pointer checked safely but dereferenced outside check | no |
-| `deref_no_check` | pointer dereferenced with no null check at all | no |
-| `check_after_deref` | null check appears after the dereference | no |
+| `binary_if/bad_binary_if_01.c` | none | tested |
+| `binary_if/bad_binary_if_flow02.c` | `if(1)` | tested |
+| `binary_if/bad_binary_if_flow05.c` | `if(staticTrue)` — two bad functions | tested |
+| `binary_if/bad_binary_if_flow11.c` | `if(globalReturnsTrueOrFalse())` — mixed `&` and `&&` in same function | tested |
+| `binary_if/good_binary_if_01.c` | — | clean (no false positive) |
 
-## Flow variants (how NULL reaches the sink)
+---
 
-The flow variant number in the Juliet filename describes how NULL is
-assigned to the pointer before it reaches the sink. The `binary_if`
-sink pattern is identical across all flow variants — the detector does
-not need to change to handle them.
+## interprocedural — Detector 2
 
-| Variant range | Flow mechanism |
-|---|---|
-| 01 | direct assignment in same function |
-| 02 | global variable |
-| 03–04 | `if(true)` / `if(false)` wrapping |
-| 05–06 | `if(static_const)` wrapping |
-| 07–10 | `if(rand())` control flow |
-| 11–14 | `if(globalTrue)` / `if(globalFalse)` |
-| 15–18 | `switch` statement wrapping |
-| 21–23 | assignment via separate function call |
-| 31–45 | inter-procedural via various patterns |
-| 51–54 | multi-file inter-procedural |
+### Severity taxonomy
 
-
-| flow variant | wrapper | query change needed | status |
+| Finding | Source | Severity | Rule |
 |---|---|---|---|
-| 01 | none — baseline | — | tested |
-| 02 | if(1){} | none — CONTAINS handles nesting | tested |
-| 03 | if(5==5){} | none | tested, passes |
-| 05 | if(true){} | none | to test |
-| 06 | if(STATIC_CONST){} | none | to test |
+| Callee dereferences param with no internal null check | Pass 1 | warning | missingNullCheck |
+| Caller passes NULL to unsafe callee | Pass 2a | error | nullPointer |
+| Caller passes unguarded ptr to unsafe callee | Pass 2b | warning | missingNullCheck |
+| Caller guards before passing (`if(ptr!=NULL){callee(ptr)}`) | excluded | — | — |
 
-| variant range | wrapper type | representative test | status |
-|---|---|---|---|
-| 01 | none — baseline | bad_binary_if.c | tested |
-| 02-04 | if(constant literal) | bad_binary_if_flow02.c | tested |
-| 05-06 | if(staticVar) — never reassigned | bad_binary_if_flow05.c | tested |
-| 07-10 | if(rand()) — runtime condition | bad_binary_if_flow07.c | to test |
-| 11-18 | if(globalVar) | bad_binary_if_flow11.c | tested |
-| 21-54 | inter-procedural | bad_interprocedural.c | tested |
+### Single-file test cases
 
-## Known gap
-
-Variants 51–54 (multi-file inter-procedural) span multiple `.c` files.
-The current pipeline processes one file at a time. Running srcslice
-on a srcML archive containing all files would be required to detect
-these variants.
-
-## char variant coverage
-
-| variant range | wrapper | representative test | status |
-|---|---|---|---|
-| 01 | none — baseline | bad_char_01.c | tested |
-| 02 | if(1) | bad_char_01.c | tested — CONTAINS handles nesting |
-| 03 | if(5==5) | bad_char_01.c | tested — CONTAINS handles nesting |
-
-
-## char declaration pattern coverage
-
-| pattern | style | query | status |
-|---|---|---|---|
-| char *data = NULL; data[0] | initializer | $TYPE $PTR = NULL FOLLOWED BY $PTR[$IDX] | tested |
-| char *data; data = NULL; data[0] | separate assignment | $PTR = NULL FOLLOWED BY $PTR[$IDX] | tested |
-| twoIntsStruct *ptr = NULL; ptr->field | initializer | $TYPE * $PTR = NULL FOLLOWED BY $PTR->$FIELD | tested |
-| twoIntsStruct *ptr; ptr = NULL; ptr->field | separate assignment | $PT * $PTR = NULL FOLLOWED BY $PTR->$FIELD | tested |
-
-Both patterns are covered by UNION in detect_null_deref.sh.
-
-All three use the same sink pattern — data[0] with no null guard.
-The wrapper depth is irrelevant to detection.
-Detector 3 null_deref array index query handles all three.
-```
-
-Now update `run_tests.sh` to also cover the `bad_char_01.c` smell and good cases separately since they are three different functions in one file. The current `run_case` function tests the whole file — split into three separate test files for clarity:
-```
-tests/CWE476/char/
-├── bad_char_01.c      — bad_char_null_deref() — expect error [null_deref]
-├── smell_char_01.c    — smell_char_no_guard()  — expect warning [missing_guard]
-└── good_char_01.c     — good_char_guarded()    — expect clean
-
-## interprocedural severity taxonomy
-
-| finding | source | severity | rule |
-|---|---|---|---|
-| callee dereferences param, no internal null check | Pass 1 | warning | missingNullCheck |
-| caller passes NULL to unsafe callee | Pass 2a | error | nullPointer |
-| caller passes unguarded ptr to unsafe callee | Pass 2b | warning | missingNullCheck |
-| caller guards before passing (if(ptr!=NULL){callee(ptr)}) | excluded | — | — |
-
-## interprocedural test cases
-| file | dereference | expected findings |
+| File | Dereference | Expected findings |
 |---|---|---|
-| bad_interprocedural_01.c | ptr->field | callee smell + caller warning |
-| good_interprocedural_01.c | ptr->field | callee smell only |
-| bad_char_interprocedural_01.c | ptr[idx] | callee smell + error + warning |
+| `interprocedural/bad_interprocedural_01.c` | `ptr->field` | callee smell + caller warning |
+| `interprocedural/good_interprocedural_01.c` | `ptr->field` | callee smell only |
+| `interprocedural/bad_char_interprocedural_01.c` | `ptr[idx]` | callee smell + error + warning |
 
-## multi-file variant coverage
+### Multi-file test cases
 
-| variant | files | pipeline | status |
+| Variant | Files | Pipeline | Status |
 |---|---|---|---|
-| char_22 | 22a.c + 22b.c | smell_report_multi.sh | tested |
-| char_51 | 51a.c + 51b.c | smell_report_multi.sh | to test |
-| char_52 | 52a+b+c.c | smell_report_multi.sh | to test |
-| char_53 | 53a+b+c+d.c | smell_report_multi.sh | to test |
-| char_54 | 54a+b+c+d+e.c | smell_report_multi.sh | to test |
+| char_22 | `bad_char_interprocedural_22a.c` + `22b.c` | `smell_report_multi.sh` | tested |
+| char_51–54 | 3–5 file chains | `smell_report_multi.sh` | not tested |
 
-## Key finding
-srcML can combine multiple source files into one archive.
-srcslice tracks data flow across file boundaries in the combined archive.
-The interprocedural detector works without modification on the combined XML.
-The only infrastructure change is smell_report_multi.sh which accepts
-multiple source files and combines them before running the pipeline.
+---
+
+## null_deref — Detector 3
+
+### Declaration pattern coverage
+
+| Pattern | Style | Status |
+|---|---|---|
+| `twoIntsStruct *ptr = NULL; ptr->field` | initializer + `->` | tested |
+| `twoIntsStruct *ptr; ptr = NULL; ptr->field` | separate assignment + `->` | tested |
+| `char *data = NULL; data[0]` | initializer + `[]` | tested |
+| `char *data; data = NULL; data[0]` | separate assignment + `[]` | tested |
+
+Both patterns in each group are covered by `UNION` in `detect_null_deref.sh`.
+
+### Test cases
+
+| File | Pattern | Status |
+|---|---|---|
+| `deref_no_check/bad_null_deref_01.c` | `->` struct member | tested |
+| `deref_no_check/good_guarded_01.c` | guarded `->` | clean (no false positive) |
+| `char/bad_char_01.c` | `[]` initializer style | tested |
+| `char/bad_char_01b.c` | `[]` assignment style | tested |
+| `char/good_char_01.c` | guarded `[]` | clean (no false positive) |
+
+---
+
+## missing_guard — Detector 4
+
+### Test cases
+
+| File | Pattern | Status |
+|---|---|---|
+| `deref_no_check/smell_no_guard_01.c` | `ptr=&local` then `ptr->field`, no guard | tested |
+| `char/smell_char_01b.c` | `data=NULL` then `data[0]`, no guard | tested |
+| `char/smell_char_01.c` | `char *data = "Good"` then `data[0]` | **false negative** — string literal init not matched |
+
+---
+
+## deref_after_check — Detector 5
+
+| File | Pattern | Status |
+|---|---|---|
+| `after_check/bad_deref_after_check_01.c` | `if(ptr == NULL) { *ptr }` — baseline | tested |
+
+Flow variants 01–18 from Juliet (`deref_after_check_01.c` – `18.c`) all share
+the same inner `if(ptr == NULL) { *ptr }` pattern. The outer wrapper is
+irrelevant — `CONTAINS` is depth-agnostic. The Juliet originals remain in the
+folder as reference; only the minimal case is actively tested.
+
+---
+
+## check_after_deref — Detector 6
+
+| File | Pattern | Status |
+|---|---|---|
+| `check_after_deref/bad_check_after_deref_01.c` | `*ptr` then `if(ptr != NULL)` — baseline | tested |
+
+Flow variants 01–18 from Juliet (`null_check_after_deref_01.c` – `18.c`) all
+share the same core pattern. The outer wrapper is irrelevant. The Juliet
+originals remain in the folder as reference.
+
+---
+
+## NULL propagation coverage (struct variants)
+
+| Juliet variant | Propagation mechanism | Detected | Severity | Notes |
+|---|---|---|---|---|
+| 01–18 | Direct: `data = NULL; data->field` | yes | error | `null_deref` |
+| 21 | Via static flag + function call | yes | error / warning | `interprocedural` |
+| 22a/b | Via global + function call (multi-file) | yes | error / warning | `interprocedural` multi-file |
+| 31 | Via local copy: `dataCopy = data` | partial | warning only | `missing_guard` fires; `null_deref` misses |
+| 32 | Via pointer-to-pointer: `*dataPtr = NULL` | no | — | complete false negative |
+| 34 | Via union aliasing | partial | warning only | `missing_guard` fires; `null_deref` misses |
+| 41–45 | Via function / function pointer | yes | error / warning | `interprocedural` |
+| 51–68 | Multi-file argument chains | partial | — | not fully tested |
