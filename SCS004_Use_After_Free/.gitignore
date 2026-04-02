@@ -1,0 +1,7 @@
+# Pipeline intermediates
+testsuites/**/*.xml
+testsuites/**/*.json
+testsuites/**/combined.*
+
+# Generated results
+results/
