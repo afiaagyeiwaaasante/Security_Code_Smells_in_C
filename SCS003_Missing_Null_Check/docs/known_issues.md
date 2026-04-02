@@ -17,17 +17,37 @@ only `-i` (JSON) and `-o` (XML). The main branch documentation shows
 a two-positional-argument form. Use the `-i` / `-o` flag form until
 the new release is tagged.
 
-## Multi-file variants not supported
+## Multi-file variants — partial support
 
-Juliet variants 51–54 distribute the flaw across multiple files
-(54a.c calls 54b.c etc.). The current pipeline handles single-file
-cases only.
+Basic cross-file interprocedural analysis is supported via
+`smell_report_multi.sh`, which combines multiple source files into a
+single srcML archive before running detectors. Juliet variant 22
+(two-file caller/callee split) is tested and passing.
+
+Variants 51–54 involve longer call chains distributed across three or
+more files. These are not tested and may produce incomplete results
+depending on how srcQL resolves cross-unit references in the combined
+archive.
 
 ## False negative: NULL assigned via function return
 
 If NULL reaches the pointer via a function return rather than direct
 assignment, srcslice may not produce a `slice:use` link on the
 condition expression, and the detector will miss it.
+
+## False negative: missing_guard does not fire on string literal init
+
+When a `char *` pointer is initialised with a string literal
+(`char *data = "Good"`), `detect_missing_guard` does not fire even
+though `data` is later dereferenced without a null check. srcQL does
+not model string literal assignment as a potential null source, so the
+query finds no match. The assignment-style form (`data = "Good"` as a
+separate statement after declaration) has the same limitation.
+
+Use the explicit `NULL`-assignment form (`char *data = NULL; data = ...`)
+to exercise the `null_deref` detector reliably.
+Test case: `testsuites/CWE476/char/smell_char_01.c` (false negative),
+           `testsuites/CWE476/char/smell_char_01b.c` (detected correctly)
 
 ## NULL propagation via local copy (Juliet variant 31)
 
