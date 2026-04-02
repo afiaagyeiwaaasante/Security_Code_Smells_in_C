@@ -2,122 +2,148 @@
 
 ## Description
 
-A **Missing Null Check** occurs when a pointer variable is dereferenced without first verifying that it is not `NULL`. This is classified as **CWE-476: NULL Pointer Dereference** and can lead to program crashes, denial of service, or exploitable memory corruption.
+A **Missing Null Check** occurs when a pointer is dereferenced without first
+verifying that it is not `NULL`. This is classified as **CWE-476: NULL Pointer
+Dereference** and can lead to program crashes, denial of service, or exploitable
+memory corruption.
+
+This detector uses a three-stage static analysis pipeline (srcml → srcslice →
+srcattributor) followed by six structural detectors built with srcQL and xmllint.
 
 ---
 
-## Test Suite Scenarios
+## Detectors
 
-The Juliet Test Suite provides multiple flow variants for CWE-476:
+| # | Detector | Pattern | Severity |
+|---|---|---|---|
+| 1 | `binary_if` | `&` instead of `&&` in null-check condition | error |
+| 2 | `interprocedural` | callee dereferences param; caller passes NULL or unguarded ptr | error / warning |
+| 3 | `null_deref` | `ptr = NULL` then `ptr->field` or `ptr[idx]`, no guard | error |
+| 4 | `missing_guard` | unguarded `->` or `[]` dereference, no null check in function | warning |
+| 5 | `deref_after_check` | `if(ptr == NULL) { *ptr }` — deref inside null-confirmed branch | error |
+| 6 | `check_after_deref` | `*ptr` then `if(ptr != NULL)` — guard placed after dereference | warning |
 
-| Scenario               | Description                  | Status         |
-|:-----------------------|:-----------------------------|:---------------|
-| `binary_if`            | Single `&` in if condition   | ✅ Implemented |
-| `char`                 | Null pointer via char type   | 🔲 Planned   |
-| `int`                  | Null pointer via int type    | 🔲 Planned   |
-| `long`                 | Null pointer via long type   | 🔲 Planned   |
-| `struct`               | Null pointer via struct type | 🔲 Planned   |
-| `twointsstructpointer` | Null via struct pointer      | 🔲 Planned   |
-| 'deref_after_check'    | Dereference after check      | 🔲 Planned   |
-| 'deref_no_check'       | Dereference with no check    | 🔲 Planned   |
+---
 
+## Quick start
 
-## Security Smell Pattern
+```bash
+# Single file
+bash src/smell_report.sh testsuites/CWE476/binary_if/bad_binary_if_01.c
 
-Detects the `binary_if` variant of CWE-476 where a bitwise AND (`&`) is used instead of logical AND (`&&`) in a null-check condition, causing unconditional pointer dereference.
+# Multi-file (cross-file interprocedural)
+bash src/smell_report_multi.sh \
+    testsuites/CWE476/interprocedural/bad_char_interprocedural_22a.c \
+    testsuites/CWE476/interprocedural/bad_char_interprocedural_22b.c
 
-## What it detects
-```c
-// BAD — & does not short-circuit, ptr->intOne always evaluated
-if ((ptr != NULL) & (ptr->intOne == 5))
-
-// GOOD — && short-circuits, safe
-if ((ptr != NULL) && (ptr->intOne == 5))
+# Run full test suite
+cd testsuites/CWE476 && bash run_test.sh
 ```
 
+Output is written to `results/<category>/` automatically.
 
 ---
 
-## Detection Rule
+## Example output
 
-| Rule | Check | Description |
-|------|-------|-------------|
-| Rule 1 | `type contains "*"` | Variable is a pointer |
-| Rule 2 | `dependence == []` | No null check dependency |
-| Rule 3 | `use line exists` | Pointer is actually used |
-| Rule 4 | `function contains known sink` | In a vulnerable function context |
+```
+========================================
+ CWE-476 NULL Pointer Dereference Detector
+ Source  : bad_binary_if_01.c
+ Report  : results/binary_if/bad_binary_if_01_report_<ts>.txt
+ Findings: results/binary_if/bad_binary_if_01_findings_<ts>.json
+========================================
+...
+{
+  "detector": "binary_if",
+  "severity": "error",
+  "rule": "nullPointer",
+  "file": "bad_binary_if_01.c",
+  "line": 22,
+  "col": 29,
+  "varname": "ptr",
+  "note": {
+    "line": 19,
+    "col": 5,
+    "message": "Assignment 'ptr=NULL', assigned value is 0"
+  }
+}
 
-### XPath Sink Confirmation
+ Total findings : 1
+ Errors         : 1
+ Warnings       : 0
 
-| Check | XPath | Description |
-|-------|-------|-------------|
-| Check 1 | `//src:if_stmt[@pos:start[starts-with(.,'LINE:')]]` | if_stmt at use line |
-| Check 2 | `//src:if_stmt//src:operator[.='&']` | Bitwise & operator |
-| Check 3 | `//src:if_stmt//src:operator[.='->']` | Pointer dereference |
-
+ Breakdown by detector:
+   binary_if                 1
+```
 
 ---
 
-## Folder Structure
+## Folder structure
 
 ```
 SCS003_Missing_Null_Check/
 │
-├── README.md                    ← this file
-├── DETECTION_RULE.md            ← formal detection rule
+├── README.md
 │
-├── testsuites/                  ← Juliet C test files
+├── src/
+│   ├── smell_report.sh          ← single-file entry point
+│   ├── smell_report_multi.sh    ← multi-file entry point
+│   ├── pipeline.sh              ← stages 1–3 (srcml → srcslice → srcattributor)
+│   ├── report.sh                ← cppcheck-style report formatter
+│   ├── detectors/
+│   │   ├── detect_binary_if.sh
+│   │   ├── detect_interprocedural.sh
+│   │   ├── detect_null_deref.sh
+│   │   ├── detect_missing_guard.sh
+│   │   ├── detect_deref_after_check.sh
+│   │   └── detect_check_after_deref.sh
+│   └── lib/
+│       └── write_finding.sh     ← shared JSON finding writer
+│
+├── testsuites/
+│   └── CWE476/
+│       ├── run_test.sh          ← test suite (25 cases, all passing)
+│       ├── binary_if/           ← Detector 1 test cases
+│       ├── interprocedural/     ← Detector 2 test cases
+│       ├── deref_no_check/      ← Detectors 3 & 4 test cases
+│       ├── char/                ← Detectors 3 & 4 (array index)
+│       ├── after_check/         ← Detector 5 test cases
+│       ├── check_after_deref/   ← Detector 6 test cases
+│       ├── struct/              ← NULL propagation variant test cases
+│       └── testsuitesupport/    ← Juliet shared headers
+│
+├── results/                     ← generated reports and findings (by category)
 │   ├── binary_if/
 │   ├── char/
-│   └── ...
+│   ├── deref_no_check/
+│   ├── interprocedural/
+│   ├── after_check/
+│   ├── check_after_deref/
+│   └── struct/
 │
-├── data/
-│   ├── XMLFile/                 ← srcML XML files
-│   ├── SliceFile/               ← srcSlice JSON files
-│   └── AttributeFile/           ← annotated XML files
-│
-├── results/                     ← extracted sink elements
-│   └── binary_if/
-│
-├── reports/                     ← JSON detection reports
-│   └── SCS003_Missing_Null_Check/
-│
-└── src/                         ← detection scripts
-    ├── pipeline.py
-    ├── step1_detect.py
-    ├── step2_locate.py
-    ├── step3_annotate.py
-    └── utils.py
+└── docs/
+    ├── pipeline.md              ← pipeline architecture and detector queries
+    ├── variants.md              ← Juliet variant coverage and test status
+    └── known_issues.md          ← false negatives and limitations
 ```
 
 ---
 
-## Running the Pipeline
+## Requirements
 
-```bash
-# Step 1: Convert C to XML
-srcml --position --hash testsuites/binary_if/<file>.c \
-    -o data/XMLFile/<file>.xml
-
-# Step 2: Run srcSlice
-srcslice data/XMLFile/<file>.xml \
-    -o data/SliceFile/<file>.json
-
-# Step 3: Run full detection pipeline
-cd src/
-python3 pipeline.py \
-    ../data/SliceFile/<file>.json \
-    ../data/XMLFile/<file>.xml \
-    ../data/AttributeFile/<file>_annotated.xml
-```
+- `srcml` — srcML toolkit
+- `srcslice` — data-flow slice analysis
+- `srcattributor` — merges slice data into srcML XML
+- `xmllint` — XPath extraction from XML
+- `python3` — summary report generation
 
 ---
 
-## Output Files
+## Documentation
 
-| File | Location | Description |
-|------|----------|-------------|
-| `*_annotated.xml` | `data/AttributeFile/` | Full XML with `sec:smell` attribute |
-| `*_sink_element.xml` | `results/` | Extracted sink `if_stmt` element |
-| `*_sink_report.json` | `reports/SCS003_Missing_Null_Check/` | JSON detection report |
-| `*_findings.json` | `data/SliceFile/` | Intermediate findings from Step 1 |
+| Doc | Contents |
+|---|---|
+| `docs/pipeline.md` | Three-stage pipeline, all 6 detector queries explained |
+| `docs/variants.md` | Juliet variant coverage by detector and flow type |
+| `docs/known_issues.md` | Known false negatives and tool limitations |
