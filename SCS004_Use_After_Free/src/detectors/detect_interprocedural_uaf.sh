@@ -12,11 +12,13 @@
 #
 # Two-pass strategy:
 #
-#   Pass 1 — find unsafe callees (two sub-queries, results combined):
+#   Pass 1 — find unsafe callees (three sub-queries, results combined):
 #     1a. FIND $RT $FNAME($PT * $PTR) {} CONTAINS free($PTR)
 #         C malloc/free variants — pointer parameter unconditionally freed.
 #     1b. FIND $RT $FNAME($PT * $PTR) {} CONTAINS delete[] $PTR
-#         C++ new[]/delete[] variants — pointer (or reference) parameter deleted.
+#         C++ new[]/delete[] variants — array pointer (or reference) parameter deleted.
+#     1c. FIND $RT $FNAME($PT * $PTR) {} CONTAINS delete $PTR
+#         C++ new/delete variants — scalar pointer (or reference) parameter deleted.
 #     Emits one warning per callee.
 #
 #   Pass 2 — find callers that use ptr after calling unsafe callee:
@@ -48,7 +50,8 @@ FOUND_COUNT=0
 echo "--- Pass 1: finding unsafe callees ---"
 
 PASS1_FREE_QUERY='FIND $RT $FNAME($PT * $PTR) {} CONTAINS free($PTR)'
-PASS1_DELETE_QUERY='FIND $RT $FNAME($PT * $PTR) {} CONTAINS delete[] $PTR'
+PASS1_DELETE_ARRAY_QUERY='FIND $RT $FNAME($PT * $PTR) {} CONTAINS delete[] $PTR'
+PASS1_DELETE_QUERY='FIND $RT $FNAME($PT * $PTR) {} CONTAINS delete $PTR'
 
 _get_callees() {
     local query="$1"
@@ -60,15 +63,18 @@ _get_callees() {
 }
 
 { time {
-    CALLEES_FREE=$(  _get_callees "$PASS1_FREE_QUERY")
-    CALLEES_DELETE=$(_get_callees "$PASS1_DELETE_QUERY")
-    UNSAFE_CALLEES=$(printf '%s\n%s\n' "$CALLEES_FREE" "$CALLEES_DELETE" \
+    CALLEES_FREE=$(        _get_callees "$PASS1_FREE_QUERY")
+    CALLEES_DELETE_ARRAY=$(_get_callees "$PASS1_DELETE_ARRAY_QUERY")
+    CALLEES_DELETE=$(      _get_callees "$PASS1_DELETE_QUERY")
+    UNSAFE_CALLEES=$(printf '%s\n%s\n%s\n' \
+        "$CALLEES_FREE" "$CALLEES_DELETE_ARRAY" "$CALLEES_DELETE" \
         | sort -u | grep -v '^$' || true)
 }; } 2>&1
 echo
 
-echo "    1a (free)    : $(echo "$CALLEES_FREE"   | grep -c . || echo 0) callee(s)"
-echo "    1b (delete[]): $(echo "$CALLEES_DELETE" | grep -c . || echo 0) callee(s)"
+echo "    1a (free)    : $(echo "$CALLEES_FREE"         | grep -c . || echo 0) callee(s)"
+echo "    1b (delete[]): $(echo "$CALLEES_DELETE_ARRAY" | grep -c . || echo 0) callee(s)"
+echo "    1c (delete)  : $(echo "$CALLEES_DELETE"       | grep -c . || echo 0) callee(s)"
 echo
 
 if [ -z "$UNSAFE_CALLEES" ]; then
