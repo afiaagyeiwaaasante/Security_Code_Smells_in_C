@@ -45,4 +45,21 @@ void printStructLine(const twoIntsStruct *s) {
     if (s != NULL) { printf("%d %d\n", s->intOne, s->intTwo); }
 }
 
+/* Value-accepting helpers — used to demonstrate use-after-free
+   via dereferenced pointer: delete ptr; printIntLine(*ptr) */
+void printIntLine(int val)           { printf("%d\n", val); }
+void printLongLongLine(long long val){ printf("%lld\n", val); }
+void printLongLine(long val)         { printf("%ld\n", val); }
+void printWcharLine(wchar_t val)     { wprintf(L"%lc\n", val); }
+
+/* C++ class used by new_delete_class test cases */
+#ifdef __cplusplus
+class TwoIntsClass {
+public:
+    int intOne;
+    int intTwo;
+    TwoIntsClass() : intOne(0), intTwo(0) {}
+};
+#endif
+
 #endif /* STD_TESTCASE_H */

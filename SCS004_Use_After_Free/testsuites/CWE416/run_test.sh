@@ -111,6 +111,30 @@ echo
 # ---------------------------------------------------------------------------
 # Detector 5 — return_freed_ptr
 # ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# Detector 6 — new_delete_uaf (scalar new/delete)
+# ---------------------------------------------------------------------------
+echo "--- Detector 6: new_delete_uaf ---"
+run_bad  "bad_new_delete_char_01"    "$SCRIPT_DIR/new_delete_char/bad_new_delete_char_01.cpp"
+run_good "good_new_delete_char_01"   "$SCRIPT_DIR/new_delete_char/good_new_delete_char_01.cpp"
+run_bad  "bad_new_delete_int_01"     "$SCRIPT_DIR/new_delete_int/bad_new_delete_int_01.cpp"
+run_good "good_new_delete_int_01"    "$SCRIPT_DIR/new_delete_int/good_new_delete_int_01.cpp"
+run_bad  "bad_new_delete_int64_01"   "$SCRIPT_DIR/new_delete_int64_t/bad_new_delete_int64_01.cpp"
+run_good "good_new_delete_int64_01"  "$SCRIPT_DIR/new_delete_int64_t/good_new_delete_int64_01.cpp"
+run_bad  "bad_new_delete_long_01"    "$SCRIPT_DIR/new_delete_long/bad_new_delete_long_01.cpp"
+run_good "good_new_delete_long_01"   "$SCRIPT_DIR/new_delete_long/good_new_delete_long_01.cpp"
+run_bad  "bad_new_delete_wchar_01"   "$SCRIPT_DIR/new_delete_wchar_t/bad_new_delete_wchar_01.cpp"
+run_good "good_new_delete_wchar_01"  "$SCRIPT_DIR/new_delete_wchar_t/good_new_delete_wchar_01.cpp"
+run_bad  "bad_new_delete_struct_01"  "$SCRIPT_DIR/new_delete_struct/bad_new_delete_struct_01.cpp"
+run_good "good_new_delete_struct_01" "$SCRIPT_DIR/new_delete_struct/good_new_delete_struct_01.cpp"
+run_bad  "bad_new_delete_class_01"   "$SCRIPT_DIR/new_delete_class/bad_new_delete_class_01.cpp"
+run_good "good_new_delete_class_01"  "$SCRIPT_DIR/new_delete_class/good_new_delete_class_01.cpp"
+
+echo
+
+# ---------------------------------------------------------------------------
+# Detector 5 — return_freed_ptr
+# ---------------------------------------------------------------------------
 echo "--- Detector 5: return_freed_ptr ---"
 run_bad  "bad_return_freed_ptr_01"   "$SCRIPT_DIR/freed_pointer/bad_return_freed_ptr_01.c"
 run_good "good_return_freed_ptr_01"  "$SCRIPT_DIR/freed_pointer/good_return_freed_ptr_01.c"

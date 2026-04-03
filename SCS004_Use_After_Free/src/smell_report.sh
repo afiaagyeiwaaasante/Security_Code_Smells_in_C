@@ -59,6 +59,7 @@ FINDINGS=$(mktemp /tmp/cwe416_findings_XXXXXX)
     bash "$DETECTORS_DIR/detect_delete_array_uaf.sh"      "$XML" "$SRC" "$FINDINGS"
     bash "$DETECTORS_DIR/detect_double_free.sh"            "$XML" "$SRC" "$FINDINGS"
     bash "$DETECTORS_DIR/detect_return_freed_ptr.sh"       "$XML" "$SRC" "$FINDINGS"
+    bash "$DETECTORS_DIR/detect_new_delete_uaf.sh"         "$XML" "$SRC" "$FINDINGS"
     # bash "$DETECTORS_DIR/detect_interprocedural_uaf.sh"  "$XML" "$SRC" "$FINDINGS"
 
     # Save findings
