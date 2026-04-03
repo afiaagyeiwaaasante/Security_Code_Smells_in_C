@@ -3,18 +3,20 @@
 #
 # Detector 3: interprocedural_uaf (two-pass)
 #
-# Detects: a pointer is freed inside a callee that received it as a parameter;
+# Detects: a pointer is deallocated inside a callee that received it as a parameter;
 #           the caller then uses the pointer after the call returns.
 #
 # Severity:
-#   warning [useAfterFree] — callee frees its pointer parameter (smell in callee)
+#   warning [useAfterFree] — callee deallocates its pointer parameter (smell in callee)
 #   error   [useAfterFree] — caller uses pointer after calling the unsafe callee
 #
 # Two-pass strategy:
 #
-#   Pass 1 — find unsafe callees:
-#     FIND $RT $FNAME($PT * $PTR) {} CONTAINS free($PTR)
-#     A function that takes a pointer parameter and unconditionally frees it.
+#   Pass 1 — find unsafe callees (two sub-queries, results combined):
+#     1a. FIND $RT $FNAME($PT * $PTR) {} CONTAINS free($PTR)
+#         C malloc/free variants — pointer parameter unconditionally freed.
+#     1b. FIND $RT $FNAME($PT * $PTR) {} CONTAINS delete[] $PTR
+#         C++ new[]/delete[] variants — pointer (or reference) parameter deleted.
 #     Emits one warning per callee.
 #
 #   Pass 2 — find callers that use ptr after calling unsafe callee:
@@ -40,20 +42,33 @@ echo
 FOUND_COUNT=0
 
 # -----------------------------------------------------------------------
-# Pass 1 — find unsafe callees: functions that free a pointer parameter
+# Pass 1 — find unsafe callees: functions that deallocate a pointer parameter
+#           Sub-query 1a: free()   Sub-query 1b: delete[]
 # -----------------------------------------------------------------------
 echo "--- Pass 1: finding unsafe callees ---"
 
-PASS1_QUERY='FIND $RT $FNAME($PT * $PTR) {} CONTAINS free($PTR)'
+PASS1_FREE_QUERY='FIND $RT $FNAME($PT * $PTR) {} CONTAINS free($PTR)'
+PASS1_DELETE_QUERY='FIND $RT $FNAME($PT * $PTR) {} CONTAINS delete[] $PTR'
 
-{ time {
-    UNSAFE_CALLEES=$(srcml "$XML" \
-        --srcql "$PASS1_QUERY" -q \
+_get_callees() {
+    local query="$1"
+    srcml "$XML" --srcql "$query" -q \
         | xmllint --xpath \
             '//*[local-name()="function"]/*[local-name()="name"]' \
             - 2>/dev/null \
-        | sed 's/<[^>]*>//g' | grep -v '^$' || true)
+        | sed 's/<[^>]*>//g' | grep -v '^$' || true
+}
+
+{ time {
+    CALLEES_FREE=$(  _get_callees "$PASS1_FREE_QUERY")
+    CALLEES_DELETE=$(_get_callees "$PASS1_DELETE_QUERY")
+    UNSAFE_CALLEES=$(printf '%s\n%s\n' "$CALLEES_FREE" "$CALLEES_DELETE" \
+        | sort -u | grep -v '^$' || true)
 }; } 2>&1
+echo
+
+echo "    1a (free)    : $(echo "$CALLEES_FREE"   | grep -c . || echo 0) callee(s)"
+echo "    1b (delete[]): $(echo "$CALLEES_DELETE" | grep -c . || echo 0) callee(s)"
 echo
 
 if [ -z "$UNSAFE_CALLEES" ]; then
@@ -103,7 +118,7 @@ while IFS= read -r CALLEE; do
         --varname   "$PARAM_NAME" \
         --note-line "$CALLEE_LINE" \
         --note-col  "$CALLEE_COL" \
-        --note-msg  "Callee '${CALLEE}' frees pointer parameter '${PARAM_NAME}'"
+        --note-msg  "Callee '${CALLEE}' deallocates pointer parameter '${PARAM_NAME}'"
 
     FOUND_COUNT=$((FOUND_COUNT + 1))
     echo "    warning: ${CALLEE_FILE}:${CALLEE_LINE}:${CALLEE_COL} — ${CALLEE} frees parameter ${PARAM_NAME}"

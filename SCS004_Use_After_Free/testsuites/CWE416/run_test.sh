@@ -121,6 +121,9 @@ echo "--- Detector 3: interprocedural_uaf ---"
 run_multi_bad "bad_interprocedural_uaf_long_22" \
     "$SCRIPT_DIR/interprocedural/bad_interprocedural_uaf_long_22a.c" \
     "$SCRIPT_DIR/interprocedural/bad_interprocedural_uaf_long_22b.c"
+run_multi_bad "bad_interprocedural_delete_array_char_62" \
+    "$SCRIPT_DIR/interprocedural/bad_interprocedural_delete_array_char_62a.cpp" \
+    "$SCRIPT_DIR/interprocedural/bad_interprocedural_delete_array_char_62b.cpp"
 
 echo
 
