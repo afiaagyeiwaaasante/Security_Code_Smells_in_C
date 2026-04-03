@@ -108,6 +108,18 @@ echo
 # ---------------------------------------------------------------------------
 # Detector 2 — double_free
 # ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# Detector 5 — return_freed_ptr
+# ---------------------------------------------------------------------------
+echo "--- Detector 5: return_freed_ptr ---"
+run_bad  "bad_return_freed_ptr_01"   "$SCRIPT_DIR/freed_pointer/bad_return_freed_ptr_01.c"
+run_good "good_return_freed_ptr_01"  "$SCRIPT_DIR/freed_pointer/good_return_freed_ptr_01.c"
+
+echo
+
+# ---------------------------------------------------------------------------
+# Detector 2 — double_free
+# ---------------------------------------------------------------------------
 echo "--- Detector 2: double_free ---"
 run_bad  "bad_double_free_01"        "$SCRIPT_DIR/char/bad_double_free_01.c"
 run_good "good_double_free_01"       "$SCRIPT_DIR/char/good_double_free_01.c"
