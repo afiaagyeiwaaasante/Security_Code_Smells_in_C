@@ -135,35 +135,34 @@ echo
 
 # -----------------------------------------------------------------------
 # Pass 2 — find callers that use ptr after calling an unsafe callee
+#   2a: $CALL($PTR)          bare pointer or dereference (*ptr)
+#   2b: $CALL($PTR->$FIELD)  member access (class/struct)
 # -----------------------------------------------------------------------
 echo "--- Pass 2: finding callers that use ptr after unsafe call ---"
 
-while IFS= read -r CALLEE; do
-    [ -z "$CALLEE" ] && continue
+# Helper: run one Pass 2 query variant for a given callee; emit finding if matched.
+_run_pass2() {
+    local CALLEE="$1"
+    local QUERY="$2"
+    local TMPRESULT="$3"
 
-    PASS2_QUERY="FIND \$RT \$CALLER() {} CONTAINS ${CALLEE}(\$PTR) FOLLOWED BY \$CALL(\$PTR)"
-
-    TMPRESULT=$(mktemp /tmp/uaf_iproc_XXXXXX)
-    trap "rm -f $TMPRESULT" RETURN
-
-    { time srcml "$XML" --srcql "$PASS2_QUERY" -q > "$TMPRESULT"; } 2>&1
+    { time srcml "$XML" --srcql "$QUERY" -q > "$TMPRESULT"; } 2>&1
     echo
 
     if [ -z "$(grep '<function' "$TMPRESULT")" ]; then
-        echo "    no callers found for ${CALLEE}"
-        continue
+        return 0
     fi
+
+    local CALLER_FILE VARNAME CALLEE_CALL_POS CALLEE_CALL_LINE CALLEE_CALL_COL USE_POS USE_LINE USE_COL
 
     CALLER_FILE=$(xmllint --xpath \
         'string(//*[local-name()="unit"]/@filename)' "$TMPRESULT" 2>/dev/null)
 
-    # Variable passed to the unsafe callee
     VARNAME=$(xmllint --xpath \
         "//*[local-name()='call']/*[local-name()='name'][.='${CALLEE}']/../*[local-name()='argument_list']/*[local-name()='argument']//*[local-name()='name']" \
         "$TMPRESULT" 2>/dev/null \
         | sed 's/<[^>]*>//g' | grep -v '^$' | head -1)
 
-    # Position of the unsafe callee call — this becomes the note
     CALLEE_CALL_POS=$(xmllint --xpath \
         "//*[local-name()='call']/*[local-name()='name'][.='${CALLEE}']/../@*[local-name()='start']" \
         "$TMPRESULT" 2>/dev/null | grep -o '[0-9][0-9]*:[0-9][0-9]*' | head -1)
@@ -171,7 +170,6 @@ while IFS= read -r CALLEE; do
     CALLEE_CALL_LINE=$(echo "$CALLEE_CALL_POS" | cut -d: -f1)
     CALLEE_CALL_COL=$(echo  "$CALLEE_CALL_POS" | cut -d: -f2)
 
-    # Use site — first call (not the callee call, not allocators) after callee call line
     USE_POS=$(xmllint --xpath \
         "//*[local-name()='call'][not(*[local-name()='name'][.='${CALLEE}' or .='free' or .='malloc' or .='calloc' or .='realloc'])]/@*[local-name()='start']" \
         "$TMPRESULT" 2>/dev/null \
@@ -183,7 +181,7 @@ while IFS= read -r CALLEE; do
 
     if [ -z "$USE_LINE" ]; then
         echo "    warning: could not determine use site for '${VARNAME}' — skipping"
-        continue
+        return 0
     fi
 
     write_finding \
@@ -201,6 +199,23 @@ while IFS= read -r CALLEE; do
 
     FOUND_COUNT=$((FOUND_COUNT + 1))
     echo "    error: ${CALLER_FILE}:${USE_LINE}:${USE_COL} — '${VARNAME}' used after '${CALLEE}' freed it (call at line ${CALLEE_CALL_LINE})"
+}
+
+while IFS= read -r CALLEE; do
+    [ -z "$CALLEE" ] && continue
+
+    TMPRESULT=$(mktemp /tmp/uaf_iproc_XXXXXX)
+    trap "rm -f $TMPRESULT" RETURN
+
+    echo "  2a [$CALLEE] bare/deref:"
+    _run_pass2 "$CALLEE" \
+        "FIND \$RT \$CALLER() {} CONTAINS ${CALLEE}(\$PTR) FOLLOWED BY \$CALL(\$PTR)" \
+        "$TMPRESULT"
+
+    echo "  2b [$CALLEE] member access:"
+    _run_pass2 "$CALLEE" \
+        "FIND \$RT \$CALLER() {} CONTAINS ${CALLEE}(\$PTR) FOLLOWED BY \$CALL(\$PTR->\$FIELD)" \
+        "$TMPRESULT"
 
 done <<< "$UNSAFE_CALLEES"
 
