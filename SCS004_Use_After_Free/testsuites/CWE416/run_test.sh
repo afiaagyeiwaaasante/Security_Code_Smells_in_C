@@ -88,6 +88,26 @@ echo
 # ---------------------------------------------------------------------------
 # Detector 2 — double_free
 # ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# Detector 4 — delete_array_uaf (C++ new[]/delete[])
+# ---------------------------------------------------------------------------
+echo "--- Detector 4: delete_array_uaf ---"
+run_bad  "bad_delete_array_char_01"    "$SCRIPT_DIR/delete_array_char/bad_delete_array_char_01.cpp"
+run_good "good_delete_array_char_01"   "$SCRIPT_DIR/delete_array_char/good_delete_array_char_01.cpp"
+run_bad  "bad_delete_array_int64_01"  "$SCRIPT_DIR/delete_array_int64_t/bad_delete_array_int64_01.cpp"
+run_good "good_delete_array_int64_01" "$SCRIPT_DIR/delete_array_int64_t/good_delete_array_int64_01.cpp"
+run_bad  "bad_delete_array_long_01"   "$SCRIPT_DIR/delete_array_long/bad_delete_array_long_01.cpp"
+run_good "good_delete_array_long_01"  "$SCRIPT_DIR/delete_array_long/good_delete_array_long_01.cpp"
+run_bad  "bad_delete_array_wchar_01"   "$SCRIPT_DIR/delete_array_wchar_t/bad_delete_array_wchar_01.cpp"
+run_good "good_delete_array_wchar_01"  "$SCRIPT_DIR/delete_array_wchar_t/good_delete_array_wchar_01.cpp"
+run_bad  "bad_delete_array_struct_01"  "$SCRIPT_DIR/delete_array_struct/bad_delete_array_struct_01.cpp"
+run_good "good_delete_array_struct_01" "$SCRIPT_DIR/delete_array_struct/good_delete_array_struct_01.cpp"
+
+echo
+
+# ---------------------------------------------------------------------------
+# Detector 2 — double_free
+# ---------------------------------------------------------------------------
 echo "--- Detector 2: double_free ---"
 run_bad  "bad_double_free_01"        "$SCRIPT_DIR/char/bad_double_free_01.c"
 run_good "good_double_free_01"       "$SCRIPT_DIR/char/good_double_free_01.c"

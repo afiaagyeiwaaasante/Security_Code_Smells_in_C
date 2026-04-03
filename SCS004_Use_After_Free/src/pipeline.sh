@@ -10,7 +10,7 @@ XML=$2
 JSON=$3
 
 echo "=== Stage 1: srcml ==="
-{ time srcml "$SRC" -l C --position --hash -o "$XML"; } 2>&1
+{ time srcml "$SRC" --position --hash -o "$XML"; } 2>&1
 echo
 
 echo "=== Stage 2: srcslice ==="

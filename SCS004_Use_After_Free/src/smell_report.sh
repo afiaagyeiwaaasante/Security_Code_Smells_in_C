@@ -56,7 +56,8 @@ FINDINGS=$(mktemp /tmp/cwe416_findings_XXXXXX)
 
     # Detectors — uncomment as implemented
     bash "$DETECTORS_DIR/detect_use_after_free.sh"        "$XML" "$SRC" "$FINDINGS"
-    # bash "$DETECTORS_DIR/detect_double_free.sh"          "$XML" "$SRC" "$FINDINGS"
+    bash "$DETECTORS_DIR/detect_delete_array_uaf.sh"      "$XML" "$SRC" "$FINDINGS"
+    bash "$DETECTORS_DIR/detect_double_free.sh"            "$XML" "$SRC" "$FINDINGS"
     # bash "$DETECTORS_DIR/detect_interprocedural_uaf.sh"  "$XML" "$SRC" "$FINDINGS"
 
     # Save findings

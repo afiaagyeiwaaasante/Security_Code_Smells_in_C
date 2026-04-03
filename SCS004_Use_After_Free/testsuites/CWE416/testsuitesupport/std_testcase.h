@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
+#include <wchar.h>
 
 /* Shared struct used across all test cases */
 typedef struct {
@@ -33,6 +35,14 @@ void printInt64PtrLine(int64_t *data) {
 
 void printLongPtrLine(long *data) {
     if (data != NULL) { printf("%ld\n", *data); }
+}
+
+void printWCharPtrLine(wchar_t *data) {
+    if (data != NULL) { wprintf(L"%ls\n", data); }
+}
+
+void printStructLine(const twoIntsStruct *s) {
+    if (s != NULL) { printf("%d %d\n", s->intOne, s->intTwo); }
 }
 
 #endif /* STD_TESTCASE_H */
