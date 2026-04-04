@@ -135,8 +135,9 @@ echo
 
 # -----------------------------------------------------------------------
 # Pass 2 — find callers that use ptr after calling an unsafe callee
-#   2a: $CALL($PTR)          bare pointer or dereference (*ptr)
-#   2b: $CALL($PTR->$FIELD)  member access (class/struct)
+#   2a: $CALL($PTR)            bare pointer or dereference (*ptr)
+#   2b: $CALL($PTR->$FIELD)    member access (class/struct)
+#   2c: $CALL(&$PTR[$IDX])     array-index argument (struct array)
 # -----------------------------------------------------------------------
 echo "--- Pass 2: finding callers that use ptr after unsafe call ---"
 
@@ -215,6 +216,11 @@ while IFS= read -r CALLEE; do
     echo "  2b [$CALLEE] member access:"
     _run_pass2 "$CALLEE" \
         "FIND \$RT \$CALLER() {} CONTAINS ${CALLEE}(\$PTR) FOLLOWED BY \$CALL(\$PTR->\$FIELD)" \
+        "$TMPRESULT"
+
+    echo "  2c [$CALLEE] array-index argument:"
+    _run_pass2 "$CALLEE" \
+        "FIND \$RT \$CALLER() {} CONTAINS ${CALLEE}(\$PTR) FOLLOWED BY \$CALL(&\$PTR[\$IDX])" \
         "$TMPRESULT"
 
 done <<< "$UNSAFE_CALLEES"

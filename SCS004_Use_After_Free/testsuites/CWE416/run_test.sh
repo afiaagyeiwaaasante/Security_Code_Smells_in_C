@@ -82,6 +82,8 @@ run_bad  "bad_use_after_free_int64_01"  "$SCRIPT_DIR/int64/bad_use_after_free_in
 run_good "good_use_after_free_int64_01" "$SCRIPT_DIR/int64/good_use_after_free_int64_01.c"
 run_bad  "bad_use_after_free_long_01"   "$SCRIPT_DIR/long/bad_use_after_free_long_01.c"
 run_good "good_use_after_free_long_01"  "$SCRIPT_DIR/long/good_use_after_free_long_01.c"
+run_bad  "bad_use_after_free_struct_01" "$SCRIPT_DIR/struct/bad_use_after_free_struct_01.c"
+run_good "good_use_after_free_struct_01" "$SCRIPT_DIR/struct/good_use_after_free_struct_01.c"
 
 echo
 
@@ -166,6 +168,9 @@ run_multi_bad "bad_interprocedural_new_delete_char_62" \
 run_multi_bad "bad_interprocedural_new_delete_class_62" \
     "$SCRIPT_DIR/interprocedural/bad_interprocedural_new_delete_class_62a.cpp" \
     "$SCRIPT_DIR/interprocedural/bad_interprocedural_new_delete_class_62b.cpp"
+run_multi_bad "bad_interprocedural_uaf_struct_62" \
+    "$SCRIPT_DIR/interprocedural/bad_interprocedural_uaf_struct_62a.c" \
+    "$SCRIPT_DIR/interprocedural/bad_interprocedural_uaf_struct_62b.c"
 
 echo
 
