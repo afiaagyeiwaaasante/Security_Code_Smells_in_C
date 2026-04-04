@@ -170,6 +170,15 @@ run_multi_bad "bad_interprocedural_new_delete_class_62" \
 echo
 
 # ---------------------------------------------------------------------------
+# Detector 7 — operator_equals_uaf (C++ operator= without self-assignment guard)
+# ---------------------------------------------------------------------------
+echo "--- Detector 7: operator_equals_uaf ---"
+run_bad  "bad_operator_equals_01"   "$SCRIPT_DIR/operator_equals/bad_operator_equals_01.cpp"
+run_good "good_operator_equals_01"  "$SCRIPT_DIR/operator_equals/good_operator_equals_01.cpp"
+
+echo
+
+# ---------------------------------------------------------------------------
 # Summary
 # ---------------------------------------------------------------------------
 TOTAL=$((PASS+FAIL+SKIP))

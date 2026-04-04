@@ -59,6 +59,17 @@ process_query() {
         return
     fi
 
+    # Skip operator= — self-assignment UAF is handled by detector 7
+    local FUNC_NAME
+    FUNC_NAME=$(xmllint --xpath \
+        'string(//*[local-name()="function"]/*[local-name()="name"])' \
+        "$TMPRESULT" 2>/dev/null)
+    if echo "$FUNC_NAME" | grep -q 'operator='; then
+        echo "    operator= function — skipping (handled by detector 7)"
+        echo
+        return
+    fi
+
     echo "--- extracting positions ---"
 
     local FILENAME
