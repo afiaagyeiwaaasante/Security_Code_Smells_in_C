@@ -1,0 +1,14 @@
+{
+  "detector": "signed_strncpy",
+  "severity": "warning",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/strncpy_count/bad_strncpy_count_01.c",
+  "line": 24,
+  "col": 9,
+  "varname": "bad_strncpy_count",
+  "note": {
+    "line": 24,
+    "col": 9,
+    "message": "strncpy() in bad_strncpy_count() \u2014 signed int passed as char count with no positivity guard (data > 0)"
+  }
+}

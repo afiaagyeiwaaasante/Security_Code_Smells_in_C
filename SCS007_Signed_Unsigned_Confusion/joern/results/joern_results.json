@@ -1,0 +1,10 @@
+{"test":"bad_malloc_size_01","files":["bad_malloc_size_01.c"],"detected":true,"wall_time_s":3.99,"peak_rss_kb":407280}
+{"test":"good_malloc_size_01","files":["good_malloc_size_01.c"],"detected":false,"wall_time_s":3.54,"peak_rss_kb":443168}
+{"test":"bad_memcpy_count_01","files":["bad_memcpy_count_01.c"],"detected":true,"wall_time_s":3.58,"peak_rss_kb":460592}
+{"test":"good_memcpy_count_01","files":["good_memcpy_count_01.c"],"detected":false,"wall_time_s":3.58,"peak_rss_kb":471632}
+{"test":"bad_strncpy_count_01","files":["bad_strncpy_count_01.c"],"detected":true,"wall_time_s":3.63,"peak_rss_kb":450720}
+{"test":"good_strncpy_count_01","files":["good_strncpy_count_01.c"],"detected":false,"wall_time_s":3.60,"peak_rss_kb":497264}
+{"test":"bad_signed_malloc_22b","files":["bad_signed_malloc_22b.c"],"detected":true,"wall_time_s":3.59,"peak_rss_kb":441216}
+{"test":"good_signed_malloc_22b","files":["good_signed_malloc_22b.c"],"detected":false,"wall_time_s":3.52,"peak_rss_kb":434112}
+{"test":"bad_signed_malloc_84","files":["bad_signed_malloc_84.cpp"],"detected":true,"wall_time_s":3.62,"peak_rss_kb":470128}
+{"test":"good_signed_malloc_84","files":["good_signed_malloc_84.cpp"],"detected":false,"wall_time_s":3.66,"peak_rss_kb":472912}

@@ -1,0 +1,14 @@
+{
+  "detector": "signed_malloc",
+  "severity": "warning",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/cpp_class/bad_signed_malloc_84.cpp",
+  "line": 24,
+  "col": 33,
+  "varname": "~SizeContainer",
+  "note": {
+    "line": 24,
+    "col": 33,
+    "message": "malloc() in ~SizeContainer() \u2014 signed int passed as size with no positivity guard (data > 0)"
+  }
+}

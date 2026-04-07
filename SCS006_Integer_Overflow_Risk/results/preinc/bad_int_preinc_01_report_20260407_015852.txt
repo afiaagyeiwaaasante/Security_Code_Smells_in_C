@@ -1,0 +1,80 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/preinc/bad_int_preinc_01.c
+ Report  : /Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/results/preinc/bad_int_preinc_01_report_20260407_015852.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/results/preinc/bad_int_preinc_01_findings_20260407_015852.json
+ Date    : Tue Apr  7 01:58:52 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.005s
+user	0m0.003s
+sys	0m0.002s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/preinc/bad_int_preinc_01.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/preinc/bad_int_preinc_01.c.json
+
+real	0m0.169s
+user	0m0.009s
+sys	0m0.001s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.010s
+user	0m0.007s
+sys	0m0.002s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/preinc/bad_int_preinc_01.c.xml
+    output : /tmp/cwe190_findings_QcWfIc
+
+    strategy : XML scan — <operator>*</operator> inside function blocks
+--- post-filter: checking for absent MAX guard in <condition> ---
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_QcWfIc
+
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/preinc/bad_int_preinc_01.c.xml
+    output : /tmp/cwe190_findings_QcWfIc
+
+    strategy : XML scan — <operator>+</operator> inside function blocks
+--- post-filter: checking for absent MAX guard in <condition> ---
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_QcWfIc
+
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/preinc/bad_int_preinc_01.c.xml
+    output : /tmp/cwe190_findings_QcWfIc
+
+    strategy : XPath — <operator>++</operator> inside function blocks
+--- post-filter: extracting ++ usages, checking for absent MAX guard ---
+    finding: /Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/preinc/bad_int_preinc_01.c:13:5 — bad_int_preinc() increments without MAX guard
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_QcWfIc
+
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/preinc/bad_int_preinc_01.c",
+  "line": 13,
+  "col": 5,
+  "varname": "bad_int_preinc",
+  "note": {
+    "line": 13,
+    "col": 5,
+    "message": "increment (++) in bad_int_preinc() \u2014 no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_increment       1
+========================================

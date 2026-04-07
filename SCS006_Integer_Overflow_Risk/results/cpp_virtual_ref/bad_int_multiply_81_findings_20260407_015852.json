@@ -1,0 +1,14 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/cpp_virtual_ref/bad_int_multiply_81.cpp",
+  "line": 19,
+  "col": 31,
+  "varname": "action",
+  "note": {
+    "line": 19,
+    "col": 31,
+    "message": "multiplication in action() \u2014 no upper-bound guard (INT_MAX / 2)"
+  }
+}

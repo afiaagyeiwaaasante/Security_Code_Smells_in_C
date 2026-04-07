@@ -1,0 +1,74 @@
+========================================
+ CWE-134 Missing Format Specifier Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/env_format/bad_env_format_01.c
+ Report  : /Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/results/env_format/bad_env_format_01_report_20260407_173531.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/results/env_format/bad_env_format_01_findings_20260407_173531.json
+ Date    : Tue Apr  7 17:35:31 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.005s
+user	0m0.003s
+sys	0m0.002s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/env_format/bad_env_format_01.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/env_format/bad_env_format_01.c.json
+
+real	0m0.175s
+user	0m0.009s
+sys	0m0.002s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.011s
+user	0m0.008s
+sys	0m0.003s
+
+=== Detector: printf_direct ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/env_format/bad_env_format_01.c.xml
+    output : /tmp/cwe134_findings_BwNI46
+
+    finding: /Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/env_format/bad_env_format_01.c:18:5 — bad_env_format_01() printf without literal format specifier
+[ printf_direct ] 1 finding(s) written to /tmp/cwe134_findings_BwNI46
+
+=== Detector: fprintf_direct ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/env_format/bad_env_format_01.c.xml
+    output : /tmp/cwe134_findings_BwNI46
+
+[ fprintf_direct ] 0 finding(s) written to /tmp/cwe134_findings_BwNI46
+
+=== Detector: syslog_direct ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/env_format/bad_env_format_01.c.xml
+    output : /tmp/cwe134_findings_BwNI46
+
+[ syslog_direct ] 0 finding(s) written to /tmp/cwe134_findings_BwNI46
+
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "printf_direct",
+  "severity": "warning",
+  "rule": "SCS008-PRINTF",
+  "file": "/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/env_format/bad_env_format_01.c",
+  "line": 18,
+  "col": 5,
+  "varname": "bad_env_format_01",
+  "note": {
+    "line": 18,
+    "col": 5,
+    "message": "printf/vprintf in bad_env_format_01() \u2014 variable used directly as format argument (no literal format specifier)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   printf_direct             1
+========================================

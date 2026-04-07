@@ -1,0 +1,14 @@
+{
+  "detector": "printf_direct",
+  "severity": "warning",
+  "rule": "SCS008-PRINTF",
+  "file": "/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/env_format/bad_env_format_01.c",
+  "line": 18,
+  "col": 5,
+  "varname": "bad_env_format_01",
+  "note": {
+    "line": 18,
+    "col": 5,
+    "message": "printf/vprintf in bad_env_format_01() \u2014 variable used directly as format argument (no literal format specifier)"
+  }
+}

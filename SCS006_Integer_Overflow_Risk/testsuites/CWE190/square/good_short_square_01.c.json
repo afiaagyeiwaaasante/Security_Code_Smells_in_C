@@ -1,0 +1,32 @@
+{
+"result-17-15-9bb522218c01f3f65c8359a02a4ba3534a26ea0a":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/square/good_short_square_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"good_short_square",
+    "type":"short",
+    "name":"result",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/square/good_short_square_01.c:17:15",
+    "dependence":[],
+    "aliases":[],
+    "calls":[],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/square/good_short_square_01.c:18:15"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/square/good_short_square_01.c:17:15"]
+},
+"data-12-11-9bb522218c01f3f65c8359a02a4ba3534a26ea0a":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/square/good_short_square_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"good_short_square",
+    "type":"short",
+    "name":"data",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/square/good_short_square_01.c:12:11",
+    "dependence":[{"result":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/square/good_short_square_01.c:17:24"},{"result":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/square/good_short_square_01.c:17:31"}],
+    "aliases":[],
+    "calls":[{"functionName":"abs","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/square/good_short_square_01.c:15:9"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/square/good_short_square_01.c:15:18","/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/square/good_short_square_01.c:17:24","/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/square/good_short_square_01.c:17:31"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/square/good_short_square_01.c:12:11"]
+}
+}

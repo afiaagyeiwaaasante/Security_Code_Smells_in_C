@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" xmlns:cpp="http://www.srcML.org/srcML/cpp" xmlns:pos="http://www.srcML.org/srcML/position" xmlns:slice="http://www.srcML.org/srcML/slice" revision="1.0.0" language="C" filename="/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/add/good_unsigned_int_add_01.c" pos:tabs="8" hash="6b6e8c9ef03dae89a60b4123a27d9c2468f17878"><comment type="block" pos:start="1:1" pos:end="5:3">/* CWE-190 Integer Overflow â good: unsigned int addition with boundary check
+ * BadSource : max â data initialised to UINT_MAX
+ * GoodSink  : guard ensures data &lt; UINT_MAX before adding 1
+ * FIX       : wrap-around cannot occur because the bound is checked first
+ */</comment>
+<cpp:include pos:start="6:1" pos:end="6:19">#<cpp:directive pos:start="6:2" pos:end="6:8">include</cpp:directive> <cpp:file pos:start="6:10" pos:end="6:19">&lt;limits.h&gt;</cpp:file></cpp:include>
+
+<function pos:start="8:1" pos:end="18:1"><type pos:start="8:1" pos:end="8:4"><name pos:start="8:1" pos:end="8:4">void</name></type> <name pos:start="8:6" pos:end="8:26">good_unsigned_int_add</name><parameter_list pos:start="8:27" pos:end="8:32">(<parameter pos:start="8:28" pos:end="8:31"><decl pos:start="8:28" pos:end="8:31"><type pos:start="8:28" pos:end="8:31"><name pos:start="8:28" pos:end="8:31">void</name></type></decl></parameter>)</parameter_list>
+<block pos:start="9:1" pos:end="18:1">{<block_content pos:start="9:2" pos:end="18:0">
+    <decl_stmt pos:start="10:5" pos:end="10:33"><decl pos:start="10:5" pos:end="10:32" slice:decl="39b56154573cc0f23c7c0a679b0ea2dd77ccbf99"><type pos:start="10:5" pos:end="10:16"><name pos:start="10:5" pos:end="10:12">unsigned</name> <name pos:start="10:14" pos:end="10:16">int</name></type> <name pos:start="10:18" pos:end="10:21">data</name> <init pos:start="10:23" pos:end="10:32">= <expr pos:start="10:25" pos:end="10:32"><name pos:start="10:25" pos:end="10:32">UINT_MAX</name></expr></init></decl>;</decl_stmt>
+
+    <comment type="block" pos:start="12:5" pos:end="12:48">/* FIX: check that data + 1 will not wrap */</comment>
+    <if_stmt pos:start="13:5" pos:end="17:5"><if pos:start="13:5" pos:end="17:5">if <condition pos:start="13:8" pos:end="13:24">(<expr pos:start="13:9" pos:end="13:23" slice:use="39b56154573cc0f23c7c0a679b0ea2dd77ccbf99"><name pos:start="13:9" pos:end="13:12">data</name> <operator pos:start="13:14" pos:end="13:14">&lt;</operator> <name pos:start="13:16" pos:end="13:23">UINT_MAX</name></expr>)</condition>
+    <block pos:start="14:5" pos:end="17:5">{<block_content pos:start="14:6" pos:end="17:4">
+        <decl_stmt pos:start="15:9" pos:end="15:39"><decl pos:start="15:9" pos:end="15:38" slice:use="39b56154573cc0f23c7c0a679b0ea2dd77ccbf99" slice:decl="87fbf8e125c7a8a820de2d172ec7312193ee1e77"><type pos:start="15:9" pos:end="15:20"><name pos:start="15:9" pos:end="15:16">unsigned</name> <name pos:start="15:18" pos:end="15:20">int</name></type> <name pos:start="15:22" pos:end="15:27">result</name> <init pos:start="15:29" pos:end="15:38">= <expr pos:start="15:31" pos:end="15:38"><name pos:start="15:31" pos:end="15:34">data</name> <operator pos:start="15:36" pos:end="15:36">+</operator> <literal type="number" pos:start="15:38" pos:end="15:38">1</literal></expr></init></decl>;</decl_stmt>
+        <expr_stmt pos:start="16:9" pos:end="16:21"><expr pos:start="16:9" pos:end="16:20" slice:use="87fbf8e125c7a8a820de2d172ec7312193ee1e77"><operator pos:start="16:9" pos:end="16:9">(</operator><name pos:start="16:10" pos:end="16:13">void</name><operator pos:start="16:14" pos:end="16:14">)</operator><name pos:start="16:15" pos:end="16:20">result</name></expr>;</expr_stmt>
+    </block_content>}</block></if></if_stmt>
+</block_content>}</block></function>
+</unit>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" xmlns:cpp="http://www.srcML.org/srcML/cpp" xmlns:pos="http://www.srcML.org/srcML/position" xmlns:slice="http://www.srcML.org/srcML/slice" revision="1.0.0" language="C" filename="/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/square/bad_short_square_01.c" pos:tabs="8" hash="10676877b06e709232a5a442161e6d7074085747"><comment type="block" pos:start="1:1" pos:end="5:3">/* CWE-190 Integer Overflow â bad: short squaring without bounds check
+ * BadSource : rand â value cast to short, may be near SHRT_MAX
+ * BadSink   : data * data performed with no overflow guard
+ * FLAW      : SHRT_MAX^2 == 1,073,676,289 which overflows short (max 32,767)
+ */</comment>
+<cpp:include pos:start="6:1" pos:end="6:19">#<cpp:directive pos:start="6:2" pos:end="6:8">include</cpp:directive> <cpp:file pos:start="6:10" pos:end="6:19">&lt;stdlib.h&gt;</cpp:file></cpp:include>
+<cpp:include pos:start="7:1" pos:end="7:19">#<cpp:directive pos:start="7:2" pos:end="7:8">include</cpp:directive> <cpp:file pos:start="7:10" pos:end="7:19">&lt;limits.h&gt;</cpp:file></cpp:include>
+
+<function pos:start="9:1" pos:end="16:1"><type pos:start="9:1" pos:end="9:4"><name pos:start="9:1" pos:end="9:4">void</name></type> <name pos:start="9:6" pos:end="9:21">bad_short_square</name><parameter_list pos:start="9:22" pos:end="9:27">(<parameter pos:start="9:23" pos:end="9:26"><decl pos:start="9:23" pos:end="9:26"><type pos:start="9:23" pos:end="9:26"><name pos:start="9:23" pos:end="9:26">void</name></type></decl></parameter>)</parameter_list>
+<block pos:start="10:1" pos:end="16:1">{<block_content pos:start="10:2" pos:end="16:0">
+    <decl_stmt pos:start="11:5" pos:end="11:31"><decl pos:start="11:5" pos:end="11:30" slice:decl="6a8fd6286f1bb603232d0960161cfd41a8d9ad1b"><type pos:start="11:5" pos:end="11:9"><name pos:start="11:5" pos:end="11:9">short</name></type> <name pos:start="11:11" pos:end="11:14">data</name> <init pos:start="11:16" pos:end="11:30">= <expr pos:start="11:18" pos:end="11:30"><operator pos:start="11:18" pos:end="11:18">(</operator><name pos:start="11:19" pos:end="11:23">short</name><operator pos:start="11:24" pos:end="11:24">)</operator><call pos:start="11:25" pos:end="11:30"><name pos:start="11:25" pos:end="11:28">rand</name><argument_list pos:start="11:29" pos:end="11:30">()</argument_list></call></expr></init></decl>;</decl_stmt>
+
+    <comment type="block" pos:start="13:5" pos:end="13:72">/* POTENTIAL FLAW: data * data overflows short when |data| &gt; ~181 */</comment>
+    <decl_stmt pos:start="14:5" pos:end="14:31"><decl pos:start="14:5" pos:end="14:30" slice:use="6a8fd6286f1bb603232d0960161cfd41a8d9ad1b" slice:decl="dcaa0a4814a34a471091f44b62753b2c496a6afd"><type pos:start="14:5" pos:end="14:9"><name pos:start="14:5" pos:end="14:9">short</name></type> <name pos:start="14:11" pos:end="14:16">result</name> <init pos:start="14:18" pos:end="14:30">= <expr pos:start="14:20" pos:end="14:30"><name pos:start="14:20" pos:end="14:23">data</name> <operator pos:start="14:25" pos:end="14:25">*</operator> <name pos:start="14:27" pos:end="14:30">data</name></expr></init></decl>;</decl_stmt>
+    <expr_stmt pos:start="15:5" pos:end="15:17"><expr pos:start="15:5" pos:end="15:16" slice:use="dcaa0a4814a34a471091f44b62753b2c496a6afd"><operator pos:start="15:5" pos:end="15:5">(</operator><name pos:start="15:6" pos:end="15:9">void</name><operator pos:start="15:10" pos:end="15:10">)</operator><name pos:start="15:11" pos:end="15:16">result</name></expr>;</expr_stmt>
+</block_content>}</block></function>
+</unit>

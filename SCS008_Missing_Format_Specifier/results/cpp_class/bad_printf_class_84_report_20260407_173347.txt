@@ -1,0 +1,74 @@
+========================================
+ CWE-134 Missing Format Specifier Detector
+ Source  : testsuites/CWE134/cpp_class/bad_printf_class_84.cpp
+ Report  : /Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/results/cpp_class/bad_printf_class_84_report_20260407_173347.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/results/cpp_class/bad_printf_class_84_findings_20260407_173347.json
+ Date    : Tue Apr  7 17:33:47 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.005s
+user	0m0.003s
+sys	0m0.002s
+
+=== Stage 2: srcslice ===
+Writing to :: testsuites/CWE134/cpp_class/bad_printf_class_84.cpp.json
+Output Saved to :: testsuites/CWE134/cpp_class/bad_printf_class_84.cpp.json
+
+real	0m0.168s
+user	0m0.010s
+sys	0m0.002s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.010s
+user	0m0.007s
+sys	0m0.002s
+
+=== Detector: printf_direct ===
+    input  : testsuites/CWE134/cpp_class/bad_printf_class_84.cpp.xml
+    output : /tmp/cwe134_findings_O3VSct
+
+    finding: testsuites/CWE134/cpp_class/bad_printf_class_84.cpp:25:9 — ~BadFormatClass() printf without literal format specifier
+[ printf_direct ] 1 finding(s) written to /tmp/cwe134_findings_O3VSct
+
+=== Detector: fprintf_direct ===
+    input  : testsuites/CWE134/cpp_class/bad_printf_class_84.cpp.xml
+    output : /tmp/cwe134_findings_O3VSct
+
+[ fprintf_direct ] 0 finding(s) written to /tmp/cwe134_findings_O3VSct
+
+=== Detector: syslog_direct ===
+    input  : testsuites/CWE134/cpp_class/bad_printf_class_84.cpp.xml
+    output : /tmp/cwe134_findings_O3VSct
+
+[ syslog_direct ] 0 finding(s) written to /tmp/cwe134_findings_O3VSct
+
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "printf_direct",
+  "severity": "warning",
+  "rule": "SCS008-PRINTF",
+  "file": "testsuites/CWE134/cpp_class/bad_printf_class_84.cpp",
+  "line": 25,
+  "col": 9,
+  "varname": "~BadFormatClass",
+  "note": {
+    "line": 25,
+    "col": 9,
+    "message": "printf/vprintf in ~BadFormatClass() \u2014 variable used directly as format argument (no literal format specifier)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   printf_direct             1
+========================================

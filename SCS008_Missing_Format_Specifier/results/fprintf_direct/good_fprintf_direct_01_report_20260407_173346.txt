@@ -1,0 +1,56 @@
+========================================
+ CWE-134 Missing Format Specifier Detector
+ Source  : testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c
+ Report  : /Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/results/fprintf_direct/good_fprintf_direct_01_report_20260407_173346.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/results/fprintf_direct/good_fprintf_direct_01_findings_20260407_173346.json
+ Date    : Tue Apr  7 17:33:46 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.005s
+user	0m0.003s
+sys	0m0.002s
+
+=== Stage 2: srcslice ===
+Writing to :: testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c.json
+Output Saved to :: testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c.json
+
+real	0m0.176s
+user	0m0.010s
+sys	0m0.002s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.015s
+user	0m0.009s
+sys	0m0.004s
+
+=== Detector: printf_direct ===
+    input  : testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c.xml
+    output : /tmp/cwe134_findings_97XD87
+
+[ printf_direct ] 0 finding(s) written to /tmp/cwe134_findings_97XD87
+
+=== Detector: fprintf_direct ===
+    input  : testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c.xml
+    output : /tmp/cwe134_findings_97XD87
+
+[ fprintf_direct ] 0 finding(s) written to /tmp/cwe134_findings_97XD87
+
+=== Detector: syslog_direct ===
+    input  : testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c.xml
+    output : /tmp/cwe134_findings_97XD87
+
+[ syslog_direct ] 0 finding(s) written to /tmp/cwe134_findings_97XD87
+
+========================================
+ Findings JSON
+========================================
+
+========================================
+ Summary
+ Total findings : 0
+ Errors         : 0
+ Warnings       : 0
+========================================

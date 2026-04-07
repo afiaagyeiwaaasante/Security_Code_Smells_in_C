@@ -1,0 +1,56 @@
+========================================
+ CWE-134 Missing Format Specifier Detector
+ Source  : testsuites/CWE134/interprocedural/good_printf_interprocedural_22b.c
+ Report  : /Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/results/interprocedural/good_printf_interprocedural_22b_report_20260407_173347.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/results/interprocedural/good_printf_interprocedural_22b_findings_20260407_173347.json
+ Date    : Tue Apr  7 17:33:47 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.005s
+user	0m0.003s
+sys	0m0.002s
+
+=== Stage 2: srcslice ===
+Writing to :: testsuites/CWE134/interprocedural/good_printf_interprocedural_22b.c.json
+Output Saved to :: testsuites/CWE134/interprocedural/good_printf_interprocedural_22b.c.json
+
+real	0m0.176s
+user	0m0.009s
+sys	0m0.002s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.011s
+user	0m0.007s
+sys	0m0.003s
+
+=== Detector: printf_direct ===
+    input  : testsuites/CWE134/interprocedural/good_printf_interprocedural_22b.c.xml
+    output : /tmp/cwe134_findings_X3EAuz
+
+[ printf_direct ] 0 finding(s) written to /tmp/cwe134_findings_X3EAuz
+
+=== Detector: fprintf_direct ===
+    input  : testsuites/CWE134/interprocedural/good_printf_interprocedural_22b.c.xml
+    output : /tmp/cwe134_findings_X3EAuz
+
+[ fprintf_direct ] 0 finding(s) written to /tmp/cwe134_findings_X3EAuz
+
+=== Detector: syslog_direct ===
+    input  : testsuites/CWE134/interprocedural/good_printf_interprocedural_22b.c.xml
+    output : /tmp/cwe134_findings_X3EAuz
+
+[ syslog_direct ] 0 finding(s) written to /tmp/cwe134_findings_X3EAuz
+
+========================================
+ Findings JSON
+========================================
+
+========================================
+ Summary
+ Total findings : 0
+ Errors         : 0
+ Warnings       : 0
+========================================

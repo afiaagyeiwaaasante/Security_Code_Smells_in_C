@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" xmlns:cpp="http://www.srcML.org/srcML/cpp" xmlns:pos="http://www.srcML.org/srcML/position" xmlns:slice="http://www.srcML.org/srcML/slice" revision="1.0.0" language="C" filename="/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/square/bad_int64_square_01.c" pos:tabs="8" hash="c4076afdb08aa052defe3084969d3ca9445df91e"><comment type="block" pos:start="1:1" pos:end="5:3">/* CWE-190 Integer Overflow â bad: int64_t squaring without bounds check
+ * BadSource : rand â value cast to int64_t, may be large
+ * BadSink   : data * data performed with no overflow guard
+ * FLAW      : wide type does not prevent overflow â data * data can exceed INT64_MAX
+ */</comment>
+<cpp:include pos:start="6:1" pos:end="6:19">#<cpp:directive pos:start="6:2" pos:end="6:8">include</cpp:directive> <cpp:file pos:start="6:10" pos:end="6:19">&lt;stdlib.h&gt;</cpp:file></cpp:include>
+<cpp:include pos:start="7:1" pos:end="7:19">#<cpp:directive pos:start="7:2" pos:end="7:8">include</cpp:directive> <cpp:file pos:start="7:10" pos:end="7:19">&lt;stdint.h&gt;</cpp:file></cpp:include>
+
+<function pos:start="9:1" pos:end="16:1"><type pos:start="9:1" pos:end="9:4"><name pos:start="9:1" pos:end="9:4">void</name></type> <name pos:start="9:6" pos:end="9:21">bad_int64_square</name><parameter_list pos:start="9:22" pos:end="9:27">(<parameter pos:start="9:23" pos:end="9:26"><decl pos:start="9:23" pos:end="9:26"><type pos:start="9:23" pos:end="9:26"><name pos:start="9:23" pos:end="9:26">void</name></type></decl></parameter>)</parameter_list>
+<block pos:start="10:1" pos:end="16:1">{<block_content pos:start="10:2" pos:end="16:0">
+    <decl_stmt pos:start="11:5" pos:end="11:35"><decl pos:start="11:5" pos:end="11:34" slice:decl="0c8153c71d8011a9d06915ad655bf39e05c3d000"><type pos:start="11:5" pos:end="11:11"><name pos:start="11:5" pos:end="11:11">int64_t</name></type> <name pos:start="11:13" pos:end="11:16">data</name> <init pos:start="11:18" pos:end="11:34">= <expr pos:start="11:20" pos:end="11:34"><operator pos:start="11:20" pos:end="11:20">(</operator><name pos:start="11:21" pos:end="11:27">int64_t</name><operator pos:start="11:28" pos:end="11:28">)</operator><call pos:start="11:29" pos:end="11:34"><name pos:start="11:29" pos:end="11:32">rand</name><argument_list pos:start="11:33" pos:end="11:34">()</argument_list></call></expr></init></decl>;</decl_stmt>
+
+    <comment type="block" pos:start="13:5" pos:end="13:82">/* POTENTIAL FLAW: data * data overflows when data &gt; sqrt(INT64_MAX) (~3e9) */</comment>
+    <decl_stmt pos:start="14:5" pos:end="14:33"><decl pos:start="14:5" pos:end="14:32" slice:use="0c8153c71d8011a9d06915ad655bf39e05c3d000" slice:decl="70c084cf7221bb137ee9229108d96c200cd19a74"><type pos:start="14:5" pos:end="14:11"><name pos:start="14:5" pos:end="14:11">int64_t</name></type> <name pos:start="14:13" pos:end="14:18">result</name> <init pos:start="14:20" pos:end="14:32">= <expr pos:start="14:22" pos:end="14:32"><name pos:start="14:22" pos:end="14:25">data</name> <operator pos:start="14:27" pos:end="14:27">*</operator> <name pos:start="14:29" pos:end="14:32">data</name></expr></init></decl>;</decl_stmt>
+    <expr_stmt pos:start="15:5" pos:end="15:17"><expr pos:start="15:5" pos:end="15:16" slice:use="70c084cf7221bb137ee9229108d96c200cd19a74"><operator pos:start="15:5" pos:end="15:5">(</operator><name pos:start="15:6" pos:end="15:9">void</name><operator pos:start="15:10" pos:end="15:10">)</operator><name pos:start="15:11" pos:end="15:16">result</name></expr>;</expr_stmt>
+</block_content>}</block></function>
+</unit>

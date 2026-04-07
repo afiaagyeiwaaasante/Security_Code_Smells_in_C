@@ -1,0 +1,32 @@
+{
+"data-9-10-08e0403d6093d12de5c2bd4d9118b5eb0c517f55":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/early_return/bad_early_return_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"bad_early_return",
+    "type":"int*",
+    "name":"data",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/early_return/bad_early_return_01.c:9:10",
+    "dependence":[],
+    "aliases":[],
+    "calls":[{"functionName":"free","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/early_return/bad_early_return_01.c:18:5"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/early_return/bad_early_return_01.c:10:9","/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/early_return/bad_early_return_01.c:18:10"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/early_return/bad_early_return_01.c:9:10","/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/early_return/bad_early_return_01.c:17:5"]
+},
+"n-7-26-08e0403d6093d12de5c2bd4d9118b5eb0c517f55":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/early_return/bad_early_return_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"bad_early_return",
+    "type":"int",
+    "name":"n",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/early_return/bad_early_return_01.c:7:26",
+    "dependence":[{"data":"/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/early_return/bad_early_return_01.c:9:39"},{"data":"/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/early_return/bad_early_return_01.c:17:15"}],
+    "aliases":[],
+    "calls":[{"functionName":"malloc","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/early_return/bad_early_return_01.c:9:24"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/early_return/bad_early_return_01.c:9:39","/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/early_return/bad_early_return_01.c:12:9","/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/early_return/bad_early_return_01.c:17:15"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/early_return/bad_early_return_01.c:7:26"]
+}
+}

@@ -1,0 +1,75 @@
+========================================
+ CWE-401 Memory Leak Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/new_delete/good_new_delete_01.cpp
+ Report  : /Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/results/new_delete/good_new_delete_01_report_20260406_073321.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/results/new_delete/good_new_delete_01_findings_20260406_073321.json
+ Date    : Mon Apr  6 07:33:21 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.005s
+user	0m0.003s
+sys	0m0.002s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/new_delete/good_new_delete_01.cpp.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/new_delete/good_new_delete_01.cpp.json
+
+real	0m0.171s
+user	0m0.009s
+sys	0m0.002s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.012s
+user	0m0.008s
+sys	0m0.003s
+
+=== Detector 1: no_free_on_exit ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/new_delete/good_new_delete_01.cpp.xml
+    output : /tmp/cwe401_findings_OWxmJg
+
+    query  : FIND $T $FUNC() {} CONTAINS malloc($SIZE)
+
+real	0m0.008s
+user	0m0.004s
+sys	0m0.003s
+
+    no malloc() calls found — no findings.
+
+=== Detector 2: overwrite_leak ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/new_delete/good_new_delete_01.cpp.xml
+    output : /tmp/cwe401_findings_OWxmJg
+
+    query  : FIND $T $FUNC() {} CONTAINS malloc($A) FOLLOWED BY malloc($B)
+
+real	0m0.006s
+user	0m0.004s
+sys	0m0.002s
+
+    no overwrite pattern found — no findings.
+
+=== Detector 3: new_no_delete ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/new_delete/good_new_delete_01.cpp.xml
+    output : /tmp/cwe401_findings_OWxmJg
+
+    query  : FIND $T $FUNC() {} CONTAINS new $TYPE()
+
+real	0m0.006s
+user	0m0.003s
+sys	0m0.002s
+
+--- post-filter: checking for absent delete ---
+[ new_no_delete ] 0 finding(s) written to /tmp/cwe401_findings_OWxmJg
+
+========================================
+ Findings JSON
+========================================
+
+========================================
+ Summary
+ Total findings : 0
+ Errors         : 0
+ Warnings       : 0
+========================================

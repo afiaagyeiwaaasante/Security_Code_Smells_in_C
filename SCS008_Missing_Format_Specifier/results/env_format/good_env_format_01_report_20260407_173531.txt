@@ -1,0 +1,56 @@
+========================================
+ CWE-134 Missing Format Specifier Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/env_format/good_env_format_01.c
+ Report  : /Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/results/env_format/good_env_format_01_report_20260407_173531.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/results/env_format/good_env_format_01_findings_20260407_173531.json
+ Date    : Tue Apr  7 17:35:31 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.006s
+user	0m0.003s
+sys	0m0.003s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/env_format/good_env_format_01.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/env_format/good_env_format_01.c.json
+
+real	0m0.178s
+user	0m0.009s
+sys	0m0.003s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.008s
+user	0m0.006s
+sys	0m0.002s
+
+=== Detector: printf_direct ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/env_format/good_env_format_01.c.xml
+    output : /tmp/cwe134_findings_vVYbJV
+
+[ printf_direct ] 0 finding(s) written to /tmp/cwe134_findings_vVYbJV
+
+=== Detector: fprintf_direct ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/env_format/good_env_format_01.c.xml
+    output : /tmp/cwe134_findings_vVYbJV
+
+[ fprintf_direct ] 0 finding(s) written to /tmp/cwe134_findings_vVYbJV
+
+=== Detector: syslog_direct ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/env_format/good_env_format_01.c.xml
+    output : /tmp/cwe134_findings_vVYbJV
+
+[ syslog_direct ] 0 finding(s) written to /tmp/cwe134_findings_vVYbJV
+
+========================================
+ Findings JSON
+========================================
+
+========================================
+ Summary
+ Total findings : 0
+ Errors         : 0
+ Warnings       : 0
+========================================

@@ -1,0 +1,14 @@
+{
+  "detector": "fprintf_direct",
+  "severity": "warning",
+  "rule": "SCS008-FPRINTF",
+  "file": "/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/fprintf_direct/bad_fprintf_direct_01.c",
+  "line": 22,
+  "col": 5,
+  "varname": "bad_fprintf_direct_01",
+  "note": {
+    "line": 22,
+    "col": 5,
+    "message": "fprintf/vfprintf in bad_fprintf_direct_01() \u2014 variable used directly as format argument (no literal format specifier)"
+  }
+}

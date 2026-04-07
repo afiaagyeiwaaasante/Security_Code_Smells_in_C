@@ -1,0 +1,74 @@
+========================================
+ CWE-134 Missing Format Specifier Detector
+ Source  : testsuites/CWE134/printf_direct/bad_printf_direct_01.c
+ Report  : /Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/results/printf_direct/bad_printf_direct_01_report_20260407_173345.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/results/printf_direct/bad_printf_direct_01_findings_20260407_173345.json
+ Date    : Tue Apr  7 17:33:45 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.030s
+user	0m0.003s
+sys	0m0.006s
+
+=== Stage 2: srcslice ===
+Writing to :: testsuites/CWE134/printf_direct/bad_printf_direct_01.c.json
+Output Saved to :: testsuites/CWE134/printf_direct/bad_printf_direct_01.c.json
+
+real	0m0.180s
+user	0m0.009s
+sys	0m0.005s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.020s
+user	0m0.006s
+sys	0m0.005s
+
+=== Detector: printf_direct ===
+    input  : testsuites/CWE134/printf_direct/bad_printf_direct_01.c.xml
+    output : /tmp/cwe134_findings_xctS2h
+
+    finding: testsuites/CWE134/printf_direct/bad_printf_direct_01.c:18:5 — bad_printf_direct_01() printf without literal format specifier
+[ printf_direct ] 1 finding(s) written to /tmp/cwe134_findings_xctS2h
+
+=== Detector: fprintf_direct ===
+    input  : testsuites/CWE134/printf_direct/bad_printf_direct_01.c.xml
+    output : /tmp/cwe134_findings_xctS2h
+
+[ fprintf_direct ] 0 finding(s) written to /tmp/cwe134_findings_xctS2h
+
+=== Detector: syslog_direct ===
+    input  : testsuites/CWE134/printf_direct/bad_printf_direct_01.c.xml
+    output : /tmp/cwe134_findings_xctS2h
+
+[ syslog_direct ] 0 finding(s) written to /tmp/cwe134_findings_xctS2h
+
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "printf_direct",
+  "severity": "warning",
+  "rule": "SCS008-PRINTF",
+  "file": "testsuites/CWE134/printf_direct/bad_printf_direct_01.c",
+  "line": 18,
+  "col": 5,
+  "varname": "bad_printf_direct_01",
+  "note": {
+    "line": 18,
+    "col": 5,
+    "message": "printf/vprintf in bad_printf_direct_01() \u2014 variable used directly as format argument (no literal format specifier)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   printf_direct             1
+========================================

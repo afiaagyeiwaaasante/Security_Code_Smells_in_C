@@ -1,0 +1,14 @@
+{
+  "detector": "new_no_delete",
+  "severity": "warning",
+  "rule": "newNoDelete",
+  "file": "/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/new_delete/good_new_delete_01.cpp",
+  "line": 0,
+  "col": 0,
+  "varname": "int",
+  "note": {
+    "line": 0,
+    "col": 0,
+    "message": "new in void() \u2014 no delete on any exit path"
+  }
+}

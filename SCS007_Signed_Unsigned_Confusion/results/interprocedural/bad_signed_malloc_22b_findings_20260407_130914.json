@@ -1,0 +1,14 @@
+{
+  "detector": "signed_malloc",
+  "severity": "warning",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/interprocedural/bad_signed_malloc_22b.c",
+  "line": 13,
+  "col": 29,
+  "varname": "bad_signed_malloc_sink",
+  "note": {
+    "line": 13,
+    "col": 29,
+    "message": "malloc() in bad_signed_malloc_sink() \u2014 signed int passed as size with no positivity guard (data > 0)"
+  }
+}

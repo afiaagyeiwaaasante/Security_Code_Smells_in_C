@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" xmlns:cpp="http://www.srcML.org/srcML/cpp" xmlns:pos="http://www.srcML.org/srcML/position" xmlns:slice="http://www.srcML.org/srcML/slice" revision="1.0.0" language="C" filename="/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/multiply/good_int_multiply_01.c" pos:tabs="8" hash="8dea692623e284dcdfa7e84eb8b5b5f884f6d73a"><comment type="block" pos:start="1:1" pos:end="5:3">/* CWE-190 Integer Overflow â good: int multiplication with bounds check
+ * BadSource : rand â value may be any positive int
+ * GoodSink  : guard ensures data &lt;= INT_MAX/2 before multiplying
+ * FIX       : overflow cannot occur because the bound is checked first
+ */</comment>
+<cpp:include pos:start="6:1" pos:end="6:19">#<cpp:directive pos:start="6:2" pos:end="6:8">include</cpp:directive> <cpp:file pos:start="6:10" pos:end="6:19">&lt;stdlib.h&gt;</cpp:file></cpp:include>
+<cpp:include pos:start="7:1" pos:end="7:19">#<cpp:directive pos:start="7:2" pos:end="7:8">include</cpp:directive> <cpp:file pos:start="7:10" pos:end="7:19">&lt;limits.h&gt;</cpp:file></cpp:include>
+
+<function pos:start="9:1" pos:end="22:1"><type pos:start="9:1" pos:end="9:4"><name pos:start="9:1" pos:end="9:4">void</name></type> <name pos:start="9:6" pos:end="9:22">good_int_multiply</name><parameter_list pos:start="9:23" pos:end="9:28">(<parameter pos:start="9:24" pos:end="9:27"><decl pos:start="9:24" pos:end="9:27"><type pos:start="9:24" pos:end="9:27"><name pos:start="9:24" pos:end="9:27">void</name></type></decl></parameter>)</parameter_list>
+<block pos:start="10:1" pos:end="22:1">{<block_content pos:start="10:2" pos:end="22:0">
+    <decl_stmt pos:start="11:5" pos:end="11:22"><decl pos:start="11:5" pos:end="11:21" slice:decl="f7c3415b1477aec3224c225ef6f703ad1aef9ab7"><type pos:start="11:5" pos:end="11:7"><name pos:start="11:5" pos:end="11:7">int</name></type> <name pos:start="11:9" pos:end="11:12">data</name> <init pos:start="11:14" pos:end="11:21">= <expr pos:start="11:16" pos:end="11:21"><call pos:start="11:16" pos:end="11:21"><name pos:start="11:16" pos:end="11:19">rand</name><argument_list pos:start="11:20" pos:end="11:21">()</argument_list></call></expr></init></decl>;</decl_stmt>
+
+    <if_stmt pos:start="13:5" pos:end="21:5"><if pos:start="13:5" pos:end="21:5">if <condition pos:start="13:8" pos:end="13:17">(<expr pos:start="13:9" pos:end="13:16" slice:use="f7c3415b1477aec3224c225ef6f703ad1aef9ab7"><name pos:start="13:9" pos:end="13:12">data</name> <operator pos:start="13:14" pos:end="13:14">&gt;</operator> <literal type="number" pos:start="13:16" pos:end="13:16">0</literal></expr>)</condition>
+    <block pos:start="14:5" pos:end="21:5">{<block_content pos:start="14:6" pos:end="21:4">
+        <comment type="block" pos:start="15:9" pos:end="15:56">/* FIX: check that data * 2 will not overflow */</comment>
+        <if_stmt pos:start="16:9" pos:end="20:9"><if pos:start="16:9" pos:end="20:9">if <condition pos:start="16:12" pos:end="16:34">(<expr pos:start="16:13" pos:end="16:33" slice:use="f7c3415b1477aec3224c225ef6f703ad1aef9ab7"><name pos:start="16:13" pos:end="16:16">data</name> <operator pos:start="16:18" pos:end="16:19">&lt;=</operator> <operator pos:start="16:21" pos:end="16:21">(</operator><name pos:start="16:22" pos:end="16:28">INT_MAX</name> <operator pos:start="16:30" pos:end="16:30">/</operator> <literal type="number" pos:start="16:32" pos:end="16:32">2</literal><operator pos:start="16:33" pos:end="16:33">)</operator></expr>)</condition>
+        <block pos:start="17:9" pos:end="20:9">{<block_content pos:start="17:10" pos:end="20:8">
+            <decl_stmt pos:start="18:13" pos:end="18:34"><decl pos:start="18:13" pos:end="18:33" slice:use="f7c3415b1477aec3224c225ef6f703ad1aef9ab7" slice:decl="35aad92ea567aebd79f528aa1a501144ba9793c8"><type pos:start="18:13" pos:end="18:15"><name pos:start="18:13" pos:end="18:15">int</name></type> <name pos:start="18:17" pos:end="18:22">result</name> <init pos:start="18:24" pos:end="18:33">= <expr pos:start="18:26" pos:end="18:33"><name pos:start="18:26" pos:end="18:29">data</name> <operator pos:start="18:31" pos:end="18:31">*</operator> <literal type="number" pos:start="18:33" pos:end="18:33">2</literal></expr></init></decl>;</decl_stmt>
+            <expr_stmt pos:start="19:13" pos:end="19:25"><expr pos:start="19:13" pos:end="19:24" slice:use="35aad92ea567aebd79f528aa1a501144ba9793c8"><operator pos:start="19:13" pos:end="19:13">(</operator><name pos:start="19:14" pos:end="19:17">void</name><operator pos:start="19:18" pos:end="19:18">)</operator><name pos:start="19:19" pos:end="19:24">result</name></expr>;</expr_stmt>
+        </block_content>}</block></if></if_stmt>
+    </block_content>}</block></if></if_stmt>
+</block_content>}</block></function>
+</unit>

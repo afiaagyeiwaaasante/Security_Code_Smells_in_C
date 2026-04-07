@@ -1,0 +1,74 @@
+========================================
+ CWE-134 Missing Format Specifier Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/interprocedural/bad_printf_interprocedural_22b.c
+ Report  : /Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/results/interprocedural/bad_printf_interprocedural_22b_report_20260407_173532.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/results/interprocedural/bad_printf_interprocedural_22b_findings_20260407_173532.json
+ Date    : Tue Apr  7 17:35:32 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.005s
+user	0m0.003s
+sys	0m0.002s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/interprocedural/bad_printf_interprocedural_22b.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/interprocedural/bad_printf_interprocedural_22b.c.json
+
+real	0m0.170s
+user	0m0.009s
+sys	0m0.002s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.013s
+user	0m0.008s
+sys	0m0.004s
+
+=== Detector: printf_direct ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/interprocedural/bad_printf_interprocedural_22b.c.xml
+    output : /tmp/cwe134_findings_udoJgB
+
+    finding: /Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/interprocedural/bad_printf_interprocedural_22b.c:15:5 — bad_printf_interprocedural_22b_sink() printf without literal format specifier
+[ printf_direct ] 1 finding(s) written to /tmp/cwe134_findings_udoJgB
+
+=== Detector: fprintf_direct ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/interprocedural/bad_printf_interprocedural_22b.c.xml
+    output : /tmp/cwe134_findings_udoJgB
+
+[ fprintf_direct ] 0 finding(s) written to /tmp/cwe134_findings_udoJgB
+
+=== Detector: syslog_direct ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/interprocedural/bad_printf_interprocedural_22b.c.xml
+    output : /tmp/cwe134_findings_udoJgB
+
+[ syslog_direct ] 0 finding(s) written to /tmp/cwe134_findings_udoJgB
+
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "printf_direct",
+  "severity": "warning",
+  "rule": "SCS008-PRINTF",
+  "file": "/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/interprocedural/bad_printf_interprocedural_22b.c",
+  "line": 15,
+  "col": 5,
+  "varname": "bad_printf_interprocedural_22b_sink",
+  "note": {
+    "line": 15,
+    "col": 5,
+    "message": "printf/vprintf in bad_printf_interprocedural_22b_sink() \u2014 variable used directly as format argument (no literal format specifier)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   printf_direct             1
+========================================

@@ -1,0 +1,47 @@
+{
+"val-8-9-":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/new_delete/bad_new_no_delete_01.cpp",
+    "language":"C++",
+    "namespace":[],
+    "class":"Node",
+    "function":"",
+    "type":"int",
+    "name":"val",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/new_delete/bad_new_no_delete_01.cpp:8:9",
+    "dependence":[],
+    "aliases":[],
+    "calls":[],
+    "use":[],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/new_delete/bad_new_no_delete_01.cpp:8:9","/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/new_delete/bad_new_no_delete_01.cpp:9:14"]
+},
+"node-14-11-61552e76588d00076f8f79bf2c1cdb8cb3697324":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/new_delete/bad_new_no_delete_01.cpp",
+    "language":"C++",
+    "namespace":[],
+    "class":"",
+    "function":"bad_new_no_delete",
+    "type":"Node*",
+    "name":"node",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/new_delete/bad_new_no_delete_01.cpp:14:11",
+    "dependence":[],
+    "aliases":[],
+    "calls":[],
+    "use":[],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/new_delete/bad_new_no_delete_01.cpp:14:11","/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/new_delete/bad_new_no_delete_01.cpp:15:5"]
+},
+"n-12-28-61552e76588d00076f8f79bf2c1cdb8cb3697324":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/new_delete/bad_new_no_delete_01.cpp",
+    "language":"C++",
+    "namespace":[],
+    "class":"",
+    "function":"bad_new_no_delete",
+    "type":"int",
+    "name":"n",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/new_delete/bad_new_no_delete_01.cpp:12:28",
+    "dependence":[{"node":"/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/new_delete/bad_new_no_delete_01.cpp:15:17"}],
+    "aliases":[],
+    "calls":[],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/new_delete/bad_new_no_delete_01.cpp:15:17"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/new_delete/bad_new_no_delete_01.cpp:12:28"]
+}
+}

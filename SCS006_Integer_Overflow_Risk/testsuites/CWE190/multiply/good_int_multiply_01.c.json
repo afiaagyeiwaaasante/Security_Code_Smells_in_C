@@ -1,0 +1,47 @@
+{
+"result-18-17-8dea692623e284dcdfa7e84eb8b5b5f884f6d73a":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/multiply/good_int_multiply_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"good_int_multiply",
+    "type":"int",
+    "name":"result",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/multiply/good_int_multiply_01.c:18:17",
+    "dependence":[],
+    "aliases":[],
+    "calls":[],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/multiply/good_int_multiply_01.c:19:19"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/multiply/good_int_multiply_01.c:18:17"]
+},
+"result-18-17-8dea692623e284dcdfa7e84eb8b5b5f884f6d73a/":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/multiply/good_int_multiply_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"good_int_multiply",
+    "type":"int",
+    "name":"result",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/multiply/good_int_multiply_01.c:18:17",
+    "dependence":[],
+    "aliases":[],
+    "calls":[],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/multiply/good_int_multiply_01.c:19:19"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/multiply/good_int_multiply_01.c:18:17"]
+},
+"data-11-9-8dea692623e284dcdfa7e84eb8b5b5f884f6d73a":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/multiply/good_int_multiply_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"good_int_multiply",
+    "type":"int",
+    "name":"data",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/multiply/good_int_multiply_01.c:11:9",
+    "dependence":[{"result":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/multiply/good_int_multiply_01.c:18:26"}],
+    "aliases":[],
+    "calls":[],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/multiply/good_int_multiply_01.c:13:9","/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/multiply/good_int_multiply_01.c:16:13","/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/multiply/good_int_multiply_01.c:18:26"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/multiply/good_int_multiply_01.c:11:9"]
+}
+}

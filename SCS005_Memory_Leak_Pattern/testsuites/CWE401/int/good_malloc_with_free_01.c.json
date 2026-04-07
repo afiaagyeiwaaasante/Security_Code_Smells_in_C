@@ -1,0 +1,32 @@
+{
+"data-8-10-bd481b5b8ebf23d649c63303e2457e6c3c9f733c":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/int/good_malloc_with_free_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"good_malloc_with_free",
+    "type":"int*",
+    "name":"data",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/int/good_malloc_with_free_01.c:8:10",
+    "dependence":[],
+    "aliases":[],
+    "calls":[{"functionName":"free","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/int/good_malloc_with_free_01.c:12:5"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/int/good_malloc_with_free_01.c:9:9","/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/int/good_malloc_with_free_01.c:12:10"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/int/good_malloc_with_free_01.c:8:10","/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/int/good_malloc_with_free_01.c:11:5"]
+},
+"n-6-32-bd481b5b8ebf23d649c63303e2457e6c3c9f733c":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/int/good_malloc_with_free_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"good_malloc_with_free",
+    "type":"int",
+    "name":"n",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/int/good_malloc_with_free_01.c:6:32",
+    "dependence":[{"data":"/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/int/good_malloc_with_free_01.c:8:39"}],
+    "aliases":[],
+    "calls":[{"functionName":"malloc","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/int/good_malloc_with_free_01.c:8:24"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/int/good_malloc_with_free_01.c:8:39"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/int/good_malloc_with_free_01.c:6:32"]
+}
+}

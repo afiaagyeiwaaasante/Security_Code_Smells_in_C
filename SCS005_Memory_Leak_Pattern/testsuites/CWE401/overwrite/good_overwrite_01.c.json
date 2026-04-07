@@ -1,0 +1,32 @@
+{
+"data-9-10-0d1b67aa0e919fc6b759322b397d294653e4c035":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/overwrite/good_overwrite_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"good_overwrite",
+    "type":"int*",
+    "name":"data",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/overwrite/good_overwrite_01.c:9:10",
+    "dependence":[],
+    "aliases":[],
+    "calls":[{"functionName":"free","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/overwrite/good_overwrite_01.c:12:5"},{"functionName":"free","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/overwrite/good_overwrite_01.c:17:5"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/overwrite/good_overwrite_01.c:10:9","/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/overwrite/good_overwrite_01.c:12:10","/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/overwrite/good_overwrite_01.c:14:9","/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/overwrite/good_overwrite_01.c:17:10"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/overwrite/good_overwrite_01.c:9:10","/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/overwrite/good_overwrite_01.c:13:5","/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/overwrite/good_overwrite_01.c:16:5"]
+},
+"n-7-25-0d1b67aa0e919fc6b759322b397d294653e4c035":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/overwrite/good_overwrite_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"good_overwrite",
+    "type":"int",
+    "name":"n",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/overwrite/good_overwrite_01.c:7:25",
+    "dependence":[{"data":"/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/overwrite/good_overwrite_01.c:9:39"},{"data":"/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/overwrite/good_overwrite_01.c:13:34"},{"data":"/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/overwrite/good_overwrite_01.c:16:15"}],
+    "aliases":[],
+    "calls":[{"functionName":"malloc","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/overwrite/good_overwrite_01.c:9:24"},{"functionName":"malloc","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/overwrite/good_overwrite_01.c:13:19"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/overwrite/good_overwrite_01.c:9:39","/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/overwrite/good_overwrite_01.c:13:34","/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/overwrite/good_overwrite_01.c:16:15"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/overwrite/good_overwrite_01.c:7:25"]
+}
+}

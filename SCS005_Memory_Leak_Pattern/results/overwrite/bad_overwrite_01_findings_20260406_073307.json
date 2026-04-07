@@ -1,0 +1,14 @@
+{
+  "detector": "overwrite_leak",
+  "severity": "warning",
+  "rule": "overwriteLeak",
+  "file": "/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/overwrite/bad_overwrite_01.c",
+  "line": 13,
+  "col": 19,
+  "varname": "int",
+  "note": {
+    "line": 9,
+    "col": 24,
+    "message": "Original malloc() of 'int' at line 9 \u2014 overwritten without free"
+  }
+}

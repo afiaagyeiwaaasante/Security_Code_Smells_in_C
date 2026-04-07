@@ -1,0 +1,14 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/add/bad_char_add_01.c",
+  "line": 16,
+  "col": 24,
+  "varname": "bad_char_add",
+  "note": {
+    "line": 16,
+    "col": 24,
+    "message": "addition in bad_char_add() \u2014 no upper-bound guard before adding"
+  }
+}

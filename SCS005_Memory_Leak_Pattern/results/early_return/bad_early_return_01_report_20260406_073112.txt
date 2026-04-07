@@ -1,0 +1,75 @@
+========================================
+ CWE-401 Memory Leak Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/early_return/bad_early_return_01.c
+ Report  : /Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/results/early_return/bad_early_return_01_report_20260406_073112.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/results/early_return/bad_early_return_01_findings_20260406_073112.json
+ Date    : Mon Apr  6 07:31:12 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.006s
+user	0m0.003s
+sys	0m0.002s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/early_return/bad_early_return_01.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/early_return/bad_early_return_01.c.json
+
+real	0m0.170s
+user	0m0.009s
+sys	0m0.002s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.008s
+user	0m0.006s
+sys	0m0.002s
+
+=== Detector 1: no_free_on_exit ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/early_return/bad_early_return_01.c.xml
+    output : /tmp/cwe401_findings_fgMpOD
+
+    query  : FIND $T $FUNC() {} CONTAINS malloc($SIZE)
+
+real	0m0.006s
+user	0m0.003s
+sys	0m0.002s
+
+--- post-filter: checking for absent free() ---
+[ no_free_on_exit ] 0 finding(s) written to /tmp/cwe401_findings_fgMpOD
+
+=== Detector 2: overwrite_leak ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/early_return/bad_early_return_01.c.xml
+    output : /tmp/cwe401_findings_fgMpOD
+
+    query  : FIND $T $FUNC() {} CONTAINS $PTR = malloc($A) FOLLOWED BY $PTR = malloc($B)
+
+real	0m0.006s
+user	0m0.003s
+sys	0m0.002s
+
+    no overwrite pattern found — no findings.
+
+=== Detector 3: new_no_delete ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/early_return/bad_early_return_01.c.xml
+    output : /tmp/cwe401_findings_fgMpOD
+
+    query  : FIND $T $FUNC() {} CONTAINS new $TYPE()
+
+real	0m0.005s
+user	0m0.003s
+sys	0m0.002s
+
+    no new expressions found — no findings.
+
+========================================
+ Findings JSON
+========================================
+
+========================================
+ Summary
+ Total findings : 0
+ Errors         : 0
+ Warnings       : 0
+========================================

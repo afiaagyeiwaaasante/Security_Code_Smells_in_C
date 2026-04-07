@@ -1,0 +1,17 @@
+{
+"data-10-9-916f73ccbf19731cfba0ef1b0fe14624433fa422":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/preinc/bad_int_preinc_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"bad_int_preinc",
+    "type":"int",
+    "name":"data",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/preinc/bad_int_preinc_01.c:10:9",
+    "dependence":[],
+    "aliases":[],
+    "calls":[],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/preinc/bad_int_preinc_01.c:13:7","/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/preinc/bad_int_preinc_01.c:14:11"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/preinc/bad_int_preinc_01.c:10:9","/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/preinc/bad_int_preinc_01.c:13:7"]
+}
+}

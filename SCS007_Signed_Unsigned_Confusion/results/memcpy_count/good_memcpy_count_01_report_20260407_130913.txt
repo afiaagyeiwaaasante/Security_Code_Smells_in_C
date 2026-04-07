@@ -1,0 +1,62 @@
+========================================
+ CWE-195 Signed-to-Unsigned Conversion Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/memcpy_count/good_memcpy_count_01.c
+ Report  : /Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/results/memcpy_count/good_memcpy_count_01_report_20260407_130913.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/results/memcpy_count/good_memcpy_count_01_findings_20260407_130913.json
+ Date    : Tue Apr  7 13:09:13 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.005s
+user	0m0.003s
+sys	0m0.002s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/memcpy_count/good_memcpy_count_01.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/memcpy_count/good_memcpy_count_01.c.json
+
+real	0m0.166s
+user	0m0.009s
+sys	0m0.002s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.011s
+user	0m0.008s
+sys	0m0.003s
+
+=== Detector 1: signed_malloc ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/memcpy_count/good_memcpy_count_01.c.xml
+    output : /tmp/cwe195_findings_8c4Em7
+
+    strategy : XML scan — malloc() call with no &gt; guard in <condition>
+--- post-filter: checking for absent positivity guard ---
+[ signed_malloc ] 0 finding(s) written to /tmp/cwe195_findings_8c4Em7
+
+=== Detector 2: signed_memcpy ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/memcpy_count/good_memcpy_count_01.c.xml
+    output : /tmp/cwe195_findings_8c4Em7
+
+    strategy : XML scan — memcpy()/memmove() call with no &gt; guard in <condition>
+--- post-filter: checking for absent positivity guard ---
+[ signed_memcpy ] 0 finding(s) written to /tmp/cwe195_findings_8c4Em7
+
+=== Detector 3: signed_strncpy ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/memcpy_count/good_memcpy_count_01.c.xml
+    output : /tmp/cwe195_findings_8c4Em7
+
+    strategy : XML scan — strncpy() call with no &gt; guard in <condition>
+--- post-filter: checking for absent positivity guard ---
+[ signed_strncpy ] 0 finding(s) written to /tmp/cwe195_findings_8c4Em7
+
+========================================
+ Findings JSON
+========================================
+
+========================================
+ Summary
+ Total findings : 0
+ Errors         : 0
+ Warnings       : 0
+========================================

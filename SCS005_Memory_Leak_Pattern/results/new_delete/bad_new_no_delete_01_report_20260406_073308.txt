@@ -1,0 +1,93 @@
+========================================
+ CWE-401 Memory Leak Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/new_delete/bad_new_no_delete_01.cpp
+ Report  : /Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/results/new_delete/bad_new_no_delete_01_report_20260406_073308.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/results/new_delete/bad_new_no_delete_01_findings_20260406_073308.json
+ Date    : Mon Apr  6 07:33:08 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.005s
+user	0m0.003s
+sys	0m0.002s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/new_delete/bad_new_no_delete_01.cpp.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/new_delete/bad_new_no_delete_01.cpp.json
+
+real	0m0.170s
+user	0m0.009s
+sys	0m0.002s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.013s
+user	0m0.009s
+sys	0m0.004s
+
+=== Detector 1: no_free_on_exit ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/new_delete/bad_new_no_delete_01.cpp.xml
+    output : /tmp/cwe401_findings_KSSPOu
+
+    query  : FIND $T $FUNC() {} CONTAINS malloc($SIZE)
+
+real	0m0.007s
+user	0m0.004s
+sys	0m0.002s
+
+    no malloc() calls found — no findings.
+
+=== Detector 2: overwrite_leak ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/new_delete/bad_new_no_delete_01.cpp.xml
+    output : /tmp/cwe401_findings_KSSPOu
+
+    query  : FIND $T $FUNC() {} CONTAINS malloc($A) FOLLOWED BY malloc($B)
+
+real	0m0.006s
+user	0m0.003s
+sys	0m0.002s
+
+    no overwrite pattern found — no findings.
+
+=== Detector 3: new_no_delete ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/new_delete/bad_new_no_delete_01.cpp.xml
+    output : /tmp/cwe401_findings_KSSPOu
+
+    query  : FIND $T $FUNC() {} CONTAINS new $TYPE()
+
+real	0m0.005s
+user	0m0.003s
+sys	0m0.002s
+
+--- post-filter: checking for absent delete ---
+    finding: /Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/new_delete/bad_new_no_delete_01.cpp:0:0 — int (in void(), never deleted)
+[ new_no_delete ] 1 finding(s) written to /tmp/cwe401_findings_KSSPOu
+
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "new_no_delete",
+  "severity": "warning",
+  "rule": "newNoDelete",
+  "file": "/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/new_delete/bad_new_no_delete_01.cpp",
+  "line": 0,
+  "col": 0,
+  "varname": "int",
+  "note": {
+    "line": 0,
+    "col": 0,
+    "message": "new in void() \u2014 no delete on any exit path"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   new_no_delete             1
+========================================

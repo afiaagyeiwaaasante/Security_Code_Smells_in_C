@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" xmlns:pos="http://www.srcML.org/srcML/position" xmlns:slice="http://www.srcML.org/srcML/slice" revision="1.0.0" language="C++" filename="/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/new_delete/bad_new_no_delete_01.cpp" pos:tabs="8" hash="61552e76588d00076f8f79bf2c1cdb8cb3697324"><comment type="block" pos:start="1:1" pos:end="4:3">/* CWE-401 Memory Leak â C++ new without delete
+ * FLAW: object allocated with new but delete is never called before
+ *       the pointer goes out of scope.
+ */</comment>
+
+<class pos:start="6:1" pos:end="10:2">class <name pos:start="6:7" pos:end="6:10">Node</name> <block pos:start="6:12" pos:end="10:1">{<private type="default" pos:start="6:13" pos:end="7:0">
+</private><public pos:start="7:1" pos:end="10:0">public:
+    <decl_stmt pos:start="8:5" pos:end="8:12"><decl pos:start="8:5" pos:end="8:11" slice:decl="9768effcedd57ef64ff672cfa5cda7d0d4ad7804"><type pos:start="8:5" pos:end="8:7"><name pos:start="8:5" pos:end="8:7">int</name></type> <name pos:start="8:9" pos:end="8:11">val</name></decl>;</decl_stmt>
+    <constructor pos:start="9:5" pos:end="9:22"><name pos:start="9:5" pos:end="9:8">Node</name><parameter_list pos:start="9:9" pos:end="9:10">()</parameter_list> <member_init_list pos:start="9:12" pos:end="9:20">: <call pos:start="9:14" pos:end="9:19"><name pos:start="9:14" pos:end="9:16">val</name><argument_list pos:start="9:17" pos:end="9:19">(<argument pos:start="9:18" pos:end="9:18"><expr pos:start="9:18" pos:end="9:18"><literal type="number" pos:start="9:18" pos:end="9:18">0</literal></expr></argument>)</argument_list></call> </member_init_list><block pos:start="9:21" pos:end="9:22">{<block_content/>}</block></constructor>
+</public>}</block>;</class>
+
+<function pos:start="12:1" pos:end="17:1"><type pos:start="12:1" pos:end="12:4"><name pos:start="12:1" pos:end="12:4">void</name></type> <name pos:start="12:6" pos:end="12:22">bad_new_no_delete</name><parameter_list pos:start="12:23" pos:end="12:29">(<parameter pos:start="12:24" pos:end="12:28"><decl pos:start="12:24" pos:end="12:28" slice:decl="b42f01fe19d0b0f314e856c8cd764bb990a6e99e"><type pos:start="12:24" pos:end="12:26"><name pos:start="12:24" pos:end="12:26">int</name></type> <name pos:start="12:28" pos:end="12:28">n</name></decl></parameter>)</parameter_list>
+<block pos:start="13:1" pos:end="17:1">{<block_content pos:start="13:2" pos:end="17:0">
+    <decl_stmt pos:start="14:5" pos:end="14:28"><decl pos:start="14:5" pos:end="14:27" slice:decl="9cfc769eb466f91d8eeeddccd9e6068b9e88c5d0"><type pos:start="14:5" pos:end="14:10"><name pos:start="14:5" pos:end="14:8">Node</name> <modifier pos:start="14:10" pos:end="14:10">*</modifier></type><name pos:start="14:11" pos:end="14:14">node</name> <init pos:start="14:16" pos:end="14:27">= <expr pos:start="14:18" pos:end="14:27"><operator pos:start="14:18" pos:end="14:20">new</operator> <call pos:start="14:22" pos:end="14:27"><name pos:start="14:22" pos:end="14:25">Node</name><argument_list pos:start="14:26" pos:end="14:27">()</argument_list></call></expr></init></decl>;</decl_stmt>
+    <expr_stmt pos:start="15:5" pos:end="15:18"><expr pos:start="15:5" pos:end="15:17" slice:use="b42f01fe19d0b0f314e856c8cd764bb990a6e99e" slice:def="9cfc769eb466f91d8eeeddccd9e6068b9e88c5d0"><name pos:start="15:5" pos:end="15:13"><name pos:start="15:5" pos:end="15:8">node</name><operator pos:start="15:9" pos:end="15:10">-&gt;</operator><name pos:start="15:11" pos:end="15:13">val</name></name> <operator pos:start="15:15" pos:end="15:15">=</operator> <name pos:start="15:17" pos:end="15:17">n</name></expr>;</expr_stmt>
+    <comment type="block" pos:start="16:5" pos:end="16:37">/* FLAW: node is never deleted */</comment>
+</block_content>}</block></function>
+</unit>

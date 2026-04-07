@@ -1,0 +1,80 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/cpp_ctor_stack/bad_int_multiply_83.cpp
+ Report  : /Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/results/cpp_ctor_stack/bad_int_multiply_83_report_20260407_015854.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/results/cpp_ctor_stack/bad_int_multiply_83_findings_20260407_015854.json
+ Date    : Tue Apr  7 01:58:54 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.005s
+user	0m0.003s
+sys	0m0.002s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/cpp_ctor_stack/bad_int_multiply_83.cpp.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/cpp_ctor_stack/bad_int_multiply_83.cpp.json
+
+real	0m0.174s
+user	0m0.009s
+sys	0m0.002s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.008s
+user	0m0.005s
+sys	0m0.002s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/cpp_ctor_stack/bad_int_multiply_83.cpp.xml
+    output : /tmp/cwe190_findings_bV77nv
+
+    strategy : XML scan — <operator>*</operator> inside function blocks
+--- post-filter: checking for absent MAX guard in <condition> ---
+    finding: /Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/cpp_ctor_stack/bad_int_multiply_83.cpp:16:37 — ~MultiplyContainer() multiplies without MAX guard
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_bV77nv
+
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/cpp_ctor_stack/bad_int_multiply_83.cpp.xml
+    output : /tmp/cwe190_findings_bV77nv
+
+    strategy : XML scan — <operator>+</operator> inside function blocks
+--- post-filter: checking for absent MAX guard in <condition> ---
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_bV77nv
+
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/cpp_ctor_stack/bad_int_multiply_83.cpp.xml
+    output : /tmp/cwe190_findings_bV77nv
+
+    strategy : XPath — <operator>++</operator> inside function blocks
+--- post-filter: extracting ++ usages, checking for absent MAX guard ---
+[ unchecked_increment ] 0 finding(s) written to /tmp/cwe190_findings_bV77nv
+
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/cpp_ctor_stack/bad_int_multiply_83.cpp",
+  "line": 16,
+  "col": 37,
+  "varname": "~MultiplyContainer",
+  "note": {
+    "line": 16,
+    "col": 37,
+    "message": "multiplication in ~MultiplyContainer() \u2014 no upper-bound guard (INT_MAX / 2)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_multiply        1
+========================================

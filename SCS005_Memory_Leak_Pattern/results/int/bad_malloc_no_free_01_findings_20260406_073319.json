@@ -1,0 +1,14 @@
+{
+  "detector": "no_free_on_exit",
+  "severity": "warning",
+  "rule": "memoryLeak",
+  "file": "/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/int/bad_malloc_no_free_01.c",
+  "line": 9,
+  "col": 24,
+  "varname": "int",
+  "note": {
+    "line": 9,
+    "col": 24,
+    "message": "malloc() in void() \u2014 no free() on any exit path"
+  }
+}

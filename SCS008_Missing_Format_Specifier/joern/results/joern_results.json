@@ -1,0 +1,10 @@
+{"test":"bad_printf_direct_01","files":["bad_printf_direct_01.c"],"detected":true,"wall_time_s":4.06,"peak_rss_kb":351936}
+{"test":"good_printf_direct_01","files":["good_printf_direct_01.c"],"detected":false,"wall_time_s":3.38,"peak_rss_kb":440832}
+{"test":"bad_fprintf_direct_01","files":["bad_fprintf_direct_01.c"],"detected":true,"wall_time_s":3.59,"peak_rss_kb":444416}
+{"test":"good_fprintf_direct_01","files":["good_fprintf_direct_01.c"],"detected":false,"wall_time_s":3.93,"peak_rss_kb":437744}
+{"test":"bad_env_format_01","files":["bad_env_format_01.c"],"detected":true,"wall_time_s":3.61,"peak_rss_kb":433472}
+{"test":"good_env_format_01","files":["good_env_format_01.c"],"detected":false,"wall_time_s":3.70,"peak_rss_kb":445536}
+{"test":"bad_printf_interprocedural_22b","files":["bad_printf_interprocedural_22b.c"],"detected":true,"wall_time_s":3.59,"peak_rss_kb":461856}
+{"test":"good_printf_interprocedural_22b","files":["good_printf_interprocedural_22b.c"],"detected":false,"wall_time_s":3.68,"peak_rss_kb":448240}
+{"test":"bad_printf_class_84","files":["bad_printf_class_84.cpp"],"detected":true,"wall_time_s":3.68,"peak_rss_kb":458480}
+{"test":"good_printf_class_84","files":["good_printf_class_84.cpp"],"detected":false,"wall_time_s":3.62,"peak_rss_kb":469264}

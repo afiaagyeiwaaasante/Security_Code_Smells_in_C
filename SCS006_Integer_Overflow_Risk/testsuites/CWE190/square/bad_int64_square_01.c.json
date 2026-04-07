@@ -1,0 +1,32 @@
+{
+"result-14-13-c4076afdb08aa052defe3084969d3ca9445df91e":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/square/bad_int64_square_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"bad_int64_square",
+    "type":"int64_t",
+    "name":"result",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/square/bad_int64_square_01.c:14:13",
+    "dependence":[],
+    "aliases":[],
+    "calls":[],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/square/bad_int64_square_01.c:15:11"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/square/bad_int64_square_01.c:14:13"]
+},
+"data-11-13-c4076afdb08aa052defe3084969d3ca9445df91e":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/square/bad_int64_square_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"bad_int64_square",
+    "type":"int64_t",
+    "name":"data",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/square/bad_int64_square_01.c:11:13",
+    "dependence":[{"result":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/square/bad_int64_square_01.c:14:22"},{"result":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/square/bad_int64_square_01.c:14:29"}],
+    "aliases":[],
+    "calls":[],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/square/bad_int64_square_01.c:14:22","/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/square/bad_int64_square_01.c:14:29"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/square/bad_int64_square_01.c:11:13"]
+}
+}

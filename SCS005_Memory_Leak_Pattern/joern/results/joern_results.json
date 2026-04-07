@@ -1,0 +1,8 @@
+{"test":"bad_malloc_no_free_01","files":["bad_malloc_no_free_01.c"],"detected":true,"wall_time_s":4.33,"peak_rss_kb":431392}
+{"test":"good_malloc_with_free_01","files":["good_malloc_with_free_01.c"],"detected":false,"wall_time_s":3.59,"peak_rss_kb":432544}
+{"test":"bad_early_return_01","files":["bad_early_return_01.c"],"detected":false,"wall_time_s":3.60,"peak_rss_kb":432848}
+{"test":"good_early_return_01","files":["good_early_return_01.c"],"detected":false,"wall_time_s":3.67,"peak_rss_kb":453552}
+{"test":"bad_overwrite_01","files":["bad_overwrite_01.c"],"detected":false,"wall_time_s":3.79,"peak_rss_kb":401856}
+{"test":"good_overwrite_01","files":["good_overwrite_01.c"],"detected":false,"wall_time_s":3.62,"peak_rss_kb":424400}
+{"test":"bad_new_no_delete_01","files":["bad_new_no_delete_01.cpp"],"detected":false,"wall_time_s":3.63,"peak_rss_kb":437376}
+{"test":"good_new_delete_01","files":["good_new_delete_01.cpp"],"detected":false,"wall_time_s":3.70,"peak_rss_kb":403568}

@@ -1,0 +1,62 @@
+========================================
+ CWE-195 Signed-to-Unsigned Conversion Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/cpp_class/good_signed_malloc_84.cpp
+ Report  : /Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/results/cpp_class/good_signed_malloc_84_report_20260407_130915.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/results/cpp_class/good_signed_malloc_84_findings_20260407_130915.json
+ Date    : Tue Apr  7 13:09:15 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.006s
+user	0m0.003s
+sys	0m0.003s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/cpp_class/good_signed_malloc_84.cpp.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/cpp_class/good_signed_malloc_84.cpp.json
+
+real	0m0.174s
+user	0m0.010s
+sys	0m0.002s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.009s
+user	0m0.007s
+sys	0m0.002s
+
+=== Detector 1: signed_malloc ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/cpp_class/good_signed_malloc_84.cpp.xml
+    output : /tmp/cwe195_findings_S5VTuZ
+
+    strategy : XML scan — malloc() call with no &gt; guard in <condition>
+--- post-filter: checking for absent positivity guard ---
+[ signed_malloc ] 0 finding(s) written to /tmp/cwe195_findings_S5VTuZ
+
+=== Detector 2: signed_memcpy ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/cpp_class/good_signed_malloc_84.cpp.xml
+    output : /tmp/cwe195_findings_S5VTuZ
+
+    strategy : XML scan — memcpy()/memmove() call with no &gt; guard in <condition>
+--- post-filter: checking for absent positivity guard ---
+[ signed_memcpy ] 0 finding(s) written to /tmp/cwe195_findings_S5VTuZ
+
+=== Detector 3: signed_strncpy ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/cpp_class/good_signed_malloc_84.cpp.xml
+    output : /tmp/cwe195_findings_S5VTuZ
+
+    strategy : XML scan — strncpy() call with no &gt; guard in <condition>
+--- post-filter: checking for absent positivity guard ---
+[ signed_strncpy ] 0 finding(s) written to /tmp/cwe195_findings_S5VTuZ
+
+========================================
+ Findings JSON
+========================================
+
+========================================
+ Summary
+ Total findings : 0
+ Errors         : 0
+ Warnings       : 0
+========================================

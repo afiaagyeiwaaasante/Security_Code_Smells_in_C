@@ -1,0 +1,32 @@
+{
+"result-18-14-4466f9953f96e8e55a85a7b4d28645c3717a50ac":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/add/good_char_add_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"good_char_add",
+    "type":"char",
+    "name":"result",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/add/good_char_add_01.c:18:14",
+    "dependence":[],
+    "aliases":[],
+    "calls":[],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/add/good_char_add_01.c:19:15"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/add/good_char_add_01.c:18:14"]
+},
+"data-11-10-4466f9953f96e8e55a85a7b4d28645c3717a50ac":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/add/good_char_add_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"good_char_add",
+    "type":"char",
+    "name":"data",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/add/good_char_add_01.c:11:10",
+    "dependence":[{"result":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/add/good_char_add_01.c:18:23"}],
+    "aliases":[],
+    "calls":[{"functionName":"fscanf","parameter":"3","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/add/good_char_add_01.c:13:5"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/add/good_char_add_01.c:13:26","/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/add/good_char_add_01.c:16:9","/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/add/good_char_add_01.c:18:23"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/add/good_char_add_01.c:11:10"]
+}
+}

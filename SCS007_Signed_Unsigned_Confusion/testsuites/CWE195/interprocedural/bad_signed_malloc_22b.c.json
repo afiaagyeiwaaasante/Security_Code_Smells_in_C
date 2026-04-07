@@ -1,0 +1,32 @@
+{
+"buf-13-15-e76be3f998bfbccb4572423c72549f1b617af1ec":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/interprocedural/bad_signed_malloc_22b.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"bad_signed_malloc_sink",
+    "type":"char*",
+    "name":"buf",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/interprocedural/bad_signed_malloc_22b.c:13:15",
+    "dependence":[],
+    "aliases":[],
+    "calls":[{"functionName":"memset","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/interprocedural/bad_signed_malloc_22b.c:15:9"},{"functionName":"free","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/interprocedural/bad_signed_malloc_22b.c:17:9"},{"functionName":"memset","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/interprocedural/bad_signed_malloc_22b.c:15:9"},{"functionName":"free","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/interprocedural/bad_signed_malloc_22b.c:17:9"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/interprocedural/bad_signed_malloc_22b.c:14:13","/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/interprocedural/bad_signed_malloc_22b.c:15:16","/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/interprocedural/bad_signed_malloc_22b.c:17:14"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/interprocedural/bad_signed_malloc_22b.c:13:15","/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/interprocedural/bad_signed_malloc_22b.c:16:9"]
+},
+"data-8-33-e76be3f998bfbccb4572423c72549f1b617af1ec":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/interprocedural/bad_signed_malloc_22b.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"bad_signed_malloc_sink",
+    "type":"int",
+    "name":"data",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/interprocedural/bad_signed_malloc_22b.c:8:33",
+    "dependence":[{"buf":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/interprocedural/bad_signed_malloc_22b.c:13:36"}],
+    "aliases":[],
+    "calls":[{"functionName":"malloc","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/interprocedural/bad_signed_malloc_22b.c:13:29"},{"functionName":"memset","parameter":"3","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/interprocedural/bad_signed_malloc_22b.c:15:9"},{"functionName":"memset","parameter":"3","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/interprocedural/bad_signed_malloc_22b.c:15:9"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/interprocedural/bad_signed_malloc_22b.c:10:9","/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/interprocedural/bad_signed_malloc_22b.c:13:36","/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/interprocedural/bad_signed_malloc_22b.c:15:26","/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/interprocedural/bad_signed_malloc_22b.c:16:13"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/interprocedural/bad_signed_malloc_22b.c:8:33"]
+}
+}

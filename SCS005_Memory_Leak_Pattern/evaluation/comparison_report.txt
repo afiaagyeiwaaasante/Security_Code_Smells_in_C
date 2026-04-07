@@ -1,0 +1,30 @@
+
+==============================================================================================================================
+  SCS005 CWE-401  Tool Comparison: Our Tool vs cppcheck vs Joern
+==============================================================================================================================
+                                     |    Time  Peak RSS   Det |    Time  Peak RSS   Det |    Time  Peak RSS   Det
+Test Case                            |      --- Our Tool ---       |      --- cppcheck ---       |        --- Joern ---       
+------------------------------------------------------------------------------------------------------------------------------
+bad_malloc_no_free_01                |  0.300s   14.8 MB   YES |  0.010s    7.9 MB   YES |  4.330s  421.3 MB   YES
+good_malloc_with_free_01             |  0.280s   14.7 MB    NO |  0.000s    7.9 MB    NO |  3.590s  422.4 MB    NO
+bad_early_return_01                  |  0.290s   14.6 MB    NO |  0.000s    7.9 MB   YES |  3.600s  422.7 MB    NO
+good_early_return_01                 |  0.290s   14.6 MB    NO |  0.000s    7.9 MB    NO |  3.670s  442.9 MB    NO
+bad_overwrite_01                     |  0.310s   14.8 MB   YES |  0.000s    8.0 MB   YES |  3.790s  392.4 MB    NO
+good_overwrite_01                    |  0.310s   14.8 MB    NO |  0.000s    8.0 MB    NO |  3.620s  414.5 MB    NO
+bad_new_no_delete_01                 |  0.290s   14.7 MB   YES |  0.000s    8.0 MB    NO |  3.630s  427.1 MB    NO
+good_new_delete_01                   |  0.290s   14.7 MB    NO |  0.000s    8.0 MB    NO |  3.700s  394.1 MB    NO
+------------------------------------------------------------------------------------------------------------------------------
+
+  Detections    : Our Tool 3/8   cppcheck 3/8   Joern 1/8
+  Avg wall time : Our Tool 0.295s   cppcheck 0.010s   Joern 3.741s
+  Avg peak RSS  : Our Tool 14.7 MB   cppcheck 7.9 MB   Joern 417.2 MB
+
+                                     Our Tool       cppcheck          Joern
+  True Positives  (TP)                      3              3              1
+  True Negatives  (TN)                      4              4              4
+  False Positives (FP)                      0              0              0
+  False Negatives (FN)                      1              1              3
+  Precision  TP/(TP+FP)                100.0%         100.0%         100.0%
+  Recall     TP/(TP+FN)                 75.0%          75.0%          25.0%
+
+==============================================================================================================================

@@ -1,0 +1,56 @@
+========================================
+ CWE-134 Missing Format Specifier Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/printf_direct/good_printf_direct_01.c
+ Report  : /Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/results/printf_direct/good_printf_direct_01_report_20260407_173530.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/results/printf_direct/good_printf_direct_01_findings_20260407_173530.json
+ Date    : Tue Apr  7 17:35:30 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.007s
+user	0m0.003s
+sys	0m0.003s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/printf_direct/good_printf_direct_01.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/printf_direct/good_printf_direct_01.c.json
+
+real	0m0.173s
+user	0m0.009s
+sys	0m0.002s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.012s
+user	0m0.008s
+sys	0m0.003s
+
+=== Detector: printf_direct ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/printf_direct/good_printf_direct_01.c.xml
+    output : /tmp/cwe134_findings_yzhmOH
+
+[ printf_direct ] 0 finding(s) written to /tmp/cwe134_findings_yzhmOH
+
+=== Detector: fprintf_direct ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/printf_direct/good_printf_direct_01.c.xml
+    output : /tmp/cwe134_findings_yzhmOH
+
+[ fprintf_direct ] 0 finding(s) written to /tmp/cwe134_findings_yzhmOH
+
+=== Detector: syslog_direct ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/printf_direct/good_printf_direct_01.c.xml
+    output : /tmp/cwe134_findings_yzhmOH
+
+[ syslog_direct ] 0 finding(s) written to /tmp/cwe134_findings_yzhmOH
+
+========================================
+ Findings JSON
+========================================
+
+========================================
+ Summary
+ Total findings : 0
+ Errors         : 0
+ Warnings       : 0
+========================================

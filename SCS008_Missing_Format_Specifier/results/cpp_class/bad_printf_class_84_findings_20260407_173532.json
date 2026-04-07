@@ -1,0 +1,14 @@
+{
+  "detector": "printf_direct",
+  "severity": "warning",
+  "rule": "SCS008-PRINTF",
+  "file": "/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/cpp_class/bad_printf_class_84.cpp",
+  "line": 25,
+  "col": 9,
+  "varname": "~BadFormatClass",
+  "note": {
+    "line": 25,
+    "col": 9,
+    "message": "printf/vprintf in ~BadFormatClass() \u2014 variable used directly as format argument (no literal format specifier)"
+  }
+}

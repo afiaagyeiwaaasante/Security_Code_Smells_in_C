@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" xmlns:cpp="http://www.srcML.org/srcML/cpp" xmlns:pos="http://www.srcML.org/srcML/position" xmlns:slice="http://www.srcML.org/srcML/slice" revision="1.0.0" language="C" filename="/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/postinc/bad_int_postinc_01.c" pos:tabs="8" hash="1dd604343d31ea58cedbbcca09faf8ed5c8f6ba1"><comment type="block" pos:start="1:1" pos:end="5:3">/* CWE-190 Integer Overflow â bad: post-increment without bounds check
+ * BadSource : rand â value may be INT_MAX
+ * BadSink   : data++ performed with no overflow guard
+ * FLAW      : if data == INT_MAX, data++ wraps to INT_MIN (undefined behaviour)
+ */</comment>
+<cpp:include pos:start="6:1" pos:end="6:19">#<cpp:directive pos:start="6:2" pos:end="6:8">include</cpp:directive> <cpp:file pos:start="6:10" pos:end="6:19">&lt;stdlib.h&gt;</cpp:file></cpp:include>
+
+<function pos:start="8:1" pos:end="15:1"><type pos:start="8:1" pos:end="8:4"><name pos:start="8:1" pos:end="8:4">void</name></type> <name pos:start="8:6" pos:end="8:20">bad_int_postinc</name><parameter_list pos:start="8:21" pos:end="8:26">(<parameter pos:start="8:22" pos:end="8:25"><decl pos:start="8:22" pos:end="8:25"><type pos:start="8:22" pos:end="8:25"><name pos:start="8:22" pos:end="8:25">void</name></type></decl></parameter>)</parameter_list>
+<block pos:start="9:1" pos:end="15:1">{<block_content pos:start="9:2" pos:end="15:0">
+    <decl_stmt pos:start="10:5" pos:end="10:22"><decl pos:start="10:5" pos:end="10:21" slice:decl="c32ff5e033402b6d8a39893da13a8a9d2032d563"><type pos:start="10:5" pos:end="10:7"><name pos:start="10:5" pos:end="10:7">int</name></type> <name pos:start="10:9" pos:end="10:12">data</name> <init pos:start="10:14" pos:end="10:21">= <expr pos:start="10:16" pos:end="10:21"><call pos:start="10:16" pos:end="10:21"><name pos:start="10:16" pos:end="10:19">rand</name><argument_list pos:start="10:20" pos:end="10:21">()</argument_list></call></expr></init></decl>;</decl_stmt>
+
+    <comment type="block" pos:start="12:5" pos:end="12:63">/* POTENTIAL FLAW: data++ overflows when data == INT_MAX */</comment>
+    <expr_stmt pos:start="13:5" pos:end="13:11"><expr pos:start="13:5" pos:end="13:10" slice:def="c32ff5e033402b6d8a39893da13a8a9d2032d563"><name pos:start="13:5" pos:end="13:8">data</name><operator pos:start="13:9" pos:end="13:10">++</operator></expr>;</expr_stmt>
+    <expr_stmt pos:start="14:5" pos:end="14:15"><expr pos:start="14:5" pos:end="14:14" slice:use="c32ff5e033402b6d8a39893da13a8a9d2032d563"><operator pos:start="14:5" pos:end="14:5">(</operator><name pos:start="14:6" pos:end="14:9">void</name><operator pos:start="14:10" pos:end="14:10">)</operator><name pos:start="14:11" pos:end="14:14">data</name></expr>;</expr_stmt>
+</block_content>}</block></function>
+</unit>

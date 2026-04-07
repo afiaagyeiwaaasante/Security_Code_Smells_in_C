@@ -1,0 +1,32 @@
+
+==============================================================================================================================
+  SCS007 CWE-195  Tool Comparison: Our Tool vs cppcheck vs Joern
+==============================================================================================================================
+                                     |    Time  Peak RSS   Det |    Time  Peak RSS   Det |    Time  Peak RSS   Det
+Test Case                            |      --- Our Tool ---       |      --- cppcheck ---       |        --- Joern ---       
+------------------------------------------------------------------------------------------------------------------------------
+bad_malloc_size_01                   |  0.340s   14.9 MB   YES |  0.010s    7.9 MB    NO |  3.990s  397.7 MB   YES
+good_malloc_size_01                  |  0.300s   14.8 MB    NO |  0.000s    7.9 MB    NO |  3.540s  432.8 MB    NO
+bad_memcpy_count_01                  |  0.300s   14.8 MB   YES |  0.000s    7.9 MB    NO |  3.580s  449.8 MB   YES
+good_memcpy_count_01                 |  0.290s   14.8 MB    NO |  0.000s    8.0 MB    NO |  3.580s  460.6 MB    NO
+bad_strncpy_count_01                 |  0.290s   14.8 MB   YES |  0.000s    7.9 MB    NO |  3.630s  440.2 MB   YES
+good_strncpy_count_01                |  0.300s   14.7 MB    NO |  0.000s    7.9 MB    NO |  3.600s  485.6 MB    NO
+bad_signed_malloc_22b                |  0.300s   14.8 MB   YES |  0.000s    7.9 MB    NO |  3.590s  430.9 MB   YES
+good_signed_malloc_22b               |  0.310s   14.8 MB    NO |  0.000s    7.9 MB    NO |  3.520s  423.9 MB    NO
+bad_signed_malloc_84                 |  0.310s   14.8 MB   YES |  0.000s    8.1 MB    NO |  3.620s  459.1 MB   YES
+good_signed_malloc_84                |  0.300s   14.9 MB    NO |  0.000s    8.1 MB    NO |  3.660s  461.8 MB    NO
+------------------------------------------------------------------------------------------------------------------------------
+
+  Detections    : Our Tool 5/10   cppcheck 0/10   Joern 5/10
+  Avg wall time : Our Tool 0.304s   cppcheck 0.010s   Joern 3.631s
+  Avg peak RSS  : Our Tool 14.8 MB   cppcheck 8.0 MB   Joern 444.2 MB
+
+                                     Our Tool       cppcheck          Joern
+  True Positives  (TP)                      5              0              5
+  True Negatives  (TN)                      5              5              5
+  False Positives (FP)                      0              0              0
+  False Negatives (FN)                      0              5              0
+  Precision  TP/(TP+FP)                100.0%            N/A         100.0%
+  Recall     TP/(TP+FN)                100.0%           0.0%         100.0%
+
+==============================================================================================================================

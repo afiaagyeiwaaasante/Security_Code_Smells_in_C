@@ -1,0 +1,94 @@
+========================================
+ CWE-401 Memory Leak Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/overwrite/bad_overwrite_01.c
+ Report  : /Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/results/overwrite/bad_overwrite_01_report_20260406_073321.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/results/overwrite/bad_overwrite_01_findings_20260406_073321.json
+ Date    : Mon Apr  6 07:33:21 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.005s
+user	0m0.003s
+sys	0m0.002s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/overwrite/bad_overwrite_01.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/overwrite/bad_overwrite_01.c.json
+
+real	0m0.173s
+user	0m0.009s
+sys	0m0.002s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.013s
+user	0m0.009s
+sys	0m0.003s
+
+=== Detector 1: no_free_on_exit ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/overwrite/bad_overwrite_01.c.xml
+    output : /tmp/cwe401_findings_TNptV1
+
+    query  : FIND $T $FUNC() {} CONTAINS malloc($SIZE)
+
+real	0m0.008s
+user	0m0.004s
+sys	0m0.003s
+
+--- post-filter: checking for absent free() ---
+[ no_free_on_exit ] 0 finding(s) written to /tmp/cwe401_findings_TNptV1
+
+=== Detector 2: overwrite_leak ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/overwrite/bad_overwrite_01.c.xml
+    output : /tmp/cwe401_findings_TNptV1
+
+    query  : FIND $T $FUNC() {} CONTAINS malloc($A) FOLLOWED BY malloc($B)
+
+real	0m0.006s
+user	0m0.003s
+sys	0m0.002s
+
+--- extracting overwrite sites ---
+    finding: /Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/overwrite/bad_overwrite_01.c:13:19 — int overwritten (first alloc at line 9)
+[ overwrite_leak ] 1 finding(s) written to /tmp/cwe401_findings_TNptV1
+
+=== Detector 3: new_no_delete ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/overwrite/bad_overwrite_01.c.xml
+    output : /tmp/cwe401_findings_TNptV1
+
+    query  : FIND $T $FUNC() {} CONTAINS new $TYPE()
+
+real	0m0.005s
+user	0m0.003s
+sys	0m0.002s
+
+    no new expressions found — no findings.
+
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "overwrite_leak",
+  "severity": "warning",
+  "rule": "overwriteLeak",
+  "file": "/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/overwrite/bad_overwrite_01.c",
+  "line": 13,
+  "col": 19,
+  "varname": "int",
+  "note": {
+    "line": 9,
+    "col": 24,
+    "message": "Original malloc() of 'int' at line 9 \u2014 overwritten without free"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   overwrite_leak            1
+========================================

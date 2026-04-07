@@ -1,0 +1,14 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/memcpy_count/bad_memcpy_count_01.c",
+  "line": 27,
+  "col": 9,
+  "varname": "bad_memcpy_count",
+  "note": {
+    "line": 27,
+    "col": 9,
+    "message": "memcpy() in bad_memcpy_count() \u2014 signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

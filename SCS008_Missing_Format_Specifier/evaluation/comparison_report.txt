@@ -1,0 +1,32 @@
+
+==============================================================================================================================
+  SCS008 CWE-134  Tool Comparison: Our Tool vs cppcheck vs Joern
+==============================================================================================================================
+                                     |    Time  Peak RSS   Det |    Time  Peak RSS   Det |    Time  Peak RSS   Det
+Test Case                            |      --- Our Tool ---       |      --- cppcheck ---       |        --- Joern ---       
+------------------------------------------------------------------------------------------------------------------------------
+bad_printf_direct_01                 |  0.340s   14.9 MB   YES |  0.010s    7.9 MB    NO |  4.060s  343.7 MB   YES
+good_printf_direct_01                |  0.300s   14.8 MB    NO |  0.010s    7.9 MB    NO |  3.380s  430.5 MB    NO
+bad_fprintf_direct_01                |  0.300s   14.9 MB   YES |  0.000s    7.9 MB    NO |  3.590s  434.0 MB   YES
+good_fprintf_direct_01               |  0.290s   14.8 MB    NO |  0.000s    8.0 MB    NO |  3.930s  427.5 MB    NO
+bad_env_format_01                    |  0.300s   14.8 MB   YES |  0.000s    7.9 MB    NO |  3.610s  423.3 MB   YES
+good_env_format_01                   |  0.300s   14.9 MB    NO |  0.000s    7.9 MB    NO |  3.700s  435.1 MB    NO
+bad_printf_interprocedural_22b       |  0.300s   14.8 MB   YES |  0.000s    7.9 MB    NO |  3.590s  451.0 MB   YES
+good_printf_interprocedural_22b      |  0.300s   14.9 MB    NO |  0.000s    7.9 MB    NO |  3.680s  437.7 MB    NO
+bad_printf_class_84                  |  0.300s   14.8 MB   YES |  0.000s    8.1 MB    NO |  3.680s  447.7 MB   YES
+good_printf_class_84                 |  0.280s   14.9 MB    NO |  0.000s    8.1 MB    NO |  3.620s  458.3 MB    NO
+------------------------------------------------------------------------------------------------------------------------------
+
+  Detections    : Our Tool 5/10   cppcheck 0/10   Joern 5/10
+  Avg wall time : Our Tool 0.301s   cppcheck 0.010s   Joern 3.684s
+  Avg peak RSS  : Our Tool 14.8 MB   cppcheck 8.0 MB   Joern 428.9 MB
+
+                                     Our Tool       cppcheck          Joern
+  True Positives  (TP)                      5              0              5
+  True Negatives  (TN)                      5              5              5
+  False Positives (FP)                      0              0              0
+  False Negatives (FN)                      0              5              0
+  Precision  TP/(TP+FP)                100.0%            N/A         100.0%
+  Recall     TP/(TP+FN)                100.0%           0.0%         100.0%
+
+==============================================================================================================================

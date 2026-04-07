@@ -1,0 +1,93 @@
+========================================
+ CWE-401 Memory Leak Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/int/bad_malloc_no_free_01.c
+ Report  : /Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/results/int/bad_malloc_no_free_01_report_20260406_073319.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/results/int/bad_malloc_no_free_01_findings_20260406_073319.json
+ Date    : Mon Apr  6 07:33:19 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.005s
+user	0m0.003s
+sys	0m0.002s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/int/bad_malloc_no_free_01.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/int/bad_malloc_no_free_01.c.json
+
+real	0m0.176s
+user	0m0.010s
+sys	0m0.002s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.013s
+user	0m0.008s
+sys	0m0.003s
+
+=== Detector 1: no_free_on_exit ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/int/bad_malloc_no_free_01.c.xml
+    output : /tmp/cwe401_findings_Bq9RIT
+
+    query  : FIND $T $FUNC() {} CONTAINS malloc($SIZE)
+
+real	0m0.007s
+user	0m0.004s
+sys	0m0.002s
+
+--- post-filter: checking for absent free() ---
+    finding: /Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/int/bad_malloc_no_free_01.c:9:24 — int (in void(), never freed)
+[ no_free_on_exit ] 1 finding(s) written to /tmp/cwe401_findings_Bq9RIT
+
+=== Detector 2: overwrite_leak ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/int/bad_malloc_no_free_01.c.xml
+    output : /tmp/cwe401_findings_Bq9RIT
+
+    query  : FIND $T $FUNC() {} CONTAINS malloc($A) FOLLOWED BY malloc($B)
+
+real	0m0.006s
+user	0m0.003s
+sys	0m0.002s
+
+    no overwrite pattern found — no findings.
+
+=== Detector 3: new_no_delete ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/int/bad_malloc_no_free_01.c.xml
+    output : /tmp/cwe401_findings_Bq9RIT
+
+    query  : FIND $T $FUNC() {} CONTAINS new $TYPE()
+
+real	0m0.005s
+user	0m0.003s
+sys	0m0.002s
+
+    no new expressions found — no findings.
+
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "no_free_on_exit",
+  "severity": "warning",
+  "rule": "memoryLeak",
+  "file": "/Users/afiaasante/Security-Code-Smells/SCS005_Memory_Leak_Pattern/testsuites/CWE401/int/bad_malloc_no_free_01.c",
+  "line": 9,
+  "col": 24,
+  "varname": "int",
+  "note": {
+    "line": 9,
+    "col": 24,
+    "message": "malloc() in void() \u2014 no free() on any exit path"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   no_free_on_exit           1
+========================================
