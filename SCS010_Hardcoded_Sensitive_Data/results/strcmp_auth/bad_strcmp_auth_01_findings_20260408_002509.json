@@ -1,0 +1,14 @@
+{
+  "detector": "strcmp_hardcoded",
+  "severity": "warning",
+  "rule": "SCS010-PASSWD-STRCMP",
+  "file": "testsuites/CWE259/strcmp_auth/bad_strcmp_auth_01.c",
+  "line": 18,
+  "col": 9,
+  "varname": "\"s3cr3t!\"",
+  "note": {
+    "line": 18,
+    "col": 9,
+    "message": "strcmp/strncmp with hardcoded string literal '\"s3cr3t!\"' \u2014 hardcoded credential in comparison"
+  }
+}

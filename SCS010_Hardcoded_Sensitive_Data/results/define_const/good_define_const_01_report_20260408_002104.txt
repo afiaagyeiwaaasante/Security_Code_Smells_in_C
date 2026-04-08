@@ -1,0 +1,56 @@
+========================================
+ CWE-259 Hardcoded Sensitive Data Detector
+ Source  : testsuites/CWE259/define_const/good_define_const_01.c
+ Report  : /Users/afiaasante/Security-Code-Smells/SCS010_Hardcoded_Sensitive_Data/results/define_const/good_define_const_01_report_20260408_002104.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/SCS010_Hardcoded_Sensitive_Data/results/define_const/good_define_const_01_findings_20260408_002104.json
+ Date    : Wed Apr  8 00:21:04 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.005s
+user	0m0.003s
+sys	0m0.002s
+
+=== Stage 2: srcslice ===
+Writing to :: testsuites/CWE259/define_const/good_define_const_01.c.json
+Output Saved to :: testsuites/CWE259/define_const/good_define_const_01.c.json
+
+real	0m0.170s
+user	0m0.009s
+sys	0m0.001s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.012s
+user	0m0.008s
+sys	0m0.003s
+
+=== Detector: password_literal ===
+    input  : testsuites/CWE259/define_const/good_define_const_01.c.xml
+    output : /tmp/cwe259_findings_9qSlFp
+
+[ password_literal ] 0 finding(s) written to /tmp/cwe259_findings_9qSlFp
+
+=== Detector: define_credential ===
+    input  : testsuites/CWE259/define_const/good_define_const_01.c.xml
+    output : /tmp/cwe259_findings_9qSlFp
+
+[ define_credential ] 0 finding(s) written to /tmp/cwe259_findings_9qSlFp
+
+=== Detector: strcmp_hardcoded ===
+    input  : testsuites/CWE259/define_const/good_define_const_01.c.xml
+    output : /tmp/cwe259_findings_9qSlFp
+
+[ strcmp_hardcoded ] 0 finding(s) written to /tmp/cwe259_findings_9qSlFp
+
+========================================
+ Findings JSON
+========================================
+
+========================================
+ Summary
+ Total findings : 0
+ Errors         : 0
+ Warnings       : 0
+========================================

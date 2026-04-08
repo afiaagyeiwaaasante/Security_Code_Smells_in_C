@@ -1,0 +1,56 @@
+========================================
+ CWE-259 Hardcoded Sensitive Data Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/SCS010_Hardcoded_Sensitive_Data/testsuites/CWE259/define_const/good_define_const_01.c
+ Report  : /Users/afiaasante/Security-Code-Smells/SCS010_Hardcoded_Sensitive_Data/results/define_const/good_define_const_01_report_20260408_003038.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/SCS010_Hardcoded_Sensitive_Data/results/define_const/good_define_const_01_findings_20260408_003038.json
+ Date    : Wed Apr  8 00:30:38 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.005s
+user	0m0.003s
+sys	0m0.002s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/SCS010_Hardcoded_Sensitive_Data/testsuites/CWE259/define_const/good_define_const_01.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/SCS010_Hardcoded_Sensitive_Data/testsuites/CWE259/define_const/good_define_const_01.c.json
+
+real	0m0.171s
+user	0m0.010s
+sys	0m0.002s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.011s
+user	0m0.008s
+sys	0m0.003s
+
+=== Detector: password_literal ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS010_Hardcoded_Sensitive_Data/testsuites/CWE259/define_const/good_define_const_01.c.xml
+    output : /tmp/cwe259_findings_RiRu0Y
+
+[ password_literal ] 0 finding(s) written to /tmp/cwe259_findings_RiRu0Y
+
+=== Detector: define_credential ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS010_Hardcoded_Sensitive_Data/testsuites/CWE259/define_const/good_define_const_01.c.xml
+    output : /tmp/cwe259_findings_RiRu0Y
+
+[ define_credential ] 0 finding(s) written to /tmp/cwe259_findings_RiRu0Y
+
+=== Detector: strcmp_hardcoded ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS010_Hardcoded_Sensitive_Data/testsuites/CWE259/define_const/good_define_const_01.c.xml
+    output : /tmp/cwe259_findings_RiRu0Y
+
+[ strcmp_hardcoded ] 0 finding(s) written to /tmp/cwe259_findings_RiRu0Y
+
+========================================
+ Findings JSON
+========================================
+
+========================================
+ Summary
+ Total findings : 0
+ Errors         : 0
+ Warnings       : 0
+========================================

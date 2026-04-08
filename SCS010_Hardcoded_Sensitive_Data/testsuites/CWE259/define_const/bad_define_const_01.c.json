@@ -1,0 +1,17 @@
+{
+"buf-14-10-c9afed29ad49aa7754f1e520d8970d7b86e1a2d4":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS010_Hardcoded_Sensitive_Data/testsuites/CWE259/define_const/bad_define_const_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"main",
+    "type":"char[]",
+    "name":"buf",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS010_Hardcoded_Sensitive_Data/testsuites/CWE259/define_const/bad_define_const_01.c:14:10",
+    "dependence":[],
+    "aliases":[],
+    "calls":[{"functionName":"fgets","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS010_Hardcoded_Sensitive_Data/testsuites/CWE259/define_const/bad_define_const_01.c:15:9"},{"functionName":"fgets","parameter":"2","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS010_Hardcoded_Sensitive_Data/testsuites/CWE259/define_const/bad_define_const_01.c:15:9"},{"functionName":"strcspn","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS010_Hardcoded_Sensitive_Data/testsuites/CWE259/define_const/bad_define_const_01.c:17:9"},{"functionName":"strcmp","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS010_Hardcoded_Sensitive_Data/testsuites/CWE259/define_const/bad_define_const_01.c:19:9"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS010_Hardcoded_Sensitive_Data/testsuites/CWE259/define_const/bad_define_const_01.c:15:15","/Users/afiaasante/Security-Code-Smells/SCS010_Hardcoded_Sensitive_Data/testsuites/CWE259/define_const/bad_define_const_01.c:15:27","/Users/afiaasante/Security-Code-Smells/SCS010_Hardcoded_Sensitive_Data/testsuites/CWE259/define_const/bad_define_const_01.c:17:17","/Users/afiaasante/Security-Code-Smells/SCS010_Hardcoded_Sensitive_Data/testsuites/CWE259/define_const/bad_define_const_01.c:19:16"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS010_Hardcoded_Sensitive_Data/testsuites/CWE259/define_const/bad_define_const_01.c:14:10","/Users/afiaasante/Security-Code-Smells/SCS010_Hardcoded_Sensitive_Data/testsuites/CWE259/define_const/bad_define_const_01.c:17:5"]
+}
+}

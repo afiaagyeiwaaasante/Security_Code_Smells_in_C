@@ -1,0 +1,74 @@
+========================================
+ CWE-259 Hardcoded Sensitive Data Detector
+ Source  : testsuites/CWE259/strcmp_auth/bad_strcmp_auth_01.c
+ Report  : /Users/afiaasante/Security-Code-Smells/SCS010_Hardcoded_Sensitive_Data/results/strcmp_auth/bad_strcmp_auth_01_report_20260408_002105.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/SCS010_Hardcoded_Sensitive_Data/results/strcmp_auth/bad_strcmp_auth_01_findings_20260408_002105.json
+ Date    : Wed Apr  8 00:21:05 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.005s
+user	0m0.003s
+sys	0m0.002s
+
+=== Stage 2: srcslice ===
+Writing to :: testsuites/CWE259/strcmp_auth/bad_strcmp_auth_01.c.json
+Output Saved to :: testsuites/CWE259/strcmp_auth/bad_strcmp_auth_01.c.json
+
+real	0m0.167s
+user	0m0.009s
+sys	0m0.001s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.008s
+user	0m0.006s
+sys	0m0.002s
+
+=== Detector: password_literal ===
+    input  : testsuites/CWE259/strcmp_auth/bad_strcmp_auth_01.c.xml
+    output : /tmp/cwe259_findings_unAMSm
+
+[ password_literal ] 0 finding(s) written to /tmp/cwe259_findings_unAMSm
+
+=== Detector: define_credential ===
+    input  : testsuites/CWE259/strcmp_auth/bad_strcmp_auth_01.c.xml
+    output : /tmp/cwe259_findings_unAMSm
+
+[ define_credential ] 0 finding(s) written to /tmp/cwe259_findings_unAMSm
+
+=== Detector: strcmp_hardcoded ===
+    input  : testsuites/CWE259/strcmp_auth/bad_strcmp_auth_01.c.xml
+    output : /tmp/cwe259_findings_unAMSm
+
+    finding: testsuites/CWE259/strcmp_auth/bad_strcmp_auth_01.c:18:9 — strcmp with hardcoded literal '"s3cr3t!"'
+[ strcmp_hardcoded ] 1 finding(s) written to /tmp/cwe259_findings_unAMSm
+
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "strcmp_hardcoded",
+  "severity": "warning",
+  "rule": "SCS010-PASSWD-STRCMP",
+  "file": "testsuites/CWE259/strcmp_auth/bad_strcmp_auth_01.c",
+  "line": 18,
+  "col": 9,
+  "varname": "\"s3cr3t!\"",
+  "note": {
+    "line": 18,
+    "col": 9,
+    "message": "strcmp/strncmp with hardcoded string literal '\"s3cr3t!\"' \u2014 hardcoded credential in comparison"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   strcmp_hardcoded          1
+========================================
