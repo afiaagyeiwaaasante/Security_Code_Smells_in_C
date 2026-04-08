@@ -1,0 +1,56 @@
+========================================
+ CWE-78 Command Injection Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/popen_console/good_popen_console_01.c
+ Report  : /Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/results/popen_console/good_popen_console_01_report_20260407_233204.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/results/popen_console/good_popen_console_01_findings_20260407_233204.json
+ Date    : Tue Apr  7 23:32:04 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.005s
+user	0m0.003s
+sys	0m0.002s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/popen_console/good_popen_console_01.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/popen_console/good_popen_console_01.c.json
+
+real	0m0.169s
+user	0m0.009s
+sys	0m0.002s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.012s
+user	0m0.008s
+sys	0m0.003s
+
+=== Detector: system_tainted ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/popen_console/good_popen_console_01.c.xml
+    output : /tmp/cwe78_findings_0LLccu
+
+[ system_tainted ] 0 finding(s) written to /tmp/cwe78_findings_0LLccu
+
+=== Detector: popen_tainted ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/popen_console/good_popen_console_01.c.xml
+    output : /tmp/cwe78_findings_0LLccu
+
+[ popen_tainted ] 0 finding(s) written to /tmp/cwe78_findings_0LLccu
+
+=== Detector: execl_tainted ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/popen_console/good_popen_console_01.c.xml
+    output : /tmp/cwe78_findings_0LLccu
+
+[ execl_tainted ] 0 finding(s) written to /tmp/cwe78_findings_0LLccu
+
+========================================
+ Findings JSON
+========================================
+
+========================================
+ Summary
+ Total findings : 0
+ Errors         : 0
+ Warnings       : 0
+========================================

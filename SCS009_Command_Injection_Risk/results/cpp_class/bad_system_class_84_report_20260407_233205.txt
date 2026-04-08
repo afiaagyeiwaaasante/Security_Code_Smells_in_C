@@ -1,0 +1,56 @@
+========================================
+ CWE-78 Command Injection Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/cpp_class/bad_system_class_84.cpp
+ Report  : /Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/results/cpp_class/bad_system_class_84_report_20260407_233205.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/results/cpp_class/bad_system_class_84_findings_20260407_233205.json
+ Date    : Tue Apr  7 23:32:05 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.005s
+user	0m0.003s
+sys	0m0.002s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/cpp_class/bad_system_class_84.cpp.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/cpp_class/bad_system_class_84.cpp.json
+
+real	0m0.175s
+user	0m0.009s
+sys	0m0.002s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.012s
+user	0m0.008s
+sys	0m0.003s
+
+=== Detector: system_tainted ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/cpp_class/bad_system_class_84.cpp.xml
+    output : /tmp/cwe78_findings_IrddBy
+
+[ system_tainted ] 0 finding(s) written to /tmp/cwe78_findings_IrddBy
+
+=== Detector: popen_tainted ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/cpp_class/bad_system_class_84.cpp.xml
+    output : /tmp/cwe78_findings_IrddBy
+
+[ popen_tainted ] 0 finding(s) written to /tmp/cwe78_findings_IrddBy
+
+=== Detector: execl_tainted ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/cpp_class/bad_system_class_84.cpp.xml
+    output : /tmp/cwe78_findings_IrddBy
+
+[ execl_tainted ] 0 finding(s) written to /tmp/cwe78_findings_IrddBy
+
+========================================
+ Findings JSON
+========================================
+
+========================================
+ Summary
+ Total findings : 0
+ Errors         : 0
+ Warnings       : 0
+========================================

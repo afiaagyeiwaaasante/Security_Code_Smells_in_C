@@ -1,0 +1,56 @@
+========================================
+ CWE-78 Command Injection Risk Detector
+ Source  : testsuites/CWE78/cpp_class/bad_system_class_84.cpp
+ Report  : /Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/results/cpp_class/bad_system_class_84_report_20260407_181952.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/results/cpp_class/bad_system_class_84_findings_20260407_181952.json
+ Date    : Tue Apr  7 18:19:52 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.005s
+user	0m0.003s
+sys	0m0.002s
+
+=== Stage 2: srcslice ===
+Writing to :: testsuites/CWE78/cpp_class/bad_system_class_84.cpp.json
+Output Saved to :: testsuites/CWE78/cpp_class/bad_system_class_84.cpp.json
+
+real	0m0.163s
+user	0m0.009s
+sys	0m0.002s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.010s
+user	0m0.007s
+sys	0m0.002s
+
+=== Detector: system_tainted ===
+    input  : testsuites/CWE78/cpp_class/bad_system_class_84.cpp.xml
+    output : /tmp/cwe78_findings_CsmBpG
+
+[ system_tainted ] 0 finding(s) written to /tmp/cwe78_findings_CsmBpG
+
+=== Detector: popen_tainted ===
+    input  : testsuites/CWE78/cpp_class/bad_system_class_84.cpp.xml
+    output : /tmp/cwe78_findings_CsmBpG
+
+[ popen_tainted ] 0 finding(s) written to /tmp/cwe78_findings_CsmBpG
+
+=== Detector: execl_tainted ===
+    input  : testsuites/CWE78/cpp_class/bad_system_class_84.cpp.xml
+    output : /tmp/cwe78_findings_CsmBpG
+
+[ execl_tainted ] 0 finding(s) written to /tmp/cwe78_findings_CsmBpG
+
+========================================
+ Findings JSON
+========================================
+
+========================================
+ Summary
+ Total findings : 0
+ Errors         : 0
+ Warnings       : 0
+========================================

@@ -1,0 +1,14 @@
+{
+  "detector": "system_tainted",
+  "severity": "warning",
+  "rule": "SCS009-SYSTEM",
+  "file": "testsuites/CWE78/system_env/good_system_env_01.c",
+  "line": 26,
+  "col": 5,
+  "varname": "main",
+  "note": {
+    "line": 26,
+    "col": 5,
+    "message": "system() in main() \u2014 user input source (fgets/getenv) in same block; data may contain shell metacharacters"
+  }
+}

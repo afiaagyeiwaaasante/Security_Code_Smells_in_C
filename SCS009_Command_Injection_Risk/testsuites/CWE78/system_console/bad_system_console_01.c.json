@@ -1,0 +1,17 @@
+{
+"data-14-10-90635ed472b6f7d35615fe6e8166083ca048fece":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/system_console/bad_system_console_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"main",
+    "type":"char[]",
+    "name":"data",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/system_console/bad_system_console_01.c:14:10",
+    "dependence":[],
+    "aliases":[],
+    "calls":[{"functionName":"fgets","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/system_console/bad_system_console_01.c:17:9"},{"functionName":"strcspn","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/system_console/bad_system_console_01.c:21:10"},{"functionName":"system","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/system_console/bad_system_console_01.c:24:5"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/system_console/bad_system_console_01.c:17:15","/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/system_console/bad_system_console_01.c:21:18","/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/system_console/bad_system_console_01.c:24:12"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/system_console/bad_system_console_01.c:14:10","/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/system_console/bad_system_console_01.c:21:5"]
+}
+}

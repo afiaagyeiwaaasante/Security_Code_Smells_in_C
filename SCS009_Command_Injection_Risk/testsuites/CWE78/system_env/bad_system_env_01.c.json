@@ -1,0 +1,32 @@
+{
+"env-15-11-593189a611a8a9a469f8fb1a6701a3ed110d7db4":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/system_env/bad_system_env_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"main",
+    "type":"char*",
+    "name":"env",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/system_env/bad_system_env_01.c:15:11",
+    "dependence":[],
+    "aliases":[],
+    "calls":[{"functionName":"strncpy","parameter":"2","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/system_env/bad_system_env_01.c:22:5"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/system_env/bad_system_env_01.c:19:9","/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/system_env/bad_system_env_01.c:22:19"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/system_env/bad_system_env_01.c:15:11","/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/system_env/bad_system_env_01.c:18:5"]
+},
+"data-14-10-593189a611a8a9a469f8fb1a6701a3ed110d7db4":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/system_env/bad_system_env_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"main",
+    "type":"char[]",
+    "name":"data",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/system_env/bad_system_env_01.c:14:10",
+    "dependence":[],
+    "aliases":[],
+    "calls":[{"functionName":"strncpy","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/system_env/bad_system_env_01.c:22:5"},{"functionName":"system","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/system_env/bad_system_env_01.c:26:5"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/system_env/bad_system_env_01.c:22:13","/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/system_env/bad_system_env_01.c:26:12"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/system_env/bad_system_env_01.c:14:10","/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/system_env/bad_system_env_01.c:23:5"]
+}
+}

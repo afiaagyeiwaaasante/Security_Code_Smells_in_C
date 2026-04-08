@@ -1,0 +1,74 @@
+========================================
+ CWE-78 Command Injection Risk Detector
+ Source  : testsuites/CWE78/system_console/bad_system_console_01.c
+ Report  : /Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/results/system_console/bad_system_console_01_report_20260407_181913.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/results/system_console/bad_system_console_01_findings_20260407_181913.json
+ Date    : Tue Apr  7 18:19:13 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.024s
+user	0m0.003s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: testsuites/CWE78/system_console/bad_system_console_01.c.json
+Output Saved to :: testsuites/CWE78/system_console/bad_system_console_01.c.json
+
+real	0m0.179s
+user	0m0.010s
+sys	0m0.005s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.030s
+user	0m0.008s
+sys	0m0.007s
+
+=== Detector: system_tainted ===
+    input  : testsuites/CWE78/system_console/bad_system_console_01.c.xml
+    output : /tmp/cwe78_findings_c0hT7v
+
+    finding: testsuites/CWE78/system_console/bad_system_console_01.c:24:5 — main() system() with tainted input
+[ system_tainted ] 1 finding(s) written to /tmp/cwe78_findings_c0hT7v
+
+=== Detector: popen_tainted ===
+    input  : testsuites/CWE78/system_console/bad_system_console_01.c.xml
+    output : /tmp/cwe78_findings_c0hT7v
+
+[ popen_tainted ] 0 finding(s) written to /tmp/cwe78_findings_c0hT7v
+
+=== Detector: execl_tainted ===
+    input  : testsuites/CWE78/system_console/bad_system_console_01.c.xml
+    output : /tmp/cwe78_findings_c0hT7v
+
+[ execl_tainted ] 0 finding(s) written to /tmp/cwe78_findings_c0hT7v
+
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "system_tainted",
+  "severity": "warning",
+  "rule": "SCS009-SYSTEM",
+  "file": "testsuites/CWE78/system_console/bad_system_console_01.c",
+  "line": 24,
+  "col": 5,
+  "varname": "main",
+  "note": {
+    "line": 24,
+    "col": 5,
+    "message": "system() in main() \u2014 user input source (fgets/getenv) in same block; data may contain shell metacharacters"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   system_tainted            1
+========================================

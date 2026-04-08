@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" xmlns:cpp="http://www.srcML.org/srcML/cpp" xmlns:pos="http://www.srcML.org/srcML/position" xmlns:slice="http://www.srcML.org/srcML/slice" revision="1.0.0" language="C" filename="/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/interprocedural/good_system_interprocedural_22b.c" pos:tabs="8" hash="bbd425c89072878685e55a6fbed6ddfa9f1d897b"><comment type="block" pos:start="1:1" pos:end="5:3">/* good_system_interprocedural_22b.c
+ * CWE-78 Command Injection Risk â SCS009
+ * GOOD: system() is called with a hard-coded string literal.
+ * Juliet basis: CWE78_OS_Command_Injection__char_console_system_22b (goodG2B)
+ */</comment>
+<cpp:include pos:start="6:1" pos:end="6:19">#<cpp:directive pos:start="6:2" pos:end="6:8">include</cpp:directive> <cpp:file pos:start="6:10" pos:end="6:19">&lt;stdlib.h&gt;</cpp:file></cpp:include>
+
+<function pos:start="8:1" pos:end="12:1"><type pos:start="8:1" pos:end="8:4"><name pos:start="8:1" pos:end="8:4">void</name></type> <name pos:start="8:6" pos:end="8:20">CWE78_good_sink</name><parameter_list pos:start="8:21" pos:end="8:26">(<parameter pos:start="8:22" pos:end="8:25"><decl pos:start="8:22" pos:end="8:25"><type pos:start="8:22" pos:end="8:25"><name pos:start="8:22" pos:end="8:25">void</name></type></decl></parameter>)</parameter_list>
+<block pos:start="9:1" pos:end="12:1">{<block_content pos:start="9:2" pos:end="12:0">
+    <comment type="block" pos:start="10:5" pos:end="10:62">/* GOOD: system() receives a fixed literal â no taint */</comment>
+    <expr_stmt pos:start="11:5" pos:end="11:20"><expr pos:start="11:5" pos:end="11:19"><call pos:start="11:5" pos:end="11:19"><name pos:start="11:5" pos:end="11:10">system</name><argument_list pos:start="11:11" pos:end="11:19">(<argument pos:start="11:12" pos:end="11:18"><expr pos:start="11:12" pos:end="11:18"><literal type="string" pos:start="11:12" pos:end="11:18">"ls -l"</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+</block_content>}</block></function>
+
+<function pos:start="14:1" pos:end="18:1"><type pos:start="14:1" pos:end="14:3"><name pos:start="14:1" pos:end="14:3">int</name></type> <name pos:start="14:5" pos:end="14:8">main</name><parameter_list pos:start="14:9" pos:end="14:14">(<parameter pos:start="14:10" pos:end="14:13"><decl pos:start="14:10" pos:end="14:13"><type pos:start="14:10" pos:end="14:13"><name pos:start="14:10" pos:end="14:13">void</name></type></decl></parameter>)</parameter_list>
+<block pos:start="15:1" pos:end="18:1">{<block_content pos:start="15:2" pos:end="18:0">
+    <expr_stmt pos:start="16:5" pos:end="16:22"><expr pos:start="16:5" pos:end="16:21"><call pos:start="16:5" pos:end="16:21"><name pos:start="16:5" pos:end="16:19">CWE78_good_sink</name><argument_list pos:start="16:20" pos:end="16:21">()</argument_list></call></expr>;</expr_stmt>
+    <return pos:start="17:5" pos:end="17:13">return <expr pos:start="17:12" pos:end="17:12"><literal type="number" pos:start="17:12" pos:end="17:12">0</literal></expr>;</return>
+</block_content>}</block></function>
+</unit>

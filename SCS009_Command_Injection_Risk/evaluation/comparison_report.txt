@@ -1,0 +1,31 @@
+
+==============================================================================================================================
+  SCS009 CWE-78  Tool Comparison: Our Tool vs cppcheck vs Joern
+==============================================================================================================================
+                                     |    Time  Peak RSS   Det |    Time  Peak RSS   Det |    Time  Peak RSS   Det
+Test Case                            |      --- Our Tool ---       |      --- cppcheck ---       |        --- Joern ---       
+------------------------------------------------------------------------------------------------------------------------------
+bad_system_console_01                |  0.340s   14.8 MB   YES |  0.000s    7.8 MB    NO |    -         -      N/A
+good_system_console_01               |  0.290s   14.8 MB    NO |  0.000s    7.8 MB    NO |    -         -      N/A
+bad_system_env_01                    |  0.290s   14.8 MB   YES |  0.000s    7.9 MB    NO |    -         -      N/A
+good_system_env_01                   |  0.290s   14.8 MB    NO |  0.000s    7.9 MB    NO |    -         -      N/A
+bad_popen_console_01                 |  0.290s   14.8 MB   YES |  0.000s    7.9 MB    NO |    -         -      N/A
+good_popen_console_01                |  0.290s   14.8 MB    NO |  0.000s    7.9 MB    NO |    -         -      N/A
+bad_system_interprocedural_22b       |  0.300s   14.8 MB    NO |  0.000s    7.6 MB    NO |    -         -      N/A
+good_system_interprocedural_22b      |  0.300s   14.8 MB    NO |  0.000s    7.6 MB    NO |    -         -      N/A
+bad_system_class_84                  |  0.300s   14.9 MB    NO |  0.000s    8.0 MB    NO |    -         -      N/A
+good_system_class_84                 |  0.290s   14.8 MB    NO |  0.000s    8.1 MB    NO |    -         -      N/A
+------------------------------------------------------------------------------------------------------------------------------
+
+  Detections    : Our Tool 3/10   cppcheck 0/10   Joern N/A
+  Avg peak RSS  : Our Tool 14.8 MB   cppcheck 7.9 MB   Joern N/A
+
+                                     Our Tool       cppcheck          Joern
+  True Positives  (TP)                      3              0            N/A
+  True Negatives  (TN)                      5              5            N/A
+  False Positives (FP)                      0              0            N/A
+  False Negatives (FN)                      2              5            N/A
+  Precision  TP/(TP+FP)                100.0%            N/A            N/A
+  Recall     TP/(TP+FN)                 60.0%           0.0%            N/A
+
+==============================================================================================================================

@@ -1,0 +1,57 @@
+========================================
+ CWE-78 Command Injection Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/interprocedural/bad_system_interprocedural_22b.c
+ Report  : /Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/results/interprocedural/bad_system_interprocedural_22b_report_20260407_233205.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/results/interprocedural/bad_system_interprocedural_22b_findings_20260407_233205.json
+ Date    : Tue Apr  7 23:32:05 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.005s
+user	0m0.003s
+sys	0m0.002s
+
+=== Stage 2: srcslice ===
+HERE: /Users/afiaasante/Security-Code-Smells/tools/srcslice/srcDispatch/src/policy_classes/DeclPolicy.hpp operator() 273
+Writing to :: /Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/interprocedural/bad_system_interprocedural_22b.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/interprocedural/bad_system_interprocedural_22b.c.json
+
+real	0m0.175s
+user	0m0.009s
+sys	0m0.002s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.012s
+user	0m0.008s
+sys	0m0.003s
+
+=== Detector: system_tainted ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/interprocedural/bad_system_interprocedural_22b.c.xml
+    output : /tmp/cwe78_findings_s4rGrQ
+
+[ system_tainted ] 0 finding(s) written to /tmp/cwe78_findings_s4rGrQ
+
+=== Detector: popen_tainted ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/interprocedural/bad_system_interprocedural_22b.c.xml
+    output : /tmp/cwe78_findings_s4rGrQ
+
+[ popen_tainted ] 0 finding(s) written to /tmp/cwe78_findings_s4rGrQ
+
+=== Detector: execl_tainted ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/interprocedural/bad_system_interprocedural_22b.c.xml
+    output : /tmp/cwe78_findings_s4rGrQ
+
+[ execl_tainted ] 0 finding(s) written to /tmp/cwe78_findings_s4rGrQ
+
+========================================
+ Findings JSON
+========================================
+
+========================================
+ Summary
+ Total findings : 0
+ Errors         : 0
+ Warnings       : 0
+========================================

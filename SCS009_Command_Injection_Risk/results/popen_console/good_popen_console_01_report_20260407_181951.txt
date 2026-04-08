@@ -1,0 +1,74 @@
+========================================
+ CWE-78 Command Injection Risk Detector
+ Source  : testsuites/CWE78/popen_console/good_popen_console_01.c
+ Report  : /Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/results/popen_console/good_popen_console_01_report_20260407_181951.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/results/popen_console/good_popen_console_01_findings_20260407_181951.json
+ Date    : Tue Apr  7 18:19:51 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.005s
+user	0m0.003s
+sys	0m0.002s
+
+=== Stage 2: srcslice ===
+Writing to :: testsuites/CWE78/popen_console/good_popen_console_01.c.json
+Output Saved to :: testsuites/CWE78/popen_console/good_popen_console_01.c.json
+
+real	0m0.166s
+user	0m0.009s
+sys	0m0.002s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.011s
+user	0m0.008s
+sys	0m0.002s
+
+=== Detector: system_tainted ===
+    input  : testsuites/CWE78/popen_console/good_popen_console_01.c.xml
+    output : /tmp/cwe78_findings_EvhpBZ
+
+[ system_tainted ] 0 finding(s) written to /tmp/cwe78_findings_EvhpBZ
+
+=== Detector: popen_tainted ===
+    input  : testsuites/CWE78/popen_console/good_popen_console_01.c.xml
+    output : /tmp/cwe78_findings_EvhpBZ
+
+    finding: testsuites/CWE78/popen_console/good_popen_console_01.c:22:12 — main() popen() with tainted input
+[ popen_tainted ] 1 finding(s) written to /tmp/cwe78_findings_EvhpBZ
+
+=== Detector: execl_tainted ===
+    input  : testsuites/CWE78/popen_console/good_popen_console_01.c.xml
+    output : /tmp/cwe78_findings_EvhpBZ
+
+[ execl_tainted ] 0 finding(s) written to /tmp/cwe78_findings_EvhpBZ
+
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "popen_tainted",
+  "severity": "warning",
+  "rule": "SCS009-POPEN",
+  "file": "testsuites/CWE78/popen_console/good_popen_console_01.c",
+  "line": 22,
+  "col": 12,
+  "varname": "main",
+  "note": {
+    "line": 22,
+    "col": 12,
+    "message": "popen() in main() \u2014 user input source (fgets/getenv) in same block; pipe opened with tainted command"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   popen_tainted             1
+========================================

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" xmlns:cpp="http://www.srcML.org/srcML/cpp" xmlns:pos="http://www.srcML.org/srcML/position" xmlns:slice="http://www.srcML.org/srcML/slice" revision="1.0.0" language="C" filename="/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/interprocedural/bad_system_interprocedural_22b.c" pos:tabs="8" hash="9949bc073ff4248006ee4f00c0a4d98889e1c4a1"><comment type="block" pos:start="1:1" pos:end="7:3">/* bad_system_interprocedural_22b.c
+ * CWE-78 Command Injection Risk â SCS009
+ * BAD (sink file): calls system() with the tainted global from 22a.
+ * NOTE: Our detector sees system() here but no fgets/getenv in this block,
+ *       so this is a KNOWN FALSE NEGATIVE (interprocedural flow).
+ * Juliet basis: CWE78_OS_Command_Injection__char_console_system_22b
+ */</comment>
+<cpp:include pos:start="8:1" pos:end="8:19">#<cpp:directive pos:start="8:2" pos:end="8:8">include</cpp:directive> <cpp:file pos:start="8:10" pos:end="8:19">&lt;stdlib.h&gt;</cpp:file></cpp:include>
+
+<decl_stmt pos:start="10:1" pos:end="10:22"><decl pos:start="10:1" pos:end="10:21" slice:decl="cac4e40a39bb80abe6497435936a074d5164d185"><type pos:start="10:1" pos:end="10:11"><specifier pos:start="10:1" pos:end="10:6">extern</specifier> <name pos:start="10:8" pos:end="10:11">char</name></type> <name pos:start="10:13" pos:end="10:21"><name pos:start="10:13" pos:end="10:19">badData</name><index pos:start="10:20" pos:end="10:21">[]</index></name></decl>;</decl_stmt>
+
+<function pos:start="12:1" pos:end="16:1"><type pos:start="12:1" pos:end="12:4"><name pos:start="12:1" pos:end="12:4">void</name></type> <name pos:start="12:6" pos:end="12:19">CWE78_bad_sink</name><parameter_list pos:start="12:20" pos:end="12:25">(<parameter pos:start="12:21" pos:end="12:24"><decl pos:start="12:21" pos:end="12:24"><type pos:start="12:21" pos:end="12:24"><name pos:start="12:21" pos:end="12:24">void</name></type></decl></parameter>)</parameter_list>
+<block pos:start="13:1" pos:end="16:1">{<block_content pos:start="13:2" pos:end="16:0">
+    <comment type="block" pos:start="14:5" pos:end="14:83">/* BAD: data from 22a â tainted via global, no source visible in this file */</comment>
+    <expr_stmt pos:start="15:5" pos:end="15:20"><expr pos:start="15:5" pos:end="15:19" slice:use="cac4e40a39bb80abe6497435936a074d5164d185"><call pos:start="15:5" pos:end="15:19"><name pos:start="15:5" pos:end="15:10">system</name><argument_list pos:start="15:11" pos:end="15:19">(<argument pos:start="15:12" pos:end="15:18"><expr pos:start="15:12" pos:end="15:18"><name pos:start="15:12" pos:end="15:18">badData</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+</block_content>}</block></function>
+
+<function pos:start="18:1" pos:end="24:1"><type pos:start="18:1" pos:end="18:3"><name pos:start="18:1" pos:end="18:3">int</name></type> <name pos:start="18:5" pos:end="18:8">main</name><parameter_list pos:start="18:9" pos:end="18:14">(<parameter pos:start="18:10" pos:end="18:13"><decl pos:start="18:10" pos:end="18:13"><type pos:start="18:10" pos:end="18:13"><name pos:start="18:10" pos:end="18:13">void</name></type></decl></parameter>)</parameter_list>
+<block pos:start="19:1" pos:end="24:1">{<block_content pos:start="19:2" pos:end="24:0">
+    <decl_stmt pos:start="20:5" pos:end="20:38"><decl pos:start="20:5" pos:end="20:37" slice:decl="3e592b3bb8a3306d843870cf2e5f96edc9987a59"><type pos:start="20:5" pos:end="20:15"><specifier pos:start="20:5" pos:end="20:10">extern</specifier> <name pos:start="20:12" pos:end="20:15">void</name></type> <name pos:start="20:17" pos:end="20:31">CWE78_bad_setup</name><argument_list pos:start="20:32" pos:end="20:37">(<argument pos:start="20:33" pos:end="20:36"><expr pos:start="20:33" pos:end="20:36"><name pos:start="20:33" pos:end="20:36">void</name></expr></argument>)</argument_list></decl>;</decl_stmt>
+    <expr_stmt pos:start="21:5" pos:end="21:22"><expr pos:start="21:5" pos:end="21:21"><call pos:start="21:5" pos:end="21:21"><name pos:start="21:5" pos:end="21:19">CWE78_bad_setup</name><argument_list pos:start="21:20" pos:end="21:21">()</argument_list></call></expr>;</expr_stmt>
+    <expr_stmt pos:start="22:5" pos:end="22:21"><expr pos:start="22:5" pos:end="22:20"><call pos:start="22:5" pos:end="22:20"><name pos:start="22:5" pos:end="22:18">CWE78_bad_sink</name><argument_list pos:start="22:19" pos:end="22:20">()</argument_list></call></expr>;</expr_stmt>
+    <return pos:start="23:5" pos:end="23:13">return <expr pos:start="23:12" pos:end="23:12"><literal type="number" pos:start="23:12" pos:end="23:12">0</literal></expr>;</return>
+</block_content>}</block></function>
+</unit>

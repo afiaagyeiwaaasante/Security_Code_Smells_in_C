@@ -1,0 +1,74 @@
+========================================
+ CWE-78 Command Injection Risk Detector
+ Source  : testsuites/CWE78/system_env/bad_system_env_01.c
+ Report  : /Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/results/system_env/bad_system_env_01_report_20260407_233144.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/results/system_env/bad_system_env_01_findings_20260407_233144.json
+ Date    : Tue Apr  7 23:31:44 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.005s
+user	0m0.003s
+sys	0m0.002s
+
+=== Stage 2: srcslice ===
+Writing to :: testsuites/CWE78/system_env/bad_system_env_01.c.json
+Output Saved to :: testsuites/CWE78/system_env/bad_system_env_01.c.json
+
+real	0m0.175s
+user	0m0.009s
+sys	0m0.002s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.013s
+user	0m0.009s
+sys	0m0.003s
+
+=== Detector: system_tainted ===
+    input  : testsuites/CWE78/system_env/bad_system_env_01.c.xml
+    output : /tmp/cwe78_findings_UCkN62
+
+    finding: testsuites/CWE78/system_env/bad_system_env_01.c:26:5 — main() system() with tainted input
+[ system_tainted ] 1 finding(s) written to /tmp/cwe78_findings_UCkN62
+
+=== Detector: popen_tainted ===
+    input  : testsuites/CWE78/system_env/bad_system_env_01.c.xml
+    output : /tmp/cwe78_findings_UCkN62
+
+[ popen_tainted ] 0 finding(s) written to /tmp/cwe78_findings_UCkN62
+
+=== Detector: execl_tainted ===
+    input  : testsuites/CWE78/system_env/bad_system_env_01.c.xml
+    output : /tmp/cwe78_findings_UCkN62
+
+[ execl_tainted ] 0 finding(s) written to /tmp/cwe78_findings_UCkN62
+
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "system_tainted",
+  "severity": "warning",
+  "rule": "SCS009-SYSTEM",
+  "file": "testsuites/CWE78/system_env/bad_system_env_01.c",
+  "line": 26,
+  "col": 5,
+  "varname": "main",
+  "note": {
+    "line": 26,
+    "col": 5,
+    "message": "system() in main() \u2014 user input source (fgets/getenv) in same block; data may contain shell metacharacters"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   system_tainted            1
+========================================

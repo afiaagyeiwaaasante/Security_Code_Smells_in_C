@@ -1,0 +1,14 @@
+{
+  "detector": "system_tainted",
+  "severity": "warning",
+  "rule": "SCS009-SYSTEM",
+  "file": "/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/system_console/bad_system_console_01.c",
+  "line": 24,
+  "col": 5,
+  "varname": "main",
+  "note": {
+    "line": 24,
+    "col": 5,
+    "message": "system() in main() \u2014 user input source (fgets/getenv) in same block; data may contain shell metacharacters"
+  }
+}

@@ -1,0 +1,32 @@
+{
+"pipe-15-11-31eace65ce7cf7e58e96ede4c110d45a530e889d":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/popen_console/bad_popen_console_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"main",
+    "type":"FILE*",
+    "name":"pipe",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/popen_console/bad_popen_console_01.c:15:11",
+    "dependence":[],
+    "aliases":[],
+    "calls":[{"functionName":"pclose","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/popen_console/bad_popen_console_01.c:27:9"},{"functionName":"pclose","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/popen_console/bad_popen_console_01.c:27:9"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/popen_console/bad_popen_console_01.c:26:9","/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/popen_console/bad_popen_console_01.c:27:16"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/popen_console/bad_popen_console_01.c:15:11","/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/popen_console/bad_popen_console_01.c:25:5"]
+},
+"data-14-10-31eace65ce7cf7e58e96ede4c110d45a530e889d":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/popen_console/bad_popen_console_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"main",
+    "type":"char[]",
+    "name":"data",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/popen_console/bad_popen_console_01.c:14:10",
+    "dependence":[{"pipe":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/popen_console/bad_popen_console_01.c:25:18"}],
+    "aliases":[],
+    "calls":[{"functionName":"fgets","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/popen_console/bad_popen_console_01.c:18:9"},{"functionName":"strcspn","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/popen_console/bad_popen_console_01.c:22:10"},{"functionName":"popen","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/popen_console/bad_popen_console_01.c:25:12"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/popen_console/bad_popen_console_01.c:18:15","/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/popen_console/bad_popen_console_01.c:22:18","/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/popen_console/bad_popen_console_01.c:25:18"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/popen_console/bad_popen_console_01.c:14:10","/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/popen_console/bad_popen_console_01.c:22:5"]
+}
+}
