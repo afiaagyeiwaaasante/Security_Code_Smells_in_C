@@ -20,14 +20,22 @@ into a single multi-unit archive and srcQL sees across the boundary.
 
 ---
 
-## 2. Only one finding emitted per translation unit
+## 2. ~~Only one finding emitted per translation unit~~ — RESOLVED
 
-**Issue:** The detector uses `head -1` when extracting call position, so only
-the first `gets()` call in a function is reported. If a function contains
-multiple calls to `gets()`, only one finding is written.
+**Previously:** The detector used `head -1` when extracting call position, so only
+the first `gets()` call was reported regardless of how many were present.
 
-**Impact:** Low in practice — `gets()` is rarely called more than once in a
-single function.
+**Fix:** Replaced the `head -1` XPath extraction with a Python regex loop over
+the full srcQL result XML. The detector now iterates over every
+`<call><name>gets</name>` occurrence and emits one finding per call site.
+
+**Verified by three new test cases:**
+
+| Test case | Scenario | Expected | Result |
+|---|---|---|---|
+| `bad_gets_multi_01.c` | 3 functions, each calling `gets()` once | 3 findings | 3 ✓ |
+| `bad_gets_multi_02.c` | 1 function calling `gets()` twice | 2 findings | 2 ✓ |
+| `bad_gets_mixed_01.c` | 1 `gets()` function + 1 `fgets()` function | 1 finding | 1 ✓ |
 
 ---
 
