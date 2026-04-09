@@ -1,14 +1,15 @@
 # Security Code Smells in C — Detection & Analysis
-> Master's Thesis Research Repository  
-> Tools: srcML · srcSlice · srcQL · Python · Juliet Test Suite
+
+> Master's Thesis Research Repository
+> Tools: srcML · srcSlice · srcAttributor · cppcheck · Joern · Juliet Test Suite
 
 ---
 
 ## Overview
 
-This repository contains the full research pipeline for **detecting and analyzing security code smells in C source code**. It uses program slicing (srcSlice) and structural XML querying (srcQL/XPath) to identify, locate, and annotate security vulnerabilities based on the **NIST Juliet Test Suite**.
+This repository contains the full detection and evaluation pipeline for **10 security code smells in C/C++ source code**. Each smell is an independent study with its own detectors, test cases, and three-way tool comparison (our tool vs cppcheck vs Joern), benchmarked against the **NIST Juliet Test Suite**.
 
-Each security code smell (SCS) is treated as an independent, self-contained study under its own folder.
+Detection is structural: source files are converted to srcML XML, annotated with data-slice information via srcSlice and srcAttributor, then queried by shell/Python detector scripts.
 
 ---
 
@@ -16,138 +17,123 @@ Each security code smell (SCS) is treated as an independent, self-contained stud
 
 ```
 Security-Code-Smells/
+├── README.md
+├── juliet-scs-mapping.md            ← SCS-to-CWE-to-Juliet mapping table
+├── shared/
+│   ├── pipeline.sh                  ← shared 3-stage pipeline (srcml→srcslice→srcattributor)
+│   └── lib/
+│       └── write_finding.sh         ← shared JSON finding writer
+├── tools/                           ← srcML, srcSlice, srcAttributor, Joern (local installs)
 │
-├── README.md                        ← this file
-├── METHODOLOGY.md                   ← overall research methodology
-├── requirements.txt                 ← Python dependencies
-├── tools/                           ← srcML, srcSlice, srcAttributor builds
-│   ├── srcML/
-│   ├── srcML_srcslice/
-│   ├── srcAttributor/
-│   └── srcSlice/
-│
-└── SCS003_Missing_Null_Check/       ← Security Code Smell #003
-    ├── README.md                    ← smell-specific documentation
-    ├── DETECTION_RULE.md            ← formal detection rule definition
-    │
-    ├── testsuites/                  ← Juliet Test Suite C files
-    │   ├── binary_if/
-    │   │   ├── CWE476_NULL_Pointer_Dereference__binary_if_01.c
-    │   │   └── ...
-    │   ├── char/
-    │   └── ...
-    │
-    ├── data/                        ← generated analysis files
-    │   ├── XMLFile/                 ← srcML XML output
-    │   ├── SliceFile/               ← srcSlice JSON output
-    │   └── AttributeFile/           ← annotated XML output
-    │
-    ├── results/                     ← sink element XML files
-    │   └── binary_if/
-    │
-    ├── reports/                     ← JSON detection reports
-    │   └── SCS003_Missing_Null_Check/
-    │
-    └── src/                         ← detection pipeline scripts
-        ├── pipeline.py              ← main entry point (runs all steps)
-        ├── step1_detect.py          ← Step 1: JSON rule detection
-        ├── step2_locate.py          ← Step 2: XPath sink location
-        ├── step3_annotate.py        ← Step 3: XML annotation
-        └── utils.py                 ← shared helpers
+└── SCS00X_<SmellName>/              ← one folder per security code smell
+    ├── README.md                    ← smell description and evaluation results
+    ├── src/
+    │   ├── smell_report.sh          ← orchestrator: runs pipeline + all detectors
+    │   ├── report.sh                ← human-readable report formatter
+    │   └── detectors/               ← one detector script per pattern
+    ├── testsuites/
+    │   └── CWEXXX/                  ← Juliet-derived C/C++ test cases (bad + good)
+    ├── evaluation/
+    │   ├── run_our_tool.sh          ← benchmarks our tool on all test cases
+    │   ├── compare_report.sh        ← generates side-by-side comparison table
+    │   └── comparison_report.txt    ← TP/TN/FP/FN/Precision/Recall results
+    ├── cppcheck/
+    │   └── scripts/run_cppcheck.sh
+    ├── joern/
+    │   └── scripts/run_joern.sh
+    └── docs/
+        ├── pipeline.md              ← detector strategy and XML patterns
+        ├── known_issues.md          ← false positives/negatives and limitations
+        └── variants.md              ← Juliet variant analysis and group breakdown
 ```
 
 ---
 
 ## Security Code Smells Catalogue
 
-| ID | Name | CWE | Status |
-|----|------|-----|--------|
-| SCS003 | Missing Null Check | CWE-476 | ✅ In Progress |
-| SCS001 | Buffer Overflow | CWE-121 | 🔲 Planned |
-| SCS002 | Use After Free | CWE-416 | 🔲 Planned |
-| SCS004 | Integer Overflow | CWE-190 | 🔲 Planned |
-| SCS005 | Format String | CWE-134 | 🔲 Planned |
+| ID | Smell Name | CWE | Category |
+|----|---|---|---|
+| SCS001 | Dangerous Function Use | CWE-242, CWE-676, CWE-120 | Memory Safety |
+| SCS002 | Buffer Size Mismatch | CWE-131, CWE-680 | Memory Safety |
+| SCS003 | Missing NULL Check | CWE-476, CWE-690 | Memory Safety |
+| SCS004 | Use-After-Free Risk | CWE-416, CWE-672 | Memory Safety |
+| SCS005 | Memory Leak Pattern | CWE-401, CWE-772 | Memory Safety |
+| SCS006 | Integer Overflow Risk | CWE-190, CWE-191 | Integer Handling |
+| SCS007 | Signed/Unsigned Confusion | CWE-194, CWE-195 | Integer Handling |
+| SCS008 | Missing Format Specifier | CWE-134, CWE-686 | Input Validation |
+| SCS009 | Command Injection Risk | CWE-78, CWE-88 | Input Validation |
+| SCS010 | Hardcoded Sensitive Data | CWE-259, CWE-798 | API Misuse |
+
+See [`juliet-scs-mapping.md`](juliet-scs-mapping.md) for Juliet CWE cross-reference.
 
 ---
 
-## Pipeline Overview
+## Detection Pipeline
 
 ```
-C Source File (Juliet Test Suite)
+C/C++ Source File
         │
         ▼
-[1] srcml --position --hash
-        │
+[Stage 1]  srcml --position --hash
+        │  → <source>.xml   (srcML annotated XML)
         ▼
-   XMLFile/*.xml          ← structured XML representation
-        │
+[Stage 2]  srcslice -i <xml> -o <json>
+        │  → <source>.json  (data-slice profiles)
         ▼
-[2] srcslice
-        │
+[Stage 3]  srcattributor -i <json> -o <xml>
+        │  → <source>.xml   (slice-annotated XML)
         ▼
-   SliceFile/*.json        ← data flow / slice profiles
-        │
+[Detectors]  bash SCS00X/src/detectors/detect_*.sh
+        │  → <name>_findings_<timestamp>.json
+        │  → <name>_report_<timestamp>.txt
         ▼
-[3] src/step1_detect.py   ← apply detection rules to JSON
-        │
-        ▼
-[4] src/step2_locate.py   ← locate sink with XPath on XML
-        │
-        ▼
-[5] src/step3_annotate.py ← annotate XML with sec:smell attribute
-        │
-        ▼
-   AttributeFile/*.xml     ← annotated output
-   results/*.xml           ← extracted sink elements
-   reports/*.json          ← detection report
+[Evaluation] bash evaluation/compare_report.sh
+           → comparison_report.txt  (TP/TN/FP/FN/Precision/Recall)
 ```
+
+Stages 1–3 are handled by `shared/pipeline.sh`. Each smell's detectors parse the annotated XML using Python regex over srcML element patterns.
 
 ---
 
 ## Quick Start
 
-### 1. Install dependencies
+Run the detector on a single file:
+
 ```bash
-pip3 install lxml --break-system-packages
+bash SCS003_Missing_Null_Check/src/smell_report.sh \
+    SCS003_Missing_Null_Check/testsuites/CWE476/binary_if/bad_binary_if_01.c
 ```
 
-### 2. Convert C file to srcML XML
+Run the full evaluation benchmark for a smell:
+
 ```bash
-srcml --position --hash \
-    testsuites/binary_if/CWE476_NULL_Pointer_Dereference__binary_if_01.c \
-    -o data/XMLFile/CWE476_binary_if_01.xml
+cd SCS003_Missing_Null_Check
+bash evaluation/run_our_tool.sh
+bash cppcheck/scripts/run_cppcheck.sh
+bash joern/scripts/run_joern.sh
+bash evaluation/compare_report.sh
 ```
 
-### 3. Run srcSlice
-```bash
-srcslice data/XMLFile/CWE476_binary_if_01.xml \
-    -o data/SliceFile/CWE476_binary_if_01.json
-```
+---
 
-### 4. Run full detection pipeline
-```bash
-cd src/
-python3 pipeline.py \
-    ../data/SliceFile/CWE476_binary_if_01.json \
-    ../data/XMLFile/CWE476_binary_if_01.xml \
-    ../data/AttributeFile/CWE476_binary_if_01_annotated.xml
-```
+## Dependencies
+
+| Tool | Purpose |
+|---|---|
+| `srcml` | Stage 1 — converts C/C++ to annotated XML |
+| `srcslice` | Stage 2 — produces data-slice JSON |
+| `srcattributor` | Stage 3 — merges slice info back into XML |
+| `cppcheck` | Baseline comparison tool |
+| `joern` | Baseline comparison tool (CPG-based) |
+| `python3` | Detector scripts and report generation |
+
+Local tool builds are in `tools/` (excluded from git). Juliet test cases are at `Security-Code-Smells-in-C/benchmark/juliet/` (excluded from git, 106K files).
 
 ---
 
 ## Reproducibility
 
-All test cases are from the **NIST Juliet Test Suite for C/C++**:  
+Test cases are adapted from the **NIST Juliet Test Suite for C/C++**:
 https://samate.nist.gov/SARD/test-suites/116
 
-Tool versions used:
-- srcML: branch `srcql_srcslice`
-- srcSlice: branch `develop`
-- Python: 3.x
-- lxml: 5.x
-
----
-
-## Thesis Export (Overleaf)
-
-See `METHODOLOGY.md` for the LaTeX-ready description of the pipeline, detection rules, and results tables formatted for direct use in Overleaf.
+Each smell folder contains 10 test cases (5 bad/good pairs) covering baseline, control-flow, interprocedural, and C++ class variants. Evaluation results are committed to `evaluation/comparison_report.txt` in each folder.
