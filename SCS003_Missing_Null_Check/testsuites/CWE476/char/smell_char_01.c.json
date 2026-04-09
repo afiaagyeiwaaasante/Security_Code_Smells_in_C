@@ -1,17 +1,17 @@
 {
 "data-16-11-865838e5f91e6d142749b5e3a50085a883593bd1":{
-    "file":"smell_char_01.c",
+    "file":"char/smell_char_01.c",
     "language":"C",
     "namespace":[],
     "class":"",
     "function":"smell_char_no_guard",
     "type":"char*",
     "name":"data",
-    "initial":"smell_char_01.c:16:11",
+    "initial":"char/smell_char_01.c:16:11",
     "dependence":[],
     "aliases":[],
-    "calls":[{"functionName":"printHexCharLine","parameter":"1","definitionPosition":"","invoke":"smell_char_01.c:19:5"}],
-    "use":["smell_char_01.c:19:22"],
-    "definition":["smell_char_01.c:16:11"]
+    "calls":[{"functionName":"printHexCharLine","parameter":"1","definitionPosition":"","invoke":"char/smell_char_01.c:19:5"}],
+    "use":["char/smell_char_01.c:19:22"],
+    "definition":["char/smell_char_01.c:16:11"]
 }
 }

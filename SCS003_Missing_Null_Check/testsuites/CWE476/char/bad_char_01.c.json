@@ -1,17 +1,17 @@
 {
 "data-15-11-11ddf07c94bdb5a38dea84284cda12db67206744":{
-    "file":"bad_char_01.c",
+    "file":"char/bad_char_01.c",
     "language":"C",
     "namespace":[],
     "class":"",
     "function":"bad_char_null_deref",
     "type":"char*",
     "name":"data",
-    "initial":"bad_char_01.c:15:11",
+    "initial":"char/bad_char_01.c:15:11",
     "dependence":[],
     "aliases":[],
-    "calls":[{"functionName":"printHexCharLine","parameter":"1","definitionPosition":"","invoke":"bad_char_01.c:18:5"}],
-    "use":["bad_char_01.c:18:22"],
-    "definition":["bad_char_01.c:15:11"]
+    "calls":[{"functionName":"printHexCharLine","parameter":"1","definitionPosition":"","invoke":"char/bad_char_01.c:18:5"}],
+    "use":["char/bad_char_01.c:18:22"],
+    "definition":["char/bad_char_01.c:15:11"]
 }
 }

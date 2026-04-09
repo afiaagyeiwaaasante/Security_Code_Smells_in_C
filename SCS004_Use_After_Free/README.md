@@ -128,11 +128,55 @@ SCS004_Use_After_Free/
 │   ├── struct/
 │   └── wchar_t/
 │
+├── cppcheck/
+│   ├── scripts/run_cppcheck.sh  ← cppcheck benchmark
+│   └── results/
+│
+├── joern/
+│   ├── scripts/run_joern.sh     ← Joern benchmark
+│   └── results/
+│
+├── evaluation/
+│   ├── run_our_tool.sh          ← our tool benchmark
+│   ├── compare_report.sh        ← generates comparison table
+│   ├── our_tool_results.json
+│   └── comparison_report.txt
+│
 └── docs/
     ├── pipeline.md              ← pipeline architecture and detector queries
     ├── variants.md              ← Juliet variant coverage and test status
     └── known_issues.md          ← false negatives and limitations
 ```
+
+---
+
+## Tool comparison
+
+```bash
+bash evaluation/run_our_tool.sh
+bash cppcheck/scripts/run_cppcheck.sh
+bash joern/scripts/run_joern.sh
+bash evaluation/compare_report.sh
+```
+
+Latest results (`evaluation/comparison_report.txt`):
+
+| Test Case | Our Tool | cppcheck | Joern |
+|-----------|----------|----------|-------|
+| bad_use_after_free_int_01 | YES | NO | YES |
+| good_use_after_free_int_01 | NO | NO | YES (FP) |
+| bad_new_delete_int_01 | YES | YES | YES |
+| good_new_delete_int_01 | NO | NO | YES (FP) |
+| bad_return_freed_ptr_01 | YES | YES | YES |
+| good_return_freed_ptr_01 | NO | NO | YES (FP) |
+| bad_operator_equals_01 | YES | YES | NO |
+| good_operator_equals_01 | NO | NO | NO |
+
+**Detections (bad cases only): Our Tool 4/4 — cppcheck 3/4 — Joern 3/4**
+
+Our tool detects the malloc/free use-after-free that cppcheck misses (`bad_use_after_free_int_01`).
+Joern's generic identifier-reuse query produces false positives on all `good_*` malloc/free and
+new/delete cases — it cannot distinguish use-before-free from use-after-free without control flow.
 
 ---
 
@@ -142,6 +186,8 @@ SCS004_Use_After_Free/
 - `srcslice` — data-flow slice analysis
 - `srcattributor` — merges slice data into srcML XML
 - `xmllint` — XPath extraction from XML
+- `cppcheck` — comparison benchmark only
+- `joern` — comparison benchmark only
 - `python3` — summary report generation
 
 ---

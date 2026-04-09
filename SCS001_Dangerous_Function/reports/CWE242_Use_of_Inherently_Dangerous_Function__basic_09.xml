@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<unit xmlns="http://www.srcML.org/srcML/src" revision="1.0.0">
-
-<unit revision="1.0.0" language="C" filename="data/juliet/CWE242_Use_of_Inherently_Dangerous_Function__basic_09.c" item="1"><name>gets</name></unit>
-
-</unit>

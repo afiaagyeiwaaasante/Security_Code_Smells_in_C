@@ -114,13 +114,20 @@ SCS003_Missing_Null_Check/
 │       └── testsuitesupport/    ← Juliet shared headers
 │
 ├── results/                     ← generated reports and findings (by category)
-│   ├── binary_if/
-│   ├── char/
-│   ├── deref_no_check/
-│   ├── interprocedural/
-│   ├── after_check/
-│   ├── check_after_deref/
-│   └── struct/
+│
+├── cppcheck/
+│   ├── scripts/run_cppcheck.sh  ← cppcheck benchmark
+│   └── results/
+│
+├── joern/
+│   ├── scripts/run_joern.sh     ← Joern benchmark
+│   └── results/
+│
+├── evaluation/
+│   ├── run_our_tool.sh          ← our tool benchmark
+│   ├── compare_report.sh        ← generates comparison table
+│   ├── our_tool_results.json
+│   └── comparison_report.txt
 │
 └── docs/
     ├── pipeline.md              ← pipeline architecture and detector queries
@@ -130,12 +137,42 @@ SCS003_Missing_Null_Check/
 
 ---
 
+## Tool comparison
+
+```bash
+bash evaluation/run_our_tool.sh
+bash cppcheck/scripts/run_cppcheck.sh
+bash joern/scripts/run_joern.sh
+bash evaluation/compare_report.sh
+```
+
+Latest results (`evaluation/comparison_report.txt`):
+
+| Test Case | Our Tool | cppcheck | Joern |
+|-----------|----------|----------|-------|
+| bad_binary_if_01 | YES | YES | YES |
+| good_binary_if_01 | NO | NO | NO |
+| bad_null_deref_01 | YES | YES | NO |
+| good_guarded_01 | NO | NO | NO |
+| bad_interprocedural_01 | YES | YES | NO |
+| good_interprocedural_01 (callee smell) | YES | NO | NO |
+
+**Detections: Our Tool 4/6 — cppcheck 3/6 — Joern 1/6**
+
+Our tool detects the callee-level interprocedural smell that cppcheck misses.
+Joern's generic query only catches the bitwise-& pattern; null deref and
+interprocedural patterns require more targeted Joern queries.
+
+---
+
 ## Requirements
 
 - `srcml` — srcML toolkit
 - `srcslice` — data-flow slice analysis
 - `srcattributor` — merges slice data into srcML XML
 - `xmllint` — XPath extraction from XML
+- `cppcheck` — comparison benchmark only
+- `joern` — comparison benchmark only
 - `python3` — summary report generation
 
 ---

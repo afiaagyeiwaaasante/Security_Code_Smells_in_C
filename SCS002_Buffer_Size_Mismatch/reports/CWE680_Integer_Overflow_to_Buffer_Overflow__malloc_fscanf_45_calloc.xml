@@ -1,1 +1,0 @@
-p=calloc(1, sizeof(int))

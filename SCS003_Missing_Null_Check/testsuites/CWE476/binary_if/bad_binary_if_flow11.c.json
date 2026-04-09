@@ -1,32 +1,32 @@
 {
 "ptr-26-24-5b1d478f1ec163851c4c8665ed4378f62e18bc15":{
-    "file":"bad_binary_if_flow11.c",
+    "file":"binary_if/bad_binary_if_flow11.c",
     "language":"C",
     "namespace":[],
     "class":"",
     "function":"bad_binary_if_flow11",
     "type":"twoIntsStruct*",
     "name":"ptr",
-    "initial":"bad_binary_if_flow11.c:26:24",
+    "initial":"binary_if/bad_binary_if_flow11.c:26:24",
     "dependence":[],
     "aliases":[],
     "calls":[],
-    "use":["bad_binary_if_flow11.c:29:14","bad_binary_if_flow11.c:29:30"],
-    "definition":["bad_binary_if_flow11.c:26:24"]
+    "use":["binary_if/bad_binary_if_flow11.c:29:14","binary_if/bad_binary_if_flow11.c:29:30"],
+    "definition":["binary_if/bad_binary_if_flow11.c:26:24"]
 },
 "ptr-36-24-5b1d478f1ec163851c4c8665ed4378f62e18bc15":{
-    "file":"bad_binary_if_flow11.c",
+    "file":"binary_if/bad_binary_if_flow11.c",
     "language":"C",
     "namespace":[],
     "class":"",
     "function":"bad_binary_if_flow11",
     "type":"twoIntsStruct*",
     "name":"ptr",
-    "initial":"bad_binary_if_flow11.c:36:24",
+    "initial":"binary_if/bad_binary_if_flow11.c:36:24",
     "dependence":[],
     "aliases":[],
     "calls":[],
-    "use":["bad_binary_if_flow11.c:39:14","bad_binary_if_flow11.c:39:31"],
-    "definition":["bad_binary_if_flow11.c:36:24"]
+    "use":["binary_if/bad_binary_if_flow11.c:39:14","binary_if/bad_binary_if_flow11.c:39:31"],
+    "definition":["binary_if/bad_binary_if_flow11.c:36:24"]
 }
 }

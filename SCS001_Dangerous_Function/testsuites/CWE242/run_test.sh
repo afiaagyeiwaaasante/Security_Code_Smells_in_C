@@ -70,6 +70,34 @@ run_good "good_gets_01"  "$SCRIPT_DIR/gets/good_gets_01.c"
 echo
 
 # ---------------------------------------------------------------------------
+# Interprocedural — multi-file variant
+# Both files are combined into one srcML archive so srcQL can see across them.
+# 62a.c: caller passes buf to read_input() — gets() not visible here alone
+# 62b.c: callee calls gets(dest) on the received buffer
+# Combined: srcQL query matches gets() and emits a finding
+# ---------------------------------------------------------------------------
+echo "--- interprocedural (multi-file) ---"
+MULTI_SRC_DIR="$SCRIPT_DIR/interprocedural"
+if [ ! -f "$SRC_DIR/smell_report_multi.sh" ]; then
+    echo "SKIP  bad_gets_interprocedural_62 (smell_report_multi.sh not found)"
+    SKIP=$((SKIP+1))
+else
+    MULTI_OUTPUT=$(bash "$SRC_DIR/smell_report_multi.sh" \
+        "$MULTI_SRC_DIR/bad_gets_interprocedural_62a.c" \
+        "$MULTI_SRC_DIR/bad_gets_interprocedural_62b.c" \
+        2>&1)
+    if echo "$MULTI_OUTPUT" | grep -q '"severity":'; then
+        echo "PASS  bad_gets_interprocedural_62 — cross-file gets() detected"
+        PASS=$((PASS+1))
+    else
+        echo "FAIL  bad_gets_interprocedural_62 — expected finding, got none"
+        FAIL=$((FAIL+1))
+    fi
+fi
+
+echo
+
+# ---------------------------------------------------------------------------
 # Summary
 # ---------------------------------------------------------------------------
 TOTAL=$((PASS+FAIL+SKIP))
