@@ -1,1 +1,0 @@
-{"timestamp":"2026-03-02T10:27:17.272434-05:00","source":{"id":"cli/database/create","name":"CodeQL CLI: database create"},"plaintextMessage":"A fatal error occurred: Invalid source root: /benchmark/juliet/testcases/CWE242_Use_of_Inherently_Dangerous_Function.","severity":"error","visibility":{"telemetry":false},"attributes":{"exitCode":2}}

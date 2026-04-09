@@ -1,1 +1,0 @@
-{"timestamp":"2026-03-02T10:21:14.859045-05:00","source":{"id":"cli/database/create","name":"CodeQL CLI: database create"},"plaintextMessage":"A fatal error occurred: Invalid source root: /Users/afiaasante/Security-Code-Smells/cwe242.","severity":"error","visibility":{"telemetry":false},"attributes":{"exitCode":2}}
