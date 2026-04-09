@@ -1,1 +1,0 @@
-/usr/bin/time -l cppcheck --enable=all --template="{file},{line},{id},{message}" /Users/afiaasante/Security-Code-Smells/benchmarks/juliet/CWE242_Use_of_Inherently_Dangerous_Function 2>/Users/afiaasante/Security-Code-Smells/experiments/cppcheck/results.txt

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # smell_report.sh <source.c> [output_dir]
-# CWE-476 NULL Pointer Dereference detector
-# All output written to both stdout and an output file for thesis documentation
+# CWE-680 Buffer Size Mismatch detector
+# All output written to both stdout and a report file for thesis documentation
 set -e
 
 SRC=$1
@@ -16,7 +16,7 @@ DETECTORS_DIR="$SCRIPT_DIR/detectors"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
-# Derive output dir from source file's parent directory name (e.g. binary_if, char)
+# Derive output dir from source file's parent directory name (e.g. malloc)
 SRC_ABS_DIR=$(cd "$(dirname "$SRC")" && pwd)
 CATEGORY=$(basename "$SRC_ABS_DIR")
 OUTPUT_DIR=${2:-"$PROJECT_ROOT/results/$CATEGORY"}
@@ -31,14 +31,11 @@ TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
 REPORT_FILE="${OUTPUT_DIR}/${BASE%.c}_report_${TIMESTAMP}.txt"
 FINDINGS_FILE="${OUTPUT_DIR}/${BASE%.c}_findings_${TIMESTAMP}.json"
 
-# Temp findings file
-FINDINGS=$(mktemp /tmp/cwe476_findings_XXXXXX)
+FINDINGS=$(mktemp /tmp/cwe680_findings_XXXXXX)
 
-# Run everything in a subshell piped to tee
-# This works reliably on macOS bash 3.2 and zsh
 {
     echo "========================================"
-    echo " CWE-476 NULL Pointer Dereference Detector"
+    echo " CWE-680 Buffer Size Mismatch Detector"
     echo " Source  : $SRC"
     echo " Report  : $REPORT_FILE"
     echo " Findings: $FINDINGS_FILE"
@@ -56,18 +53,7 @@ FINDINGS=$(mktemp /tmp/cwe476_findings_XXXXXX)
     fi
 
     # Detectors
-    bash "$DETECTORS_DIR/detect_binary_if.sh"       "$XML" "$SRC" "$FINDINGS"
-    echo
-    bash "$DETECTORS_DIR/detect_interprocedural.sh" "$XML" "$SRC" "$FINDINGS"
-    echo
-    bash "$DETECTORS_DIR/detect_null_deref.sh"      "$XML" "$SRC" "$FINDINGS"
-    echo
-    bash "$DETECTORS_DIR/detect_missing_guard.sh"     "$XML" "$SRC" "$FINDINGS"
-    echo
-    bash "$DETECTORS_DIR/detect_deref_after_check.sh"  "$XML" "$SRC" "$FINDINGS"
-    echo
-    bash "$DETECTORS_DIR/detect_check_after_deref.sh"  "$XML" "$SRC" "$FINDINGS"
-    echo
+    bash "$DETECTORS_DIR/detect_buffer_size.sh" "$XML" "$SRC" "$FINDINGS"
 
     # Save findings
     cp "$FINDINGS" "$FINDINGS_FILE"

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# pipeline.sh <source.c> <output.xml> <output.json>
-# Stages 1-3: srcml -> srcslice -> srcattributor
+# shared/pipeline.sh <source.c> <output.xml> <output.json>
+# Shared pipeline — Stages 1-3: srcml -> srcslice -> srcattributor
 # Produces an annotated srcML XML file ready for detector queries.
 # Requires: srcml, srcslice, srcattributor
 set -e

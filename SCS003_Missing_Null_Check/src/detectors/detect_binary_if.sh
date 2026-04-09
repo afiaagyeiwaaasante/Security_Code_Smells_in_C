@@ -16,7 +16,7 @@
 #
 # Requires: srcml, srcslice, srcattributor, srcql
 
-source "$(dirname "$0")/../lib/write_finding.sh"
+source "$(dirname "$0")/../../../shared/lib/write_finding.sh"
 
 XML=$1       # annotated srcML XML from pipeline.sh
 SRC=$2       # original source file for reading source lines

@@ -12,7 +12,7 @@
 #
 # Requires: srcml, xmllint, python3
 
-source "$(dirname "$0")/../lib/write_finding.sh"
+source "$(dirname "$0")/../../../shared/lib/write_finding.sh"
 
 XML=$1
 SRC=$2

@@ -1,21 +1,23 @@
 #!/usr/bin/env bash
-# detectors/detect_dangerous_function.sh <annotated.xml> <source.c> <findings.json>
+# detectors/detect_buffer_size.sh <annotated.xml> <source.c> <findings.json>
 #
-# Detector 1: dangerous_function
-# Detects: calls to inherently dangerous C functions that have no safe variant
-#           Currently covers: gets()
-#           gets() has no safe usage — always replaced by fgets() with an
-#           explicit size limit.
-# Severity: warning [dangerousFunction]
+# Detector 1: buffer_size_mismatch
+# Detects: malloc() called with a multiplication expression as the size argument
+#           e.g. malloc(n * sizeof(int)) — if n is large, n * sizeof(int) can
+#           integer-overflow to a small value, causing a buffer smaller than intended.
+#
+# Severity: warning [bufferSizeMismatch]
 #
 # Strategy:
-#   srcQL query: FIND $T $FUNC($PARAMS) {} CONTAINS gets($DEST)
-#   Finds any function in the translation unit that contains a call to gets().
+#   srcQL query: FIND $T $FUNC($PARAMS) {} CONTAINS malloc($A * $B)
+#   Matches any function containing a malloc call whose argument is a product.
 #
 #   Position extraction (XPath on srcQL result):
-#   - Call site     : pos:start of the gets() call             → finding
-#   - Function site : pos:start of the surrounding function    → note
-#   - Variable name : argument passed to gets() (dest buffer)
+#   - Call site  : pos:start of the malloc() call       → finding
+#   - Size arg   : first operand of the multiplication  → varname
+#   - Func site  : pos:start of surrounding function    → note
+#
+# Safe alternative: calloc(n, sizeof(T)) — checks for overflow internally.
 #
 # Requires: srcml, xmllint
 
@@ -25,12 +27,12 @@ XML=$1
 SRC=$2
 FINDINGS=$3
 
-echo "=== Detector 1: dangerous_function ==="
+echo "=== Detector 1: buffer_size_mismatch ==="
 echo "    input  : $XML"
 echo "    output : $FINDINGS"
 echo
 
-QUERY='FIND $T $FUNC($PARAMS) {} CONTAINS gets($DEST)'
+QUERY='FIND $T $FUNC($PARAMS) {} CONTAINS malloc($A * $B)'
 
 echo "    query  : $QUERY"
 echo
@@ -38,14 +40,14 @@ echo
 # -----------------------------------------------------------------------
 # Run the srcQL query
 # -----------------------------------------------------------------------
-TMPRESULT=$(mktemp /tmp/df_result_XXXXXX)
+TMPRESULT=$(mktemp /tmp/bs_result_XXXXXX)
 trap "rm -f $TMPRESULT" EXIT
 
 { time srcml "$XML" --srcql "$QUERY" -q > "$TMPRESULT"; } 2>&1
 echo
 
 if [ -z "$(grep '<function' "$TMPRESULT")" ]; then
-    echo "[ dangerous_function ] No smell detected."
+    echo "[ buffer_size_mismatch ] No smell detected."
     exit 0
 fi
 
@@ -57,17 +59,17 @@ echo "--- extracting positions ---"
 FILENAME=$(xmllint --xpath \
     'string(//*[local-name()="unit"]/@filename)' "$TMPRESULT" 2>/dev/null)
 
-# gets() call position — where the dangerous call occurs
+# malloc() call position
 CALL_POS=$(xmllint --xpath \
-    '//*[local-name()="call"]/*[local-name()="name"][.="gets"]/../@*[local-name()="start"]' \
+    '//*[local-name()="call"]/*[local-name()="name"][.="malloc"]/../@*[local-name()="start"]' \
     "$TMPRESULT" 2>/dev/null | grep -o '[0-9][0-9]*:[0-9][0-9]*' | head -1)
 
 CALL_LINE=$(echo "$CALL_POS" | cut -d: -f1)
 CALL_COL=$(echo  "$CALL_POS" | cut -d: -f2)
 
-# Destination buffer argument passed to gets()
+# First name in the argument list — the count variable
 VARNAME=$(xmllint --xpath \
-    '//*[local-name()="call"]/*[local-name()="name"][.="gets"]/../*[local-name()="argument_list"]/*[local-name()="argument"]//*[local-name()="name"]' \
+    '//*[local-name()="call"]/*[local-name()="name"][.="malloc"]/../*[local-name()="argument_list"]/*[local-name()="argument"]//*[local-name()="name"]' \
     "$TMPRESULT" 2>/dev/null | sed 's/<[^>]*>//g' | grep -v '^$' | head -1)
 
 # Surrounding function start — used as note location
@@ -80,7 +82,7 @@ FUNC_COL=$(echo  "$FUNC_POS" | cut -d: -f2)
 
 if [ -z "$CALL_LINE" ]; then
     echo "    warning: could not determine call site — skipping"
-    echo "[ dangerous_function ] 0 finding(s) written to $FINDINGS"
+    echo "[ buffer_size_mismatch ] 0 finding(s) written to $FINDINGS"
     exit 0
 fi
 
@@ -91,17 +93,17 @@ echo "--- building findings ---"
 
 write_finding \
     --findings  "$FINDINGS" \
-    --detector  "dangerous_function" \
+    --detector  "buffer_size_mismatch" \
     --severity  "warning" \
-    --rule      "dangerousFunction" \
+    --rule      "bufferSizeMismatch" \
     --file      "$FILENAME" \
     --line      "$CALL_LINE" \
     --col       "$CALL_COL" \
-    --varname   "${VARNAME:-gets}" \
+    --varname   "${VARNAME:-n}" \
     --note-line "${FUNC_LINE:-1}" \
     --note-col  "${FUNC_COL:-1}" \
-    --note-msg  "gets() is inherently dangerous — use fgets(${VARNAME}, size, stdin) instead"
+    --note-msg  "malloc(${VARNAME} * sizeof(...)) may overflow — use calloc(${VARNAME}, sizeof(...)) instead"
 
-echo "    finding 1: ${FILENAME}:${CALL_LINE}:${CALL_COL} — gets(${VARNAME})"
+echo "    finding 1: ${FILENAME}:${CALL_LINE}:${CALL_COL} — malloc(${VARNAME} * ...)"
 echo
-echo "[ dangerous_function ] 1 finding(s) written to $FINDINGS"
+echo "[ buffer_size_mismatch ] 1 finding(s) written to $FINDINGS"

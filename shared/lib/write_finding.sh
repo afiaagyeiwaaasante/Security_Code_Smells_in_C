@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# src/lib/write_finding.sh
+# shared/lib/write_finding.sh
 #
 # Shared utility — write one finding to the findings JSON file.
 # Source this file in each detector script:
@@ -8,9 +8,9 @@
 # Usage:
 #   write_finding \
 #     --findings  <path>      REQUIRED: findings output file
-#     --detector  <name>      REQUIRED: binary_if | interprocedural | null_deref | missing_guard
+#     --detector  <name>      REQUIRED: detector name
 #     --severity  <level>     REQUIRED: error | warning
-#     --rule      <id>        REQUIRED: nullPointer | missingNullCheck
+#     --rule      <id>        REQUIRED: rule identifier
 #     --file      <path>      REQUIRED: source file path
 #     --line      <n>         REQUIRED: line number of finding
 #     --col       <n>         REQUIRED: column number of finding
@@ -24,7 +24,6 @@ write_finding() {
     local FILE="" LINE="" COL="" VARNAME=""
     local NOTE_LINE="" NOTE_COL="" NOTE_MSG=""
 
-    # Parse named arguments
     while [[ $# -gt 0 ]]; do
         case "$1" in
             --findings)  FINDINGS="$2";  shift 2 ;;
@@ -42,7 +41,6 @@ write_finding() {
         esac
     done
 
-    # Validate required fields — explicit checks, no indirect expansion
     if [ -z "$FINDINGS" ];  then echo "write_finding: missing --findings"  >&2; return 1; fi
     if [ -z "$DETECTOR" ];  then echo "write_finding: missing --detector"  >&2; return 1; fi
     if [ -z "$SEVERITY" ];  then echo "write_finding: missing --severity"  >&2; return 1; fi
@@ -52,13 +50,11 @@ write_finding() {
     if [ -z "$COL" ];       then echo "write_finding: missing --col"       >&2; return 1; fi
     if [ -z "$VARNAME" ];   then echo "write_finding: missing --varname"   >&2; return 1; fi
 
-    # Escape values for JSON
     local FILE_ESC VARNAME_ESC NOTE_MSG_ESC
     FILE_ESC=$(echo "$FILE"       | sed 's/\\/\\\\/g; s/"/\\"/g')
     VARNAME_ESC=$(echo "$VARNAME" | sed 's/\\/\\\\/g; s/"/\\"/g')
     NOTE_MSG_ESC=$(echo "$NOTE_MSG" | sed 's/\\/\\\\/g; s/"/\\"/g')
 
-    # Write finding — with or without note block
     if [ -n "$NOTE_LINE" ] && [ -n "$NOTE_MSG" ]; then
         cat >> "$FINDINGS" << EOF
 {

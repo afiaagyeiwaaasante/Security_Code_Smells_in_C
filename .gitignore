@@ -5,3 +5,11 @@ codeql-osx64.zip
 *.bin
 tools/*
 !tools/README.md
+# Juliet test suite — local reference only, not committed to git
+Security-Code-Smells-in-C/
+
+# Build artifacts / binary databases
+workspace/
+experiments/
+cwe242-cpg
+

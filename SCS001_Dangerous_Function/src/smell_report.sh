@@ -14,6 +14,7 @@ fi
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DETECTORS_DIR="$SCRIPT_DIR/detectors"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
 # Derive output dir from source file's parent directory name (e.g. gets, basic)
 SRC_ABS_DIR=$(cd "$(dirname "$SRC")" && pwd)
@@ -24,6 +25,7 @@ mkdir -p "$OUTPUT_DIR"
 DIR=$(dirname "$SRC")
 BASE=$(basename "$SRC")
 XML="$DIR/$BASE.xml"
+JSON="$DIR/$BASE.json"
 
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
 REPORT_FILE="${OUTPUT_DIR}/${BASE%.c}_report_${TIMESTAMP}.txt"
@@ -43,7 +45,7 @@ FINDINGS=$(mktemp /tmp/cwe242_findings_XXXXXX)
     echo
 
     # Pipeline
-    bash "$SCRIPT_DIR/pipeline.sh" "$SRC" "$XML"
+    bash "$REPO_ROOT/shared/pipeline.sh" "$SRC" "$XML" "$JSON"
 
     if [ ! -f "$XML" ]; then
         echo "ERROR: annotated XML not produced — pipeline failed"
