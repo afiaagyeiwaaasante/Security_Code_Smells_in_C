@@ -64,7 +64,7 @@ SCS010_Hardcoded_Sensitive_Data/
 │   ├── scripts/run_joern.sh
 │   └── results/
 ├── evaluation/
-│   ├── run_our_tool.sh
+│   ├── run_smelldetect.sh
 │   ├── compare_report.sh
 │   └── comparison_report.txt
 ├── docs/
@@ -97,7 +97,7 @@ bash src/smell_report.sh testsuites/CWE259/password_var/bad_password_var_01.c
 ### Comparison benchmarks
 
 ```bash
-bash evaluation/run_our_tool.sh
+bash evaluation/run_smelldetect.sh
 bash cppcheck/scripts/run_cppcheck.sh
 bash joern/scripts/run_joern.sh
 bash evaluation/compare_report.sh
@@ -105,7 +105,7 @@ bash evaluation/compare_report.sh
 
 ## Evaluation Results
 
-| | Our Tool | cppcheck | Joern |
+| | SmellDetect | cppcheck | Joern |
 |---|---|---|---|
 | True Positives (TP) | 5 | 0 | TBD |
 | True Negatives (TN) | 5 | 5 | TBD |
@@ -116,7 +116,7 @@ bash evaluation/compare_report.sh
 | Avg wall time | ~0.30s | ~0.01s | TBD |
 | Avg peak RSS | ~15.0 MB | ~8.0 MB | TBD |
 
-**Our tool** achieves 100% precision and 100% recall across all five test groups.
+**SmellDetect** achieves 100% precision and 100% recall across all five test groups.
 The three complementary detectors cover the main structural forms of the smell:
 variable initialiser, preprocessor macro, and authentication comparison.
 

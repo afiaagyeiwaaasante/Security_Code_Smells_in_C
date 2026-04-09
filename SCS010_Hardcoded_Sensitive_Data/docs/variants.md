@@ -62,7 +62,7 @@
 
 ## Detection Coverage
 
-| Group | Our Tool | cppcheck | Joern |
+| Group | SmellDetect | cppcheck | Joern |
 |---|---|---|---|
 | password_var | YES | NO | TBD |
 | define_const | YES | NO | TBD |

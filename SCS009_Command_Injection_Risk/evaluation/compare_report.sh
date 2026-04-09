@@ -1,20 +1,20 @@
 #!/usr/bin/env bash
 # evaluation/compare_report.sh
-# Reads our_tool_results.json, cppcheck_results.json, and joern_results.json
-# and prints a side-by-side comparison table (time, peak RSS, detection).
+# Reads smelldetect_results.json, cppcheck_results.json, and joern_results.json
+# and prints a side-by-side comparison table (time, memory used, detection).
 # Output: evaluation/comparison_report.txt
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
-OUR_RESULTS="$SCRIPT_DIR/our_tool_results.json"
+OUR_RESULTS="$SCRIPT_DIR/smelldetect_results.json"
 CPP_RESULTS="$PROJECT_ROOT/cppcheck/results/cppcheck_results.json"
 JOERN_RESULTS="$PROJECT_ROOT/joern/results/joern_results.json"
 REPORT_FILE="$SCRIPT_DIR/comparison_report.txt"
 
 if [ ! -f "$OUR_RESULTS" ]; then
-    echo "ERROR: $OUR_RESULTS not found — run evaluation/run_our_tool.sh first"
+    echo "ERROR: $OUR_RESULTS not found — run evaluation/run_smelldetect.sh first"
     exit 1
 fi
 if [ ! -f "$CPP_RESULTS" ]; then
@@ -65,16 +65,16 @@ def fmt_mem(val):
 
 def fmt_det(val, missing=False):
     if missing: return " N/A"
-    return "YES" if val else " NO"
+    return "FOUND" if val else "MISSED"
 
 COL = 27
-header_tool = f"{'Test Case':<36} | {'--- Our Tool ---':^{COL}} | {'--- cppcheck ---':^{COL}} | {'--- Joern ---':^{COL}}"
-header_sub  = f"{'':36} | {'Time':>7} {'Peak RSS':>9} {'Det':>5} | {'Time':>7} {'Peak RSS':>9} {'Det':>5} | {'Time':>7} {'Peak RSS':>9} {'Det':>5}"
+header_tool = f"{'Test Case':<36} | {'--- SmellDetect ---':^{COL}} | {'--- cppcheck ---':^{COL}} | {'--- Joern ---':^{COL}}"
+header_sub  = f"{'':36} | {'Time':>7} {'Mem Used':>9} {'Detect':>7} | {'Time':>7} {'Mem Used':>9} {'Detect':>7} | {'Time':>7} {'Mem Used':>9} {'Detect':>7}"
 LINE = "-" * len(header_tool)
 
 print()
 print("=" * len(header_tool))
-print("  SCS009 CWE-78  Tool Comparison: Our Tool vs cppcheck vs Joern")
+print("  SCS009 CWE-78  Tool Comparison: SmellDetect vs cppcheck vs Joern")
 print("=" * len(header_tool))
 print(header_sub)
 print(header_tool)
@@ -87,9 +87,9 @@ for test in all_tests:
     joern_missing = not joern
     print(
         f"{test:<36} | "
-        f"{fmt_time(o.get('wall_time_s')):>7} {fmt_mem(o.get('peak_rss_kb')):>9} {fmt_det(o.get('detected')):>5} | "
-        f"{fmt_time(c.get('wall_time_s')):>7} {fmt_mem(c.get('peak_rss_kb')):>9} {fmt_det(c.get('detected')):>5} | "
-        f"{fmt_time(j.get('wall_time_s') if j else None):>7} {fmt_mem(j.get('peak_rss_kb') if j else None):>9} {fmt_det(j.get('detected') if j else None, missing=joern_missing):>5}"
+        f"{fmt_time(o.get('wall_time_s')):>7} {fmt_mem(o.get('peak_rss_kb')):>9} {fmt_det(o.get('detected')):>7} | "
+        f"{fmt_time(c.get('wall_time_s')):>7} {fmt_mem(c.get('peak_rss_kb')):>9} {fmt_det(c.get('detected')):>7} | "
+        f"{fmt_time(j.get('wall_time_s') if j else None):>7} {fmt_mem(j.get('peak_rss_kb') if j else None):>9} {fmt_det(j.get('detected') if j else None, missing=joern_missing):>7}"
     )
 
 print(LINE)
@@ -129,13 +129,13 @@ cpp_mems    = [int(r["peak_rss_kb"])   for r in cpp.values()   if r.get("peak_rs
 joern_mems  = [int(r["peak_rss_kb"])   for r in joern.values() if r.get("peak_rss_kb")] if joern else []
 
 joern_det_str = f"{joern_det}/{total}" if joern_det is not None else "N/A"
-print(f"  Detections    : Our Tool {our_det}/{total}   cppcheck {cpp_det}/{total}   Joern {joern_det_str}")
+print(f"  Detected       : SmellDetect detected {our_det}/{total}   cppcheck detected {cpp_det}/{total}   Joern detected {joern_det_str}")
 if our_times and cpp_times:
     joern_time_str = f"{sum(joern_times)/len(joern_times):.3f}s" if joern_times else "N/A"
-    print(f"  Avg wall time : Our Tool {sum(our_times)/len(our_times):.3f}s   cppcheck {sum(cpp_times)/len(cpp_times):.3f}s   Joern {joern_time_str}")
+    print(f"  Avg Run Time : SmellDetect {sum(our_times)/len(our_times):.3f}s   cppcheck {sum(cpp_times)/len(cpp_times):.3f}s   Joern {joern_time_str}")
 if our_mems and cpp_mems:
     joern_mem_str = f"{sum(joern_mems)/len(joern_mems)/1024:.1f} MB" if joern_mems else "N/A"
-    print(f"  Avg peak RSS  : Our Tool {sum(our_mems)/len(our_mems)/1024:.1f} MB   cppcheck {sum(cpp_mems)/len(cpp_mems)/1024:.1f} MB   Joern {joern_mem_str}")
+    print(f"  Avg Memory Used  : SmellDetect {sum(our_mems)/len(our_mems)/1024:.1f} MB   cppcheck {sum(cpp_mems)/len(cpp_mems)/1024:.1f} MB   Joern {joern_mem_str}")
 print()
 
 def fmt_metric(val):
@@ -144,7 +144,7 @@ def fmt_metric(val):
 def fmt_pct(num, den):
     return f"{pct(num, den):>12}" if num is not None else f"{'N/A':>12}"
 
-print(f"  {'':30} {'Our Tool':>12}   {'cppcheck':>12}   {'Joern':>12}")
+print(f"  {'':30} {'SmellDetect':>12}   {'cppcheck':>12}   {'Joern':>12}")
 print(f"  {'True Positives  (TP)':30} {fmt_metric(our_tp)}   {fmt_metric(cpp_tp)}   {fmt_metric(joern_tp)}")
 print(f"  {'True Negatives  (TN)':30} {fmt_metric(our_tn)}   {fmt_metric(cpp_tn)}   {fmt_metric(joern_tn)}")
 print(f"  {'False Positives (FP)':30} {fmt_metric(our_fp)}   {fmt_metric(cpp_fp)}   {fmt_metric(joern_fp)}")

@@ -76,9 +76,9 @@ SCS001_Dangerous_Function/
 │   ├── scripts/run_joern.sh      — Joern benchmark
 │   └── results/
 ├── evaluation/
-│   ├── run_our_tool.sh           — our tool benchmark
+│   ├── run_smelldetect.sh           — SmellDetect benchmark
 │   ├── compare_report.sh         — generates comparison table
-│   ├── our_tool_results.json
+│   ├── smelldetect_results.json
 │   └── comparison_report.txt
 └── doc/
     ├── pipeline.md               — pipeline stages and query details
@@ -114,7 +114,7 @@ cd testsuites/CWE242 && bash run_test.sh
 Run all three benchmarks then generate the report:
 
 ```bash
-bash evaluation/run_our_tool.sh
+bash evaluation/run_smelldetect.sh
 bash cppcheck/scripts/run_cppcheck.sh
 bash joern/scripts/run_joern.sh
 bash evaluation/compare_report.sh
@@ -122,7 +122,7 @@ bash evaluation/compare_report.sh
 
 Latest results (`evaluation/comparison_report.txt`):
 
-| Test Case | Our Tool | cppcheck | Joern |
+| Test Case | SmellDetect | cppcheck | Joern |
 |-----------|----------|----------|-------|
 | bad_gets_01 | 0.11s / 14.7 MB / YES | 0.01s / 7.9 MB / YES | 3.96s / 344 MB / YES |
 | good_gets_01 | 0.05s / 14.7 MB / NO | 0.00s / 7.9 MB / NO | 3.40s / 357 MB / NO |

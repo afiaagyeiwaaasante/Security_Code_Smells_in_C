@@ -1,22 +1,22 @@
 #!/usr/bin/env bash
-# evaluation/run_our_tool.sh
-# Runs our SCS010 tool on representative CWE-259 test cases and records:
+# evaluation/run_smelldetect.sh
+# Runs our SCS005 tool on representative CWE-401 test cases and records:
 #   - wall-clock time
 #   - peak RSS (resident set size)
 #   - whether a finding was detected
-# Output: evaluation/our_tool_results.json  (one JSON object per line)
+# Output: evaluation/smelldetect_results.json  (one JSON object per line)
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 SRC_DIR="$PROJECT_ROOT/src"
-TESTSUITE="$PROJECT_ROOT/testsuites/CWE259"
-RESULTS="$SCRIPT_DIR/our_tool_results.json"
+TESTSUITE="$PROJECT_ROOT/testsuites/CWE401"
+RESULTS="$SCRIPT_DIR/smelldetect_results.json"
 
 > "$RESULTS"
 
 echo "========================================"
-echo " SCS010 — Our Tool Benchmark"
+echo " SCS005 — SmellDetect Benchmark"
 echo " Output: $RESULTS"
 echo " Date  : $(date)"
 echo "========================================"
@@ -29,8 +29,8 @@ run_case() {
     echo "--- $TEST_NAME ---"
 
     local TMPOUT TIMEFILE
-    TMPOUT=$(mktemp /tmp/our_tool_out_XXXXXX)
-    TIMEFILE=$(mktemp /tmp/our_tool_time_XXXXXX)
+    TMPOUT=$(mktemp /tmp/smelldetect_out_XXXXXX)
+    TIMEFILE=$(mktemp /tmp/smelldetect_time_XXXXXX)
 
     /usr/bin/time -l bash "$SRC_DIR/smell_report.sh" "$FILE" \
         > "$TMPOUT" 2>"$TIMEFILE" || true
@@ -58,25 +58,21 @@ run_case() {
     rm -f "$TMPOUT" "$TIMEFILE"
 }
 
-# Group 1 — password_var
-run_case "bad_password_var_01"  "$TESTSUITE/password_var/bad_password_var_01.c"
-run_case "good_password_var_01" "$TESTSUITE/password_var/good_password_var_01.c"
+# Detector 1 — no_free_on_exit
+run_case "bad_malloc_no_free_01"    "$TESTSUITE/int/bad_malloc_no_free_01.c"
+run_case "good_malloc_with_free_01" "$TESTSUITE/int/good_malloc_with_free_01.c"
 
-# Group 2 — define_const
-run_case "bad_define_const_01"  "$TESTSUITE/define_const/bad_define_const_01.c"
-run_case "good_define_const_01" "$TESTSUITE/define_const/good_define_const_01.c"
+# Detector 1 — early_return variant
+run_case "bad_early_return_01"  "$TESTSUITE/early_return/bad_early_return_01.c"
+run_case "good_early_return_01" "$TESTSUITE/early_return/good_early_return_01.c"
 
-# Group 3 — strcmp_auth
-run_case "bad_strcmp_auth_01"  "$TESTSUITE/strcmp_auth/bad_strcmp_auth_01.c"
-run_case "good_strcmp_auth_01" "$TESTSUITE/strcmp_auth/good_strcmp_auth_01.c"
+# Detector 2 — overwrite_leak
+run_case "bad_overwrite_01"  "$TESTSUITE/overwrite/bad_overwrite_01.c"
+run_case "good_overwrite_01" "$TESTSUITE/overwrite/good_overwrite_01.c"
 
-# Group 4 — interprocedural (source file — literal is here)
-run_case "bad_password_interprocedural_22a"  "$TESTSUITE/interprocedural/bad_password_interprocedural_22a.c"
-run_case "good_password_interprocedural_22b" "$TESTSUITE/interprocedural/good_password_interprocedural_22b.c"
-
-# Group 5 — cpp_class (flow 84)
-run_case "bad_password_class_84"  "$TESTSUITE/cpp_class/bad_password_class_84.cpp"
-run_case "good_password_class_84" "$TESTSUITE/cpp_class/good_password_class_84.cpp"
+# Detector 3 — new_no_delete
+run_case "bad_new_no_delete_01"  "$TESTSUITE/new_delete/bad_new_no_delete_01.cpp"
+run_case "good_new_delete_01"    "$TESTSUITE/new_delete/good_new_delete_01.cpp"
 
 echo "========================================"
 echo " Results saved to: $RESULTS"

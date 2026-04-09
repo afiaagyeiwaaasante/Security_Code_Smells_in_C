@@ -7,7 +7,7 @@
 
 ## Overview
 
-This repository contains the full detection and evaluation pipeline for **10 security code smells in C/C++ source code**. Each smell is an independent study with its own detectors, test cases, and three-way tool comparison (our tool vs cppcheck vs Joern), benchmarked against the **NIST Juliet Test Suite**.
+This repository contains the full detection and evaluation pipeline for **10 security code smells in C/C++ source code**. Each smell is an independent study with its own detectors, test cases, and three-way tool comparison (SmellDetect vs cppcheck vs Joern), benchmarked against the **NIST Juliet Test Suite**.
 
 Detection is structural: source files are converted to srcML XML, annotated with data-slice information via srcSlice and srcAttributor, then queried by shell/Python detector scripts.
 
@@ -33,7 +33,7 @@ Security-Code-Smells/
     ├── testsuites/
     │   └── CWEXXX/                  ← Juliet-derived C/C++ test cases (bad + good)
     ├── evaluation/
-    │   ├── run_our_tool.sh          ← benchmarks our tool on all test cases
+    │   ├── run_smelldetect.sh          ← benchmarks SmellDetect on all test cases
     │   ├── compare_report.sh        ← generates side-by-side comparison table
     │   └── comparison_report.txt    ← TP/TN/FP/FN/Precision/Recall results
     ├── cppcheck/
@@ -105,7 +105,7 @@ Run the full evaluation benchmark for a smell:
 
 ```bash
 cd SCS003_Missing_Null_Check
-bash evaluation/run_our_tool.sh
+bash evaluation/run_smelldetect.sh
 bash cppcheck/scripts/run_cppcheck.sh
 bash joern/scripts/run_joern.sh
 bash evaluation/compare_report.sh

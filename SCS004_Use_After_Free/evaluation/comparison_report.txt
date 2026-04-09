@@ -1,9 +1,9 @@
 
 ==============================================================================================================================
-  SCS004 CWE-416  Tool Comparison: Our Tool vs cppcheck vs Joern
+  SCS004 CWE-416  Tool Comparison: SmellDetect vs cppcheck vs Joern
 ==============================================================================================================================
                                      |    Time  Peak RSS   Det |    Time  Peak RSS   Det |    Time  Peak RSS   Det
-Test Case                            |      --- Our Tool ---       |      --- cppcheck ---       |        --- Joern ---       
+Test Case                            |      --- SmellDetect ---       |      --- cppcheck ---       |        --- Joern ---       
 ------------------------------------------------------------------------------------------------------------------------------
 bad_use_after_free_int_01            |  0.390s   14.7 MB   YES |  0.010s    8.2 MB    NO |  4.100s  385.2 MB   YES
 good_use_after_free_int_01           |  0.310s   14.7 MB    NO |  0.000s    8.2 MB    NO |  3.910s  414.9 MB   YES
@@ -15,11 +15,11 @@ bad_operator_equals_01               |  0.370s   14.7 MB   YES |  0.000s    8.5 
 good_operator_equals_01              |  0.350s   14.7 MB    NO |  0.000s    8.4 MB    NO |  3.920s  385.6 MB    NO
 ------------------------------------------------------------------------------------------------------------------------------
 
-  Detections    : Our Tool 4/8   cppcheck 3/8   Joern 6/8
-  Avg wall time : Our Tool 0.346s   cppcheck 0.010s   Joern 3.776s
-  Avg peak RSS  : Our Tool 14.7 MB   cppcheck 8.3 MB   Joern 408.9 MB
+  Detections    : SmellDetect 4/8   cppcheck 3/8   Joern 6/8
+  Avg wall time : SmellDetect 0.346s   cppcheck 0.010s   Joern 3.776s
+  Avg peak RSS  : SmellDetect 14.7 MB   cppcheck 8.3 MB   Joern 408.9 MB
 
-                                     Our Tool       cppcheck          Joern
+                                     SmellDetect       cppcheck          Joern
   True Positives  (TP)                      4              3              3
   True Negatives  (TN)                      4              4              1
   False Positives (FP)                      0              0              3

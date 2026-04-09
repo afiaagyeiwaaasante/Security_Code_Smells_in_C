@@ -113,9 +113,9 @@ SCS005_Memory_Leak_Pattern/
 │   └── results/
 │
 ├── evaluation/
-│   ├── run_our_tool.sh          ← our tool benchmark
+│   ├── run_smelldetect.sh          ← SmellDetect benchmark
 │   ├── compare_report.sh        ← generates comparison table
-│   ├── our_tool_results.json
+│   ├── smelldetect_results.json
 │   └── comparison_report.txt
 │
 └── docs/
@@ -129,7 +129,7 @@ SCS005_Memory_Leak_Pattern/
 ## Tool comparison
 
 ```bash
-bash evaluation/run_our_tool.sh
+bash evaluation/run_smelldetect.sh
 bash cppcheck/scripts/run_cppcheck.sh
 bash joern/scripts/run_joern.sh
 bash evaluation/compare_report.sh
@@ -137,7 +137,7 @@ bash evaluation/compare_report.sh
 
 Latest results (`evaluation/comparison_report.txt`):
 
-| Test Case | Our Tool | cppcheck | Joern |
+| Test Case | SmellDetect | cppcheck | Joern |
 |-----------|----------|----------|-------|
 | bad_malloc_no_free_01 | YES | YES | YES |
 | good_malloc_with_free_01 | NO | NO | NO |
@@ -148,9 +148,9 @@ Latest results (`evaluation/comparison_report.txt`):
 | bad_new_no_delete_01 | YES | NO | NO |
 | good_new_delete_01 | NO | NO | NO |
 
-**Detections (bad cases only): Our Tool 3/4 — cppcheck 3/4 — Joern 1/4**
+**Detections (bad cases only): SmellDetect 3/4 — cppcheck 3/4 — Joern 1/4**
 
-Our tool detects the C++ `new`-without-`delete` pattern (`bad_new_no_delete_01`)
+SmellDetect detects the C++ `new`-without-`delete` pattern (`bad_new_no_delete_01`)
 that cppcheck misses with its standard `memleak` checker. cppcheck detects the
 early-return leak (`bad_early_return_01`) that our intra-procedural post-filter
 misses (known limitation: free() present on the normal path suppresses the

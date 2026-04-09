@@ -46,7 +46,7 @@ SCS006_Integer_Overflow_Risk/
 │   ├── scripts/run_joern.sh
 │   └── results/
 ├── evaluation/
-│   ├── run_our_tool.sh
+│   ├── run_smelldetect.sh
 │   ├── compare_report.sh
 │   └── results/
 ├── docs/
@@ -85,7 +85,7 @@ bash testsuites/CWE190/run_test.sh
 ### Comparison benchmarks
 
 ```bash
-bash evaluation/run_our_tool.sh
+bash evaluation/run_smelldetect.sh
 bash cppcheck/scripts/run_cppcheck.sh
 bash joern/scripts/run_joern.sh
 bash evaluation/compare_report.sh
@@ -93,7 +93,7 @@ bash evaluation/compare_report.sh
 
 ## Test Results
 
-**Our tool — 22/22 test cases (100%)**
+**SmellDetect — 22/22 test cases (100%)**
 
 | Group           | Bad cases | Good cases | TP | TN | FP | FN |
 |-----------------|-----------|------------|----|----|----|----|

@@ -1,22 +1,22 @@
 #!/usr/bin/env bash
-# evaluation/run_our_tool.sh
+# evaluation/run_smelldetect.sh
 # Runs our SCS003 tool on representative CWE-476 test cases and records:
 #   - wall-clock time
 #   - peak RSS (resident set size)
 #   - whether a finding was detected
-# Output: evaluation/our_tool_results.json  (one JSON object per line)
+# Output: evaluation/smelldetect_results.json  (one JSON object per line)
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 SRC_DIR="$PROJECT_ROOT/src"
 TESTSUITE="$PROJECT_ROOT/testsuites/CWE476"
-RESULTS="$SCRIPT_DIR/our_tool_results.json"
+RESULTS="$SCRIPT_DIR/smelldetect_results.json"
 
 > "$RESULTS"
 
 echo "========================================"
-echo " SCS003 — Our Tool Benchmark"
+echo " SCS003 — SmellDetect Benchmark"
 echo " Output: $RESULTS"
 echo " Date  : $(date)"
 echo "========================================"
@@ -31,8 +31,8 @@ run_case() {
     echo "--- $TEST_NAME ---"
 
     local TMPOUT TIMEFILE
-    TMPOUT=$(mktemp /tmp/our_tool_out_XXXXXX)
-    TIMEFILE=$(mktemp /tmp/our_tool_time_XXXXXX)
+    TMPOUT=$(mktemp /tmp/smelldetect_out_XXXXXX)
+    TIMEFILE=$(mktemp /tmp/smelldetect_time_XXXXXX)
 
     if [ "$MODE" = "single" ]; then
         /usr/bin/time -l bash "$SRC_DIR/smell_report.sh" "${FILES[0]}" \

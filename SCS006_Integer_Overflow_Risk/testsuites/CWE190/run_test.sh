@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # run_test.sh
-# CWE-190 Integer Overflow Risk — Our Tool test runner
+# CWE-190 Integer Overflow Risk — SmellDetect test runner
 #
 # Runs smell_report.sh on every test case, collects results, and prints
 # a pass/fail summary table.

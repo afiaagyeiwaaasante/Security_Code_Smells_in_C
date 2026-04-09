@@ -56,7 +56,7 @@ SCS009_Command_Injection_Risk/
 │   ├── scripts/run_joern.sh
 │   └── results/
 ├── evaluation/
-│   ├── run_our_tool.sh
+│   ├── run_smelldetect.sh
 │   ├── compare_report.sh
 │   └── comparison_report.txt
 ├── docs/
@@ -92,7 +92,7 @@ bash src/smell_report.sh testsuites/CWE78/system_console/bad_system_console_01.c
 ### Comparison benchmarks
 
 ```bash
-bash evaluation/run_our_tool.sh
+bash evaluation/run_smelldetect.sh
 bash cppcheck/scripts/run_cppcheck.sh
 bash joern/scripts/run_joern.sh
 bash evaluation/compare_report.sh
@@ -100,7 +100,7 @@ bash evaluation/compare_report.sh
 
 ## Evaluation Results
 
-| | Our Tool | cppcheck | Joern |
+| | SmellDetect | cppcheck | Joern |
 |---|---|---|---|
 | True Positives (TP) | 3 | 0 | TBD |
 | True Negatives (TN) | 5 | 5 | TBD |
@@ -111,7 +111,7 @@ bash evaluation/compare_report.sh
 | Avg wall time | ~0.30s | ~0.00s | TBD |
 | Avg peak RSS | ~14.8 MB | ~7.9 MB | TBD |
 
-**Our tool** achieves 100% precision (no false positives) and 60% recall. The
+**SmellDetect** achieves 100% precision (no false positives) and 60% recall. The
 two false negatives are known limitations: the interprocedural (flow 22) and
 C++ class (flow 84) patterns require cross-block/cross-file taint analysis
 beyond the scope of the structural detector.

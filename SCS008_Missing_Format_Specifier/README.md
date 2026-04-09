@@ -58,7 +58,7 @@ SCS008_Missing_Format_Specifier/
 │   ├── scripts/run_joern.sh
 │   └── results/
 ├── evaluation/
-│   ├── run_our_tool.sh
+│   ├── run_smelldetect.sh
 │   ├── compare_report.sh
 │   └── comparison_report.txt
 ├── docs/
@@ -91,7 +91,7 @@ bash src/smell_report.sh testsuites/CWE134/printf_direct/bad_printf_direct_01.c
 ### Comparison benchmarks
 
 ```bash
-bash evaluation/run_our_tool.sh
+bash evaluation/run_smelldetect.sh
 bash cppcheck/scripts/run_cppcheck.sh
 bash joern/scripts/run_joern.sh
 bash evaluation/compare_report.sh
@@ -99,7 +99,7 @@ bash evaluation/compare_report.sh
 
 ## Evaluation Results
 
-| | Our Tool | cppcheck | Joern |
+| | SmellDetect | cppcheck | Joern |
 |---|---|---|---|
 | True Positives (TP) | 5 | 0 | 5 |
 | True Negatives (TN) | 5 | 5 | 5 |
@@ -113,7 +113,7 @@ bash evaluation/compare_report.sh
 **cppcheck** misses all cases — it requires type-mismatch evidence that is only
 available at link time or with explicit format-checking attributes.
 **Joern** detects correctly (literal vs. identifier node type is preserved in
-the CPG), but at ~12× the runtime and ~29× the memory of our tool.
+the CPG), but at ~12× the runtime and ~29× the memory of SmellDetect.
 
 ## Documentation
 

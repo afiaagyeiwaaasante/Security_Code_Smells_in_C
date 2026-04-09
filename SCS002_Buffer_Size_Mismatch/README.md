@@ -59,9 +59,9 @@ SCS002_Buffer_Size_Mismatch/
 │   ├── scripts/run_joern.sh      — Joern benchmark
 │   └── results/
 ├── evaluation/
-│   ├── run_our_tool.sh           — our tool benchmark
+│   ├── run_smelldetect.sh           — SmellDetect benchmark
 │   ├── compare_report.sh         — generates comparison table
-│   └── our_tool_results.json
+│   └── smelldetect_results.json
 └── doc/
     ├── pipeline.md
     ├── known_issues.md
@@ -87,7 +87,7 @@ cd testsuites/CWE680 && bash run_test.sh
 ## Tool comparison
 
 ```bash
-bash evaluation/run_our_tool.sh
+bash evaluation/run_smelldetect.sh
 bash cppcheck/scripts/run_cppcheck.sh
 bash joern/scripts/run_joern.sh
 bash evaluation/compare_report.sh
@@ -95,7 +95,7 @@ bash evaluation/compare_report.sh
 
 **Note:** cppcheck does not have a specific check for `malloc(n * sizeof(T))`
 integer overflow. It will not detect this smell. This is a key differentiator
-demonstrating coverage our tool provides beyond cppcheck.
+demonstrating coverage SmellDetect provides beyond cppcheck.
 
 ---
 

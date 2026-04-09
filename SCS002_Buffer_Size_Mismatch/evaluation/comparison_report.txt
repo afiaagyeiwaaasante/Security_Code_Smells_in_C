@@ -1,18 +1,18 @@
 
 ==============================================================================================================================
-  SCS002 CWE-680  Tool Comparison: Our Tool vs cppcheck vs Joern
+  SCS002 CWE-680  Tool Comparison: SmellDetect vs cppcheck vs Joern
 ==============================================================================================================================
                                      |    Time  Peak RSS   Det |    Time  Peak RSS   Det |    Time  Peak RSS   Det
-Test Case                            |      --- Our Tool ---       |      --- cppcheck ---       |        --- Joern ---       
+Test Case                            |      --- SmellDetect ---       |      --- cppcheck ---       |        --- Joern ---       
 ------------------------------------------------------------------------------------------------------------------------------
 bad_malloc_01                        |  0.120s   14.7 MB   YES |  0.000s    8.0 MB    NO |  4.220s  431.2 MB   YES
 good_malloc_01                       |  0.050s   14.7 MB    NO |  0.000s    7.9 MB    NO |  3.710s  421.7 MB    NO
 ------------------------------------------------------------------------------------------------------------------------------
 
-  Detections    : Our Tool 1/2   cppcheck 0/2   Joern 1/2
-  Avg peak RSS  : Our Tool 14.7 MB   cppcheck 8.0 MB   Joern 426.4 MB
+  Detections    : SmellDetect 1/2   cppcheck 0/2   Joern 1/2
+  Avg peak RSS  : SmellDetect 14.7 MB   cppcheck 8.0 MB   Joern 426.4 MB
 
-                                     Our Tool       cppcheck          Joern
+                                     SmellDetect       cppcheck          Joern
   True Positives  (TP)                      1              0              1
   True Negatives  (TN)                      1              1              1
   False Positives (FP)                      0              0              0

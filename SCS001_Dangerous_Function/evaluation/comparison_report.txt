@@ -1,20 +1,20 @@
 
 ==============================================================================================================================
-  SCS001 CWE-242  Tool Comparison: Our Tool vs cppcheck vs Joern
+  SCS001 CWE-242  Tool Comparison: SmellDetect vs cppcheck vs Joern
 ==============================================================================================================================
                                      |    Time  Peak RSS   Det |    Time  Peak RSS   Det |    Time  Peak RSS   Det
-Test Case                            |      --- Our Tool ---       |      --- cppcheck ---       |        --- Joern ---       
+Test Case                            |      --- SmellDetect ---       |      --- cppcheck ---       |        --- Joern ---       
 ------------------------------------------------------------------------------------------------------------------------------
 bad_gets_01                          |  0.410s   14.7 MB   YES |  0.010s    7.9 MB   YES |  3.960s  344.3 MB   YES
 good_gets_01                         |  0.050s   14.7 MB    NO |  0.000s    7.9 MB    NO |  3.400s  357.0 MB    NO
 bad_gets_interprocedural_62          |  0.070s   14.7 MB   YES |  0.000s    8.0 MB   YES |  3.280s  412.9 MB   YES
 ------------------------------------------------------------------------------------------------------------------------------
 
-  Detections    : Our Tool 2/3   cppcheck 2/3   Joern 2/3
-  Avg wall time : Our Tool 0.177s   cppcheck 0.010s   Joern 3.547s
-  Avg peak RSS  : Our Tool 14.7 MB   cppcheck 7.9 MB   Joern 371.4 MB
+  Detections    : SmellDetect 2/3   cppcheck 2/3   Joern 2/3
+  Avg wall time : SmellDetect 0.177s   cppcheck 0.010s   Joern 3.547s
+  Avg peak RSS  : SmellDetect 14.7 MB   cppcheck 7.9 MB   Joern 371.4 MB
 
-                                     Our Tool       cppcheck          Joern
+                                     SmellDetect       cppcheck          Joern
   True Positives  (TP)                      2              2              2
   True Negatives  (TN)                      1              1              1
   False Positives (FP)                      0              0              0

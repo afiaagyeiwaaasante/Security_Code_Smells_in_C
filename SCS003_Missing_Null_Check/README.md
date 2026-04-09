@@ -124,9 +124,9 @@ SCS003_Missing_Null_Check/
 │   └── results/
 │
 ├── evaluation/
-│   ├── run_our_tool.sh          ← our tool benchmark
+│   ├── run_smelldetect.sh          ← SmellDetect benchmark
 │   ├── compare_report.sh        ← generates comparison table
-│   ├── our_tool_results.json
+│   ├── smelldetect_results.json
 │   └── comparison_report.txt
 │
 └── docs/
@@ -140,7 +140,7 @@ SCS003_Missing_Null_Check/
 ## Tool comparison
 
 ```bash
-bash evaluation/run_our_tool.sh
+bash evaluation/run_smelldetect.sh
 bash cppcheck/scripts/run_cppcheck.sh
 bash joern/scripts/run_joern.sh
 bash evaluation/compare_report.sh
@@ -148,7 +148,7 @@ bash evaluation/compare_report.sh
 
 Latest results (`evaluation/comparison_report.txt`):
 
-| Test Case | Our Tool | cppcheck | Joern |
+| Test Case | SmellDetect | cppcheck | Joern |
 |-----------|----------|----------|-------|
 | bad_binary_if_01 | YES | YES | YES |
 | good_binary_if_01 | NO | NO | NO |
@@ -157,9 +157,9 @@ Latest results (`evaluation/comparison_report.txt`):
 | bad_interprocedural_01 | YES | YES | NO |
 | good_interprocedural_01 (callee smell) | YES | NO | NO |
 
-**Detections: Our Tool 4/6 — cppcheck 3/6 — Joern 1/6**
+**Detections: SmellDetect 4/6 — cppcheck 3/6 — Joern 1/6**
 
-Our tool detects the callee-level interprocedural smell that cppcheck misses.
+SmellDetect detects the callee-level interprocedural smell that cppcheck misses.
 Joern's generic query only catches the bitwise-& pattern; null deref and
 interprocedural patterns require more targeted Joern queries.
 
