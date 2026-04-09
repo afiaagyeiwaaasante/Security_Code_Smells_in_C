@@ -1,0 +1,2 @@
+{"test":"bad_malloc_01","files":["bad_malloc_01.c"],"detected":true,"wall_time_s":4.22,"peak_rss_kb":441520}
+{"test":"good_malloc_01","files":["good_malloc_01.c"],"detected":false,"wall_time_s":3.71,"peak_rss_kb":431776}

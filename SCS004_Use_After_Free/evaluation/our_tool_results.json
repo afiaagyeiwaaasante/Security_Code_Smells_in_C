@@ -1,0 +1,8 @@
+{"test":"bad_use_after_free_int_01","files":["bad_use_after_free_int_01.c"],"detected":true,"wall_time_s":0.39,"peak_rss_kb":15056}
+{"test":"good_use_after_free_int_01","files":["good_use_after_free_int_01.c"],"detected":false,"wall_time_s":0.31,"peak_rss_kb":15024}
+{"test":"bad_new_delete_int_01","files":["bad_new_delete_int_01.cpp"],"detected":true,"wall_time_s":0.35,"peak_rss_kb":15024}
+{"test":"good_new_delete_int_01","files":["good_new_delete_int_01.cpp"],"detected":false,"wall_time_s":0.32,"peak_rss_kb":14992}
+{"test":"bad_return_freed_ptr_01","files":["bad_return_freed_ptr_01.c"],"detected":true,"wall_time_s":0.35,"peak_rss_kb":14976}
+{"test":"good_return_freed_ptr_01","files":["good_return_freed_ptr_01.c"],"detected":false,"wall_time_s":0.33,"peak_rss_kb":15024}
+{"test":"bad_operator_equals_01","files":["bad_operator_equals_01.cpp"],"detected":true,"wall_time_s":0.37,"peak_rss_kb":15072}
+{"test":"good_operator_equals_01","files":["good_operator_equals_01.cpp"],"detected":false,"wall_time_s":0.35,"peak_rss_kb":15024}

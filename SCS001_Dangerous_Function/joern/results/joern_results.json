@@ -1,0 +1,3 @@
+{"test":"bad_gets_01","files":["bad_gets_01.c"],"detected":true,"wall_time_s":3.96,"peak_rss_kb":352560}
+{"test":"good_gets_01","files":["good_gets_01.c"],"detected":false,"wall_time_s":3.40,"peak_rss_kb":365520}
+{"test":"bad_gets_interprocedural_62","files":["bad_gets_interprocedural_62a.c","bad_gets_interprocedural_62b.c"],"detected":true,"wall_time_s":3.28,"peak_rss_kb":422800}

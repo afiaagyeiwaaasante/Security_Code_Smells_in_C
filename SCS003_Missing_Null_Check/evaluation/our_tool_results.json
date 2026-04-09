@@ -1,0 +1,6 @@
+{"test":"bad_binary_if_01","files":["bad_binary_if_01.c"],"detected":true,"wall_time_s":0.42,"peak_rss_kb":14976}
+{"test":"good_binary_if_01","files":["good_binary_if_01.c"],"detected":false,"wall_time_s":0.33,"peak_rss_kb":15056}
+{"test":"bad_null_deref_01","files":["bad_null_deref_01.c"],"detected":true,"wall_time_s":0.34,"peak_rss_kb":14976}
+{"test":"good_guarded_01","files":["good_guarded_01.c"],"detected":false,"wall_time_s":0.32,"peak_rss_kb":15040}
+{"test":"bad_interprocedural_01","files":["bad_interprocedural_01.c"],"detected":true,"wall_time_s":0.37,"peak_rss_kb":14992}
+{"test":"good_interprocedural_01","files":["good_interprocedural_01.c"],"detected":true,"wall_time_s":0.37,"peak_rss_kb":14976}
