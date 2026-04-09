@@ -17,8 +17,7 @@ Detection is structural: source files are converted to srcML XML, annotated with
 
 ```
 Security-Code-Smells/
-├── README.md
-├── juliet-scs-mapping.md            ← SCS-to-CWE-to-Juliet mapping table
+├── README.md                        ← this file (includes SCS-to-CWE-to-Juliet mapping)
 ├── shared/
 │   ├── pipeline.sh                  ← shared 3-stage pipeline (srcml→srcslice→srcattributor)
 │   └── lib/
@@ -51,20 +50,18 @@ Security-Code-Smells/
 
 ## Security Code Smells Catalogue
 
-| ID | Smell Name | CWE | Category |
-|----|---|---|---|
-| SCS001 | Dangerous Function Use | CWE-242, CWE-676, CWE-120 | Memory Safety |
-| SCS002 | Buffer Size Mismatch | CWE-131, CWE-680 | Memory Safety |
-| SCS003 | Missing NULL Check | CWE-476, CWE-690 | Memory Safety |
-| SCS004 | Use-After-Free Risk | CWE-416, CWE-672 | Memory Safety |
-| SCS005 | Memory Leak Pattern | CWE-401, CWE-772 | Memory Safety |
-| SCS006 | Integer Overflow Risk | CWE-190, CWE-191 | Integer Handling |
-| SCS007 | Signed/Unsigned Confusion | CWE-194, CWE-195 | Integer Handling |
-| SCS008 | Missing Format Specifier | CWE-134, CWE-686 | Input Validation |
-| SCS009 | Command Injection Risk | CWE-78, CWE-88 | Input Validation |
-| SCS010 | Hardcoded Sensitive Data | CWE-259, CWE-798 | API Misuse |
-
-See [`juliet-scs-mapping.md`](juliet-scs-mapping.md) for Juliet CWE cross-reference.
+| ID | Smell Name | Category | CWE Mapping | Juliet CWE |
+|----|---|---|---|---|
+| SCS001 | Dangerous Function Use | Memory Safety | CWE-120, CWE-676, CWE-242 | CWE-242 |
+| SCS002 | Buffer Size Mismatch | Memory Safety | CWE-131, CWE-680 | CWE-680 |
+| SCS003 | Missing NULL Check | Memory Safety | CWE-476, CWE-690 | CWE-476, CWE-690 |
+| SCS004 | Use-After-Free Risk | Memory Safety | CWE-416, CWE-672 | CWE-416, CWE-672 |
+| SCS005 | Memory Leak Pattern | Memory Safety | CWE-401, CWE-772 | CWE-401 |
+| SCS006 | Integer Overflow Risk | Integer Handling | CWE-190, CWE-191 | CWE-190, CWE-191 |
+| SCS007 | Signed/Unsigned Confusion | Integer Handling | CWE-194, CWE-195 | CWE-194, CWE-195 |
+| SCS008 | Missing Format Specifier | Input Validation | CWE-134, CWE-686 | CWE-134 |
+| SCS009 | Command Injection Risk | Input Validation | CWE-78, CWE-88 | CWE-78 |
+| SCS010 | Hardcoded Sensitive Data | API Misuse | CWE-259, CWE-798 | CWE-259 |
 
 ---
 
