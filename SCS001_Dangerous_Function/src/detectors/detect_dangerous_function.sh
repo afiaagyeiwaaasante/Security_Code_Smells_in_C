@@ -50,58 +50,63 @@ if [ -z "$(grep '<function' "$TMPRESULT")" ]; then
 fi
 
 # -----------------------------------------------------------------------
-# Extract filename, call site, and surrounding function position
+# Extract filename
 # -----------------------------------------------------------------------
 echo "--- extracting positions ---"
 
 FILENAME=$(xmllint --xpath \
     'string(//*[local-name()="unit"]/@filename)' "$TMPRESULT" 2>/dev/null)
 
-# gets() call position — where the dangerous call occurs
-CALL_POS=$(xmllint --xpath \
-    '//*[local-name()="call"]/*[local-name()="name"][.="gets"]/../@*[local-name()="start"]' \
-    "$TMPRESULT" 2>/dev/null | grep -o '[0-9][0-9]*:[0-9][0-9]*' | head -1)
+# -----------------------------------------------------------------------
+# Extract ALL gets() call positions — one LINE:COL:VARNAME per occurrence
+# -----------------------------------------------------------------------
+POSITIONS=$(python3 << PYEOF
+import re
 
-CALL_LINE=$(echo "$CALL_POS" | cut -d: -f1)
-CALL_COL=$(echo  "$CALL_POS" | cut -d: -f2)
+with open("$TMPRESULT") as f:
+    content = f.read()
 
-# Destination buffer argument passed to gets()
-VARNAME=$(xmllint --xpath \
-    '//*[local-name()="call"]/*[local-name()="name"][.="gets"]/../*[local-name()="argument_list"]/*[local-name()="argument"]//*[local-name()="name"]' \
-    "$TMPRESULT" 2>/dev/null | sed 's/<[^>]*>//g' | grep -v '^$' | head -1)
+# Match each gets() call: capture pos:start and the argument variable name
+GETS_CALL = re.compile(
+    r'<call\b[^>]*pos:start="(\d+):(\d+)"[^>]*>'
+    r'\s*<name[^>]*>\s*gets\s*</name>'
+    r'.*?<argument\b[^>]*>.*?<name[^>]*>([^<\s]+)</name>',
+    re.DOTALL
+)
 
-# Surrounding function start — used as note location
-FUNC_POS=$(xmllint --xpath \
-    '//*[local-name()="function"]/@*[local-name()="start"]' \
-    "$TMPRESULT" 2>/dev/null | grep -o '[0-9][0-9]*:[0-9][0-9]*' | head -1)
+for m in GETS_CALL.finditer(content):
+    print(f"{m.group(1)}:{m.group(2)}:{m.group(3).strip()}")
+PYEOF
+)
 
-FUNC_LINE=$(echo "$FUNC_POS" | cut -d: -f1)
-FUNC_COL=$(echo  "$FUNC_POS" | cut -d: -f2)
-
-if [ -z "$CALL_LINE" ]; then
-    echo "    warning: could not determine call site — skipping"
+if [ -z "$POSITIONS" ]; then
+    echo "    warning: could not determine call sites — skipping"
     echo "[ dangerous_function ] 0 finding(s) written to $FINDINGS"
     exit 0
 fi
 
 # -----------------------------------------------------------------------
-# Emit finding
+# Emit one finding per gets() call
 # -----------------------------------------------------------------------
 echo "--- building findings ---"
 
-write_finding \
-    --findings  "$FINDINGS" \
-    --detector  "dangerous_function" \
-    --severity  "warning" \
-    --rule      "dangerousFunction" \
-    --file      "$FILENAME" \
-    --line      "$CALL_LINE" \
-    --col       "$CALL_COL" \
-    --varname   "${VARNAME:-gets}" \
-    --note-line "${FUNC_LINE:-1}" \
-    --note-col  "${FUNC_COL:-1}" \
-    --note-msg  "gets() is inherently dangerous — use fgets(${VARNAME}, size, stdin) instead"
+COUNT=0
+while IFS=: read -r CALL_LINE CALL_COL VARNAME; do
+    COUNT=$((COUNT + 1))
+    write_finding \
+        --findings  "$FINDINGS" \
+        --detector  "dangerous_function" \
+        --severity  "warning" \
+        --rule      "dangerousFunction" \
+        --file      "$FILENAME" \
+        --line      "$CALL_LINE" \
+        --col       "$CALL_COL" \
+        --varname   "${VARNAME:-gets}" \
+        --note-line "$CALL_LINE" \
+        --note-col  "$CALL_COL" \
+        --note-msg  "gets() is inherently dangerous — use fgets(${VARNAME}, size, stdin) instead"
+    echo "    finding $COUNT: ${FILENAME}:${CALL_LINE}:${CALL_COL} — gets(${VARNAME})"
+done <<< "$POSITIONS"
 
-echo "    finding 1: ${FILENAME}:${CALL_LINE}:${CALL_COL} — gets(${VARNAME})"
 echo
-echo "[ dangerous_function ] 1 finding(s) written to $FINDINGS"
+echo "[ dangerous_function ] $COUNT finding(s) written to $FINDINGS"
