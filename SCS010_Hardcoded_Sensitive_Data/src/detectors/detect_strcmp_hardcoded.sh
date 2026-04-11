@@ -1,9 +1,25 @@
 #!/usr/bin/env bash
 # detect_strcmp_hardcoded.sh <xml> <src> <findings>
-# Detects strcmp()/strncmp() calls where one argument is a string literal,
+#
+# Detector: strcmp_hardcoded
+# Detects strcmp()/strncmp() calls where any argument is a string literal,
 # indicating a hardcoded password used in an authentication comparison.
 # Rule: SCS010-PASSWD-STRCMP
-set -e
+#
+# Strategy (XPath only, no srcQL, no Python):
+#
+#   //*[local-name()='call']
+#     [*[local-name()='name'][.='strcmp' or .='strncmp']]
+#     [*[local-name()='argument_list']
+#       /*[local-name()='argument']
+#       [.//*[local-name()='literal'][@type='string']]]
+#
+#   A finding is emitted when any argument of strcmp/strncmp is a string
+#   literal — the literal is the hardcoded credential in the comparison.
+#
+# Requires: xmllint
+
+source "$(dirname "$0")/../../../shared/lib/write_finding.sh"
 
 XML=$1
 SRC=$2
@@ -19,69 +35,45 @@ if [ ! -f "$XML" ]; then
     exit 1
 fi
 
+echo "    strategy : XPath -- strcmp/strncmp with any string literal argument"
+echo
+
 FILENAME=$(xmllint --xpath \
     'string(//*[local-name()="unit"]/@filename)' "$XML" 2>/dev/null)
 
-python3 << PYEOF
-import re, json
+STRCMP_XPATH="//*[local-name()='call'][*[local-name()='name'][.='strcmp' or .='strncmp']][*[local-name()='argument_list']/*[local-name()='argument'][.//*[local-name()='literal'][@type='string']]]"
 
-xml_path      = "$XML"
-findings_path = "$FINDINGS"
-filename      = "$FILENAME"
-found = 0
+POS=$(xmllint --xpath "string(${STRCMP_XPATH}/@*[local-name()='start'])" "$XML" 2>/dev/null)
 
-with open(xml_path) as f:
-    content = f.read()
+if [ -z "$POS" ]; then
+    echo "[ strcmp_hardcoded ] No smell detected."
+    exit 0
+fi
 
-# Match full strcmp/strncmp <call> elements
-STRCMP_CALL = re.compile(
-    r'<call\b[^>]*pos:start="(\d+):(\d+)"[^>]*>\s*<name[^>]*>\s*(?:strcmp|strncmp)\s*</name>(.*?)</call>',
-    re.DOTALL
-)
-ARG_SPLIT   = re.compile(r'<argument\b[^>]*>(.*?)</argument>', re.DOTALL)
-LITERAL_PAT = re.compile(r'<literal\s+type="string"[^>]*>')
+LINE=${POS%%:*}
+COL=${POS##*:}
 
-for m in STRCMP_CALL.finditer(content):
-    line_no = int(m.group(1))
-    col_no  = int(m.group(2))
-    args_content = m.group(3)
-    args = ARG_SPLIT.findall(args_content)
+FUNC_NAME=$(xmllint --xpath \
+    "string(${STRCMP_XPATH}/ancestor::*[local-name()='function' or local-name()='destructor' or local-name()='constructor'][1]/*[local-name()='name'])" \
+    "$XML" 2>/dev/null)
 
-    # Flag if ANY argument is a string literal (hardcoded password in comparison)
-    has_literal = any(LITERAL_PAT.search(a) for a in args)
-    if not has_literal:
-        continue
-
-    # Extract the literal value for the message
-    literal_val = ""
-    for a in args:
-        lm = re.search(r'<literal\s+type="string"[^>]*>([^<]*)</literal>', a)
-        if lm:
-            literal_val = lm.group(1)
-            break
-
-    finding = {
-        "detector": "strcmp_hardcoded",
-        "severity": "warning",
-        "rule":     "SCS010-PASSWD-STRCMP",
-        "file":     filename,
-        "line":     line_no,
-        "col":      col_no,
-        "varname":  literal_val,
-        "note": {
-            "line":    line_no,
-            "col":     col_no,
-            "message": f"strcmp/strncmp with hardcoded string literal {literal_val!r} — hardcoded credential in comparison"
-        }
-    }
-
-    with open(findings_path, "a") as fp:
-        fp.write(json.dumps(finding, indent=2) + "\n")
-
-    print(f"    finding: {filename}:{line_no}:{col_no} — strcmp with hardcoded literal {literal_val!r}")
-    found += 1
-
-print(f"[ strcmp_hardcoded ] {found} finding(s) written to {findings_path}")
-PYEOF
-
+echo "    function : $FUNC_NAME"
+echo "    position : $LINE:$COL"
 echo
+
+write_finding \
+    --findings  "$FINDINGS" \
+    --detector  "strcmp_hardcoded" \
+    --severity  "warning" \
+    --rule      "SCS010-PASSWD-STRCMP" \
+    --file      "$FILENAME" \
+    --line      "$LINE" \
+    --col       "$COL" \
+    --varname   "${FUNC_NAME:-?}" \
+    --note-line "$LINE" \
+    --note-col  "$COL" \
+    --note-msg  "strcmp/strncmp with hardcoded string literal in ${FUNC_NAME}() -- hardcoded credential in comparison"
+
+echo "    finding: ${FILENAME}:${LINE}:${COL} -- ${FUNC_NAME}() strcmp/strncmp with hardcoded literal"
+echo
+echo "[ strcmp_hardcoded ] 1 finding(s) written to $FINDINGS"

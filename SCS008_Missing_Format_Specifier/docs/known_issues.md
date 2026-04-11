@@ -2,115 +2,124 @@
 
 ## False Negatives (Smells Missed)
 
-### KI-001: Interprocedural format string — variable passed across function boundary
+### KI-001: Interprocedural format string — taint source in a different file
 
-**Description:** When the format variable is set in one function and passed to
-`printf` in a different function, single-file analysis detects the sink-side
-call only if the sink file contains the literal `printf(data)` pattern. If the
-sink is wrapped inside a helper function that accepts a `char *fmt` parameter
-and calls `printf(fmt)`, the detector flags that helper on every call — which
-may or may not be the intended source of the smell.
+**Description:** When the user input is read in one function (or file) and the
+printf sink is called in a different function (or file), the detector cannot
+correlate the two. The sink-side block contains no `fgets`/`getenv`/`scanf`
+call, so the taint co-occurrence guard correctly prevents a false positive —
+but also misses the real taint flow.
 
-**Affected group:** `interprocedural` (flows 22a/22b). The detector correctly
-targets the sink file (22b) where `printf(data)` appears directly.
+**Affected group:** `interprocedural` (flows 22a/22b). `bad_printf_interprocedural_22a.c`
+reads user input into a global; `bad_printf_interprocedural_22b.c` calls
+`printf(data)` but contains no taint source. The detector produces no finding
+on 22b (known false negative).
 
-**Limitation:** True cross-file dataflow tracking (tracing that `data` in 22b
-originated from user input in 22a) is not performed. The detector reports the
-structural smell at the sink regardless of the data origin.
+**Limitation:** Cross-file / cross-function taint tracking requires a full
+dataflow graph (e.g., Joern's CPG). The structural analyser is intentionally
+single-block scoped.
 
 ---
 
-### KI-002: Compile-time constant variable used as format string
+### KI-002: C++ class — taint source in constructor, sink in destructor
 
-**Description:** If a programmer assigns a fixed string to a variable before
-passing it to `printf`, the smell is structurally present but semantically safe:
+**Description:** In a C++ class where the constructor reads user input into a
+member variable and the destructor calls `printf(data_)`, the constructor body
+and destructor body are separate `<constructor>` and `<destructor>` XML blocks.
+The taint co-occurrence guard sees no `fgets`/`getenv`/`scanf` in the destructor
+block and suppresses the finding.
 
-```c
-const char *fmt = "%s\n";
-printf(fmt);         // technically a variable, but safe
-```
+**Affected group:** `cpp_class` (flow 84). `bad_printf_class_84.cpp` exhibits
+this pattern. The detector produces no finding (known false negative).
 
-The detector will flag this as a finding because `fmt` is a `<name>` not a
-`<literal>`. This is a false positive — the variable is not externally
-controlled.
-
-**Impact:** Low in practice. Code that assigns a literal to a `const char *`
-and immediately passes it to `printf` is uncommon in security-sensitive paths.
-
-**Mitigation (future):** Track `const char *` initialisers within the same
-block; if the variable is initialised to a string literal in the same function
-scope and not reassigned, suppress the finding.
+**Limitation:** Cross-block (ctor → member → dtor) taint tracking is not
+supported. This would require inter-method data-flow analysis.
 
 ---
 
 ### KI-003: Wrapper functions around printf not detected
 
-**Description:** A custom logging wrapper such as:
+**Description:** A custom logging wrapper that accepts a format string and calls
+printf internally will not be detected unless the wrapper's body also contains
+a taint source:
 
 ```c
 void log_msg(const char *msg) {
-    printf(msg);   // detected here
+    printf(msg);   // no fgets/getenv in this function → suppressed
 }
 log_msg(user_data);   // root cause not detected at call site
 ```
 
-The detector correctly flags `printf(msg)` inside `log_msg`. However, it does
-not trace that `msg` is tainted by `user_data` at the call site. The finding
-points to the wrapper body, not the call site — which may cause confusion.
+The taint co-occurrence guard suppresses `printf(msg)` inside `log_msg` because
+no taint source is visible in the same function.
+
+**Limitation:** This is inherent to the single-block co-occurrence model.
+Detecting taint flow through wrapper arguments requires interprocedural analysis.
+
+---
+
+### KI-004: Taint via socket or file sources not covered
+
+**Description:** The detectors recognise `fgets`, `getenv`, `scanf`, and
+`fscanf` as taint sources. Sources such as `recv`, `read`, `fread`, and socket
+reads are not in the taint source list.
+
+**Impact:** Format string smells where the string is built from socket or file
+input are not detected.
+
+**Mitigation:** Extend the taint source check in the `count()` predicate:
+```xpath
+count(//*[local-name()='call'][*[local-name()='name']
+  [.='fgets' or .='getenv' or .='scanf' or .='fscanf'
+   or .='recv' or .='read' or .='fread']])
+```
 
 ---
 
 ## False Positives (Smells Incorrectly Reported)
 
-### KI-004: Variable format strings in legitimate logging code
+### KI-005: Const variable used as format string alongside unrelated taint source
 
-**Description:** Some logging frameworks intentionally build format strings
-programmatically before passing them to `printf`. If the format string is
-constructed from trusted, internal sources (not user input), the detector will
-still flag it.
+**Description:** If a programmer assigns a fixed string to a variable before
+calling printf, AND an unrelated `fgets`/`getenv` call is present in the same
+function (for a different purpose), the detector will emit a false positive:
 
-**Impact:** Moderate in large codebases with internal logging utilities.
+```c
+fgets(input, sizeof(input), stdin);   // unrelated taint source
+const char *fmt = "%s\n";
+printf(fmt);                           // flagged — fmt is a <name>, not a <literal>
+```
 
-**Mitigation:** Review findings against the data source. If the variable is
-populated only from hardcoded strings (not `fgets`, `getenv`, sockets, or
-files), the finding can be dismissed.
+**Impact:** Low in practice. Rarely does code use a hardcoded-variable format
+string alongside an unrelated fgets call.
+
+**Mitigation:** Track `const char *` initialisers; if the variable is set to a
+string literal and not reassigned, suppress the finding.
 
 ---
 
 ## Tool Limitations
 
-### KI-005: No path sensitivity
+### KI-006: No path sensitivity
 
-The guard-check is structural. If the format argument is any `<name>` node —
-regardless of whether that variable was initialised with a literal or with user
-input — the smell is reported. There is no data-flow analysis to distinguish
-trusted from untrusted format strings within the same function.
+The taint co-occurrence check is structural and block-scoped. The detector does
+not trace which variable is tainted by the taint source and whether that specific
+variable flows into the printf format argument. It only confirms that both a
+non-literal format argument and a taint source call occur in the same function.
 
-### KI-006: `snprintf` and `sprintf` not covered
+### KI-007: `snprintf` and `sprintf` not covered
 
 The current detectors target `printf`, `vprintf`, `fprintf`, `vfprintf`, and
 `syslog`. The functions `sprintf(buf, data)` and `snprintf(buf, n, data)` follow
-the same pattern (format is arg index 1 for `sprintf`, arg index 2 for
-`snprintf`) but are not yet covered by a dedicated detector.
+the same pattern but are not yet covered by a dedicated detector.
 
 **Workaround:** A fourth detector `detect_sprintf_direct.sh` following the same
-pattern as `detect_fprintf_direct.sh` (checking `args[1]` for `sprintf` and
-`args[2]` for `snprintf`) can be added without changes to the pipeline.
-
-### KI-007: C++ templates not covered
-
-srcML parses C++ templates, but the detector does not handle template member
-function bodies generated from template instantiation. A format-string smell
-inside a template function will be detected only if the template definition
-itself contains the unguarded call.
+srcQL + XPath structure can be added without changes to the pipeline.
 
 ### KI-008: cppcheck misses all cases
 
 cppcheck's format-string checks (`invalidPrintfArgType`,
 `wrongPrintfScanfArgNum`) require type-mismatch evidence — they flag mismatched
-argument types (e.g., passing an `int` where `%s` expects a `char *`), not the
-structural absence of a format specifier. Since `printf(data)` with a `char *`
-argument is type-correct, cppcheck produces no warning.
-
-Detection would require cppcheck to track whether the format string is a
-compile-time constant, which it does not do in default mode.
+argument types, not the structural absence of a format specifier. Since
+`printf(data)` with a `char *` argument is type-correct, cppcheck produces no
+warning.

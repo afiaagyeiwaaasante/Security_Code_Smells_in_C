@@ -8,39 +8,55 @@
 
 ## SmellDetect
 
-**Mechanism:** srcML XML annotation + Python regex (no srcQL — srcQL does not reliably match binary arithmetic patterns)
+**Mechanism:** srcQL structural query + Python guard filter (hybrid)
 
 Three detectors, each targeting one arithmetic operation:
 
-### detect_unchecked_add.sh
+### detect_unchecked_multiply.sh
 
-**Sink pattern (Python regex):**
-```python
-ADD_OP_PATTERN = re.compile(
-    r'<operator\b[^>]*pos:start="(\d+):(\d+)"[^>]*>\s*\+\s*</operator>'
-)
+**srcQL query:**
+```
+FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
 ```
 
-**Guard pattern:**
+Narrows to functions and class methods whose body contains a typed declaration
+whose RHS is a product expression. C++ `<destructor>` and `<constructor>` elements
+have no return type in srcML, so those are scanned from the original XML directly
+via Python regex fallback (`<operator>*</operator>` in each destructor/constructor block).
+
+**Guard filter (Python):**
 ```python
 MAX_PATTERN = re.compile(
     r'<name[^>]*>\s*(?:INT_MAX|CHAR_MAX|SHRT_MAX|UINT_MAX|INT64_MAX|LLONG_MAX)\s*</name>'
 )
+conditions = re.findall(r'<condition\b[^>]*>.*?</condition>', block, re.DOTALL)
+if any(MAX_PATTERN.search(c) for c in conditions):
+    continue  # guarded — skip
 ```
 
-**Logic:** For each function block containing a `+` operator, check whether any `<condition>` element in the same block references a MAX constant. If no MAX guard is found → finding emitted.
+### detect_unchecked_add.sh
 
-### detect_unchecked_multiply.sh
-
-**Sink pattern:**
-```python
-MUL_OP_PATTERN = re.compile(
-    r'<operator\b[^>]*pos:start="(\d+):(\d+)"[^>]*>\s*\*\s*</operator>'
-)
+**srcQL query:**
 ```
-Same guard check as above (MAX_PATTERN in `<condition>`).
+FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+```
+
+Same hybrid strategy as the multiply detector: srcQL for regular functions/methods,
+Python fallback for destructor/constructor blocks.
+
+Same `MAX_PATTERN` guard check in `<condition>` elements.
+
+**Edge case:** `bad_unsigned_int_add` initialises `data = UINT_MAX` in a `<decl>`
+initialiser, not in a `<condition>`. The guard check only counts MAX inside
+`<condition>`, so this initialiser does not suppress the finding correctly.
 
 ### detect_unchecked_increment.sh
+
+**Strategy:** Python regex only (no srcQL).
+
+`data++` and `++data` are standalone expression statements, not typed declarations.
+srcQL's `$TYPE $RESULT = ...` pattern cannot match them. The detector scans
+`<operator>++</operator>` elements directly in the XML.
 
 **Sink pattern:**
 ```python
@@ -48,7 +64,7 @@ INC_PATTERN = re.compile(
     r'<operator\b[^>]*pos:start="(\d+):(\d+)"[^>]*>\s*\+\+\s*</operator>'
 )
 ```
-Same guard check as above.
+Same MAX guard check in `<condition>` elements.
 
 ---
 

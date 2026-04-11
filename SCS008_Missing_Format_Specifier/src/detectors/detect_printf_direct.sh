@@ -1,9 +1,29 @@
 #!/usr/bin/env bash
 # detect_printf_direct.sh <xml> <src> <findings>
-# Detects printf/vprintf calls where the first argument is a variable, not a string literal.
-# Guard: first argument contains a <literal> element (e.g. "%s", "%d\n").
+#
+# Detector 1: printf_direct
+# Detects: printf/vprintf calls where the first argument is NOT a string literal
+#           AND a user-input source is present in the same function.
+# Guard: first <argument> contains a <literal> element (safe format string).
 # Rule: SCS008-PRINTF
-set -e
+#
+# Strategy (srcQL + XPath, no Python):
+#
+#   Stage 1 -- srcQL scopes to the function body:
+#     FIND $T $FUNC($PARAMS) {} CONTAINS printf($FMT)
+#
+#   Stage 1 guard -- XPath on srcQL result:
+#     - printf/vprintf first arg has no <literal> (non-hardcoded format), AND
+#     - result also contains a taint source call (fgets, getenv, scanf, fscanf).
+#
+#   Stage 2 -- XPath fallback for <destructor>/<constructor> blocks.
+#
+#   Taint co-occurrence: srcQL result is already function-scoped, so a flat
+#   count() replaces the ancestor:: predicate needed in pure-XPath mode.
+#
+# Requires: srcml, xmllint
+
+source "$(dirname "$0")/../../../shared/lib/write_finding.sh"
 
 XML=$1
 SRC=$2
@@ -19,88 +39,106 @@ if [ ! -f "$XML" ]; then
     exit 1
 fi
 
+QUERY='FIND $T $FUNC($PARAMS) {} CONTAINS printf($FMT)'
+echo "    query    : $QUERY"
+echo "    strategy : srcQL + XPath guard -- printf/vprintf with non-literal format and taint source present"
+echo "    note     : destructor/constructor blocks covered by XPath fallback"
+echo
+
 FILENAME=$(xmllint --xpath \
     'string(//*[local-name()="unit"]/@filename)' "$XML" 2>/dev/null)
 
-python3 << PYEOF
-import re, json
+CALL_XPATH="//*[local-name()='call'][*[local-name()='name'][.='printf' or .='vprintf']][*[local-name()='argument_list']/*[local-name()='argument'][1][not(.//*[local-name()='literal'])]]"
+TAINT_XPATH="count(//*[local-name()='call'][*[local-name()='name'][.='fgets' or .='getenv' or .='scanf' or .='fscanf']])"
 
-xml_path      = "$XML"
-findings_path = "$FINDINGS"
-filename      = "$FILENAME"
-found = 0
+found=0
 
-with open(xml_path) as f:
-    content = f.read()
+# -----------------------------------------------------------------------
+# Stage 1: srcQL -- functions and class methods
+# -----------------------------------------------------------------------
+TMPRESULT=$(mktemp /tmp/printf_result_XXXXXX)
+trap "rm -f $TMPRESULT" EXIT
 
-# Find printf/vprintf call positions — capture pos:start from the <call> tag
-PRINTF_CALL = re.compile(
-    r'<call\b[^>]*pos:start="(\d+):(\d+)"[^>]*>\s*<name[^>]*>\s*(?:printf|vprintf)\s*</name>'
-)
-LITERAL_PAT = re.compile(r'<literal\b')
-ARG_SPLIT   = re.compile(r'<argument\b[^>]*>(.*?)</argument>', re.DOTALL)
+{ time srcml "$XML" --srcql "$QUERY" -q > "$TMPRESULT"; } 2>&1
 
-func_blocks = re.split(r'(?=<(?:function|destructor|constructor)[\s>])', content)
+if ! grep -q '<function' "$TMPRESULT" 2>/dev/null; then
+    echo "    no printf() in regular function"
+else
+    echo "--- Stage 1: checking srcQL result for non-literal format and taint source ---"
 
-for block in func_blocks:
-    tag_m = re.match(r'<(function|destructor|constructor)', block)
-    if not tag_m:
-        continue
+    POS=$(xmllint --xpath "string(${CALL_XPATH}/@*[local-name()='start'])" "$TMPRESULT" 2>/dev/null)
 
-    if not PRINTF_CALL.search(block):
-        continue
+    if [ -z "$POS" ]; then
+        echo "    guarded -- printf/vprintf format argument is a literal, no finding"
+    else
+        TAINT=$(xmllint --xpath "$TAINT_XPATH" "$TMPRESULT" 2>/dev/null)
+        if [ "${TAINT:-0}" -eq 0 ]; then
+            echo "    no taint source (fgets/getenv/scanf/fscanf) in same function, no finding"
+        else
+            LINE=${POS%%:*}
+            COL=${POS##*:}
+            FUNC_NAME=$(xmllint --xpath \
+                'string(//*[local-name()="function"]/*[local-name()="name"])' \
+                "$TMPRESULT" 2>/dev/null)
 
-    tag = tag_m.group(1)
-    if tag == 'function':
-        fname_m = re.search(r'<function[^>]*>.*?</type>\s*<name[^>]*>([^<]+)</name>', block, re.DOTALL)
-    else:
-        fname_m = re.search(r'<name[^>]*>([^<]+)</name>', block)
-    fname = fname_m.group(1).strip() if fname_m else "?"
+            echo "    function : $FUNC_NAME"
+            echo "    position : $LINE:$COL"
+            echo
 
-    # Find each printf/vprintf call in this block
-    for call_m in re.finditer(r'<call\b[^>]*>(.*?)</call>', block, re.DOTALL):
-        call_text = call_m.group(0)
-        if not re.search(r'<name[^>]*>\s*(?:printf|vprintf)\s*</name>', call_text):
-            continue
+            write_finding \
+                --findings  "$FINDINGS" \
+                --detector  "printf_direct" \
+                --severity  "warning" \
+                --rule      "SCS008-PRINTF" \
+                --file      "$FILENAME" \
+                --line      "$LINE" \
+                --col       "$COL" \
+                --varname   "${FUNC_NAME:-?}" \
+                --note-line "$LINE" \
+                --note-col  "$COL" \
+                --note-msg  "printf/vprintf in ${FUNC_NAME}() -- variable used directly as format argument (no literal format specifier)"
 
-        # Extract first argument — must NOT be a string literal
-        arglist_m = re.search(r'<argument_list\b[^>]*>(.*?)</argument_list>', call_text, re.DOTALL)
-        if not arglist_m:
-            continue
-        args = ARG_SPLIT.findall(arglist_m.group(1))
-        if not args:
-            continue
-        if LITERAL_PAT.search(args[0]):
-            continue  # guarded — first arg is a literal format string
+            echo "    finding: ${FILENAME}:${LINE}:${COL} -- ${FUNC_NAME}() printf without literal format specifier"
+            found=$((found + 1))
+        fi
+    fi
+fi
 
-        # Get position from <call pos:start="line:col">
-        pos_m = re.search(r'<call\b[^>]*pos:start="(\d+):(\d+)"', call_text)
-        line = int(pos_m.group(1)) if pos_m else 0
-        col  = int(pos_m.group(2)) if pos_m else 0
+# -----------------------------------------------------------------------
+# Stage 2: XPath fallback -- destructors and constructors
+# -----------------------------------------------------------------------
+echo
+echo "--- Stage 2: XPath destructor/constructor fallback ---"
 
-        finding = {
-            "detector": "printf_direct",
-            "severity": "warning",
-            "rule":     "SCS008-PRINTF",
-            "file":     filename,
-            "line":     line,
-            "col":      col,
-            "varname":  fname,
-            "note": {
-                "line":    line,
-                "col":     col,
-                "message": f"printf/vprintf in {fname}() — variable used directly as format argument (no literal format specifier)"
-            }
-        }
+DES_XPATH="//*[local-name()='call'][*[local-name()='name'][.='printf' or .='vprintf']][*[local-name()='argument_list']/*[local-name()='argument'][1][not(.//*[local-name()='literal'])]][ancestor::*[local-name()='destructor' or local-name()='constructor'][.//*[local-name()='call'][*[local-name()='name'][.='fgets' or .='getenv' or .='scanf' or .='fscanf']]]]"
 
-        with open(findings_path, "a") as fp:
-            fp.write(json.dumps(finding, indent=2) + "\n")
+DES_POS=$(xmllint --xpath "string(${DES_XPATH}/@*[local-name()='start'])" "$XML" 2>/dev/null)
 
-        print(f"    finding: {filename}:{line}:{col} — {fname}() printf without literal format specifier")
-        found += 1
-        break  # one finding per function block
+if [ -n "$DES_POS" ]; then
+    LINE=${DES_POS%%:*}
+    COL=${DES_POS##*:}
+    FUNC_NAME=$(xmllint --xpath \
+        'string(//*[local-name()="destructor" or local-name()="constructor"]/*[local-name()="name"])' \
+        "$XML" 2>/dev/null)
 
-print(f"[ printf_direct ] {found} finding(s) written to {findings_path}")
-PYEOF
+    write_finding \
+        --findings  "$FINDINGS" \
+        --detector  "printf_direct" \
+        --severity  "warning" \
+        --rule      "SCS008-PRINTF" \
+        --file      "$FILENAME" \
+        --line      "$LINE" \
+        --col       "$COL" \
+        --varname   "${FUNC_NAME:-?}" \
+        --note-line "$LINE" \
+        --note-col  "$COL" \
+        --note-msg  "printf/vprintf in ${FUNC_NAME}() -- variable used directly as format argument (destructor/constructor)"
+
+    echo "    finding: ${FILENAME}:${LINE}:${COL} -- ${FUNC_NAME}() printf without literal format specifier (destructor/constructor)"
+    found=$((found + 1))
+else
+    echo "    no unguarded destructor/constructor printf found"
+fi
 
 echo
+echo "[ printf_direct ] ${found} finding(s) written to $FINDINGS"

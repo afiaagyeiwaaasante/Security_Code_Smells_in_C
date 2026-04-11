@@ -2,24 +2,33 @@
 # detectors/detect_unchecked_increment.sh <annotated.xml> <source.c> <findings.json>
 #
 # Detector 3: unchecked_increment
-# Detects: function contains a ++ (postfix or prefix increment) with no
-#           upper-bound guard (INT_MAX / CHAR_MAX / SHRT_MAX / UINT_MAX /
-#           INT64_MAX / LLONG_MAX) inside any <condition> element.
+# Detects: data++ or ++data with no MAX-constant guard in any <condition>
+#           element in the enclosing function/destructor/constructor.
 # Severity: warning [integerOverflow]
 #
-# Strategy:
-#   srcQL does not have a built-in pattern for ++ operators.
-#   Instead, srcML annotates the source into XML and we use xmllint XPath
-#   to find functions that contain <operator>++</operator> (covers both
-#   prefix `++x` and postfix `x++`).
+# Strategy (XPath only, no srcQL, no Python):
 #
-#   Python post-filter:
-#     For each matched function block, check all <condition> elements for a
-#     MAX constant.  If absent → no bound check → finding.
+#   srcQL cannot express standalone ++ expressions (no $TYPE $RESULT = form).
+#   XPath navigates the srcML XML directly:
 #
-#   Position: pos:start on the <operator>++</operator> element.
+#   //*[local-name()="operator"][.="++"]
+#     [ancestor::*[local-name()="function" or
+#                  local-name()="destructor" or
+#                  local-name()="constructor"]
+#      [not(.//*[local-name()="condition"]
+#             [.//*[local-name()="name"]
+#               [.="INT_MAX" or .="CHAR_MAX" or .="SHRT_MAX" or
+#                .="UINT_MAX" or .="INT64_MAX" or .="LLONG_MAX"]])]]
+#   /@*[local-name()="start"]
 #
-# Requires: srcml, xmllint, python3
+#   Finds <operator>++</operator> elements whose enclosing
+#   function/destructor/constructor has NO condition with a MAX constant.
+#   The ancestor:: axis ensures the guard check is scoped to the same block.
+#
+#   Position and function name are extracted via separate XPath queries on
+#   the same XML file.
+#
+# Requires: srcml, xmllint
 
 source "$(dirname "$0")/../../../shared/lib/write_finding.sh"
 
@@ -32,105 +41,56 @@ echo "    input  : $XML"
 echo "    output : $FINDINGS"
 echo
 
-TMPRESULT=$(mktemp /tmp/intover_inc_XXXXXX)
-trap "rm -f $TMPRESULT" EXIT
+if [ ! -f "$XML" ]; then
+    echo "    ERROR: XML file not found: $XML"
+    exit 1
+fi
 
-echo "    strategy : XPath — <operator>++</operator> inside function blocks"
-
-# Use xmllint to dump the full srcML unit, then post-process in Python.
-# We pass the entire XML to Python and do all filtering there.
-cp "$XML" "$TMPRESULT"
-
-echo "--- post-filter: extracting ++ usages, checking for absent MAX guard ---"
+echo "    strategy : XPath on srcML XML -- ancestor-scoped guard check"
+echo
 
 FILENAME=$(xmllint --xpath \
-    'string(//*[local-name()="unit"]/@filename)' "$TMPRESULT" 2>/dev/null)
+    'string(//*[local-name()="unit"]/@filename)' "$XML" 2>/dev/null)
 
-FOUND_COUNT=$(python3 << PYEOF
-import re, json
+MAX_NAMES=".='INT_MAX' or .='CHAR_MAX' or .='SHRT_MAX' or .='UINT_MAX' or .='INT64_MAX' or .='LLONG_MAX'"
 
-MAX_PATTERN = re.compile(
-    r'<name[^>]*>\s*(?:INT_MAX|CHAR_MAX|SHRT_MAX|UINT_MAX|INT64_MAX|LLONG_MAX)\s*</name>'
-)
-INC_PATTERN = re.compile(
-    r'<operator\b[^>]*pos:start="(\d+):(\d+)"[^>]*>\s*\+\+\s*</operator>'
-)
+# XPath: find ++ operators in functions/destructors/constructors with no MAX guard in conditions
+INC_XPATH="//*[local-name()='operator'][.='++'][ancestor::*[local-name()='function' or local-name()='destructor' or local-name()='constructor'][not(.//*[local-name()='condition'][.//*[local-name()='name'][$MAX_NAMES]])]]/@*[local-name()='start']"
 
-with open("$TMPRESULT") as f:
-    content = f.read()
+POS=$(xmllint --xpath "string($INC_XPATH)" "$XML" 2>/dev/null)
 
-findings_path = "$FINDINGS"
-filename      = "$FILENAME"
-found = 0
+if [ -z "$POS" ]; then
+    echo "[ unchecked_increment ] No smell detected."
+    exit 0
+fi
 
-# Split into per-function/destructor/constructor blocks
-func_blocks = re.split(r'(?=<(?:function|destructor|constructor)[\s>])', content)
+echo "--- extracting finding via XPath ---"
 
-for block in func_blocks:
-    tag_m = re.match(r'<(function|destructor|constructor)', block)
-    if not tag_m:
-        continue
-    tag = tag_m.group(1)
+LINE=${POS%%:*}
+COL=${POS##*:}
 
-    # Only process blocks that actually contain ++
-    if '++' not in block:
-        continue
+# Get the enclosing function/destructor/constructor name
+FUNC_NAME_XPATH="//*[local-name()='operator'][.='++'][ancestor::*[local-name()='function' or local-name()='destructor' or local-name()='constructor'][not(.//*[local-name()='condition'][.//*[local-name()='name'][$MAX_NAMES]])]]/ancestor::*[local-name()='function' or local-name()='destructor' or local-name()='constructor'][1]/*[local-name()='name']"
 
-    # Find ++ operator elements
-    inc_matches = INC_PATTERN.findall(block)
-    if not inc_matches:
-        continue
+FUNC_NAME=$(xmllint --xpath "string($FUNC_NAME_XPATH)" "$XML" 2>/dev/null)
 
-    # Extract all <condition>…</condition> sub-elements
-    conditions = re.findall(r'<condition\b[^>]*>.*?</condition>', block, re.DOTALL)
-    # If any condition contains a MAX constant → guarded → skip
-    if any(MAX_PATTERN.search(c) for c in conditions):
-        continue
-
-    # Also check <if> expression regions for MAX guard
-    if_exprs = re.findall(
-        r'<if\b[^>]*>.*?(?=<block\b|</if>)', block, re.DOTALL)
-    if any(MAX_PATTERN.search(e) for e in if_exprs):
-        continue
-
-    # Extract function/destructor/constructor name
-    if tag == 'function':
-        fname_m = re.search(
-            r'<function[^>]*>.*?</type>\s*<name[^>]*>([^<]+)</name>', block, re.DOTALL)
-    else:
-        fname_m = re.search(r'<name[^>]*>([^<]+)</name>', block)
-    fname = fname_m.group(1).strip() if fname_m else "?"
-
-    # Take the first ++ occurrence for position
-    line = int(inc_matches[0][0])
-    col  = int(inc_matches[0][1])
-
-    note_msg = f"increment (++) in {fname}() — no upper-bound guard (INT_MAX check)"
-
-    finding = {
-        "detector": "unchecked_increment",
-        "severity": "warning",
-        "rule":     "integerOverflow",
-        "file":     filename,
-        "line":     line,
-        "col":      col,
-        "varname":  fname,
-        "note": {
-            "line":    line,
-            "col":     col,
-            "message": note_msg
-        }
-    }
-
-    with open(findings_path, "a") as fp:
-        fp.write(json.dumps(finding, indent=2) + "\n")
-
-    print(f"    finding: {filename}:{line}:{col} — {fname}() increments without MAX guard")
-    found += 1
-
-print(f"[ unchecked_increment ] {found} finding(s) written to {findings_path}")
-PYEOF
-)
-
-echo "$FOUND_COUNT"
+echo "    function : $FUNC_NAME"
+echo "    position : $LINE:$COL"
 echo
+
+write_finding \
+    --findings  "$FINDINGS" \
+    --detector  "unchecked_increment" \
+    --severity  "warning" \
+    --rule      "integerOverflow" \
+    --file      "$FILENAME" \
+    --line      "$LINE" \
+    --col       "$COL" \
+    --varname   "${FUNC_NAME:-?}" \
+    --note-line "$LINE" \
+    --note-col  "$COL" \
+    --note-msg  "increment (++) in ${FUNC_NAME}() -- no upper-bound guard (INT_MAX check)"
+
+echo "    finding: ${FILENAME}:${LINE}:${COL} -- ${FUNC_NAME}() increments without MAX guard"
+echo
+echo "[ unchecked_increment ] 1 finding(s) written to $FINDINGS"

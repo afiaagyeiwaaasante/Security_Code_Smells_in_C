@@ -46,11 +46,11 @@ reads as sources. These are not in the `INPUT_SOURCE` pattern.
 **Impact:** Smells where the command string is built from socket or file input
 (rather than console or environment) are not detected.
 
-**Mitigation:** Extend the `INPUT_SOURCE` regex to include additional sources:
-```python
-INPUT_SOURCE = re.compile(
-    r'<name[^>]*>\s*(?:fgets|getenv|fscanf|fread|recv|read)\s*</name>'
-)
+**Mitigation:** Extend the taint-source check in the `ancestor::` predicate to include additional sources:
+```xpath
+[.//*[local-name()='call']
+  [*[local-name()='name']
+    [.='fgets' or .='getenv' or .='fscanf' or .='fread' or .='recv' or .='read']]]
 ```
 
 ---

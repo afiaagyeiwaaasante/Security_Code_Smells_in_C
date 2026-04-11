@@ -6,11 +6,18 @@
 #           with no positivity guard (data > 0) in any <condition>.
 # Severity: warning [signedUnsignedConversion]
 #
-# Strategy:
-#   Scan annotated srcML XML for blocks containing strncpy() calls.
-#   If no <condition> in the block contains &gt; → no positivity guard → finding.
+# Strategy (srcQL + XPath, no Python):
 #
-# Requires: srcml, xmllint, python3
+#   Stage 1 -- srcQL finds functions and class methods containing:
+#     FIND $T $FUNC($PARAMS) {} CONTAINS strncpy($A, $B, $C)
+#
+#   Stage 1 guard check -- XPath on srcQL result, scoped to <condition> only:
+#     count(//*[local-name()="condition"][.//*[local-name()="operator"][.=">"]])
+#     If > 0, a positivity guard is present -- no finding.
+#
+#   Stage 2 -- XPath fallback for <destructor>/<constructor> blocks.
+#
+# Requires: srcml, xmllint
 
 source "$(dirname "$0")/../../../shared/lib/write_finding.sh"
 
@@ -28,89 +35,93 @@ if [ ! -f "$XML" ]; then
     exit 1
 fi
 
-echo "    strategy : XML scan — strncpy() call with no &gt; guard in <condition>"
-echo "--- post-filter: checking for absent positivity guard ---"
+QUERY='FIND $T $FUNC($PARAMS) {} CONTAINS strncpy($A, $B, $C)'
+
+echo "    query  : $QUERY"
+echo "    note   : destructor/constructor blocks covered by XPath fallback"
+echo
+
+GUARD_XPATH='count(//*[local-name()="condition"][.//*[local-name()="operator"][.=">"]])'
+
+DES_XPATH="//*[local-name()='call'][*[local-name()='name'][.='strncpy']][ancestor::*[local-name()='destructor' or local-name()='constructor'][not(.//*[local-name()='condition'][.//*[local-name()='operator'][.='>']])]]/@*[local-name()='start']"
 
 FILENAME=$(xmllint --xpath \
     'string(//*[local-name()="unit"]/@filename)' "$XML" 2>/dev/null)
 
-FOUND_COUNT=$(python3 << PYEOF
-import re, json
+found=0
 
-POSITIVE_GUARD = re.compile(r'&gt;', re.DOTALL)
+# -----------------------------------------------------------------------
+# Stage 1: srcQL -- functions and class methods
+# -----------------------------------------------------------------------
+TMPRESULT=$(mktemp /tmp/ss_result_XXXXXX)
+trap "rm -f $TMPRESULT" EXIT
 
-STRNCPY_CALL = re.compile(
-    r'<call\b[^>]*pos:start="(\d+):(\d+)"[^>]*>\s*<name[^>]*>\s*strncpy\s*</name>'
-)
-
-with open("$XML") as f:
-    content = f.read()
-
-findings_path = "$FINDINGS"
-filename      = "$FILENAME"
-found = 0
-
-func_blocks = re.split(r'(?=<(?:function|destructor|constructor)[\s>])', content)
-
-for block in func_blocks:
-    tag_m = re.match(r'<(function|destructor|constructor)', block)
-    if not tag_m:
-        continue
-    tag = tag_m.group(1)
-
-    # Only process blocks that contain strncpy
-    if 'strncpy' not in block:
-        continue
-
-    strncpy_matches = STRNCPY_CALL.findall(block)
-    if not strncpy_matches:
-        continue
-
-    # Extract all <condition> elements
-    conditions = re.findall(r'<condition\b[^>]*>.*?</condition>', block, re.DOTALL)
-
-    # If any condition contains &gt; → positivity guard present → skip
-    if any(POSITIVE_GUARD.search(c) for c in conditions):
-        continue
-
-    # Extract function name
-    if tag == 'function':
-        fname_m = re.search(
-            r'<function[^>]*>.*?</type>\s*<name[^>]*>([^<]+)</name>', block, re.DOTALL)
-    else:
-        fname_m = re.search(r'<name[^>]*>([^<]+)</name>', block)
-    fname = fname_m.group(1).strip() if fname_m else "?"
-
-    line = int(strncpy_matches[0][0])
-    col  = int(strncpy_matches[0][1])
-
-    note_msg = (f"strncpy() in {fname}() — signed int passed as char count "
-                f"with no positivity guard (data > 0)")
-
-    finding = {
-        "detector": "signed_strncpy",
-        "severity": "warning",
-        "rule":     "signedUnsignedConversion",
-        "file":     filename,
-        "line":     line,
-        "col":      col,
-        "varname":  fname,
-        "note": {
-            "line":    line,
-            "col":     col,
-            "message": note_msg
-        }
-    }
-
-    with open(findings_path, "a") as fp:
-        fp.write(json.dumps(finding, indent=2) + "\n")
-
-    print(f"    finding: {filename}:{line}:{col} — {fname}() strncpy without positivity guard")
-    found += 1
-
-print(f"[ signed_strncpy ] {found} finding(s) written to {findings_path}")
-PYEOF
-)
-
-echo "$FOUND_COUNT"
+{ time srcml "$XML" --srcql "$QUERY" -q > "$TMPRESULT"; } 2>&1
 echo
+
+if grep -q '<function' "$TMPRESULT" 2>/dev/null; then
+    echo "--- Stage 1: checking srcQL result for positivity guard in <condition> ---"
+    guard=$(xmllint --xpath "$GUARD_XPATH" "$TMPRESULT" 2>/dev/null)
+    if [ "${guard:-0}" -gt 0 ]; then
+        echo "    guarded -- > operator found in condition, no finding"
+    else
+        POS=$(xmllint --xpath \
+            'string(//*[local-name()="call"][*[local-name()="name"][.="strncpy"]]/@*[local-name()="start"])' \
+            "$TMPRESULT" 2>/dev/null)
+        FUNC_NAME=$(xmllint --xpath \
+            'string(//*[local-name()="function"]/*[local-name()="name"])' \
+            "$TMPRESULT" 2>/dev/null)
+        LINE=${POS%%:*}
+        COL=${POS##*:}
+
+        write_finding \
+            --findings  "$FINDINGS" \
+            --detector  "signed_strncpy" \
+            --severity  "warning" \
+            --rule      "signedUnsignedConversion" \
+            --file      "$FILENAME" \
+            --line      "$LINE" \
+            --col       "$COL" \
+            --varname   "$FUNC_NAME" \
+            --note-line "$LINE" \
+            --note-col  "$COL" \
+            --note-msg  "strncpy() in ${FUNC_NAME}() -- signed int passed as char count with no positivity guard (data > 0)"
+        echo "    finding: ${FILENAME}:${LINE}:${COL} -- ${FUNC_NAME}() strncpy without positivity guard"
+        found=$((found + 1))
+    fi
+fi
+
+# -----------------------------------------------------------------------
+# Stage 2: XPath fallback -- destructors and constructors
+# -----------------------------------------------------------------------
+echo
+echo "--- Stage 2: XPath destructor/constructor fallback ---"
+DES_POS=$(xmllint --xpath "string($DES_XPATH)" "$XML" 2>/dev/null)
+
+if [ -n "$DES_POS" ]; then
+    LINE=${DES_POS%%:*}
+    COL=${DES_POS##*:}
+    FUNC_NAME=$(xmllint --xpath \
+        'string(//*[local-name()="destructor" or local-name()="constructor"]/*[local-name()="name"])' \
+        "$XML" 2>/dev/null)
+
+    write_finding \
+        --findings  "$FINDINGS" \
+        --detector  "signed_strncpy" \
+        --severity  "warning" \
+        --rule      "signedUnsignedConversion" \
+        --file      "$FILENAME" \
+        --line      "$LINE" \
+        --col       "$COL" \
+        --varname   "$FUNC_NAME" \
+        --note-line "$LINE" \
+        --note-col  "$COL" \
+        --note-msg  "strncpy() in ${FUNC_NAME}() -- signed int as char count with no positivity guard (destructor/constructor)"
+    echo "    finding: ${FILENAME}:${LINE}:${COL} -- ${FUNC_NAME}() strncpy without positivity guard (destructor/constructor)"
+    found=$((found + 1))
+else
+    echo "    no unguarded destructor/constructor strncpy found"
+fi
+
+echo
+echo "[ signed_strncpy ] ${found} finding(s) written to $FINDINGS"

@@ -2,28 +2,32 @@
 # detectors/detect_unchecked_multiply.sh <annotated.xml> <source.c> <findings.json>
 #
 # Detector 1: unchecked_multiply
-# Detects: function contains a multiplication (*) with no upper-bound guard
-#           (INT_MAX / CHAR_MAX / SHRT_MAX / UINT_MAX / INT64_MAX / LLONG_MAX)
-#           inside any <condition> element in the same function.
+# Detects: $TYPE $RESULT = $A * $B with no MAX-constant guard in any
+#           <condition> element in the same function/destructor/constructor.
 # Severity: warning [integerOverflow]
 #
-# Strategy:
-#   srcQL does not reliably match binary arithmetic patterns like $A * $B.
-#   Instead, we read the full annotated srcML XML and search for
-#   <operator>*</operator> elements directly.
+# Strategy (srcQL + XPath, no Python):
 #
-#   Python post-filter:
-#     For each function block that contains a * operator:
-#     - Extract all <condition>…</condition> sub-elements.
-#     - If no condition contains a MAX constant → no upper-bound check → finding.
+#   Stage 1 -- srcQL finds functions and class methods containing the pattern:
+#     FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
 #
-#   Edge case: bad_unsigned_int_add has UINT_MAX as an initialiser value in
-#   a <decl>, NOT in a <condition>.  Only counting MAX inside <condition>
-#   ensures we don't mistake initialiser use for a guard.
+#   Stage 1 guard check -- XPath on srcQL result, scoped to <condition> only:
+#     count(//*[local-name()="condition"][.//*[local-name()="name"][...MAX...]])
+#     If > 0, the multiplication is guarded -- no finding.
 #
-#   Position: the <operator>*</operator> element's pos:start attribute.
+#   Stage 2 -- XPath fallback on original XML for <destructor>/<constructor>
+#     blocks (srcQL's $T $FUNC($PARAMS) {} requires a return type and does not
+#     match C++ destructors):
+#     //*[local-name()="operator"][.="*"]
+#       [ancestor::*[local-name()="destructor" or local-name()="constructor"]
+#        [not(.//*[local-name()="condition"][.//*[local-name()="name"][...MAX...]])]]
+#     /@*[local-name()="start"]
 #
-# Requires: srcml, xmllint, python3
+#   Edge case: UINT_MAX as an initialiser value (not a guard) is correctly
+#     ignored because the MAX check is scoped to <condition> elements only,
+#     not the whole function body.
+#
+# Requires: srcml, xmllint
 
 source "$(dirname "$0")/../../../shared/lib/write_finding.sh"
 
@@ -41,93 +45,93 @@ if [ ! -f "$XML" ]; then
     exit 1
 fi
 
-echo "    strategy : XML scan — <operator>*</operator> inside function blocks"
-echo "--- post-filter: checking for absent MAX guard in <condition> ---"
+QUERY='FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B'
+
+echo "    query  : $QUERY"
+echo "    note   : destructor/constructor blocks covered by XPath fallback"
+echo
+
+MAX_IN_COND='count(//*[local-name()="condition"][.//*[local-name()="name"][.="INT_MAX" or .="CHAR_MAX" or .="SHRT_MAX" or .="UINT_MAX" or .="INT64_MAX" or .="LLONG_MAX"]])'
+
+DES_XPATH="//*[local-name()='operator'][.='*'][ancestor::*[local-name()='destructor' or local-name()='constructor'][not(.//*[local-name()='condition'][.//*[local-name()='name'][.='INT_MAX' or .='CHAR_MAX' or .='SHRT_MAX' or .='UINT_MAX' or .='INT64_MAX' or .='LLONG_MAX']])]]/@*[local-name()='start']"
 
 FILENAME=$(xmllint --xpath \
     'string(//*[local-name()="unit"]/@filename)' "$XML" 2>/dev/null)
 
-FOUND_COUNT=$(python3 << PYEOF
-import re, json
+found=0
 
-MAX_PATTERN = re.compile(
-    r'<name[^>]*>\s*(?:INT_MAX|CHAR_MAX|SHRT_MAX|UINT_MAX|INT64_MAX|LLONG_MAX)\s*</name>'
-)
-MUL_OP_PATTERN = re.compile(
-    r'<operator\b[^>]*pos:start="(\d+):(\d+)"[^>]*>\s*\*\s*</operator>'
-)
+# -----------------------------------------------------------------------
+# Stage 1: srcQL -- functions and class methods
+# -----------------------------------------------------------------------
+TMPRESULT=$(mktemp /tmp/um_result_XXXXXX)
+trap "rm -f $TMPRESULT" EXIT
 
-with open("$XML") as f:
-    content = f.read()
-
-findings_path = "$FINDINGS"
-filename      = "$FILENAME"
-found = 0
-
-# Split into per-function/destructor/constructor blocks
-func_blocks = re.split(r'(?=<(?:function|destructor|constructor)[\s>])', content)
-
-for block in func_blocks:
-    tag_m = re.match(r'<(function|destructor|constructor)', block)
-    if not tag_m:
-        continue
-    tag = tag_m.group(1)
-
-    # Only process blocks that contain a * operator
-    mul_matches = MUL_OP_PATTERN.findall(block)
-    if not mul_matches:
-        continue
-
-    # Extract all <condition>…</condition> sub-elements
-    conditions = re.findall(r'<condition\b[^>]*>.*?</condition>', block, re.DOTALL)
-    # If any condition contains a MAX constant → bounds check present → skip
-    if any(MAX_PATTERN.search(c) for c in conditions):
-        continue
-
-    # Also check <if> expression regions for MAX guard (alternate srcML encoding)
-    if_exprs = re.findall(
-        r'<if\b[^>]*>.*?(?=<block\b|</if>)', block, re.DOTALL)
-    if any(MAX_PATTERN.search(e) for e in if_exprs):
-        continue
-
-    # Extract function/destructor/constructor name
-    if tag == 'function':
-        fname_m = re.search(
-            r'<function[^>]*>.*?</type>\s*<name[^>]*>([^<]+)</name>', block, re.DOTALL)
-    else:
-        fname_m = re.search(r'<name[^>]*>([^<]+)</name>', block)
-    fname = fname_m.group(1).strip() if fname_m else "?"
-
-    # Take the first * occurrence for position
-    line = int(mul_matches[0][0])
-    col  = int(mul_matches[0][1])
-
-    note_msg = f"multiplication in {fname}() — no upper-bound guard (INT_MAX / 2)"
-
-    finding = {
-        "detector": "unchecked_multiply",
-        "severity": "warning",
-        "rule":     "integerOverflow",
-        "file":     filename,
-        "line":     line,
-        "col":      col,
-        "varname":  fname,
-        "note": {
-            "line":    line,
-            "col":     col,
-            "message": note_msg
-        }
-    }
-
-    with open(findings_path, "a") as fp:
-        fp.write(json.dumps(finding, indent=2) + "\n")
-
-    print(f"    finding: {filename}:{line}:{col} — {fname}() multiplies without MAX guard")
-    found += 1
-
-print(f"[ unchecked_multiply ] {found} finding(s) written to {findings_path}")
-PYEOF
-)
-
-echo "$FOUND_COUNT"
+{ time srcml "$XML" --srcql "$QUERY" -q > "$TMPRESULT"; } 2>&1
 echo
+
+if grep -q '<function' "$TMPRESULT" 2>/dev/null; then
+    echo "--- Stage 1: checking srcQL result for MAX guard in <condition> ---"
+    guard=$(xmllint --xpath "$MAX_IN_COND" "$TMPRESULT" 2>/dev/null)
+    if [ "${guard:-0}" -gt 0 ]; then
+        echo "    guarded -- MAX constant found in condition, no finding"
+    else
+        POS=$(xmllint --xpath \
+            'string(//*[local-name()="operator"][.="*"]/@*[local-name()="start"])' \
+            "$TMPRESULT" 2>/dev/null)
+        FUNC_NAME=$(xmllint --xpath \
+            'string(//*[local-name()="function"]/*[local-name()="name"])' \
+            "$TMPRESULT" 2>/dev/null)
+        LINE=${POS%%:*}
+        COL=${POS##*:}
+
+        write_finding \
+            --findings  "$FINDINGS" \
+            --detector  "unchecked_multiply" \
+            --severity  "warning" \
+            --rule      "integerOverflow" \
+            --file      "$FILENAME" \
+            --line      "$LINE" \
+            --col       "$COL" \
+            --varname   "$FUNC_NAME" \
+            --note-line "$LINE" \
+            --note-col  "$COL" \
+            --note-msg  "multiplication in ${FUNC_NAME}() -- no upper-bound guard (INT_MAX / 2)"
+        echo "    finding: ${FILENAME}:${LINE}:${COL} -- ${FUNC_NAME}() multiplies without MAX guard"
+        found=$((found + 1))
+    fi
+fi
+
+# -----------------------------------------------------------------------
+# Stage 2: XPath fallback -- destructors and constructors
+# -----------------------------------------------------------------------
+echo
+echo "--- Stage 2: XPath destructor/constructor fallback ---"
+DES_POS=$(xmllint --xpath "string($DES_XPATH)" "$XML" 2>/dev/null)
+
+if [ -n "$DES_POS" ]; then
+    LINE=${DES_POS%%:*}
+    COL=${DES_POS##*:}
+    FUNC_NAME=$(xmllint --xpath \
+        'string(//*[local-name()="destructor" or local-name()="constructor"]/*[local-name()="name"])' \
+        "$XML" 2>/dev/null)
+
+    write_finding \
+        --findings  "$FINDINGS" \
+        --detector  "unchecked_multiply" \
+        --severity  "warning" \
+        --rule      "integerOverflow" \
+        --file      "$FILENAME" \
+        --line      "$LINE" \
+        --col       "$COL" \
+        --varname   "$FUNC_NAME" \
+        --note-line "$LINE" \
+        --note-col  "$COL" \
+        --note-msg  "multiplication in ${FUNC_NAME}() -- no upper-bound guard (INT_MAX / 2)"
+    echo "    finding: ${FILENAME}:${LINE}:${COL} -- ${FUNC_NAME}() multiplies without MAX guard (destructor/constructor)"
+    found=$((found + 1))
+else
+    echo "    no unguarded destructor/constructor multiply found"
+fi
+
+echo
+echo "[ unchecked_multiply ] ${found} finding(s) written to $FINDINGS"

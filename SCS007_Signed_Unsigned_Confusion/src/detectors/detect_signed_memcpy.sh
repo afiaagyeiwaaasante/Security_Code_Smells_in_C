@@ -6,14 +6,19 @@
 #           count with no positivity guard (data > 0) in any <condition>.
 # Severity: warning [signedUnsignedConversion]
 #
-# Strategy:
-#   Scan annotated srcML XML for blocks containing memcpy() or memmove() calls.
-#   If no <condition> in the block contains &gt; → no positivity guard → finding.
+# Strategy (srcQL + XPath, no Python):
 #
-#   memmove() is covered here because its detection pattern is identical to
-#   memcpy() — both accept a signed value as a size_t count argument.
+#   Stage 1 -- srcQL finds functions and class methods containing:
+#     FIND $T $FUNC($PARAMS) {} CONTAINS memcpy($A, $B, $C)
+#     (memmove covered by a separate srcQL query)
 #
-# Requires: srcml, xmllint, python3
+#   Stage 1 guard check -- XPath on srcQL result, scoped to <condition> only:
+#     count(//*[local-name()="condition"][.//*[local-name()="operator"][.=">"]])
+#     If > 0, a positivity guard is present -- no finding.
+#
+#   Stage 2 -- XPath fallback for <destructor>/<constructor> blocks.
+#
+# Requires: srcml, xmllint
 
 source "$(dirname "$0")/../../../shared/lib/write_finding.sh"
 
@@ -31,92 +36,97 @@ if [ ! -f "$XML" ]; then
     exit 1
 fi
 
-echo "    strategy : XML scan — memcpy()/memmove() call with no &gt; guard in <condition>"
-echo "--- post-filter: checking for absent positivity guard ---"
+GUARD_XPATH='count(//*[local-name()="condition"][.//*[local-name()="operator"][.=">"]])'
 
 FILENAME=$(xmllint --xpath \
     'string(//*[local-name()="unit"]/@filename)' "$XML" 2>/dev/null)
 
-FOUND_COUNT=$(python3 << PYEOF
-import re, json
+found=0
 
-POSITIVE_GUARD = re.compile(r'&gt;', re.DOTALL)
+# -----------------------------------------------------------------------
+# Stage 1: srcQL -- functions and class methods (memcpy and memmove)
+# -----------------------------------------------------------------------
+for SINK in memcpy memmove; do
+    QUERY="FIND \$T \$FUNC(\$PARAMS) {} CONTAINS ${SINK}(\$A, \$B, \$C)"
+    echo "    query  : $QUERY"
 
-MEMCPY_CALL = re.compile(
-    r'<call\b[^>]*pos:start="(\d+):(\d+)"[^>]*>\s*<name[^>]*>\s*(?:memcpy|memmove)\s*</name>'
-)
+    TMPRESULT=$(mktemp /tmp/sc_result_XXXXXX)
+    trap "rm -f $TMPRESULT" EXIT
 
-with open("$XML") as f:
-    content = f.read()
+    { time srcml "$XML" --srcql "$QUERY" -q > "$TMPRESULT"; } 2>&1
+    echo
 
-findings_path = "$FINDINGS"
-filename      = "$FILENAME"
-found = 0
+    if grep -q '<function' "$TMPRESULT" 2>/dev/null; then
+        echo "--- Stage 1 ($SINK): checking srcQL result for positivity guard in <condition> ---"
+        guard=$(xmllint --xpath "$GUARD_XPATH" "$TMPRESULT" 2>/dev/null)
+        if [ "${guard:-0}" -gt 0 ]; then
+            echo "    guarded -- > operator found in condition, no finding"
+        else
+            POS=$(xmllint --xpath \
+                "string(//*[local-name()='call'][*[local-name()='name'][.='${SINK}']]/@*[local-name()='start'])" \
+                "$TMPRESULT" 2>/dev/null)
+            FUNC_NAME=$(xmllint --xpath \
+                'string(//*[local-name()="function"]/*[local-name()="name"])' \
+                "$TMPRESULT" 2>/dev/null)
+            LINE=${POS%%:*}
+            COL=${POS##*:}
 
-func_blocks = re.split(r'(?=<(?:function|destructor|constructor)[\s>])', content)
+            write_finding \
+                --findings  "$FINDINGS" \
+                --detector  "signed_memcpy" \
+                --severity  "warning" \
+                --rule      "signedUnsignedConversion" \
+                --file      "$FILENAME" \
+                --line      "$LINE" \
+                --col       "$COL" \
+                --varname   "$FUNC_NAME" \
+                --note-line "$LINE" \
+                --note-col  "$COL" \
+                --note-msg  "${SINK}() in ${FUNC_NAME}() -- signed int passed as byte count with no positivity guard (data > 0)"
+            echo "    finding: ${FILENAME}:${LINE}:${COL} -- ${FUNC_NAME}() ${SINK} without positivity guard"
+            found=$((found + 1))
+        fi
+    fi
+    rm -f "$TMPRESULT"
+done
 
-for block in func_blocks:
-    tag_m = re.match(r'<(function|destructor|constructor)', block)
-    if not tag_m:
-        continue
-    tag = tag_m.group(1)
-
-    # Only process blocks that contain memcpy or memmove
-    if 'memcpy' not in block and 'memmove' not in block:
-        continue
-
-    memcpy_matches = MEMCPY_CALL.findall(block)
-    if not memcpy_matches:
-        continue
-
-    # Extract all <condition> elements
-    conditions = re.findall(r'<condition\b[^>]*>.*?</condition>', block, re.DOTALL)
-
-    # If any condition contains &gt; → positivity guard present → skip
-    if any(POSITIVE_GUARD.search(c) for c in conditions):
-        continue
-
-    # Extract function name
-    if tag == 'function':
-        fname_m = re.search(
-            r'<function[^>]*>.*?</type>\s*<name[^>]*>([^<]+)</name>', block, re.DOTALL)
-    else:
-        fname_m = re.search(r'<name[^>]*>([^<]+)</name>', block)
-    fname = fname_m.group(1).strip() if fname_m else "?"
-
-    # Identify whether it's memcpy or memmove for the message
-    sink = "memmove" if "memmove" in block and "memcpy" not in block else "memcpy"
-
-    line = int(memcpy_matches[0][0])
-    col  = int(memcpy_matches[0][1])
-
-    note_msg = (f"{sink}() in {fname}() — signed int passed as byte count "
-                f"with no positivity guard (data > 0)")
-
-    finding = {
-        "detector": "signed_memcpy",
-        "severity": "warning",
-        "rule":     "signedUnsignedConversion",
-        "file":     filename,
-        "line":     line,
-        "col":      col,
-        "varname":  fname,
-        "note": {
-            "line":    line,
-            "col":     col,
-            "message": note_msg
-        }
-    }
-
-    with open(findings_path, "a") as fp:
-        fp.write(json.dumps(finding, indent=2) + "\n")
-
-    print(f"    finding: {filename}:{line}:{col} — {fname}() {sink} without positivity guard")
-    found += 1
-
-print(f"[ signed_memcpy ] {found} finding(s) written to {findings_path}")
-PYEOF
-)
-
-echo "$FOUND_COUNT"
+# -----------------------------------------------------------------------
+# Stage 2: XPath fallback -- destructors and constructors
+# -----------------------------------------------------------------------
 echo
+echo "--- Stage 2: XPath destructor/constructor fallback ---"
+
+for SINK in memcpy memmove; do
+    DES_XPATH="//*[local-name()='call'][*[local-name()='name'][.='${SINK}']][ancestor::*[local-name()='destructor' or local-name()='constructor'][not(.//*[local-name()='condition'][.//*[local-name()='operator'][.='>']])]]/@*[local-name()='start']"
+    DES_POS=$(xmllint --xpath "string($DES_XPATH)" "$XML" 2>/dev/null)
+
+    if [ -n "$DES_POS" ]; then
+        LINE=${DES_POS%%:*}
+        COL=${DES_POS##*:}
+        FUNC_NAME=$(xmllint --xpath \
+            'string(//*[local-name()="destructor" or local-name()="constructor"]/*[local-name()="name"])' \
+            "$XML" 2>/dev/null)
+
+        write_finding \
+            --findings  "$FINDINGS" \
+            --detector  "signed_memcpy" \
+            --severity  "warning" \
+            --rule      "signedUnsignedConversion" \
+            --file      "$FILENAME" \
+            --line      "$LINE" \
+            --col       "$COL" \
+            --varname   "$FUNC_NAME" \
+            --note-line "$LINE" \
+            --note-col  "$COL" \
+            --note-msg  "${SINK}() in ${FUNC_NAME}() -- signed int as byte count with no positivity guard (destructor/constructor)"
+        echo "    finding: ${FILENAME}:${LINE}:${COL} -- ${FUNC_NAME}() ${SINK} without positivity guard (destructor/constructor)"
+        found=$((found + 1))
+    fi
+done
+
+if [ "$found" -eq 0 ]; then
+    echo "    no unguarded destructor/constructor memcpy/memmove found"
+fi
+
+echo
+echo "[ signed_memcpy ] ${found} finding(s) written to $FINDINGS"

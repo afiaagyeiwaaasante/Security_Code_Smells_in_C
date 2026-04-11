@@ -4,10 +4,12 @@
 
 The SCS008 pipeline detects CWE-134 (Use of Externally-Controlled Format
 String) by statically analysing C/C++ source files for calls to printf-family
-functions where the format argument is a variable rather than a string literal.
+functions where the format argument is a variable rather than a string literal,
+AND a user-input source (`fgets`, `getenv`, `scanf`, `fscanf`) is present in
+the same function block.
 
-The pipeline follows the same three-stage srcML → srcslice → srcattributor
-architecture used in SCS003 through SCS007.
+The pipeline uses srcML annotation, srcQL for function scoping, and XPath for
+guard checks — no Python.
 
 ## Stages
 
@@ -27,6 +29,7 @@ a tagged XML element that the detectors can query.
 |---|---|
 | `printf(data)` | `<call><name>printf</name><argument_list>(<argument><expr><name>data</name></expr></argument>)</argument_list></call>` |
 | `printf("%s\n", data)` | `<call><name>printf</name><argument_list>(<argument><expr><literal type="string">"%s\n"</literal></expr></argument>…)</argument_list></call>` |
+| `fgets(data, n, stdin)` | `<call><name>fgets</name>…</call>` |
 | function body | `<function>…</function>` |
 | destructor body | `<destructor>…</destructor>` |
 | constructor body | `<constructor>…</constructor>` |
@@ -35,74 +38,78 @@ The critical distinction: a variable reference produces `<name>`, while a
 string literal produces `<literal type="string">`. The detector checks which
 one appears as the format argument.
 
-### Stage 2 — srcslice (Slice JSON)
-
-```
-srcslice -i <output.xml> -o <output.json>
-```
-
-Produces a data-slice JSON that maps each variable declaration and use to a
-unique hash via `slice:decl` and `slice:use` attributes. Used for
-interprocedural data-flow context.
-
-### Stage 3 — srcattributor (Attribution)
-
-```
-srcattributor -i <output.json> -o <output.xml>
-```
-
-Merges the slice information back into the srcML XML. The annotated XML is the
-final input consumed by all three detectors.
-
 ## Detectors
+
+All three detectors share the same two-stage structure.
 
 ### Detector 1 — `detect_printf_direct.sh`
 
 **Targets:** `printf`, `vprintf`
-**Format argument:** index 0 (first argument)
+**Format argument:** index 1 (first argument)
+**Rule:** SCS008-PRINTF
 
-**Strategy:**
-1. Split the XML into per-block sections on `<function>`, `<destructor>`, and `<constructor>` boundaries.
-2. For each block, find all `<call>` elements whose `<name>` is `printf` or `vprintf`.
-3. Extract the `<argument_list>` and parse the first `<argument>`.
-4. If the first argument contains a `<literal>` element → guarded (skip).
-5. If the first argument contains only a `<name>` (variable) → emit `warning [SCS008-PRINTF]`.
+**Stage 1 — srcQL (function scope):**
+```
+FIND $T $FUNC($PARAMS) {} CONTAINS printf($FMT)
+```
 
-**Handles:** C functions, C++ destructor/constructor bodies (flows 83/84).
+**Stage 1 guard — XPath on srcQL result:**
+1. The first `<argument>` does NOT contain a `<literal>` (non-hardcoded format string), AND
+2. A flat `count()` confirms a taint source (`fgets`, `getenv`, `scanf`, `fscanf`) is present — no `ancestor::` needed since srcQL already scoped the XML to the function body.
+
+**Stage 2 — XPath fallback for `<destructor>`/`<constructor>`:**
+
+srcQL requires a return type and does not match C++ destructor/constructor blocks.
+An `ancestor::` predicate on the original XML covers these cases, applying the
+same taint source co-occurrence check.
 
 ### Detector 2 — `detect_fprintf_direct.sh`
 
 **Targets:** `fprintf`, `vfprintf`
-**Format argument:** index 1 (second argument, after the `FILE *` stream)
+**Format argument:** index 2 (second argument — after the `FILE *` stream)
+**Rule:** SCS008-FPRINTF
 
-Same strategy as Detector 1, but checks `args[1]` (the second argument) rather
-than `args[0]`, because the first argument to `fprintf` is the output stream.
+Same srcQL + XPath structure as Detector 1. The XPath literal check uses
+`/*[local-name()='argument'][2]` instead of `[1]`.
 
 ### Detector 3 — `detect_syslog_direct.sh`
 
 **Targets:** `syslog`
-**Format argument:** index 1 (second argument, after the priority level)
+**Format argument:** index 2 (second argument — after the priority level)
+**Rule:** SCS008-SYSLOG
 
-Same strategy as Detector 2. `syslog(priority, format, ...)` — the format is
-the second argument, so `args[1]` is checked for a literal.
+Same structure as Detector 2. `syslog(priority, format, ...)` — format is the
+second argument.
 
 ## Guard Logic
 
-All three detectors share the same literal-check:
+All three detectors apply a two-part guard on the srcQL-scoped result:
 
-```python
-LITERAL_PAT = re.compile(r'<literal\b')
-ARG_SPLIT   = re.compile(r'<argument\b[^>]*>(.*?)</argument>', re.DOTALL)
+```xpath
+-- Part 1: format arg non-literal (printf: arg 1; fprintf/syslog: arg 2) --
+//*[local-name()='call'][*[local-name()='name'][.='printf' or .='vprintf']]
+  [*[local-name()='argument_list']/*[local-name()='argument'][1]
+    [not(.//*[local-name()='literal'])]]
 
-arglist_m = re.search(r'<argument_list\b[^>]*>(.*?)</argument_list>', call_text, re.DOTALL)
-args = ARG_SPLIT.findall(arglist_m.group(1))
-
-if LITERAL_PAT.search(args[FORMAT_ARG_INDEX]):
-    continue  # guarded — literal format string present
+-- Part 2: taint source present in same function --
+count(//*[local-name()='call'][*[local-name()='name']
+  [.='fgets' or .='getenv' or .='scanf' or .='fscanf']])
 ```
 
-Where `FORMAT_ARG_INDEX` is `0` for `printf`/`vprintf` and `1` for
-`fprintf`/`vfprintf`/`syslog`.
+A finding is emitted only when Part 1 returns a non-empty position AND Part 2
+returns a count > 0.
+
+The Stage 2 XPath fallback expresses the same constraint for destructors/constructors
+using `ancestor::` (taint source must be present in the same destructor/constructor block):
+
+```xpath
+//*[local-name()='call'][*[local-name()='name'][.='printf' or .='vprintf']]
+  [*[local-name()='argument_list']/*[local-name()='argument'][1]
+    [not(.//*[local-name()='literal'])]]
+  [ancestor::*[local-name()='destructor' or local-name()='constructor']
+    [.//*[local-name()='call'][*[local-name()='name']
+      [.='fgets' or .='getenv' or .='scanf' or .='fscanf']]]]
+```
 
 ## Entry Point
 
@@ -110,13 +117,13 @@ Where `FORMAT_ARG_INDEX` is `0` for `printf`/`vprintf` and `1` for
 bash src/smell_report.sh <source.c|cpp> [output_dir]
 ```
 
-Runs all three stages then all three detectors, writing:
+Runs srcML annotation then all three detectors, writing:
 - `<name>_report_<timestamp>.txt` — human-readable report
 - `<name>_findings_<timestamp>.json` — machine-readable findings
 
 ## XML Pattern: Bad vs Good
 
-**Bad** — `printf(data)`: variable as format arg, no `<literal>` in first argument:
+**Bad** — `printf(data)`: variable as format arg, taint source present:
 ```xml
 <call>
   <name>printf</name>

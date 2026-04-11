@@ -7,8 +7,7 @@ analysing C/C++ source files for credential values embedded as string literals
 directly in source code — in variable initialisers, preprocessor macros, or
 authentication comparisons.
 
-The pipeline follows the same three-stage srcML → srcslice → srcattributor
-architecture used in SCS003 through SCS009.
+The pipeline uses srcML annotation followed by XPath queries — no Python, no srcQL.
 
 ## Stages
 
@@ -54,47 +53,65 @@ Merges the slice information back into the srcML XML — final input for detecto
 **Targets:** Variable declarations and `strcpy` calls involving credential-named identifiers.
 **Rule:** SCS010-PASSWD-VAR
 
-**Strategy — Part A (declaration):**
-1. Find all `<decl>` elements with `pos:start` position information.
-2. Check if the declaration has an `<init>` section.
-3. Guard: skip if `<init>` contains a `<call>` element (function call, not a literal — e.g., `getenv()`).
-4. Guard: skip if the literal is an empty string `""` (buffer initialiser, not a credential).
-5. Check if `<init>` contains a `<literal type="string">`.
-6. Check if any `<name>` in the declaration matches a credential keyword.
-7. Emit warning if both conditions hold.
+**Strategy — Part A (declaration, XPath):**
 
-**Strategy — Part B (strcpy):**
-1. Find all `strcpy()` `<call>` elements.
-2. Extract the two `<argument>` elements.
-3. Check if the first argument contains a credential-keyword name.
-4. Check if the second argument contains a `<literal type="string">`.
-5. Emit warning if both conditions hold.
+```xpath
+//*[local-name()='decl']
+  [<credential-name-check>]
+  [*[local-name()='init']
+    [.//*[local-name()='literal'][@type='string'][string-length(.)>2]]
+    [not(.//*[local-name()='call'])]]
+```
 
-**Credential keywords:** `password`, `passwd`, `pwd`, `secret`, `api_key`, `token`, `credential`, `passphrase`, `private_key` (matched case-insensitively, substring match to cover `password_`, `m_password`, `MY_PASSWORD`, etc.)
+- The credential name check uses `contains(translate(*[local-name()='name'],'A-Z','a-z'),'keyword')` on the `<name>` child — case-insensitive, no Python regex needed.
+- `[string-length(.)>2]` excludes empty/single-char literals (`""`, `"x"`).
+- `[not(.//*[local-name()='call'])]` guards against `getenv()`-style initialisation.
+
+**Strategy — Part B (strcpy, XPath):**
+
+```xpath
+//*[local-name()='call']
+  [*[local-name()='name'][.='strcpy']]
+  [*[local-name()='argument_list']/*[local-name()='argument'][1]
+    [.//*[local-name()='name'][<credential-name-check>]]]
+  [*[local-name()='argument_list']/*[local-name()='argument'][2]
+    [.//*[local-name()='literal'][@type='string']]]
+```
+
+**Credential keywords:** `password`, `passwd`, `pwd`, `secret`, `token`, `credential`, `passphrase` (matched case-insensitively via XPath `translate()`, substring match to cover `password_`, `m_password`, `MY_PASSWORD`, etc.)
 
 ### Detector 2 — `detect_define_credential.sh`
 
 **Targets:** Preprocessor `#define` macros with credential names.
 **Rule:** SCS010-PASSWD-DEFINE
 
-**Strategy:**
-1. Find all `<cpp:define>` elements.
-2. Extract the `<cpp:macro><name>` — the macro name.
-3. Check if the macro name matches a credential keyword.
-4. Extract the `<cpp:value>` — the macro expansion.
-5. Check if the value is a quoted string (`"..."` — matched via `^"[^"]*"$`).
-6. Emit warning if both conditions hold.
+**Strategy (XPath):**
+
+```xpath
+//*[local-name()='define']
+  [*[local-name()='macro']/*[local-name()='name'][<credential-name-check>]]
+  [starts-with(normalize-space(*[local-name()='value']),'"')]
+```
+
+- Macro `<name>` is checked against credential keywords via `translate()`.
+- `starts-with(normalize-space(...),'"')` detects a quoted string value.
 
 ### Detector 3 — `detect_strcmp_hardcoded.sh`
 
 **Targets:** `strcmp()` and `strncmp()` calls with a string literal argument.
 **Rule:** SCS010-PASSWD-STRCMP
 
-**Strategy:**
-1. Find all `strcmp`/`strncmp` `<call>` elements.
-2. Extract all `<argument>` elements.
-3. Check if ANY argument contains a `<literal type="string">`.
-4. Emit warning if a literal is found — it indicates a hardcoded password in an authentication comparison.
+**Strategy (XPath):**
+
+```xpath
+//*[local-name()='call']
+  [*[local-name()='name'][.='strcmp' or .='strncmp']]
+  [*[local-name()='argument_list']
+    /*[local-name()='argument']
+    [.//*[local-name()='literal'][@type='string']]]
+```
+
+A finding is emitted when any argument of `strcmp`/`strncmp` is a string literal — the literal is the hardcoded credential in the comparison.
 
 ## Guard Logic Summary
 

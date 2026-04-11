@@ -1,10 +1,32 @@
 #!/usr/bin/env bash
 # detect_popen_tainted.sh <xml> <src> <findings>
-# Detects popen() calls in blocks that also contain a user-input source
-# (fgets or getenv) — indicating tainted data flows into the pipe command.
-# Guard: no fgets/getenv call in the same block as popen().
+#
+# Detector 2: popen_tainted
+# Detects: popen() calls where the first argument is NOT a literal and a
+#           user-input source (fgets or getenv) is present in the same
+#           function — co-occurrence taint model.
+# Guard: first argument is a string literal (safe hardcoded command).
 # Rule: SCS009-POPEN
-set -e
+#
+# Strategy (srcQL + XPath, no Python):
+#
+#   Stage 1 -- srcQL scopes to the function body:
+#     FIND $T $FUNC($PARAMS) {} CONTAINS popen($CMD)
+#
+#   Stage 1 guard -- XPath on srcQL result:
+#     - popen() first arg has no <literal> (non-hardcoded command), AND
+#     - result also contains a fgets or getenv call (taint source present).
+#
+#   Stage 2 -- XPath fallback for <destructor>/<constructor> blocks
+#              (no return type, not matched by srcQL).
+#
+#   The srcQL result is already scoped to the function body, so the taint
+#   source check is a flat count() rather than the ancestor:: predicate
+#   needed in pure-XPath mode.
+#
+# Requires: srcml, xmllint
+
+source "$(dirname "$0")/../../../shared/lib/write_finding.sh"
 
 XML=$1
 SRC=$2
@@ -20,90 +42,106 @@ if [ ! -f "$XML" ]; then
     exit 1
 fi
 
+QUERY='FIND $T $FUNC($PARAMS) {} CONTAINS popen($CMD)'
+echo "    query    : $QUERY"
+echo "    strategy : srcQL + XPath guard -- popen() with non-literal arg and fgets/getenv present"
+echo "    note     : destructor/constructor blocks covered by XPath fallback"
+echo
+
 FILENAME=$(xmllint --xpath \
     'string(//*[local-name()="unit"]/@filename)' "$XML" 2>/dev/null)
 
-python3 << PYEOF
-import re, json
+CALL_XPATH="//*[local-name()='call'][*[local-name()='name'][.='popen']][*[local-name()='argument_list']/*[local-name()='argument'][1][not(.//*[local-name()='literal'])]]"
+TAINT_XPATH="count(//*[local-name()='call'][*[local-name()='name'][.='fgets' or .='getenv']])"
 
-xml_path      = "$XML"
-findings_path = "$FINDINGS"
-filename      = "$FILENAME"
-found = 0
+found=0
 
-with open(xml_path) as f:
-    content = f.read()
+# -----------------------------------------------------------------------
+# Stage 1: srcQL -- functions and class methods
+# -----------------------------------------------------------------------
+TMPRESULT=$(mktemp /tmp/popen_result_XXXXXX)
+trap "rm -f $TMPRESULT" EXIT
 
-# Match the full <call>...</call> element for popen()
-POPEN_CALL   = re.compile(
-    r'<call\b[^>]*pos:start="(\d+):(\d+)"[^>]*>\s*<name[^>]*>\s*popen\s*</name>(.*?)</call>',
-    re.DOTALL
-)
-ARG_SPLIT    = re.compile(r'<argument\b[^>]*>(.*?)</argument>', re.DOTALL)
-LITERAL_PAT  = re.compile(r'<literal\b')
-INPUT_SOURCE = re.compile(
-    r'<name[^>]*>\s*(?:fgets|getenv)\s*</name>'
-)
+{ time srcml "$XML" --srcql "$QUERY" -q > "$TMPRESULT"; } 2>&1
 
-func_blocks = re.split(r'(?=<(?:function|destructor|constructor)[\s>])', content)
+if ! grep -q '<function' "$TMPRESULT" 2>/dev/null; then
+    echo "    no popen() in regular function"
+else
+    echo "--- Stage 1: checking srcQL result for non-literal arg and taint source ---"
 
-for block in func_blocks:
-    tag_m = re.match(r'<(function|destructor|constructor)', block)
-    if not tag_m:
-        continue
+    POS=$(xmllint --xpath "string(${CALL_XPATH}/@*[local-name()='start'])" "$TMPRESULT" 2>/dev/null)
 
-    # Guard: block must contain a user-input source
-    if not INPUT_SOURCE.search(block):
-        continue  # no taint source — goodG2B pattern, skip
+    if [ -z "$POS" ]; then
+        echo "    guarded -- popen() first argument is a literal, no finding"
+    else
+        TAINT=$(xmllint --xpath "$TAINT_XPATH" "$TMPRESULT" 2>/dev/null)
+        if [ "${TAINT:-0}" -eq 0 ]; then
+            echo "    no taint source (fgets/getenv) in same function, no finding"
+        else
+            LINE=${POS%%:*}
+            COL=${POS##*:}
+            FUNC_NAME=$(xmllint --xpath \
+                'string(//*[local-name()="function"]/*[local-name()="name"])' \
+                "$TMPRESULT" 2>/dev/null)
 
-    first_match = None
-    for m in POPEN_CALL.finditer(block):
-        line_no = int(m.group(1))
-        col_no  = int(m.group(2))
-        args_content = m.group(3)
-        args = ARG_SPLIT.findall(args_content)
-        if not args:
-            continue
-        # Skip if first argument (command) is a string literal (safe call)
-        if LITERAL_PAT.search(args[0]):
-            continue
-        first_match = (line_no, col_no)
-        break
+            echo "    function : $FUNC_NAME"
+            echo "    position : $LINE:$COL"
+            echo
 
-    if first_match is None:
-        continue
+            write_finding \
+                --findings  "$FINDINGS" \
+                --detector  "popen_tainted" \
+                --severity  "warning" \
+                --rule      "SCS009-POPEN" \
+                --file      "$FILENAME" \
+                --line      "$LINE" \
+                --col       "$COL" \
+                --varname   "${FUNC_NAME:-?}" \
+                --note-line "$LINE" \
+                --note-col  "$COL" \
+                --note-msg  "popen() in ${FUNC_NAME}() -- user input source (fgets/getenv) in same block; pipe opened with tainted command"
 
-    line, col = first_match
+            echo "    finding: ${FILENAME}:${LINE}:${COL} -- ${FUNC_NAME}() popen() with tainted input"
+            found=$((found + 1))
+        fi
+    fi
+fi
 
-    tag = tag_m.group(1)
-    if tag == 'function':
-        fname_m = re.search(r'<function[^>]*>.*?</type>\s*<name[^>]*>([^<]+)</name>', block, re.DOTALL)
-    else:
-        fname_m = re.search(r'<name[^>]*>([^<]+)</name>', block)
-    fname = fname_m.group(1).strip() if fname_m else "?"
+# -----------------------------------------------------------------------
+# Stage 2: XPath fallback -- destructors and constructors
+# -----------------------------------------------------------------------
+echo
+echo "--- Stage 2: XPath destructor/constructor fallback ---"
 
-    finding = {
-        "detector": "popen_tainted",
-        "severity": "warning",
-        "rule":     "SCS009-POPEN",
-        "file":     filename,
-        "line":     line,
-        "col":      col,
-        "varname":  fname,
-        "note": {
-            "line":    line,
-            "col":     col,
-            "message": f"popen() in {fname}() — user input source (fgets/getenv) in same block; pipe opened with tainted command"
-        }
-    }
+DES_XPATH="//*[local-name()='call'][*[local-name()='name'][.='popen']][*[local-name()='argument_list']/*[local-name()='argument'][1][not(.//*[local-name()='literal'])]][ancestor::*[local-name()='destructor' or local-name()='constructor'][.//*[local-name()='call'][*[local-name()='name'][.='fgets' or .='getenv']]]]"
 
-    with open(findings_path, "a") as fp:
-        fp.write(json.dumps(finding, indent=2) + "\n")
+DES_POS=$(xmllint --xpath "string(${DES_XPATH}/@*[local-name()='start'])" "$XML" 2>/dev/null)
 
-    print(f"    finding: {filename}:{line}:{col} — {fname}() popen() with tainted input")
-    found += 1
+if [ -n "$DES_POS" ]; then
+    LINE=${DES_POS%%:*}
+    COL=${DES_POS##*:}
+    FUNC_NAME=$(xmllint --xpath \
+        'string(//*[local-name()="destructor" or local-name()="constructor"]/*[local-name()="name"])' \
+        "$XML" 2>/dev/null)
 
-print(f"[ popen_tainted ] {found} finding(s) written to {findings_path}")
-PYEOF
+    write_finding \
+        --findings  "$FINDINGS" \
+        --detector  "popen_tainted" \
+        --severity  "warning" \
+        --rule      "SCS009-POPEN" \
+        --file      "$FILENAME" \
+        --line      "$LINE" \
+        --col       "$COL" \
+        --varname   "${FUNC_NAME:-?}" \
+        --note-line "$LINE" \
+        --note-col  "$COL" \
+        --note-msg  "popen() in ${FUNC_NAME}() -- user input source (fgets/getenv) in same block (destructor/constructor)"
+
+    echo "    finding: ${FILENAME}:${LINE}:${COL} -- ${FUNC_NAME}() popen() tainted (destructor/constructor)"
+    found=$((found + 1))
+else
+    echo "    no unguarded destructor/constructor popen() found"
+fi
 
 echo
+echo "[ popen_tainted ] ${found} finding(s) written to $FINDINGS"

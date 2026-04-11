@@ -1,11 +1,36 @@
 #!/usr/bin/env bash
 # detect_password_literal.sh <xml> <src> <findings>
-# Detects variable declarations or assignments where:
-#   - the variable name matches a credential keyword (password, passwd, pwd,
-#     secret, key, token, api_key, credential, passphrase), AND
-#   - the value is a string literal (not read from input).
+#
+# Detector: password_literal
+# Detects:
+#   1. Variable declarations where the name matches a credential keyword AND
+#      the init value is a string literal (no function call in init).
+#   2. strcpy(credential_var, "literal") — hardcoded password copied into buffer.
 # Rule: SCS010-PASSWD-VAR
-set -e
+#
+# Strategy (XPath only, no srcQL, no Python):
+#
+#   Pattern 1 — <decl> with credential name + literal init:
+#     //*[local-name()='decl']
+#       [<credential-name-check>]
+#       [*[local-name()='init']
+#         [.//*[local-name()='literal'][@type='string'][string-length(.)>2]]
+#         [not(.//*[local-name()='call'])]]
+#
+#   Pattern 2 — strcpy(cred_var, "literal"):
+#     //*[local-name()='call']
+#       [*[local-name()='name'][.='strcpy']]
+#       [*[local-name()='argument_list']/*[local-name()='argument'][1]
+#         [.//*[local-name()='name'][<cred-check>]]]
+#       [*[local-name()='argument_list']/*[local-name()='argument'][2]
+#         [.//*[local-name()='literal'][@type='string']]]
+#
+#   Credential keyword check uses XPath translate() for case-insensitive
+#   matching — no Python regex required.
+#
+# Requires: xmllint
+
+source "$(dirname "$0")/../../../shared/lib/write_finding.sh"
 
 XML=$1
 SRC=$2
@@ -21,123 +46,97 @@ if [ ! -f "$XML" ]; then
     exit 1
 fi
 
+echo "    strategy : XPath -- credential-named decl with literal init; strcpy into cred var"
+echo
+
 FILENAME=$(xmllint --xpath \
     'string(//*[local-name()="unit"]/@filename)' "$XML" 2>/dev/null)
 
-python3 << PYEOF
-import re, json
+UP='ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+LO='abcdefghijklmnopqrstuvwxyz'
 
-xml_path      = "$XML"
-findings_path = "$FINDINGS"
-filename      = "$FILENAME"
-found = 0
+# Credential keyword predicate on <decl> direct <name> child (case-insensitive)
+CRED="contains(translate(*[local-name()='name'],'${UP}','${LO}'),'password') or contains(translate(*[local-name()='name'],'${UP}','${LO}'),'passwd') or contains(translate(*[local-name()='name'],'${UP}','${LO}'),'secret') or contains(translate(*[local-name()='name'],'${UP}','${LO}'),'token') or contains(translate(*[local-name()='name'],'${UP}','${LO}'),'credential') or contains(translate(*[local-name()='name'],'${UP}','${LO}'),'passphrase') or contains(translate(*[local-name()='name'],'${UP}','${LO}'),'pwd')"
 
-with open(xml_path) as f:
-    content = f.read()
+# Pattern 1: credential-named variable initialised to a string literal
+DECL_XPATH="//*[local-name()='decl'][${CRED}][*[local-name()='init'][.//*[local-name()='literal'][@type='string'][string-length(.)>2]][not(.//*[local-name()='call'])]]"
 
-# Credential keyword pattern — matches anywhere in the identifier name
-# (no \b so that password_, _password, m_password all match)
-CRED_NAME = re.compile(
-    r'(?i)(?:password|passwd|pwd|secret|api.?key|token|credential|passphrase|private.?key)'
-)
+POS=$(xmllint --xpath "string(${DECL_XPATH}/@*[local-name()='start'])" "$XML" 2>/dev/null)
 
-DECL_FULL     = re.compile(r'<decl\b[^>]*pos:start="(\d+):(\d+)"[^>]*>(.*?)</decl>', re.DOTALL)
-DECL_NAME_PAT = re.compile(r'<name[^>]*>([^<]+)</name>')
-LITERAL_PAT   = re.compile(r'<literal\s+type="string"[^>]*>')
-INIT_PAT      = re.compile(r'<init\b[^>]*>(.*?)</init>', re.DOTALL)
+if [ -n "$POS" ]; then
+    LINE=${POS%%:*}
+    COL=${POS##*:}
 
-# Pattern 1: <decl> with credential name and direct string literal init
-for m in DECL_FULL.finditer(content):
-    line_no   = int(m.group(1))
-    col_no    = int(m.group(2))
-    decl_body = m.group(3)
+    VAR_NAME=$(xmllint --xpath \
+        "string(${DECL_XPATH}/*[local-name()='name'])" \
+        "$XML" 2>/dev/null)
+    FUNC_NAME=$(xmllint --xpath \
+        "string(${DECL_XPATH}/ancestor::*[local-name()='function' or local-name()='destructor' or local-name()='constructor'][1]/*[local-name()='name'])" \
+        "$XML" 2>/dev/null)
 
-    init_m = INIT_PAT.search(decl_body)
-    if not init_m:
-        continue
-    init_content = init_m.group(1)
+    echo "    pattern  : decl literal init"
+    echo "    variable : $VAR_NAME"
+    echo "    function : $FUNC_NAME"
+    echo "    position : $LINE:$COL"
+    echo
 
-    # Skip if the init value is a function call (e.g. getenv("KEY"), strdup(...))
-    if '<call' in init_content:
-        continue
+    write_finding \
+        --findings  "$FINDINGS" \
+        --detector  "password_literal" \
+        --severity  "warning" \
+        --rule      "SCS010-PASSWD-VAR" \
+        --file      "$FILENAME" \
+        --line      "$LINE" \
+        --col       "$COL" \
+        --varname   "${VAR_NAME:-?}" \
+        --note-line "$LINE" \
+        --note-col  "$COL" \
+        --note-msg  "Variable '${VAR_NAME}' initialised to a string literal -- hardcoded sensitive data"
 
-    if not LITERAL_PAT.search(init_content):
-        continue
+    echo "    finding: ${FILENAME}:${LINE}:${COL} -- '${VAR_NAME}' initialised to string literal"
+    echo
+    echo "[ password_literal ] 1 finding(s) written to $FINDINGS"
+    exit 0
+fi
 
-    # Skip empty string literals — "" is a buffer initialiser, not a credential
-    lit_m = re.search(r'<literal\s+type="string"[^>]*>([^<]*)</literal>', init_content)
-    if lit_m and lit_m.group(1).strip() in ('""', "''"):
-        continue
+# Pattern 2: strcpy(credential_var, "literal")
+# Credential keyword predicate on arbitrary descendant <name> (arg variable name)
+CRED_NAME_CHECK="contains(translate(.,'${UP}','${LO}'),'password') or contains(translate(.,'${UP}','${LO}'),'passwd') or contains(translate(.,'${UP}','${LO}'),'secret') or contains(translate(.,'${UP}','${LO}'),'token') or contains(translate(.,'${UP}','${LO}'),'credential') or contains(translate(.,'${UP}','${LO}'),'passphrase') or contains(translate(.,'${UP}','${LO}'),'pwd')"
 
-    names = DECL_NAME_PAT.findall(decl_body)
-    cred_name = next((n.strip() for n in names if CRED_NAME.search(n)), None)
-    if not cred_name:
-        continue
+STRCPY_XPATH="//*[local-name()='call'][*[local-name()='name'][.='strcpy']][*[local-name()='argument_list']/*[local-name()='argument'][1][.//*[local-name()='name'][${CRED_NAME_CHECK}]]][*[local-name()='argument_list']/*[local-name()='argument'][2][.//*[local-name()='literal'][@type='string']]]"
 
-    finding = {
-        "detector": "password_literal",
-        "severity": "warning",
-        "rule":     "SCS010-PASSWD-VAR",
-        "file":     filename,
-        "line":     line_no,
-        "col":      col_no,
-        "varname":  cred_name,
-        "note": {
-            "line":    line_no,
-            "col":     col_no,
-            "message": f"Variable '{cred_name}' initialised to a string literal — hardcoded sensitive data"
-        }
-    }
-    with open(findings_path, "a") as fp:
-        fp.write(json.dumps(finding, indent=2) + "\n")
-    print(f"    finding: {filename}:{line_no}:{col_no} — '{cred_name}' initialised to string literal")
-    found += 1
+POS=$(xmllint --xpath "string(${STRCPY_XPATH}/@*[local-name()='start'])" "$XML" 2>/dev/null)
 
-# Pattern 2: strcpy(credential_var, "literal") — hardcoded password copied into named buffer
-STRCPY_CALL = re.compile(
-    r'<call\b[^>]*pos:start="(\d+):(\d+)"[^>]*>\s*<name[^>]*>\s*strcpy\s*</name>(.*?)</call>',
-    re.DOTALL
-)
-ARG_SPLIT = re.compile(r'<argument\b[^>]*>(.*?)</argument>', re.DOTALL)
+if [ -n "$POS" ]; then
+    LINE=${POS%%:*}
+    COL=${POS##*:}
 
-for m in STRCPY_CALL.finditer(content):
-    line_no      = int(m.group(1))
-    col_no       = int(m.group(2))
-    args_content = m.group(3)
-    args = ARG_SPLIT.findall(args_content)
-    if len(args) < 2:
-        continue
+    FUNC_NAME=$(xmllint --xpath \
+        "string(${STRCPY_XPATH}/ancestor::*[local-name()='function' or local-name()='destructor' or local-name()='constructor'][1]/*[local-name()='name'])" \
+        "$XML" 2>/dev/null)
 
-    # First arg must contain a credential-named variable
-    first_names = DECL_NAME_PAT.findall(args[0])
-    cred_name = next((n.strip() for n in first_names if CRED_NAME.search(n)), None)
-    if not cred_name:
-        continue
+    echo "    pattern  : strcpy into credential buffer"
+    echo "    function : $FUNC_NAME"
+    echo "    position : $LINE:$COL"
+    echo
 
-    # Second arg must be a string literal
-    if not LITERAL_PAT.search(args[1]):
-        continue
+    write_finding \
+        --findings  "$FINDINGS" \
+        --detector  "password_literal" \
+        --severity  "warning" \
+        --rule      "SCS010-PASSWD-VAR" \
+        --file      "$FILENAME" \
+        --line      "$LINE" \
+        --col       "$COL" \
+        --varname   "${FUNC_NAME:-?}" \
+        --note-line "$LINE" \
+        --note-col  "$COL" \
+        --note-msg  "strcpy into credential buffer from a string literal -- hardcoded sensitive data in ${FUNC_NAME}()"
 
-    finding = {
-        "detector": "password_literal",
-        "severity": "warning",
-        "rule":     "SCS010-PASSWD-VAR",
-        "file":     filename,
-        "line":     line_no,
-        "col":      col_no,
-        "varname":  cred_name,
-        "note": {
-            "line":    line_no,
-            "col":     col_no,
-            "message": f"strcpy into '{cred_name}' from a string literal — hardcoded sensitive data"
-        }
-    }
-    with open(findings_path, "a") as fp:
-        fp.write(json.dumps(finding, indent=2) + "\n")
-    print(f"    finding: {filename}:{line_no}:{col_no} — strcpy into '{cred_name}' from literal")
-    found += 1
+    echo "    finding: ${FILENAME}:${LINE}:${COL} -- strcpy into credential buffer in ${FUNC_NAME}()"
+    echo
+    echo "[ password_literal ] 1 finding(s) written to $FINDINGS"
+    exit 0
+fi
 
-print(f"[ password_literal ] {found} finding(s) written to {findings_path}")
-PYEOF
-
-echo
+echo "[ password_literal ] No smell detected."

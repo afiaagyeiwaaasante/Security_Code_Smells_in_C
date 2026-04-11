@@ -8,8 +8,7 @@ source files for calls to OS command sinks (`system`, `popen`, `execl`, `execlp`
 where the command argument is a variable rather than a string literal, AND a
 user-input source (`fgets` or `getenv`) is present in the same function block.
 
-The pipeline follows the same three-stage srcML → srcslice → srcattributor
-architecture used in SCS003 through SCS008.
+The pipeline uses srcML annotation, srcQL for function scoping, and XPath for guard checks — no Python.
 
 ## Stages
 
@@ -63,57 +62,66 @@ final input consumed by all three detectors.
 ### Detector 1 — `detect_system_tainted.sh`
 
 **Targets:** `system()`
-**Command argument:** index 0 (first and only argument)
+**Command argument:** index 1 (first argument)
 **Rule:** SCS009-SYSTEM
 
-**Strategy:**
-1. Split the XML into per-block sections on `<function>`, `<destructor>`, and `<constructor>` boundaries.
-2. Guard check: skip blocks with no `<name>fgets</name>` or `<name>getenv</name>` — no taint source means goodG2B pattern.
-3. For each `system()` call in the block, extract the first `<argument>`.
-4. If the first argument contains a `<literal>` element → safe (literal command, skip).
-5. If the first argument contains only a `<name>` (variable) → emit `warning [SCS009-SYSTEM]`.
+**Strategy (srcQL + XPath):**
+
+Stage 1 — srcQL scopes to the function body:
+```
+FIND $T $FUNC($PARAMS) {} CONTAINS system($CMD)
+```
+
+XPath on result: non-literal first arg check + `count(fgets/getenv) > 0`.
+Stage 2 — XPath `ancestor::` fallback for destructors/constructors.
 
 ### Detector 2 — `detect_popen_tainted.sh`
 
 **Targets:** `popen()`
-**Command argument:** index 0 (first argument — the command string; second argument is the mode)
+**Command argument:** index 1 (first argument — the command string; second argument is the mode)
 **Rule:** SCS009-POPEN
 
-Same strategy as Detector 1. Checks `args[0]` — if it is a `<literal>`, the
-call is safe; if it is a `<name>` variable AND a taint source exists in the
-block, emit a finding.
+Same srcQL + XPath structure as Detector 1 with `popen` as the sink name.
 
 ### Detector 3 — `detect_execl_tainted.sh`
 
 **Targets:** `execl()`, `execlp()`
-**Path argument:** index 0 (first argument — the executable path)
+**Path argument:** index 1 (first argument — the executable path)
 **Rule:** SCS009-EXECL
 
-Same strategy. `execl(path, arg0, ...)` — if `path` is a variable and a taint
-source exists in the block, emit a finding.
+**Strategy (srcQL + XPath):**
+
+Unlike Detectors 1 and 2, this detector uses srcQL to scope to the function body first, then applies XPath guards on the scoped result:
+
+```
+FIND $T $FUNC($PARAMS) {} CONTAINS execl($PATH)
+FIND $T $FUNC($PARAMS) {} CONTAINS execlp($PATH)
+```
+
+XPath on the srcQL result checks:
+1. The first `<argument>` has no `<literal>` (non-hardcoded path).
+2. A flat `count()` confirms fgets/getenv is present — no `ancestor::` needed since srcQL already scoped the XML to the function body.
+
+A destructor/constructor fallback stage uses the full XPath `ancestor::` predicate directly on the original XML.
 
 ## Guard Logic
 
-All three detectors share the same two-part guard:
+Detectors 1 and 2 use a single XPath predicate chain. Detector 3 splits the guard across srcQL (function scope) and two sequential XPath checks (literal check, then taint count). The effective guard is the same:
 
-```python
-# Guard 1: taint source must be present in the block
-INPUT_SOURCE = re.compile(r'<name[^>]*>\s*(?:fgets|getenv)\s*</name>')
-if not INPUT_SOURCE.search(block):
-    continue  # goodG2B — no user input, safe call
-
-# Guard 2: command argument must not be a string literal
-ARG_SPLIT   = re.compile(r'<argument\b[^>]*>(.*?)</argument>', re.DOTALL)
-LITERAL_PAT = re.compile(r'<literal\b')
-
-args = ARG_SPLIT.findall(args_content)
-if LITERAL_PAT.search(args[0]):
-    continue  # literal command — safe call (goodG2B hardcoded command)
+```xpath
+[*[local-name()='argument_list']
+  /*[local-name()='argument'][1]
+  [not(.//*[local-name()='literal'])]]
+[ancestor::*[local-name()='function' or
+             local-name()='destructor' or
+             local-name()='constructor']
+  [.//*[local-name()='call']
+    [*[local-name()='name'][.='fgets' or .='getenv']]]]
 ```
 
 A finding is emitted only when BOTH conditions hold:
-- A taint source (`fgets`/`getenv`) is present in the same block, AND
-- The sink call's command argument is a variable, not a literal.
+- The sink call's first argument has no `<literal>` child (variable, not hardcoded command), AND
+- The enclosing function/destructor/constructor block also contains a `fgets` or `getenv` call (taint source present).
 
 ## Entry Point
 

@@ -8,36 +8,73 @@
 
 ## SmellDetect
 
-**Mechanism:** srcML XML annotation + Python regex (taint-source + literal check)
+**Mechanism:** srcML XML annotation + srcQL (function scope) + XPath (argument literal check + taint count)
 
-Three detectors, each targeting one sink group:
+Three detectors share the same two-stage structure:
 
-### detect_system_tainted.sh
+### detect_system_tainted.sh / detect_popen_tainted.sh / detect_execl_tainted.sh
 
-**Sink pattern (Python regex):**
-```python
-SYSTEM_CALL = re.compile(
-    r'<call\b[^>]*pos:start="(\d+):(\d+)"[^>]*>\s*<name[^>]*>\s*system\s*</name>(.*?)</call>',
-    re.DOTALL
-)
+**Stage 1 — srcQL (function scope):**
+```
+FIND $T $FUNC($PARAMS) {} CONTAINS system($CMD)   # or popen / execl / execlp
 ```
 
-**Safe / taint-source patterns:**
-```python
-LITERAL_PAT  = re.compile(r'<literal\b')
-INPUT_SOURCE = re.compile(
-    r'<name[^>]*>\s*(?:fgets|getenv)\s*</name>'
-)
+**Stage 1 guard — XPath on srcQL result:**
+
+Non-literal argument check:
+```xpath
+//*[local-name()='call'][*[local-name()='name'][.='system']]
+  [*[local-name()='argument_list']/*[local-name()='argument'][1]
+    [not(.//*[local-name()='literal'])]]
+/@*[local-name()='start']
 ```
 
-**Logic:** For each `system()` call, check the argument content:
-- If the argument contains a `<literal>` → safe (hardcoded command), no finding.
-- If the argument contains a call to a taint source (`fgets`, `getenv`) → finding emitted.
-- If neither → no finding (unknown origin, conservative).
+Taint source check (flat count — srcQL result is already function-scoped):
+```xpath
+count(//*[local-name()='call'][*[local-name()='name'][.='fgets' or .='getenv']])
+```
 
-### detect_popen_tainted.sh / detect_execl_tainted.sh
+A finding is emitted only when both hold: non-empty position AND count > 0.
 
-Same logic for `popen()` and `execl()`/`execlp()`. `execl` checks argument at position 1.
+**Stage 2 — XPath fallback for `<destructor>`/`<constructor>`:**
+
+srcQL requires a return type and does not match C++ destructor/constructor blocks. An `ancestor::` predicate on the original XML covers these cases:
+```xpath
+//*[local-name()='call'][*[local-name()='name'][.='system']]
+  [*[local-name()='argument_list']/*[local-name()='argument'][1]
+    [not(.//*[local-name()='literal'])]]
+  [ancestor::*[local-name()='destructor' or local-name()='constructor']
+    [.//*[local-name()='call'][*[local-name()='name'][.='fgets' or .='getenv']]]]
+```
+
+**Logic:**
+- srcQL narrows the XML to the matching function body, so the taint source check becomes a simple `count()` rather than an `ancestor::` predicate.
+- The `ancestor::` predicate is still used in Stage 2 because there is no srcQL-scoped result to work with for destructors/constructors.
+
+### detect_execl_tainted.sh
+
+**Strategy (srcQL + XPath, not pure XPath):**
+
+srcQL scopes to the function body first:
+```
+FIND $T $FUNC($PARAMS) {} CONTAINS execl($PATH)
+FIND $T $FUNC($PARAMS) {} CONTAINS execlp($PATH)
+```
+
+XPath guard applied to the srcQL result (already function-scoped):
+```xpath
+//*[local-name()='call'][*[local-name()='name'][.='execl' or .='execlp']]
+  [*[local-name()='argument_list']/*[local-name()='argument'][1]
+    [not(.//*[local-name()='literal'])]]
+/@*[local-name()='start']
+```
+
+Taint source check (flat count on result, no `ancestor::` needed):
+```xpath
+count(//*[local-name()='call'][*[local-name()='name'][.='fgets' or .='getenv']])
+```
+
+A destructor/constructor XPath fallback covers C++ class bodies not matched by srcQL.
 
 **Known limitation:** Only `fgets` and `getenv` are recognised as taint sources. Other sources (`scanf`, `argv`, `getline`) are not currently covered, producing false negatives on those flow variants.
 
@@ -100,7 +137,7 @@ println(s"JOERN_RESULT:$detected")
 
 | Aspect | SmellDetect | cppcheck | Joern |
 |---|---|---|---|
-| Query type | Python regex + taint-source list | Taint analysis | CPG literal argument check |
+| Query type | srcQL function scope + XPath literal/taint guard | Taint analysis | CPG literal argument check |
 | Taint sources tracked | `fgets`, `getenv` | None detected | Any non-literal |
 | Recall | 60% (2 FN on unlisted sources) | 0% | 100% (by over-approximation) |
 | Precision | 100% | N/A | Not measured (0 FP on test suite) |

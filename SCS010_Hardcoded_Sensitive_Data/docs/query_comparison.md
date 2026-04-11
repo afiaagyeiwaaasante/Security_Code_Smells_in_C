@@ -8,53 +8,63 @@
 
 ## SmellDetect
 
-**Mechanism:** srcML XML annotation + Python regex (credential name matching + literal check)
+**Mechanism:** srcML XML annotation + XPath (credential name matching via `translate()` + literal check)
 
-Three detectors:
+Three detectors, each a pure XPath expression — no Python, no srcQL.
 
 ### detect_define_credential.sh
 
-**Credential name pattern (Python regex):**
-```python
-CRED_NAME = re.compile(
-    r'(?i)(?:password|passwd|pwd|secret|api.?key|token|credential|passphrase|private.?key)'
-)
+**XPath expression:**
+```xpath
+//*[local-name()='define']
+  [*[local-name()='macro']/*[local-name()='name']
+    [contains(translate(.,'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+                          'abcdefghijklmnopqrstuvwxyz'),'password') or
+     contains(translate(.,...),'secret') or ...]]
+  [starts-with(normalize-space(*[local-name()='value']),'"')]
+/@*[local-name()='start']
 ```
 
-**Macro patterns:**
-```python
-MACRO_NAME_PAT = re.compile(r'<cpp:macro\b[^>]*>\s*<name[^>]*>([^<]+)</name>')
-VALUE_PAT      = re.compile(r'<cpp:value[^>]*>([^<]*)</cpp:value>')
-QUOTED_PAT     = re.compile(r'^"[^"]*"$')
-```
-
-**Logic:** For each `#define` macro whose name matches `CRED_NAME` and whose value is a quoted string literal → finding emitted.
+**Logic:** Selects `<cpp:define>` elements whose macro `<name>` contains a credential keyword (case-insensitive via `translate()`) AND whose `<cpp:value>` starts with `"` (quoted string literal).
 
 ### detect_password_literal.sh
 
-**Patterns:**
-```python
-CRED_NAME   = re.compile(r'(?i)(?:password|passwd|pwd|secret|api.?key|token|...)')
-DECL_FULL   = re.compile(r'<decl\b[^>]*pos:start="(\d+):(\d+)"[^>]*>(.*?)</decl>', re.DOTALL)
-LITERAL_PAT = re.compile(r'<literal\s+type="string"[^>]*>')
-INIT_PAT    = re.compile(r'<init\b[^>]*>(.*?)</init>', re.DOTALL)
+**XPath — Pattern 1 (declaration):**
+```xpath
+//*[local-name()='decl']
+  [<credential-name-check-on-name-child>]
+  [*[local-name()='init']
+    [.//*[local-name()='literal'][@type='string'][string-length(.)>2]]
+    [not(.//*[local-name()='call'])]]
+/@*[local-name()='start']
 ```
 
-**Logic:** For each variable declaration whose name matches `CRED_NAME` and whose initialiser contains a string literal → finding emitted.
+**XPath — Pattern 2 (strcpy):**
+```xpath
+//*[local-name()='call']
+  [*[local-name()='name'][.='strcpy']]
+  [*[local-name()='argument_list']/*[local-name()='argument'][1]
+    [.//*[local-name()='name'][<credential-name-check>]]]
+  [*[local-name()='argument_list']/*[local-name()='argument'][2]
+    [.//*[local-name()='literal'][@type='string']]]
+/@*[local-name()='start']
+```
+
+**Logic:** Pattern 1 selects `<decl>` nodes whose direct `<name>` child contains a credential keyword AND whose `<init>` contains a string literal of length > 2 AND contains no `<call>` (guarding against `getenv()`-style initialisation). Pattern 2 selects `strcpy()` calls whose first argument variable name contains a credential keyword AND whose second argument is a string literal.
 
 ### detect_strcmp_hardcoded.sh
 
-**Patterns:**
-```python
-STRCMP_CALL = re.compile(
-    r'<call\b[^>]*pos:start="(\d+):(\d+)"[^>]*>\s*<name[^>]*>\s*(?:strcmp|strncmp)\s*</name>',
-    re.DOTALL
-)
-ARG_SPLIT   = re.compile(r'<argument\b[^>]*>(.*?)</argument>', re.DOTALL)
-LITERAL_PAT = re.compile(r'<literal\s+type="string"[^>]*>')
+**XPath expression:**
+```xpath
+//*[local-name()='call']
+  [*[local-name()='name'][.='strcmp' or .='strncmp']]
+  [*[local-name()='argument_list']
+    /*[local-name()='argument']
+    [.//*[local-name()='literal'][@type='string']]]
+/@*[local-name()='start']
 ```
 
-**Logic:** For each `strcmp`/`strncmp` call, if any argument contains a string literal → finding emitted (hardcoded comparison value is the password).
+**Logic:** Selects `strcmp`/`strncmp` calls where any `<argument>` contains a string literal — the literal is the hardcoded credential in the comparison.
 
 ---
 
@@ -114,8 +124,8 @@ println(s"JOERN_RESULT:$detected")
 
 | Aspect | SmellDetect | cppcheck | Joern |
 |---|---|---|---|
-| Query type | Python regex name + literal check | Built-in checker | CPG name + literal traversal |
-| Credential name list | Regex: 9 terms (case-insensitive) | Built-in vocabulary | Same regex as SmellDetect |
+| Query type | XPath `translate()` name + literal check | Built-in checker | CPG name + literal traversal |
+| Credential name list | XPath `translate()`: 7 terms (case-insensitive) | Built-in vocabulary | Same terms as SmellDetect |
 | Patterns covered | `#define`, variable init, `strcmp` | Implicit | Variable assign + `strcmp` |
 | Recall | 100% | 0% | 100% |
 | Precision | 100% | N/A | 100% |

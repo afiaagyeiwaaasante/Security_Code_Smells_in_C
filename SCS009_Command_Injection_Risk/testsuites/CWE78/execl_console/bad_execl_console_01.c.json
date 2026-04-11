@@ -1,0 +1,17 @@
+{
+"data-15-10-ab62e19dfe6f2df50329d6de31a358e032a2cb55":{
+    "file":"testsuites/CWE78/execl_console/bad_execl_console_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"main",
+    "type":"char[]",
+    "name":"data",
+    "initial":"testsuites/CWE78/execl_console/bad_execl_console_01.c:15:10",
+    "dependence":[],
+    "aliases":[],
+    "calls":[{"functionName":"fgets","parameter":"1","definitionPosition":"","invoke":"testsuites/CWE78/execl_console/bad_execl_console_01.c:18:9"},{"functionName":"strcspn","parameter":"1","definitionPosition":"","invoke":"testsuites/CWE78/execl_console/bad_execl_console_01.c:21:10"},{"functionName":"execl","parameter":"1","definitionPosition":"","invoke":"testsuites/CWE78/execl_console/bad_execl_console_01.c:24:5"},{"functionName":"execl","parameter":"2","definitionPosition":"","invoke":"testsuites/CWE78/execl_console/bad_execl_console_01.c:24:5"}],
+    "use":["testsuites/CWE78/execl_console/bad_execl_console_01.c:18:15","testsuites/CWE78/execl_console/bad_execl_console_01.c:21:18","testsuites/CWE78/execl_console/bad_execl_console_01.c:24:11","testsuites/CWE78/execl_console/bad_execl_console_01.c:24:17"],
+    "definition":["testsuites/CWE78/execl_console/bad_execl_console_01.c:15:10","testsuites/CWE78/execl_console/bad_execl_console_01.c:21:5"]
+}
+}

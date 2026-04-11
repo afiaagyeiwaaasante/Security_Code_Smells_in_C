@@ -1,10 +1,33 @@
 #!/usr/bin/env bash
 # detect_execl_tainted.sh <xml> <src> <findings>
-# Detects execl()/execlp() calls in blocks that also contain a user-input
-# source (fgets or getenv).
-# Guard: no fgets/getenv call in the same block as execl/execlp.
+#
+# Detector 3: execl_tainted
+# Detects: execl()/execlp() calls where the first argument is NOT a literal
+#           and a user-input source (fgets or getenv) is present in the same
+#           function — co-occurrence taint model.
+# Guard: first argument is a string literal (safe hardcoded path).
 # Rule: SCS009-EXECL
-set -e
+#
+# Strategy (srcQL + XPath, no Python):
+#
+#   Stage 1 -- srcQL scopes to the function body:
+#     FIND $T $FUNC($PARAMS) {} CONTAINS execl($PATH)
+#     (repeated for execlp)
+#
+#   Stage 1 guard -- XPath on srcQL result:
+#     - execl/execlp first arg has no <literal> (non-hardcoded path), AND
+#     - result also contains a fgets or getenv call (taint source present).
+#
+#   Stage 2 -- XPath fallback for <destructor>/<constructor> blocks
+#              (no return type, not matched by srcQL).
+#
+#   The srcQL result is already scoped to the function body, so the taint
+#   source check is a flat count() rather than the ancestor:: predicate
+#   needed in pure-XPath mode.
+#
+# Requires: srcml, xmllint
+
+source "$(dirname "$0")/../../../shared/lib/write_finding.sh"
 
 XML=$1
 SRC=$2
@@ -20,90 +43,116 @@ if [ ! -f "$XML" ]; then
     exit 1
 fi
 
+echo "    strategy : srcQL + XPath guard -- execl/execlp() with non-literal arg and fgets/getenv present"
+echo "    note     : destructor/constructor blocks covered by XPath fallback"
+echo
+
 FILENAME=$(xmllint --xpath \
     'string(//*[local-name()="unit"]/@filename)' "$XML" 2>/dev/null)
 
-python3 << PYEOF
-import re, json
+CALL_XPATH="//*[local-name()='call'][*[local-name()='name'][.='execl' or .='execlp']][*[local-name()='argument_list']/*[local-name()='argument'][1][not(.//*[local-name()='literal'])]]"
+TAINT_XPATH="count(//*[local-name()='call'][*[local-name()='name'][.='fgets' or .='getenv']])"
 
-xml_path      = "$XML"
-findings_path = "$FINDINGS"
-filename      = "$FILENAME"
-found = 0
+found=0
 
-with open(xml_path) as f:
-    content = f.read()
+# -----------------------------------------------------------------------
+# Stage 1: srcQL -- functions and class methods
+# -----------------------------------------------------------------------
+for SINK in execl execlp; do
+    QUERY="FIND \$T \$FUNC(\$PARAMS) {} CONTAINS ${SINK}(\$PATH)"
+    echo "    query : $QUERY"
 
-# Match the full <call>...</call> element for execl()/execlp()
-EXECL_CALL   = re.compile(
-    r'<call\b[^>]*pos:start="(\d+):(\d+)"[^>]*>\s*<name[^>]*>\s*(?:execl|execlp)\s*</name>(.*?)</call>',
-    re.DOTALL
-)
-ARG_SPLIT    = re.compile(r'<argument\b[^>]*>(.*?)</argument>', re.DOTALL)
-LITERAL_PAT  = re.compile(r'<literal\b')
-INPUT_SOURCE = re.compile(
-    r'<name[^>]*>\s*(?:fgets|getenv)\s*</name>'
-)
+    TMPRESULT=$(mktemp /tmp/execl_result_XXXXXX)
+    trap "rm -f $TMPRESULT" EXIT
 
-func_blocks = re.split(r'(?=<(?:function|destructor|constructor)[\s>])', content)
+    { time srcml "$XML" --srcql "$QUERY" -q > "$TMPRESULT"; } 2>&1
 
-for block in func_blocks:
-    tag_m = re.match(r'<(function|destructor|constructor)', block)
-    if not tag_m:
+    if ! grep -q '<function' "$TMPRESULT" 2>/dev/null; then
+        echo "    no ${SINK}() in regular function"
+        rm -f "$TMPRESULT"
         continue
+    fi
 
-    # Guard: block must contain a user-input source
-    if not INPUT_SOURCE.search(block):
-        continue  # no taint source — skip
+    echo "--- Stage 1: checking srcQL result for non-literal arg and taint source ---"
 
-    first_match = None
-    for m in EXECL_CALL.finditer(block):
-        line_no = int(m.group(1))
-        col_no  = int(m.group(2))
-        args_content = m.group(3)
-        args = ARG_SPLIT.findall(args_content)
-        if not args:
-            continue
-        # Skip if first argument (path) is a string literal (safe call)
-        if LITERAL_PAT.search(args[0]):
-            continue
-        first_match = (line_no, col_no)
-        break
+    POS=$(xmllint --xpath "string(${CALL_XPATH}/@*[local-name()='start'])" "$TMPRESULT" 2>/dev/null)
 
-    if first_match is None:
+    if [ -z "$POS" ]; then
+        echo "    guarded -- ${SINK}() first argument is a literal, no finding"
+        rm -f "$TMPRESULT"
         continue
+    fi
 
-    line, col = first_match
+    TAINT=$(xmllint --xpath "$TAINT_XPATH" "$TMPRESULT" 2>/dev/null)
+    if [ "${TAINT:-0}" -eq 0 ]; then
+        echo "    no taint source (fgets/getenv) in same function, no finding"
+        rm -f "$TMPRESULT"
+        continue
+    fi
 
-    tag = tag_m.group(1)
-    if tag == 'function':
-        fname_m = re.search(r'<function[^>]*>.*?</type>\s*<name[^>]*>([^<]+)</name>', block, re.DOTALL)
-    else:
-        fname_m = re.search(r'<name[^>]*>([^<]+)</name>', block)
-    fname = fname_m.group(1).strip() if fname_m else "?"
+    LINE=${POS%%:*}
+    COL=${POS##*:}
+    FUNC_NAME=$(xmllint --xpath \
+        'string(//*[local-name()="function"]/*[local-name()="name"])' \
+        "$TMPRESULT" 2>/dev/null)
 
-    finding = {
-        "detector": "execl_tainted",
-        "severity": "warning",
-        "rule":     "SCS009-EXECL",
-        "file":     filename,
-        "line":     line,
-        "col":      col,
-        "varname":  fname,
-        "note": {
-            "line":    line,
-            "col":     col,
-            "message": f"execl/execlp in {fname}() — user input source (fgets/getenv) in same block"
-        }
-    }
+    echo "    function : $FUNC_NAME"
+    echo "    position : $LINE:$COL"
+    echo
 
-    with open(findings_path, "a") as fp:
-        fp.write(json.dumps(finding, indent=2) + "\n")
+    write_finding \
+        --findings  "$FINDINGS" \
+        --detector  "execl_tainted" \
+        --severity  "warning" \
+        --rule      "SCS009-EXECL" \
+        --file      "$FILENAME" \
+        --line      "$LINE" \
+        --col       "$COL" \
+        --varname   "${FUNC_NAME:-?}" \
+        --note-line "$LINE" \
+        --note-col  "$COL" \
+        --note-msg  "${SINK}() in ${FUNC_NAME}() -- user input source (fgets/getenv) in same block"
 
-    print(f"    finding: {filename}:{line}:{col} — {fname}() execl/execlp with tainted input")
-    found += 1
+    echo "    finding: ${FILENAME}:${LINE}:${COL} -- ${FUNC_NAME}() ${SINK}() with tainted input"
+    found=$((found + 1))
+    rm -f "$TMPRESULT"
+done
 
-print(f"[ execl_tainted ] {found} finding(s) written to {findings_path}")
-PYEOF
+# -----------------------------------------------------------------------
+# Stage 2: XPath fallback -- destructors and constructors
+# -----------------------------------------------------------------------
+echo
+echo "--- Stage 2: XPath destructor/constructor fallback ---"
+
+DES_XPATH="//*[local-name()='call'][*[local-name()='name'][.='execl' or .='execlp']][*[local-name()='argument_list']/*[local-name()='argument'][1][not(.//*[local-name()='literal'])]][ancestor::*[local-name()='destructor' or local-name()='constructor'][.//*[local-name()='call'][*[local-name()='name'][.='fgets' or .='getenv']]]]"
+
+DES_POS=$(xmllint --xpath "string(${DES_XPATH}/@*[local-name()='start'])" "$XML" 2>/dev/null)
+
+if [ -n "$DES_POS" ]; then
+    LINE=${DES_POS%%:*}
+    COL=${DES_POS##*:}
+    FUNC_NAME=$(xmllint --xpath \
+        'string(//*[local-name()="destructor" or local-name()="constructor"]/*[local-name()="name"])' \
+        "$XML" 2>/dev/null)
+
+    write_finding \
+        --findings  "$FINDINGS" \
+        --detector  "execl_tainted" \
+        --severity  "warning" \
+        --rule      "SCS009-EXECL" \
+        --file      "$FILENAME" \
+        --line      "$LINE" \
+        --col       "$COL" \
+        --varname   "${FUNC_NAME:-?}" \
+        --note-line "$LINE" \
+        --note-col  "$COL" \
+        --note-msg  "execl/execlp in ${FUNC_NAME}() -- user input source (fgets/getenv) in same block (destructor/constructor)"
+
+    echo "    finding: ${FILENAME}:${LINE}:${COL} -- ${FUNC_NAME}() execl/execlp tainted (destructor/constructor)"
+    found=$((found + 1))
+else
+    echo "    no unguarded destructor/constructor execl/execlp found"
+fi
 
 echo
+echo "[ execl_tainted ] ${found} finding(s) written to $FINDINGS"

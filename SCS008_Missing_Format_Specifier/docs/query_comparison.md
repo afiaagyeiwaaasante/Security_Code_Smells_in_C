@@ -8,35 +8,48 @@
 
 ## SmellDetect
 
-**Mechanism:** srcML XML annotation + Python regex (argument position check)
+**Mechanism:** srcML XML annotation + srcQL (function scope) + XPath (argument literal check + taint count)
 
-Three detectors, each targeting a sink group:
+Three detectors share the same two-stage structure:
 
-### detect_printf_direct.sh
+### detect_printf_direct.sh / detect_fprintf_direct.sh / detect_syslog_direct.sh
 
-**Sink pattern (Python regex):**
-```python
-PRINTF_CALL = re.compile(
-    r'<call\b[^>]*pos:start="(\d+):(\d+)"[^>]*>\s*<name[^>]*>\s*(?:printf|vprintf)\s*</name>',
-    re.DOTALL
-)
+**Stage 1 — srcQL (function scope):**
+```
+FIND $T $FUNC($PARAMS) {} CONTAINS printf($FMT)   # or fprintf / syslog
 ```
 
-**Argument patterns:**
-```python
-LITERAL_PAT = re.compile(r'<literal\b')
-ARG_SPLIT   = re.compile(r'<argument\b[^>]*>(.*?)</argument>', re.DOTALL)
+**Stage 1 guard — XPath on srcQL result:**
+
+Non-literal format argument check (printf: arg 1; fprintf/syslog: arg 2):
+```xpath
+//*[local-name()='call'][*[local-name()='name'][.='printf' or .='vprintf']]
+  [*[local-name()='argument_list']/*[local-name()='argument'][1]
+    [not(.//*[local-name()='literal'])]]
+/@*[local-name()='start']
 ```
 
-**Logic:** For each `printf`/`vprintf` call, split the argument list and check whether the **first argument** contains a `<literal>` element (a string literal format). If the first argument is not a literal → finding emitted (format string is a variable).
+Taint source check (flat count — srcQL result is already function-scoped):
+```xpath
+count(//*[local-name()='call'][*[local-name()='name']
+  [.='fgets' or .='getenv' or .='scanf' or .='fscanf']])
+```
 
-### detect_fprintf_direct.sh
+A finding is emitted only when both hold: non-empty position AND count > 0.
 
-Same logic for `fprintf`/`vfprintf`/`syslog`. The format argument is at **position 2** (after the file descriptor/priority argument), so `args[1]` is checked.
+**Stage 2 — XPath fallback for `<destructor>`/`<constructor>`:**
 
-### detect_syslog_direct.sh
+srcQL does not match C++ destructor/constructor blocks. An `ancestor::` predicate on the original XML covers these cases (taint source must also be present in the same destructor/constructor block):
+```xpath
+//*[local-name()='call'][*[local-name()='name'][.='printf' or .='vprintf']]
+  [*[local-name()='argument_list']/*[local-name()='argument'][1]
+    [not(.//*[local-name()='literal'])]]
+  [ancestor::*[local-name()='destructor' or local-name()='constructor']
+    [.//*[local-name()='call'][*[local-name()='name']
+      [.='fgets' or .='getenv' or .='scanf' or .='fscanf']]]]
+```
 
-Same as `fprintf` — format is the second argument after the priority level.
+**Known limitation:** Cross-block taint (fgets in constructor, printf in destructor) and cross-file taint (interprocedural) are not detected — documented as KI-002 and KI-001 respectively.
 
 ---
 
@@ -87,7 +100,7 @@ val detected = (printfBad.l ++ fprintfBad.l).nonEmpty
 println(s"JOERN_RESULT:$detected")
 ```
 
-**Detection logic:** Checks whether the format argument (by position) is a CPG `Literal` node. If not → detected. Semantically identical to SmellDetect's argument-position check but expressed as CPG node type filtering.
+**Detection logic:** Checks whether the format argument (by position) is a CPG `Literal` node. If not → detected. No taint source check — any non-literal format argument is flagged regardless of whether user input is present. Higher recall than SmellDetect on cross-block and interprocedural cases.
 
 ---
 
@@ -95,8 +108,8 @@ println(s"JOERN_RESULT:$detected")
 
 | Aspect | SmellDetect | cppcheck | Joern |
 |---|---|---|---|
-| Query type | Python regex arg-position check | Type/count analysis | CPG argument literal check |
+| Query type | srcQL function scope + XPath literal/taint guard | Type/count analysis | CPG argument literal check |
 | Format arg position | Hardcoded per sink (1 or 2) | Implicit | Hardcoded per sink (order 1 or 2) |
-| Recall | 100% | 0% | 100% |
-| Precision | 100% | N/A | 100% |
-| Equivalent strategy | Yes — same as Joern | No | Yes — same as SmellDetect |
+| Taint co-occurrence | Required (fgets/getenv/scanf/fscanf) | None | None |
+| Recall | 60% (2 FN: cpp_class cross-block, interprocedural) | 0% | 100% |
+| Precision | Higher (taint guard suppresses non-user-input cases) | N/A | Lower (flags any non-literal) |

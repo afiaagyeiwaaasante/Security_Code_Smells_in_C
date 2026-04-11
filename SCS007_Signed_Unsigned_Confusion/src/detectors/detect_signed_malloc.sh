@@ -3,25 +3,25 @@
 #
 # Detector 1: signed_malloc
 # Detects: function passes a signed int to malloc() with no positivity guard
-#           (data > 0 or data >= 1) in any <condition> in the same block.
+#           (data > 0) in any <condition> element in the same function/destructor/constructor.
 # Severity: warning [signedUnsignedConversion]
 #
-# Strategy:
-#   Scan the annotated srcML XML for function/destructor/constructor blocks
-#   that contain a malloc() call.
+# Strategy (srcQL + XPath, no Python):
 #
-#   Python post-filter:
-#     For each such block, extract all <condition> sub-elements.
-#     If no condition contains a &gt; operator (lower-bound check) → the
-#     signed value is passed to malloc() without a positivity guard → finding.
+#   Stage 1 -- srcQL finds functions and class methods containing the pattern:
+#     FIND $T $FUNC($PARAMS) {} CONTAINS malloc($A)
+#
+#   Stage 1 guard check -- XPath on srcQL result, scoped to <condition> only:
+#     count(//*[local-name()="condition"][.//*[local-name()="operator"][.=">"]])
+#     If > 0, a positivity guard is present -- no finding.
+#
+#   Stage 2 -- XPath fallback for <destructor>/<constructor> blocks.
 #
 #   Discriminating pattern:
-#     Bad:  conditions only contain &lt; (upper bound, e.g. data < 100)
-#     Good: conditions also contain &gt; (lower bound, e.g. data > 0)
+#     Bad:  conditions only contain < (upper bound, e.g. data < 100)
+#     Good: conditions also contain > (lower bound, e.g. data > 0)
 #
-#   Position: pos:start on the <call><name>malloc</name>... element.
-#
-# Requires: srcml, xmllint, python3
+# Requires: srcml, xmllint
 
 source "$(dirname "$0")/../../../shared/lib/write_finding.sh"
 
@@ -39,91 +39,93 @@ if [ ! -f "$XML" ]; then
     exit 1
 fi
 
-echo "    strategy : XML scan — malloc() call with no &gt; guard in <condition>"
-echo "--- post-filter: checking for absent positivity guard ---"
+QUERY='FIND $T $FUNC($PARAMS) {} CONTAINS malloc($A)'
+
+echo "    query  : $QUERY"
+echo "    note   : destructor/constructor blocks covered by XPath fallback"
+echo
+
+GUARD_XPATH='count(//*[local-name()="condition"][.//*[local-name()="operator"][.=">"]])'
+
+DES_XPATH="//*[local-name()='call'][*[local-name()='name'][.='malloc']][ancestor::*[local-name()='destructor' or local-name()='constructor'][not(.//*[local-name()='condition'][.//*[local-name()='operator'][.='>']])]]/@*[local-name()='start']"
 
 FILENAME=$(xmllint --xpath \
     'string(//*[local-name()="unit"]/@filename)' "$XML" 2>/dev/null)
 
-FOUND_COUNT=$(python3 << PYEOF
-import re, json
+found=0
 
-# A positivity guard: any &gt; or &gt;= operator inside a <condition>
-POSITIVE_GUARD = re.compile(r'&gt;', re.DOTALL)
+# -----------------------------------------------------------------------
+# Stage 1: srcQL -- functions and class methods
+# -----------------------------------------------------------------------
+TMPRESULT=$(mktemp /tmp/sm_result_XXXXXX)
+trap "rm -f $TMPRESULT" EXIT
 
-MALLOC_CALL = re.compile(
-    r'<call\b[^>]*pos:start="(\d+):(\d+)"[^>]*>\s*<name[^>]*>\s*malloc\s*</name>'
-)
-
-with open("$XML") as f:
-    content = f.read()
-
-findings_path = "$FINDINGS"
-filename      = "$FILENAME"
-found = 0
-
-# Split into per-function/destructor/constructor blocks
-func_blocks = re.split(r'(?=<(?:function|destructor|constructor)[\s>])', content)
-
-for block in func_blocks:
-    tag_m = re.match(r'<(function|destructor|constructor)', block)
-    if not tag_m:
-        continue
-    tag = tag_m.group(1)
-
-    # Only process blocks that contain malloc()
-    if 'malloc' not in block:
-        continue
-
-    malloc_matches = MALLOC_CALL.findall(block)
-    if not malloc_matches:
-        continue
-
-    # Extract all <condition> elements in this block
-    conditions = re.findall(r'<condition\b[^>]*>.*?</condition>', block, re.DOTALL)
-
-    # If any condition contains &gt; (>) → positivity guard present → skip
-    if any(POSITIVE_GUARD.search(c) for c in conditions):
-        continue
-
-    # Extract function/destructor/constructor name
-    if tag == 'function':
-        fname_m = re.search(
-            r'<function[^>]*>.*?</type>\s*<name[^>]*>([^<]+)</name>', block, re.DOTALL)
-    else:
-        fname_m = re.search(r'<name[^>]*>([^<]+)</name>', block)
-    fname = fname_m.group(1).strip() if fname_m else "?"
-
-    line = int(malloc_matches[0][0])
-    col  = int(malloc_matches[0][1])
-
-    note_msg = (f"malloc() in {fname}() — signed int passed as size "
-                f"with no positivity guard (data > 0)")
-
-    finding = {
-        "detector": "signed_malloc",
-        "severity": "warning",
-        "rule":     "signedUnsignedConversion",
-        "file":     filename,
-        "line":     line,
-        "col":      col,
-        "varname":  fname,
-        "note": {
-            "line":    line,
-            "col":     col,
-            "message": note_msg
-        }
-    }
-
-    with open(findings_path, "a") as fp:
-        fp.write(json.dumps(finding, indent=2) + "\n")
-
-    print(f"    finding: {filename}:{line}:{col} — {fname}() malloc without positivity guard")
-    found += 1
-
-print(f"[ signed_malloc ] {found} finding(s) written to {findings_path}")
-PYEOF
-)
-
-echo "$FOUND_COUNT"
+{ time srcml "$XML" --srcql "$QUERY" -q > "$TMPRESULT"; } 2>&1
 echo
+
+if grep -q '<function' "$TMPRESULT" 2>/dev/null; then
+    echo "--- Stage 1: checking srcQL result for positivity guard in <condition> ---"
+    guard=$(xmllint --xpath "$GUARD_XPATH" "$TMPRESULT" 2>/dev/null)
+    if [ "${guard:-0}" -gt 0 ]; then
+        echo "    guarded -- > operator found in condition, no finding"
+    else
+        POS=$(xmllint --xpath \
+            'string(//*[local-name()="call"][*[local-name()="name"][.="malloc"]]/@*[local-name()="start"])' \
+            "$TMPRESULT" 2>/dev/null)
+        FUNC_NAME=$(xmllint --xpath \
+            'string(//*[local-name()="function"]/*[local-name()="name"])' \
+            "$TMPRESULT" 2>/dev/null)
+        LINE=${POS%%:*}
+        COL=${POS##*:}
+
+        write_finding \
+            --findings  "$FINDINGS" \
+            --detector  "signed_malloc" \
+            --severity  "warning" \
+            --rule      "signedUnsignedConversion" \
+            --file      "$FILENAME" \
+            --line      "$LINE" \
+            --col       "$COL" \
+            --varname   "$FUNC_NAME" \
+            --note-line "$LINE" \
+            --note-col  "$COL" \
+            --note-msg  "malloc() in ${FUNC_NAME}() -- signed int passed as size with no positivity guard (data > 0)"
+        echo "    finding: ${FILENAME}:${LINE}:${COL} -- ${FUNC_NAME}() malloc without positivity guard"
+        found=$((found + 1))
+    fi
+fi
+
+# -----------------------------------------------------------------------
+# Stage 2: XPath fallback -- destructors and constructors
+# -----------------------------------------------------------------------
+echo
+echo "--- Stage 2: XPath destructor/constructor fallback ---"
+DES_POS=$(xmllint --xpath "string($DES_XPATH)" "$XML" 2>/dev/null)
+
+if [ -n "$DES_POS" ]; then
+    LINE=${DES_POS%%:*}
+    COL=${DES_POS##*:}
+    FUNC_NAME=$(xmllint --xpath \
+        'string(//*[local-name()="destructor" or local-name()="constructor"]/*[local-name()="name"])' \
+        "$XML" 2>/dev/null)
+
+    write_finding \
+        --findings  "$FINDINGS" \
+        --detector  "signed_malloc" \
+        --severity  "warning" \
+        --rule      "signedUnsignedConversion" \
+        --file      "$FILENAME" \
+        --line      "$LINE" \
+        --col       "$COL" \
+        --varname   "$FUNC_NAME" \
+        --note-line "$LINE" \
+        --note-col  "$COL" \
+        --note-msg  "malloc() in ${FUNC_NAME}() -- signed int passed as size with no positivity guard (destructor/constructor)"
+    echo "    finding: ${FILENAME}:${LINE}:${COL} -- ${FUNC_NAME}() malloc without positivity guard (destructor/constructor)"
+    found=$((found + 1))
+else
+    echo "    no unguarded destructor/constructor malloc found"
+fi
+
+echo
+echo "[ signed_malloc ] ${found} finding(s) written to $FINDINGS"

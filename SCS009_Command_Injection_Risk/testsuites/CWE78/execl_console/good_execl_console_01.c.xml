@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" xmlns:cpp="http://www.srcML.org/srcML/cpp" xmlns:pos="http://www.srcML.org/srcML/position" xmlns:slice="http://www.srcML.org/srcML/slice" revision="1.0.0" language="C" filename="testsuites/CWE78/execl_console/good_execl_console_01.c" pos:tabs="8" hash="8375873c081eac1576f18f530edbc09f55c87025"><comment type="block" pos:start="1:1" pos:end="4:3">/* good_execl_console_01.c
+ * CWE-78 Command Injection Risk â SCS009
+ * GOOD: execl() called with a hardcoded literal path â no user input.
+ */</comment>
+<cpp:include pos:start="5:1" pos:end="5:18">#<cpp:directive pos:start="5:2" pos:end="5:8">include</cpp:directive> <cpp:file pos:start="5:10" pos:end="5:18">&lt;stdio.h&gt;</cpp:file></cpp:include>
+<cpp:include pos:start="6:1" pos:end="6:19">#<cpp:directive pos:start="6:2" pos:end="6:8">include</cpp:directive> <cpp:file pos:start="6:10" pos:end="6:19">&lt;stdlib.h&gt;</cpp:file></cpp:include>
+<cpp:include pos:start="7:1" pos:end="7:19">#<cpp:directive pos:start="7:2" pos:end="7:8">include</cpp:directive> <cpp:file pos:start="7:10" pos:end="7:19">&lt;unistd.h&gt;</cpp:file></cpp:include>
+
+<function pos:start="9:1" pos:end="15:1"><type pos:start="9:1" pos:end="9:3"><name pos:start="9:1" pos:end="9:3">int</name></type> <name pos:start="9:5" pos:end="9:8">main</name><parameter_list pos:start="9:9" pos:end="9:14">(<parameter pos:start="9:10" pos:end="9:13"><decl pos:start="9:10" pos:end="9:13"><type pos:start="9:10" pos:end="9:13"><name pos:start="9:10" pos:end="9:13">void</name></type></decl></parameter>)</parameter_list>
+<block pos:start="10:1" pos:end="15:1">{<block_content pos:start="10:2" pos:end="15:0">
+    <comment type="block" pos:start="11:5" pos:end="11:53">/* FIX: hardcoded path â not user-controlled */</comment>
+    <expr_stmt pos:start="12:5" pos:end="12:47"><expr pos:start="12:5" pos:end="12:46"><call pos:start="12:5" pos:end="12:46"><name pos:start="12:5" pos:end="12:9">execl</name><argument_list pos:start="12:10" pos:end="12:46">(<argument pos:start="12:11" pos:end="12:19"><expr pos:start="12:11" pos:end="12:19"><literal type="string" pos:start="12:11" pos:end="12:19">"/bin/ls"</literal></expr></argument>, <argument pos:start="12:22" pos:end="12:25"><expr pos:start="12:22" pos:end="12:25"><literal type="string" pos:start="12:22" pos:end="12:25">"ls"</literal></expr></argument>, <argument pos:start="12:28" pos:end="12:31"><expr pos:start="12:28" pos:end="12:31"><literal type="string" pos:start="12:28" pos:end="12:31">"-l"</literal></expr></argument>, <argument pos:start="12:34" pos:end="12:45"><expr pos:start="12:34" pos:end="12:45"><operator pos:start="12:34" pos:end="12:34">(</operator><name pos:start="12:35" pos:end="12:38">char</name> <operator pos:start="12:40" pos:end="12:40">*</operator><operator pos:start="12:41" pos:end="12:41">)</operator><name pos:start="12:42" pos:end="12:45">NULL</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+
+    <return pos:start="14:5" pos:end="14:13">return <expr pos:start="14:12" pos:end="14:12"><literal type="number" pos:start="14:12" pos:end="14:12">0</literal></expr>;</return>
+</block_content>}</block></function>
+</unit>
