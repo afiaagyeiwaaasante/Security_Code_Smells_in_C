@@ -1,0 +1,32 @@
+{
+"p-14-10-37036d3e157c81ada0a3b7006fef14f7d343a3b7":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS002_Buffer_Size_Mismatch/testsuites/CWE680/malloc/good_malloc_01_guarded.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"good_malloc_guarded",
+    "type":"int*",
+    "name":"p",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS002_Buffer_Size_Mismatch/testsuites/CWE680/malloc/good_malloc_01_guarded.c:14:10",
+    "dependence":[],
+    "aliases":[],
+    "calls":[{"functionName":"free","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS002_Buffer_Size_Mismatch/testsuites/CWE680/malloc/good_malloc_01_guarded.c:16:5"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS002_Buffer_Size_Mismatch/testsuites/CWE680/malloc/good_malloc_01_guarded.c:15:9","/Users/afiaasante/Security-Code-Smells/SCS002_Buffer_Size_Mismatch/testsuites/CWE680/malloc/good_malloc_01_guarded.c:16:10"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS002_Buffer_Size_Mismatch/testsuites/CWE680/malloc/good_malloc_01_guarded.c:14:10"]
+},
+"n-11-30-37036d3e157c81ada0a3b7006fef14f7d343a3b7":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS002_Buffer_Size_Mismatch/testsuites/CWE680/malloc/good_malloc_01_guarded.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"good_malloc_guarded",
+    "type":"int",
+    "name":"n",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS002_Buffer_Size_Mismatch/testsuites/CWE680/malloc/good_malloc_01_guarded.c:11:30",
+    "dependence":[{"p":"/Users/afiaasante/Security-Code-Smells/SCS002_Buffer_Size_Mismatch/testsuites/CWE680/malloc/good_malloc_01_guarded.c:14:36"}],
+    "aliases":[],
+    "calls":[{"functionName":"malloc","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS002_Buffer_Size_Mismatch/testsuites/CWE680/malloc/good_malloc_01_guarded.c:14:21"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS002_Buffer_Size_Mismatch/testsuites/CWE680/malloc/good_malloc_01_guarded.c:13:9","/Users/afiaasante/Security-Code-Smells/SCS002_Buffer_Size_Mismatch/testsuites/CWE680/malloc/good_malloc_01_guarded.c:13:27","/Users/afiaasante/Security-Code-Smells/SCS002_Buffer_Size_Mismatch/testsuites/CWE680/malloc/good_malloc_01_guarded.c:14:36"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS002_Buffer_Size_Mismatch/testsuites/CWE680/malloc/good_malloc_01_guarded.c:11:30"]
+}
+}

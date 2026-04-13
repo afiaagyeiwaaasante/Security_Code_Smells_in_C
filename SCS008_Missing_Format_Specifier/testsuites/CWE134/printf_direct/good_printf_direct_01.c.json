@@ -1,32 +1,32 @@
 {
 "len-14-16-f664096898f9943f2b38cbfb95e1bbf8bdde5b55":{
-    "file":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/printf_direct/good_printf_direct_01.c",
+    "file":"testsuites/CWE134/printf_direct/good_printf_direct_01.c",
     "language":"C",
     "namespace":[],
     "class":"",
     "function":"good_printf_direct_01",
     "type":"size_t",
     "name":"len",
-    "initial":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/printf_direct/good_printf_direct_01.c:14:16",
+    "initial":"testsuites/CWE134/printf_direct/good_printf_direct_01.c:14:16",
     "dependence":[],
     "aliases":[],
     "calls":[],
-    "use":["/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/printf_direct/good_printf_direct_01.c:15:13","/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/printf_direct/good_printf_direct_01.c:15:29","/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/printf_direct/good_printf_direct_01.c:15:52"],
-    "definition":["/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/printf_direct/good_printf_direct_01.c:14:16"]
+    "use":["testsuites/CWE134/printf_direct/good_printf_direct_01.c:15:13","testsuites/CWE134/printf_direct/good_printf_direct_01.c:15:29","testsuites/CWE134/printf_direct/good_printf_direct_01.c:15:52"],
+    "definition":["testsuites/CWE134/printf_direct/good_printf_direct_01.c:14:16"]
 },
 "data-12-10-f664096898f9943f2b38cbfb95e1bbf8bdde5b55":{
-    "file":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/printf_direct/good_printf_direct_01.c",
+    "file":"testsuites/CWE134/printf_direct/good_printf_direct_01.c",
     "language":"C",
     "namespace":[],
     "class":"",
     "function":"good_printf_direct_01",
     "type":"char[]",
     "name":"data",
-    "initial":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/printf_direct/good_printf_direct_01.c:12:10",
-    "dependence":[{"len":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/printf_direct/good_printf_direct_01.c:14:29"}],
+    "initial":"testsuites/CWE134/printf_direct/good_printf_direct_01.c:12:10",
+    "dependence":[{"len":"testsuites/CWE134/printf_direct/good_printf_direct_01.c:14:29"}],
     "aliases":[],
-    "calls":[{"functionName":"fgets","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/printf_direct/good_printf_direct_01.c:13:9"},{"functionName":"fgets","parameter":"2","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/printf_direct/good_printf_direct_01.c:13:9"},{"functionName":"strlen","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/printf_direct/good_printf_direct_01.c:14:22"},{"functionName":"printf","parameter":"2","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/printf_direct/good_printf_direct_01.c:18:5"}],
-    "use":["/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/printf_direct/good_printf_direct_01.c:13:15","/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/printf_direct/good_printf_direct_01.c:13:28","/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/printf_direct/good_printf_direct_01.c:14:29","/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/printf_direct/good_printf_direct_01.c:15:24","/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/printf_direct/good_printf_direct_01.c:18:20"],
-    "definition":["/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/printf_direct/good_printf_direct_01.c:12:10","/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/printf_direct/good_printf_direct_01.c:15:47"]
+    "calls":[{"functionName":"fgets","parameter":"1","definitionPosition":"","invoke":"testsuites/CWE134/printf_direct/good_printf_direct_01.c:13:9"},{"functionName":"fgets","parameter":"2","definitionPosition":"","invoke":"testsuites/CWE134/printf_direct/good_printf_direct_01.c:13:9"},{"functionName":"strlen","parameter":"1","definitionPosition":"","invoke":"testsuites/CWE134/printf_direct/good_printf_direct_01.c:14:22"},{"functionName":"printf","parameter":"2","definitionPosition":"","invoke":"testsuites/CWE134/printf_direct/good_printf_direct_01.c:18:5"}],
+    "use":["testsuites/CWE134/printf_direct/good_printf_direct_01.c:13:15","testsuites/CWE134/printf_direct/good_printf_direct_01.c:13:28","testsuites/CWE134/printf_direct/good_printf_direct_01.c:14:29","testsuites/CWE134/printf_direct/good_printf_direct_01.c:15:24","testsuites/CWE134/printf_direct/good_printf_direct_01.c:18:20"],
+    "definition":["testsuites/CWE134/printf_direct/good_printf_direct_01.c:12:10","testsuites/CWE134/printf_direct/good_printf_direct_01.c:15:47"]
 }
 }

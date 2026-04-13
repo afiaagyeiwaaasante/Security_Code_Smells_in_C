@@ -53,7 +53,8 @@ FINDINGS=$(mktemp /tmp/cwe680_findings_XXXXXX)
     fi
 
     # Detectors
-    bash "$DETECTORS_DIR/detect_buffer_size.sh" "$XML" "$SRC" "$FINDINGS"
+    bash "$DETECTORS_DIR/detect_buffer_size.sh"    "$XML" "$SRC" "$FINDINGS"
+    bash "$DETECTORS_DIR/detect_precomputed_size.sh" "$XML" "$SRC" "$FINDINGS"
 
     # Save findings
     cp "$FINDINGS" "$FINDINGS_FILE"

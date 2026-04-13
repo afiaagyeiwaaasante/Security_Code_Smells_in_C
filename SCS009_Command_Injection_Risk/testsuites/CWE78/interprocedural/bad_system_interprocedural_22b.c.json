@@ -1,32 +1,32 @@
 {
 "CWE78_bad_setup-20-17-9949bc073ff4248006ee4f00c0a4d98889e1c4a1":{
-    "file":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/interprocedural/bad_system_interprocedural_22b.c",
+    "file":"testsuites/CWE78/interprocedural/bad_system_interprocedural_22b.c",
     "language":"C",
     "namespace":[],
     "class":"",
     "function":"main",
     "type":"void",
     "name":"CWE78_bad_setup",
-    "initial":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/interprocedural/bad_system_interprocedural_22b.c:20:17",
+    "initial":"testsuites/CWE78/interprocedural/bad_system_interprocedural_22b.c:20:17",
     "dependence":[],
     "aliases":[],
     "calls":[],
     "use":[],
-    "definition":["/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/interprocedural/bad_system_interprocedural_22b.c:20:17"]
+    "definition":["testsuites/CWE78/interprocedural/bad_system_interprocedural_22b.c:20:17"]
 },
 "badData-10-13-":{
-    "file":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/interprocedural/bad_system_interprocedural_22b.c",
+    "file":"testsuites/CWE78/interprocedural/bad_system_interprocedural_22b.c",
     "language":"C",
     "namespace":[],
     "class":"",
     "function":"",
     "type":"char",
     "name":"badData",
-    "initial":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/interprocedural/bad_system_interprocedural_22b.c:10:13",
+    "initial":"testsuites/CWE78/interprocedural/bad_system_interprocedural_22b.c:10:13",
     "dependence":[],
     "aliases":[],
-    "calls":[{"functionName":"system","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/interprocedural/bad_system_interprocedural_22b.c:15:5"}],
-    "use":["/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/interprocedural/bad_system_interprocedural_22b.c:15:12"],
-    "definition":["/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/interprocedural/bad_system_interprocedural_22b.c:10:13"]
+    "calls":[{"functionName":"system","parameter":"1","definitionPosition":"","invoke":"testsuites/CWE78/interprocedural/bad_system_interprocedural_22b.c:15:5"}],
+    "use":["testsuites/CWE78/interprocedural/bad_system_interprocedural_22b.c:15:12"],
+    "definition":["testsuites/CWE78/interprocedural/bad_system_interprocedural_22b.c:10:13"]
 }
 }

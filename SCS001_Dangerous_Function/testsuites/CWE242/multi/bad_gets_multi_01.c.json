@@ -1,0 +1,47 @@
+{
+"country-24-10-0f543d98434975865e28d52230b55017e23c515f":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/multi/bad_gets_multi_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"bad_read_country",
+    "type":"char[]",
+    "name":"country",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/multi/bad_gets_multi_01.c:24:10",
+    "dependence":[],
+    "aliases":[],
+    "calls":[{"functionName":"gets","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/multi/bad_gets_multi_01.c:25:5"},{"functionName":"printLine","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/multi/bad_gets_multi_01.c:26:5"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/multi/bad_gets_multi_01.c:25:10","/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/multi/bad_gets_multi_01.c:26:15"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/multi/bad_gets_multi_01.c:24:10"]
+},
+"city-16-10-0f543d98434975865e28d52230b55017e23c515f":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/multi/bad_gets_multi_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"bad_read_city",
+    "type":"char[]",
+    "name":"city",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/multi/bad_gets_multi_01.c:16:10",
+    "dependence":[],
+    "aliases":[],
+    "calls":[{"functionName":"gets","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/multi/bad_gets_multi_01.c:17:5"},{"functionName":"printLine","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/multi/bad_gets_multi_01.c:18:5"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/multi/bad_gets_multi_01.c:17:10","/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/multi/bad_gets_multi_01.c:18:15"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/multi/bad_gets_multi_01.c:16:10"]
+},
+"name-8-10-0f543d98434975865e28d52230b55017e23c515f":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/multi/bad_gets_multi_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"bad_read_name",
+    "type":"char[]",
+    "name":"name",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/multi/bad_gets_multi_01.c:8:10",
+    "dependence":[],
+    "aliases":[],
+    "calls":[{"functionName":"gets","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/multi/bad_gets_multi_01.c:9:5"},{"functionName":"printLine","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/multi/bad_gets_multi_01.c:10:5"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/multi/bad_gets_multi_01.c:9:10","/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/multi/bad_gets_multi_01.c:10:15"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/multi/bad_gets_multi_01.c:8:10"]
+}
+}

@@ -14,7 +14,8 @@ The same pattern extends to other allocation functions and related overflow risk
 
 | Pattern | Risk | srcQL variant |
 |---------|------|---------------|
-| `malloc(n * sizeof(T))` | Integer overflow → small allocation | `CONTAINS malloc($A * $B)` ✓ current |
+| `malloc(n * sizeof(T))` | Integer overflow → small allocation | `CONTAINS malloc($A * $B)` ✓ Detector 1 |
+| `sz = n * sizeof(T); malloc(sz)` | Overflow in precomputed size variable | `CONTAINS $TYPE $SZ = $A * $B FOLLOWED BY malloc($SZ)` ✓ Detector 2 |
 | `realloc(p, n * sizeof(T))` | Same overflow risk on resize | `CONTAINS realloc($PTR, $A * $B)` |
 | `alloca(n * sizeof(T))` | Stack allocation overflow | `CONTAINS alloca($A * $B)` |
 | `memset(p, 0, n * sizeof(T))` | Overflow in count passed to memset | `CONTAINS memset($P, $V, $A * $B)` |
@@ -42,6 +43,8 @@ literals.
 ```
 FIND $T $FUNC($PARAMS) {} CONTAINS malloc($A * $B)
 UNION
+FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $SZ = $A * $B FOLLOWED BY malloc($SZ)
+UNION
 FIND $T $FUNC($PARAMS) {} CONTAINS realloc($PTR, $A * $B)
 UNION
 FIND $T $FUNC($PARAMS) {} CONTAINS memcpy($DST, $SRC, $A * $B)
@@ -53,6 +56,5 @@ FIND $T $FUNC($PARAMS) {} CONTAINS memcpy($DST, $SRC, $A * $B)
 
 | Scenario | Why the current pattern does not apply |
 |----------|----------------------------------------|
-| `sz = n * sizeof(T); malloc(sz)` | Overflow is in a separate statement — requires data flow taint tracking from the multiplication to the malloc argument |
-| Overflow in a function argument passed to malloc wrapper | Requires interprocedural analysis |
+| Overflow in a function argument passed to malloc wrapper | Requires interprocedural analysis beyond what srcQL `FOLLOWED BY` provides |
 | Signed integer overflow (`int n` instead of `size_t n`) | The query matches the structural pattern but does not distinguish signed from unsigned overflow — requires type analysis |

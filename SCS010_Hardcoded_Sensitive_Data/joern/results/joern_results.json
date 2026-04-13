@@ -1,0 +1,10 @@
+{"test":"bad_password_var_01","files":["bad_password_var_01.c"],"detected":true,"wall_time_s":3.57,"peak_rss_kb":449536}
+{"test":"good_password_var_01","files":["good_password_var_01.c"],"detected":false,"wall_time_s":3.65,"peak_rss_kb":434288}
+{"test":"bad_define_const_01","files":["bad_define_const_01.c"],"detected":false,"wall_time_s":3.62,"peak_rss_kb":444944}
+{"test":"good_define_const_01","files":["good_define_const_01.c"],"detected":false,"wall_time_s":3.67,"peak_rss_kb":422944}
+{"test":"bad_strcmp_auth_01","files":["bad_strcmp_auth_01.c"],"detected":true,"wall_time_s":3.59,"peak_rss_kb":430112}
+{"test":"good_strcmp_auth_01","files":["good_strcmp_auth_01.c"],"detected":false,"wall_time_s":3.68,"peak_rss_kb":422400}
+{"test":"bad_password_interprocedural_22a","files":["bad_password_interprocedural_22a.c"],"detected":true,"wall_time_s":3.60,"peak_rss_kb":462784}
+{"test":"good_password_interprocedural_22b","files":["good_password_interprocedural_22b.c"],"detected":false,"wall_time_s":3.68,"peak_rss_kb":430912}
+{"test":"bad_password_class_84","files":["bad_password_class_84.cpp"],"detected":false,"wall_time_s":3.65,"peak_rss_kb":439808}
+{"test":"good_password_class_84","files":["good_password_class_84.cpp"],"detected":false,"wall_time_s":3.52,"peak_rss_kb":416496}

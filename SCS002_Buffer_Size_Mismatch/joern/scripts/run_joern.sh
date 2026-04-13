@@ -71,13 +71,43 @@ EOF
     rm -f "$SCALA_SCRIPT" "$TMPOUT" "$TIMEFILE"
 }
 
-run_case "bad_malloc_01" \
-    "$TESTSUITE/malloc/bad_malloc_01.c" \
-    '["bad_malloc_01.c"]'
+# --- Baseline ---
+run_case "bad_malloc_01"          "$TESTSUITE/malloc/bad_malloc_01.c"          '["bad_malloc_01.c"]'
+run_case "good_malloc_01"         "$TESTSUITE/malloc/good_malloc_01.c"         '["good_malloc_01.c"]'
+run_case "good_malloc_01_guarded" "$TESTSUITE/malloc/good_malloc_01_guarded.c" '["good_malloc_01_guarded.c"]'
 
-run_case "good_malloc_01" \
-    "$TESTSUITE/malloc/good_malloc_01.c" \
-    '["good_malloc_01.c"]'
+# --- Fixed data source ---
+run_case "bad_malloc_fixed_01"          "$TESTSUITE/malloc/bad_malloc_fixed_01.c"          '["bad_malloc_fixed_01.c"]'
+run_case "good_malloc_fixed_01"         "$TESTSUITE/malloc/good_malloc_fixed_01.c"         '["good_malloc_fixed_01.c"]'
+run_case "good_malloc_fixed_01_guarded" "$TESTSUITE/malloc/good_malloc_fixed_01_guarded.c" '["good_malloc_fixed_01_guarded.c"]'
+
+# --- fgets data source ---
+run_case "bad_malloc_fgets_01"          "$TESTSUITE/malloc/bad_malloc_fgets_01.c"          '["bad_malloc_fgets_01.c"]'
+run_case "good_malloc_fgets_01"         "$TESTSUITE/malloc/good_malloc_fgets_01.c"         '["good_malloc_fgets_01.c"]'
+run_case "good_malloc_fgets_01_guarded" "$TESTSUITE/malloc/good_malloc_fgets_01_guarded.c" '["good_malloc_fgets_01_guarded.c"]'
+
+# --- rand data source ---
+run_case "bad_malloc_rand_01"          "$TESTSUITE/malloc/bad_malloc_rand_01.c"          '["bad_malloc_rand_01.c"]'
+run_case "good_malloc_rand_01"         "$TESTSUITE/malloc/good_malloc_rand_01.c"         '["good_malloc_rand_01.c"]'
+run_case "good_malloc_rand_01_guarded" "$TESTSUITE/malloc/good_malloc_rand_01_guarded.c" '["good_malloc_rand_01_guarded.c"]'
+
+# --- Precomputed size ---
+run_case "bad_malloc_precomputed_01"  "$TESTSUITE/malloc/bad_malloc_precomputed_01.c"  '["bad_malloc_precomputed_01.c"]'
+run_case "good_malloc_precomputed_01" "$TESTSUITE/malloc/good_malloc_precomputed_01.c" '["good_malloc_precomputed_01.c"]'
+
+# --- Interprocedural ---
+run_case "bad_malloc_return_01"    "$TESTSUITE/interprocedural/bad_malloc_return_01.c"    '["bad_malloc_return_01.c"]'
+run_case "good_malloc_interproc_01" "$TESTSUITE/interprocedural/good_malloc_interproc_01.c" '["good_malloc_interproc_01.c"]'
+
+TMPDIR_INTERPROC=$(mktemp -d /tmp/joern_interproc_XXXXXX)
+cp "$TESTSUITE/interprocedural/bad_malloc_interproc_01a.c" "$TMPDIR_INTERPROC/"
+cp "$TESTSUITE/interprocedural/bad_malloc_interproc_01b.c" "$TMPDIR_INTERPROC/"
+run_case "bad_malloc_interproc_01" "$TMPDIR_INTERPROC" '["bad_malloc_interproc_01a.c","bad_malloc_interproc_01b.c"]'
+rm -rf "$TMPDIR_INTERPROC"
+
+# --- Struct member ---
+run_case "bad_malloc_struct_01"  "$TESTSUITE/struct/bad_malloc_struct_01.c"  '["bad_malloc_struct_01.c"]'
+run_case "good_malloc_struct_01" "$TESTSUITE/struct/good_malloc_struct_01.c" '["good_malloc_struct_01.c"]'
 
 echo "========================================"
 echo " Results saved to: $RESULTS"

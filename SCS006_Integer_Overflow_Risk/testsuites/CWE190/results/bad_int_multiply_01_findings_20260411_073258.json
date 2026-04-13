@@ -1,0 +1,14 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/multiply/bad_int_multiply_01.c",
+  "line": 15,
+  "col": 27,
+  "varname": "bad_int_multiply",
+  "note": {
+    "line": 15,
+    "col": 27,
+    "message": "multiplication in bad_int_multiply() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}

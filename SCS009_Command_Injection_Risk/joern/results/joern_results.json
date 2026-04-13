@@ -1,0 +1,10 @@
+{"test":"bad_system_console_01","files":["bad_system_console_01.c"],"detected":true,"wall_time_s":4.18,"peak_rss_kb":401216}
+{"test":"good_system_console_01","files":["good_system_console_01.c"],"detected":false,"wall_time_s":3.43,"peak_rss_kb":353696}
+{"test":"bad_system_env_01","files":["bad_system_env_01.c"],"detected":true,"wall_time_s":3.42,"peak_rss_kb":364560}
+{"test":"good_system_env_01","files":["good_system_env_01.c"],"detected":false,"wall_time_s":3.53,"peak_rss_kb":469584}
+{"test":"bad_popen_console_01","files":["bad_popen_console_01.c"],"detected":true,"wall_time_s":3.65,"peak_rss_kb":471264}
+{"test":"good_popen_console_01","files":["good_popen_console_01.c"],"detected":false,"wall_time_s":3.51,"peak_rss_kb":416928}
+{"test":"bad_system_interprocedural_22b","files":["bad_system_interprocedural_22b.c"],"detected":true,"wall_time_s":3.51,"peak_rss_kb":456080}
+{"test":"good_system_interprocedural_22b","files":["good_system_interprocedural_22b.c"],"detected":false,"wall_time_s":4.12,"peak_rss_kb":408576}
+{"test":"bad_system_class_84","files":["bad_system_class_84.cpp"],"detected":true,"wall_time_s":3.50,"peak_rss_kb":445104}
+{"test":"good_system_class_84","files":["good_system_class_84.cpp"],"detected":false,"wall_time_s":3.60,"peak_rss_kb":438288}

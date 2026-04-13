@@ -58,8 +58,56 @@ run_case() {
     rm -f "$TMPOUT" "$TIMEFILE"
 }
 
-run_case "bad_malloc_01"  "$TESTSUITE/malloc/bad_malloc_01.c"
-run_case "good_malloc_01" "$TESTSUITE/malloc/good_malloc_01.c"
+# --- Baseline ---
+run_case "bad_malloc_01"          "$TESTSUITE/malloc/bad_malloc_01.c"
+run_case "good_malloc_01"         "$TESTSUITE/malloc/good_malloc_01.c"
+run_case "good_malloc_01_guarded" "$TESTSUITE/malloc/good_malloc_01_guarded.c"
+
+# --- Fixed data source ---
+run_case "bad_malloc_fixed_01"          "$TESTSUITE/malloc/bad_malloc_fixed_01.c"
+run_case "good_malloc_fixed_01"         "$TESTSUITE/malloc/good_malloc_fixed_01.c"
+run_case "good_malloc_fixed_01_guarded" "$TESTSUITE/malloc/good_malloc_fixed_01_guarded.c"
+
+# --- fgets data source ---
+run_case "bad_malloc_fgets_01"          "$TESTSUITE/malloc/bad_malloc_fgets_01.c"
+run_case "good_malloc_fgets_01"         "$TESTSUITE/malloc/good_malloc_fgets_01.c"
+run_case "good_malloc_fgets_01_guarded" "$TESTSUITE/malloc/good_malloc_fgets_01_guarded.c"
+
+# --- rand data source ---
+run_case "bad_malloc_rand_01"          "$TESTSUITE/malloc/bad_malloc_rand_01.c"
+run_case "good_malloc_rand_01"         "$TESTSUITE/malloc/good_malloc_rand_01.c"
+run_case "good_malloc_rand_01_guarded" "$TESTSUITE/malloc/good_malloc_rand_01_guarded.c"
+
+# --- Precomputed size (detect_precomputed_size detector) ---
+run_case "bad_malloc_precomputed_01"      "$TESTSUITE/malloc/bad_malloc_precomputed_01.c"
+run_case "good_malloc_precomputed_01"     "$TESTSUITE/malloc/good_malloc_precomputed_01.c"
+
+# --- Interprocedural ---
+run_case "bad_malloc_return_01"     "$TESTSUITE/interprocedural/bad_malloc_return_01.c"
+run_case "good_malloc_interproc_01" "$TESTSUITE/interprocedural/good_malloc_interproc_01.c"
+
+TMPOUT_MULTI=$(mktemp /tmp/smelldetect_out_XXXXXX)
+TIMEFILE_MULTI=$(mktemp /tmp/smelldetect_time_XXXXXX)
+echo "--- bad_malloc_interproc_01 ---"
+/usr/bin/time -l bash "$SRC_DIR/smell_report_multi.sh" \
+    "$TESTSUITE/interprocedural/bad_malloc_interproc_01a.c" \
+    "$TESTSUITE/interprocedural/bad_malloc_interproc_01b.c" \
+    > "$TMPOUT_MULTI" 2>"$TIMEFILE_MULTI" || true
+WALL_TIME_M=$(grep real "$TIMEFILE_MULTI" | awk '{print $1}')
+PEAK_RSS_M=$(grep "maximum resident set size" "$TIMEFILE_MULTI" | awk '{print $1}')
+PEAK_RSS_KB_M=$(( PEAK_RSS_M / 1024 ))
+if grep -q '"severity":' "$TMPOUT_MULTI" 2>/dev/null; then DET_M="true"; else DET_M="false"; fi
+printf '{"test":"bad_malloc_interproc_01","files":["bad_malloc_interproc_01a.c","bad_malloc_interproc_01b.c"],"detected":%s,"wall_time_s":%s,"peak_rss_kb":%s}\n' \
+    "$DET_M" "$WALL_TIME_M" "$PEAK_RSS_KB_M" >> "$RESULTS"
+echo "    detected  : $DET_M"
+echo "    wall time : ${WALL_TIME_M}s"
+echo "    peak RSS  : ${PEAK_RSS_KB_M} KB"
+echo
+rm -f "$TMPOUT_MULTI" "$TIMEFILE_MULTI"
+
+# --- Struct member (FN case — detector limitation) ---
+run_case "bad_malloc_struct_01"  "$TESTSUITE/struct/bad_malloc_struct_01.c"
+run_case "good_malloc_struct_01" "$TESTSUITE/struct/good_malloc_struct_01.c"
 
 echo "========================================"
 echo " Results saved to: $RESULTS"

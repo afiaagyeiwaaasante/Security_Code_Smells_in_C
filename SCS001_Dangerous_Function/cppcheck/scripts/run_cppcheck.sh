@@ -88,6 +88,11 @@ run_case "bad_gets_interprocedural_62" \
     "$TESTSUITE/interprocedural/bad_gets_interprocedural_62a.c" \
     "$TESTSUITE/interprocedural/bad_gets_interprocedural_62b.c"
 
+# --- Multi-instance: verify all occurrences are reported ---
+run_case "bad_gets_multi_01" "$TESTSUITE/multi/bad_gets_multi_01.c"
+run_case "bad_gets_multi_02" "$TESTSUITE/multi/bad_gets_multi_02.c"
+run_case "bad_gets_mixed_01" "$TESTSUITE/multi/bad_gets_mixed_01.c"
+
 echo "========================================"
 echo " Results saved to: $RESULTS"
 echo "========================================"

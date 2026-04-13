@@ -98,6 +98,21 @@ run_case "bad_gets_interprocedural_62" \
 
 rm -rf "$TMPDIR_INTERPROC"
 
+# -----------------------------------------------------------------------
+# Multi-instance test cases
+# -----------------------------------------------------------------------
+run_case "bad_gets_multi_01" \
+    "$TESTSUITE/multi/bad_gets_multi_01.c" \
+    '["bad_gets_multi_01.c"]'
+
+run_case "bad_gets_multi_02" \
+    "$TESTSUITE/multi/bad_gets_multi_02.c" \
+    '["bad_gets_multi_02.c"]'
+
+run_case "bad_gets_mixed_01" \
+    "$TESTSUITE/multi/bad_gets_mixed_01.c" \
+    '["bad_gets_mixed_01.c"]'
+
 echo "========================================"
 echo " Results saved to: $RESULTS"
 echo "========================================"

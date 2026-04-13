@@ -1,0 +1,14 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/preinc/bad_int_preinc_01.c",
+  "line": 13,
+  "col": 5,
+  "varname": "bad_int_preinc",
+  "note": {
+    "line": 13,
+    "col": 5,
+    "message": "increment (++) in bad_int_preinc() -- no upper-bound guard (INT_MAX check)"
+  }
+}

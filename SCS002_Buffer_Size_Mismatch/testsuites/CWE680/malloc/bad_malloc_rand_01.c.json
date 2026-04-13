@@ -1,0 +1,32 @@
+{
+"p-10-10-1ba05a3949ca4b39f63dd837a097284b78018bc2":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS002_Buffer_Size_Mismatch/testsuites/CWE680/malloc/bad_malloc_rand_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"bad_malloc_rand",
+    "type":"int*",
+    "name":"p",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS002_Buffer_Size_Mismatch/testsuites/CWE680/malloc/bad_malloc_rand_01.c:10:10",
+    "dependence":[],
+    "aliases":[],
+    "calls":[{"functionName":"free","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS002_Buffer_Size_Mismatch/testsuites/CWE680/malloc/bad_malloc_rand_01.c:12:5"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS002_Buffer_Size_Mismatch/testsuites/CWE680/malloc/bad_malloc_rand_01.c:11:9","/Users/afiaasante/Security-Code-Smells/SCS002_Buffer_Size_Mismatch/testsuites/CWE680/malloc/bad_malloc_rand_01.c:12:10"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS002_Buffer_Size_Mismatch/testsuites/CWE680/malloc/bad_malloc_rand_01.c:10:10"]
+},
+"data-9-9-1ba05a3949ca4b39f63dd837a097284b78018bc2":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS002_Buffer_Size_Mismatch/testsuites/CWE680/malloc/bad_malloc_rand_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"bad_malloc_rand",
+    "type":"int",
+    "name":"data",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS002_Buffer_Size_Mismatch/testsuites/CWE680/malloc/bad_malloc_rand_01.c:9:9",
+    "dependence":[{"p":"/Users/afiaasante/Security-Code-Smells/SCS002_Buffer_Size_Mismatch/testsuites/CWE680/malloc/bad_malloc_rand_01.c:10:28"}],
+    "aliases":[],
+    "calls":[{"functionName":"malloc","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS002_Buffer_Size_Mismatch/testsuites/CWE680/malloc/bad_malloc_rand_01.c:10:21"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS002_Buffer_Size_Mismatch/testsuites/CWE680/malloc/bad_malloc_rand_01.c:10:28"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS002_Buffer_Size_Mismatch/testsuites/CWE680/malloc/bad_malloc_rand_01.c:9:9"]
+}
+}

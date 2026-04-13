@@ -1,32 +1,32 @@
 {
 "env-14-11-0af9ff7ebcc9acef4339b24556058ef75a58551f":{
-    "file":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/env_format/good_env_format_01.c",
+    "file":"testsuites/CWE134/env_format/good_env_format_01.c",
     "language":"C",
     "namespace":[],
     "class":"",
     "function":"good_env_format_01",
     "type":"char*",
     "name":"env",
-    "initial":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/env_format/good_env_format_01.c:14:11",
+    "initial":"testsuites/CWE134/env_format/good_env_format_01.c:14:11",
     "dependence":[],
     "aliases":[],
-    "calls":[{"functionName":"strncpy","parameter":"2","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/env_format/good_env_format_01.c:16:9"},{"functionName":"strncpy","parameter":"2","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/env_format/good_env_format_01.c:16:9"}],
-    "use":["/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/env_format/good_env_format_01.c:15:9","/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/env_format/good_env_format_01.c:16:23"],
-    "definition":["/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/env_format/good_env_format_01.c:14:11"]
+    "calls":[{"functionName":"strncpy","parameter":"2","definitionPosition":"","invoke":"testsuites/CWE134/env_format/good_env_format_01.c:16:9"},{"functionName":"strncpy","parameter":"2","definitionPosition":"","invoke":"testsuites/CWE134/env_format/good_env_format_01.c:16:9"}],
+    "use":["testsuites/CWE134/env_format/good_env_format_01.c:15:9","testsuites/CWE134/env_format/good_env_format_01.c:16:23"],
+    "definition":["testsuites/CWE134/env_format/good_env_format_01.c:14:11"]
 },
 "data-13-10-0af9ff7ebcc9acef4339b24556058ef75a58551f":{
-    "file":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/env_format/good_env_format_01.c",
+    "file":"testsuites/CWE134/env_format/good_env_format_01.c",
     "language":"C",
     "namespace":[],
     "class":"",
     "function":"good_env_format_01",
     "type":"char[]",
     "name":"data",
-    "initial":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/env_format/good_env_format_01.c:13:10",
+    "initial":"testsuites/CWE134/env_format/good_env_format_01.c:13:10",
     "dependence":[],
     "aliases":[],
-    "calls":[{"functionName":"strncpy","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/env_format/good_env_format_01.c:16:9"},{"functionName":"strncpy","parameter":"3","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/env_format/good_env_format_01.c:16:9"},{"functionName":"strncpy","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/env_format/good_env_format_01.c:16:9"},{"functionName":"strncpy","parameter":"3","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/env_format/good_env_format_01.c:16:9"},{"functionName":"printf","parameter":"2","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/env_format/good_env_format_01.c:18:5"}],
-    "use":["/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/env_format/good_env_format_01.c:16:17","/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/env_format/good_env_format_01.c:16:35","/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/env_format/good_env_format_01.c:18:20"],
-    "definition":["/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/env_format/good_env_format_01.c:13:10"]
+    "calls":[{"functionName":"strncpy","parameter":"1","definitionPosition":"","invoke":"testsuites/CWE134/env_format/good_env_format_01.c:16:9"},{"functionName":"strncpy","parameter":"3","definitionPosition":"","invoke":"testsuites/CWE134/env_format/good_env_format_01.c:16:9"},{"functionName":"strncpy","parameter":"1","definitionPosition":"","invoke":"testsuites/CWE134/env_format/good_env_format_01.c:16:9"},{"functionName":"strncpy","parameter":"3","definitionPosition":"","invoke":"testsuites/CWE134/env_format/good_env_format_01.c:16:9"},{"functionName":"printf","parameter":"2","definitionPosition":"","invoke":"testsuites/CWE134/env_format/good_env_format_01.c:18:5"}],
+    "use":["testsuites/CWE134/env_format/good_env_format_01.c:16:17","testsuites/CWE134/env_format/good_env_format_01.c:16:35","testsuites/CWE134/env_format/good_env_format_01.c:18:20"],
+    "definition":["testsuites/CWE134/env_format/good_env_format_01.c:13:10"]
 }
 }

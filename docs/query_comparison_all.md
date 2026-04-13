@@ -1,7 +1,7 @@
 # Query / Detection Method Comparison — All Security Code Smells
 
 This document consolidates the per-smell query comparison across all three tools:
-**SmellDetect** (srcML + srcQL/Python), **cppcheck**, and **Joern** (CPG Scala queries).
+**SmellDetect** (srcML + srcQL/XPath), **cppcheck**, and **Joern** (CPG Scala queries).
 
 Each smell's full detail is also available in `SCS00X_<Smell>/docs/query_comparison.md`.
 
@@ -9,18 +9,18 @@ Each smell's full detail is also available in `SCS00X_<Smell>/docs/query_compari
 
 ## Summary Table
 
-| SCS | Smell | CWE | SmellDetect query type | cppcheck trigger IDs | Joern query type | Our Recall | cpp Recall | Joern Recall |
-|---|---|---|---|---|---|---|---|---|
-| SCS001 | Dangerous Function Use | 242 | srcQL `CONTAINS gets($DEST)` | `getsCalled` | `cpg.call.name("gets")` | 100% | 100% | 100% |
-| SCS002 | Buffer Size Mismatch | 680 | srcQL `CONTAINS malloc($A * $B)` | `integerOverflow`, `bufferOverflow` | `cpg.call.name("malloc").where(arg is multiply)` | 100% | 0% | 100% |
-| SCS003 | Missing NULL Check | 476 | srcQL (6 detectors) | `nullPointer`, `bitwiseOnBoolean` | CPG null-assign tracking | 100% | 100% | 33% |
-| SCS004 | Use-After-Free Risk | 416 | srcQL (7 detectors, `FOLLOWED BY`) | `deallocuse`, `deallocret` | CPG name-set difference | 100% | 75% | 75% |
-| SCS005 | Memory Leak Pattern | 401 | srcQL + Python block filter | `memleak`, `resourceLeak` | CPG alloc/free set difference | 75% | 75% | 25% |
-| SCS006 | Integer Overflow Risk | 190 | Python regex on srcML operators | `integerOverflow` (not emitted) | CPG arithmetic + MAX guard | 100% | 0% | 100% |
-| SCS007 | Signed/Unsigned Confusion | 195 | Python regex `&gt;` in `<condition>` | `signConversion` (not emitted) | CPG method-level guard filter | 100% | 0% | 100% |
-| SCS008 | Missing Format Specifier | 134 | Python regex arg-position literal check | `formatStringIsVararg` (not emitted) | CPG argument literal check | 100% | 0% | 100% |
-| SCS009 | Command Injection Risk | 78 | Python regex taint-source list | `commandInjection` (not emitted) | CPG non-literal argument check | 60% | 0% | 100% |
-| SCS010 | Hardcoded Sensitive Data | 259 | Python regex credential name + literal | `hardcodedPassword` (not emitted) | CPG name + literal traversal | 100% | 0% | 100% |
+| SCS | Smell | CWE | SmellDetect query type | cppcheck trigger IDs | Joern query type | Our Recall | Our Precision | cpp Recall | Joern Recall | Joern Precision |
+|---|---|---|---|---|---|---|---|---|---|---|
+| SCS001 | Dangerous Function Use | 242 | srcQL `CONTAINS gets($DEST)` | `getsCalled` | `cpg.call.name("gets")` | 100% | 100% | 100% | 100% | 100% |
+| SCS002 | Buffer Size Mismatch | 680 | srcQL `CONTAINS malloc($A * $B)` | `integerOverflow`, `bufferOverflow` | `cpg.call.name("malloc").where(arg is multiply)` | 100% | 100% | 0% | 87.5% | 63.6% |
+| SCS003 | Missing NULL Check | 476 | srcQL (6 detectors) | `nullPointer`, `bitwiseOnBoolean` | CPG null-assign tracking | 100% | 75% | 100% | 33.3% | 100% |
+| SCS004 | Use-After-Free Risk | 416 | srcQL (7 detectors, `FOLLOWED BY`) | `deallocuse`, `deallocret` | CPG name-set difference | 100% | 100% | 75% | 75% | 50% |
+| SCS005 | Memory Leak Pattern | 401 | srcQL + XPath block filter | `memleak`, `resourceLeak` | CPG alloc/free set difference | 75% | 100% | 75% | 25% | 100% |
+| SCS006 | Integer Overflow Risk | 190 | srcQL + XPath `count(MAX-constant in condition)` | `integerOverflow` (not emitted) | CPG arithmetic + MAX guard | 100% | 100% | 0% | 100% | 50% |
+| SCS007 | Signed/Unsigned Confusion | 195 | srcQL + XPath `count(> guard in condition)` | `signConversion` (not emitted) | CPG method-level guard filter | 100% | 100% | 0% | 100% | 100% |
+| SCS008 | Missing Format Specifier | 134 | srcQL scope + XPath literal check + taint count | `formatStringIsVararg` (not emitted) | CPG argument literal check | 100% | 100% | 0% | 100% | 100% |
+| SCS009 | Command Injection Risk | 78 | srcQL scope + XPath literal check + taint count | `commandInjection` (not emitted) | CPG non-literal argument check | 60% | 100% | 0% | 100% | 100% |
+| SCS010 | Hardcoded Sensitive Data | 259 | XPath credential name + literal check | `hardcodedPassword` (not emitted) | CPG name + literal traversal | 100% | 100% | 0% | 60% | 100% |
 
 ---
 
@@ -74,6 +74,7 @@ val hits = cpg.call.name("malloc")
   .l
 val detected = hits.nonEmpty
 ```
+87.5% recall, 63.6% precision — 4 FP from precomputed-size patterns where multiplication happens before the `malloc` call.
 
 ---
 
@@ -91,6 +92,8 @@ val detected = hits.nonEmpty
 | detect_interprocedural | `FIND $RT $FNAME($PT * $PTR) {} CONTAINS $PTR->$FIELD WHERE NOT (...) UNION ... DIFFERENCE ...` |
 | detect_missing_guard | Parameterised helper |
 | detect_null_deref | Parameterised helper |
+
+100% recall, 75% precision — 1 FP from an edge-case bitwise pattern.
 
 ### cppcheck
 ```bash
@@ -113,6 +116,7 @@ val bitwiseHits = cpg.call.name("<operator>.and")
 
 val detected = derefHits.nonEmpty || bitwiseHits.nonEmpty
 ```
+33.3% recall — misses missing-guard and interprocedural patterns that require flow reasoning.
 
 ---
 
@@ -146,7 +150,7 @@ val hits = cpg.identifier.filter(i => freedVars.contains(i.name))
   .inCall.nameNot("free", "delete", "<operator>.delete").l
 val detected = hits.nonEmpty
 ```
-Name-based approximation — produces 3 FP on test suite due to scope reuse.
+75% recall, 50% precision — 3 FP from name reuse across scopes.
 
 ---
 
@@ -156,11 +160,13 @@ Name-based approximation — produces 3 FP on test suite due to scope reuse.
 
 ### SmellDetect — 3 detectors
 
-| Detector | srcQL Query | Python Post-filter |
+| Detector | srcQL Query | XPath Post-filter |
 |---|---|---|
 | detect_no_free_on_exit | `FIND $T $FUNC() {} CONTAINS malloc($SIZE)` | Check block for `<name>free</name>` |
 | detect_new_no_delete | `FIND $T $FUNC() {} CONTAINS new $TYPE()` | Check block for `delete` element |
 | detect_overwrite_leak | `FIND $T $FUNC() {} CONTAINS malloc($A) FOLLOWED BY malloc($B)` | Check for `free` between the two mallocs |
+
+75% recall — 1 FN from an early-return path where free is conditional.
 
 ### cppcheck
 ```bash
@@ -176,7 +182,7 @@ val freedVars = cpg.call.name("free").argument(1).isIdentifier.name.toSet
 val leaked = mallocVars.diff(freedVars)
 val detected = leaked.nonEmpty
 ```
-Set difference — misses early-return paths and wrapper-freed pointers.
+25% recall — set difference misses early-return paths and wrapper-freed pointers.
 
 ---
 
@@ -184,15 +190,15 @@ Set difference — misses early-return paths and wrapper-freed pointers.
 
 **Operations:** `+`, `*`, `++`
 
-### SmellDetect — 3 detectors (Python regex, no srcQL)
+### SmellDetect — 3 detectors (srcQL + XPath, no Python)
 
-| Detector | Sink Pattern | Guard Pattern |
+| Detector | Sink (srcQL) | Guard (XPath) |
 |---|---|---|
-| detect_unchecked_add | `<operator … >\s*\+\s*</operator>` | `<name>INT_MAX\|CHAR_MAX\|…</name>` in `<condition>` |
-| detect_unchecked_multiply | `<operator … >\s*\*\s*</operator>` | Same |
-| detect_unchecked_increment | `<operator … >\s*\+\+\s*</operator>` | Same |
+| detect_unchecked_multiply | `FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B` | `count(<condition>[<name>=INT_MAX/CHAR_MAX/…])` = 0 |
+| detect_unchecked_add | `FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B` | Same |
+| detect_unchecked_increment | XPath only: `//*[local-name()='operator'][.='++'][ancestor::function[not(condition/name=MAX)]]` | No srcQL — standalone `++` not matchable |
 
-srcQL not used — it does not reliably match binary arithmetic operator patterns.
+Destructor/constructor blocks use an `ancestor::` XPath fallback since srcQL requires a return type.
 
 ### cppcheck
 ```bash
@@ -214,7 +220,7 @@ val guardedMethods = cpg.call
 val hits = arithOps.filter(c => !guardedMethods.contains(c.method.name)).l
 val detected = hits.nonEmpty
 ```
-100% recall but 11 FP (50% precision) — over-broad guard check.
+100% recall, 50% precision — over-broad guard check produces 11 FP (flags all arithmetic in functions that happen to contain a MAX comparison, even if unrelated).
 
 ---
 
@@ -222,16 +228,15 @@ val detected = hits.nonEmpty
 
 **Sinks:** `malloc`, `memcpy`, `memmove`, `strncpy`
 
-### SmellDetect — 3 detectors (Python regex)
+### SmellDetect — 3 detectors (srcQL + XPath, no Python)
 
-All three share the same guard logic:
-```python
-POSITIVE_GUARD = re.compile(r'&gt;', re.DOTALL)
-conditions = re.findall(r'<condition\b[^>]*>.*?</condition>', block, re.DOTALL)
-if any(POSITIVE_GUARD.search(c) for c in conditions):
-    continue   # guard present
-```
-Sink patterns match `malloc`, `memcpy|memmove`, and `strncpy` respectively.
+| Detector | Sink (srcQL) | Guard (XPath) |
+|---|---|---|
+| detect_signed_malloc | `FIND $T $FUNC($PARAMS) {} CONTAINS malloc($A)` | `count(<condition>[<operator>=>])` = 0 |
+| detect_signed_memcpy | `FIND $T $FUNC($PARAMS) {} CONTAINS memcpy($A,$B,$C)` (and memmove) | Same `>` guard |
+| detect_signed_strncpy | `FIND $T $FUNC($PARAMS) {} CONTAINS strncpy($A,$B,$C)` | Same `>` guard |
+
+Destructor/constructor blocks use an `ancestor::` XPath fallback.
 
 ### cppcheck
 ```bash
@@ -250,6 +255,7 @@ val hits = cpg.call.nameExact("malloc", "memcpy", "memmove", "strncpy")
   .filter(c => !guardedMethods.contains(c.method.name)).l
 val detected = hits.nonEmpty
 ```
+100% recall, 100% precision on the test suite.
 
 ---
 
@@ -257,15 +263,28 @@ val detected = hits.nonEmpty
 
 **Sinks:** `printf`, `vprintf`, `fprintf`, `vfprintf`, `syslog`
 
-### SmellDetect — 3 detectors (Python regex, argument-position check)
+### SmellDetect — 3 detectors (srcQL + XPath + taint co-occurrence, no Python)
 
-```python
-# printf/vprintf: format = args[0]
-# fprintf/vfprintf/syslog: format = args[1]
-LITERAL_PAT = re.compile(r'<literal\b')
-ARG_SPLIT   = re.compile(r'<argument\b[^>]*>(.*?)</argument>', re.DOTALL)
-# If format argument contains no <literal> element → finding
+All three share the same two-stage structure:
+
+**Stage 1 — srcQL (function scope):**
 ```
+FIND $T $FUNC($PARAMS) {} CONTAINS printf($FMT)   # or fprintf / syslog
+```
+
+**Stage 1 guard — XPath on srcQL result:**
+```xpath
+-- Part 1: format arg is non-literal (printf: arg 1; fprintf/syslog: arg 2) --
+//*[local-name()='call'][*[local-name()='name'][.='printf' or .='vprintf']]
+  [*[local-name()='argument_list']/*[local-name()='argument'][1]
+    [not(.//*[local-name()='literal'])]]
+
+-- Part 2: taint source present in same function --
+count(//*[local-name()='call'][*[local-name()='name']
+  [.='fgets' or .='getenv' or .='scanf' or .='fscanf']])
+```
+
+**Stage 2 — XPath fallback for `<destructor>`/`<constructor>`:** uses `ancestor::` predicate with the same taint source co-occurrence check.
 
 ### cppcheck
 ```bash
@@ -284,7 +303,7 @@ val fprintfBad = cpg.call.nameExact("fprintf", "vfprintf", "syslog")
   .filter(c => !c.argument.order(2).exists(_.isLiteral))
 val detected = (printfBad.l ++ fprintfBad.l).nonEmpty
 ```
-Semantically identical to SmellDetect — same argument-position strategy, different representation.
+Semantically identical to SmellDetect's literal check — same argument-position strategy. No taint co-occurrence requirement, so it also catches cross-block and cross-file cases. 100% recall, 100% precision on test suite.
 
 ---
 
@@ -292,17 +311,30 @@ Semantically identical to SmellDetect — same argument-position strategy, diffe
 
 **Sinks:** `system`, `popen`, `execl`, `execlp`
 
-### SmellDetect — 3 detectors (Python regex, taint-source list)
+### SmellDetect — 3 detectors (srcQL + XPath + taint co-occurrence, no Python)
 
-```python
-INPUT_SOURCE = re.compile(r'<name[^>]*>\s*(?:fgets|getenv)\s*</name>')
-LITERAL_PAT  = re.compile(r'<literal\b')
-# Argument contains INPUT_SOURCE → tainted → finding
-# Argument contains LITERAL_PAT  → safe → skip
-# Neither → unknown → no finding (conservative)
+All three share the same two-stage structure as SCS008:
+
+**Stage 1 — srcQL (function scope):**
+```
+FIND $T $FUNC($PARAMS) {} CONTAINS system($CMD)   # or popen / execl / execlp
 ```
 
-Taint sources covered: `fgets`, `getenv`. Missing: `scanf`, `argv`, `getline` → 2 FN.
+**Stage 1 guard — XPath on srcQL result:**
+```xpath
+-- Part 1: command arg is non-literal --
+//*[local-name()='call'][*[local-name()='name'][.='system']]
+  [*[local-name()='argument_list']/*[local-name()='argument'][1]
+    [not(.//*[local-name()='literal'])]]
+
+-- Part 2: taint source present in same function --
+count(//*[local-name()='call'][*[local-name()='name']
+  [.='fgets' or .='getenv']])
+```
+
+**Stage 2 — XPath fallback for `<destructor>`/`<constructor>`:** same `ancestor::` structure.
+
+60% recall — 2 FN: interprocedural sink file (no taint source visible) and C++ class cross-block (fgets in constructor, system in destructor).
 
 ### cppcheck
 ```bash
@@ -319,7 +351,7 @@ val execlBad = cpg.call.nameExact("execl", "execlp")
   .filter(c => !c.argument.order(1).exists(_.isLiteral))
 val detected = (systemPopenBad.l ++ execlBad.l).nonEmpty
 ```
-Non-literal = tainted (aggressive). Higher recall, potential false positives on safe computed strings.
+No taint co-occurrence requirement — any non-literal first argument is flagged. 100% recall, 100% precision on test suite (catches the 2 cases SmellDetect misses: interprocedural sink and C++ class cross-block).
 
 ---
 
@@ -327,19 +359,24 @@ Non-literal = tainted (aggressive). Higher recall, potential false positives on 
 
 **Patterns:** `#define` credential macros, variable string literals, `strcmp`/`strncmp`
 
-### SmellDetect — 3 detectors (Python regex, credential name list)
+### SmellDetect — 3 detectors (pure XPath, no Python, no srcQL)
 
-```python
-CRED_NAME = re.compile(
-    r'(?i)(?:password|passwd|pwd|secret|api.?key|token|credential|passphrase|private.?key)'
-)
+XPath `translate()` provides case-insensitive keyword matching without Python regex.
+
+| Detector | XPath Pattern |
+|---|---|
+| detect_define_credential | `<define>[macro/name contains cred keyword][value starts-with '"']` |
+| detect_password_literal | `<decl>[name contains cred keyword][init has string literal, no call]` + `strcpy` fallback |
+| detect_strcmp_hardcoded | `<call>[strcmp/strncmp][any argument has string literal]` |
+
+```xpath
+-- Credential keyword check (case-insensitive via translate()) --
+contains(translate(*[local-name()='name'],
+  'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),
+  'password') or contains(...,'passwd') or ...
 ```
 
-| Detector | What it matches |
-|---|---|
-| detect_define_credential | `#define <CRED_NAME> "..."` |
-| detect_password_literal | `char <cred_name>[] = "..."` or similar |
-| detect_strcmp_hardcoded | `strcmp(x, "literal")` or `strcmp("literal", x)` |
+100% recall, 100% precision on test suite.
 
 ### cppcheck
 ```bash
@@ -360,7 +397,7 @@ val strcmpHard = cpg.call.nameExact("strcmp", "strncmp")
   .filter(c => c.argument.isLiteral.nonEmpty)
 val detected = (varLiteral.l ++ strcmpHard.l).nonEmpty
 ```
-Same credential name list as SmellDetect. Strategy is equivalent across both tools.
+60% recall, 100% precision — 2 FN: `#define` macros (expanded before CPG build, so the `<define>` node doesn't exist in the CPG) and C++ class member assignment (not captured by the local variable traversal). SmellDetect's XPath `<define>` check directly queries the pre-preprocessed srcML representation, giving it an advantage here.
 
 ---
 
@@ -370,19 +407,25 @@ Same credential name list as SmellDetect. Strategy is equivalent across both too
 cppcheck achieves 0% recall on SCS006–SCS010. This is not a detection failure — these smell categories have no matching built-in checker in the tested version. The tool is capable on SCS001–SCS005 where appropriate checkers exist.
 
 ### 2. Query strategy alignment
-SmellDetect and Joern independently arrive at structurally identical strategies for SCS007, SCS008, SCS009, and SCS010 — the same argument-position and guard-condition logic, expressed as XML regex vs. CPG traversal.
+SmellDetect and Joern independently arrive at structurally identical strategies for SCS007, SCS008, SCS009, and SCS010 — the same argument-position and guard-condition logic, expressed as XPath predicates vs. CPG traversal. The differences in recall trace to taint co-occurrence requirements (SCS008/SCS009) and representation gaps (SCS010 `#define` nodes).
 
-### 3. srcQL vs. Python regex
-srcQL is used for SCS001–SCS005 where the smell is structural (call sequences, containment). Python regex is used for SCS006–SCS010 where the smell requires element-attribute inspection (operator text, argument types) that srcQL cannot reliably match.
+### 3. srcQL vs. XPath split
+srcQL is used for SCS001–SCS009 where the smell is structural (call sequences, containment, function scope). srcQL **cannot** be used for SCS010 for two structural reasons: (1) `#define` macro declarations exist outside any function body, so the `FIND $T $FUNC() {} CONTAINS ...` form has nothing to match against; (2) credential keyword detection requires case-insensitive substring matching (`translate()`) which srcQL's pattern syntax does not support. Pure XPath is the only viable mechanism for SCS010. All detectors are Python-free.
 
-### 4. Joern false positives
+### 4. Taint co-occurrence: precision vs. recall trade-off
+SCS008 and SCS009 require a taint source (`fgets`, `getenv`, `scanf`, `fscanf`) to be present in the same function block as the sink. This improves precision (fewer false positives on safe computed strings) at the cost of recall on cross-block and cross-file taint flows. Joern applies no taint co-occurrence check and achieves higher recall on those patterns.
+
+### 5. SCS010: SmellDetect outperforms Joern
+SCS010 is the only smell where SmellDetect (100% recall) outperforms Joern (60% recall). Joern's CPG operates on post-preprocessed code — `#define` macros are expanded and lost. SmellDetect's srcML XML preserves the `<define>` element, making the macro credential pattern directly queryable.
+
+### 6. Joern false positives
 Joern's name-based set tracking (SCS004, SCS005) and over-broad guard checks (SCS006) produce false positives absent from SmellDetect. SmellDetect's structural guard scoping (per function block, per `<condition>` element) is more conservative.
 
-### 5. Performance
+### 7. Performance
 | Tool | Avg wall time | Avg peak RSS |
 |---|---|---|
 | SmellDetect | ~0.30s | ~15 MB |
 | cppcheck | ~0.01s | ~8 MB |
-| Joern | ~3.70s | ~420 MB |
+| Joern | ~3.60s | ~420 MB |
 
-Joern's JVM startup and CPG construction dominate its runtime. SmellDetect is competitive on accuracy at 1/12 of Joern's resource cost.
+Joern's JVM startup and CPG construction dominate its runtime. SmellDetect achieves competitive accuracy at ~1/12 of Joern's resource cost.

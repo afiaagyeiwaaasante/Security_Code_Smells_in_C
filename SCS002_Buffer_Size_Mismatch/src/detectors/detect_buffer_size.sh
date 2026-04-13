@@ -87,6 +87,40 @@ if [ -z "$CALL_LINE" ]; then
 fi
 
 # -----------------------------------------------------------------------
+# Guard filter: suppress if a SIZE_MAX overflow check precedes the malloc call
+# -----------------------------------------------------------------------
+echo "--- checking for SIZE_MAX guard ---"
+
+GUARDED=$(python3 << PYEOF
+import sys
+
+call_ln = int("$CALL_LINE")
+
+try:
+    with open("$SRC") as f:
+        lines = f.readlines()
+except Exception:
+    print("UNGUARDED")
+    sys.exit(0)
+
+import re
+guard_pat = re.compile(r'\bif\b.*SIZE_MAX')
+for line in lines[:call_ln]:
+    if guard_pat.search(line):
+        print("GUARDED")
+        sys.exit(0)
+
+print("UNGUARDED")
+PYEOF
+)
+
+if [ "$GUARDED" = "GUARDED" ]; then
+    echo "    SIZE_MAX guard found before line $CALL_LINE — suppressing finding (not a smell)"
+    echo "[ buffer_size_mismatch ] 0 finding(s) written to $FINDINGS"
+    exit 0
+fi
+
+# -----------------------------------------------------------------------
 # Emit finding
 # -----------------------------------------------------------------------
 echo "--- building findings ---"

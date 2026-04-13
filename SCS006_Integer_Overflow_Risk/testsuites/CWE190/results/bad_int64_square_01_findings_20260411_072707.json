@@ -1,0 +1,14 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/square/bad_int64_square_01.c",
+  "line": 14,
+  "col": 27,
+  "varname": "bad_int64_square",
+  "note": {
+    "line": 14,
+    "col": 27,
+    "message": "multiplication in bad_int64_square() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}

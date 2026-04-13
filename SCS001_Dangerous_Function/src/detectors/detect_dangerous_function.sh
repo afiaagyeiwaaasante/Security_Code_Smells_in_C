@@ -6,7 +6,7 @@
 #           Currently covers: gets()
 #           gets() has no safe usage — always replaced by fgets() with an
 #           explicit size limit.
-# Severity: warning [dangerousFunction]
+# Severity: error [dangerousFunction]
 #
 # Strategy:
 #   srcQL query: FIND $T $FUNC($PARAMS) {} CONTAINS gets($DEST)
@@ -96,7 +96,7 @@ while IFS=: read -r CALL_LINE CALL_COL VARNAME; do
     write_finding \
         --findings  "$FINDINGS" \
         --detector  "dangerous_function" \
-        --severity  "warning" \
+        --severity  "error" \
         --rule      "dangerousFunction" \
         --file      "$FILENAME" \
         --line      "$CALL_LINE" \

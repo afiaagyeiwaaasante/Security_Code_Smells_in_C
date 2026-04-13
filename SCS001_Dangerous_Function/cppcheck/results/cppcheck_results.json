@@ -1,3 +1,6 @@
-{"test":"bad_gets_01","files":["bad_gets_01.c"],"detected":true,"wall_time_s":0.01,"peak_rss_kb":8128}
-{"test":"good_gets_01","files":["good_gets_01.c"],"detected":false,"wall_time_s":0.00,"peak_rss_kb":8112}
-{"test":"bad_gets_interprocedural_62","files":["bad_gets_interprocedural_62a.c","bad_gets_interprocedural_62b.c"],"detected":true,"wall_time_s":0.00,"peak_rss_kb":8176}
+{"test":"bad_gets_01","files":["bad_gets_01.c"],"detected":true,"wall_time_s":0.01,"peak_rss_kb":8112}
+{"test":"good_gets_01","files":["good_gets_01.c"],"detected":false,"wall_time_s":0.00,"peak_rss_kb":8080}
+{"test":"bad_gets_interprocedural_62","files":["bad_gets_interprocedural_62a.c","bad_gets_interprocedural_62b.c"],"detected":true,"wall_time_s":0.00,"peak_rss_kb":8144}
+{"test":"bad_gets_multi_01","files":["bad_gets_multi_01.c"],"detected":true,"wall_time_s":0.00,"peak_rss_kb":8176}
+{"test":"bad_gets_multi_02","files":["bad_gets_multi_02.c"],"detected":true,"wall_time_s":0.00,"peak_rss_kb":8112}
+{"test":"bad_gets_mixed_01","files":["bad_gets_mixed_01.c"],"detected":true,"wall_time_s":0.00,"peak_rss_kb":8112}

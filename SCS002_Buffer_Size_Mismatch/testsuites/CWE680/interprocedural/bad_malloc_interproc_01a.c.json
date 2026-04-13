@@ -1,0 +1,32 @@
+{
+"p-14-10-865c911a34e12796685eec2b0fe06d0354bd7f2c":{
+    "file":"testsuites/CWE680/interprocedural/bad_malloc_interproc_01a.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"bad_malloc_interproc",
+    "type":"int*",
+    "name":"p",
+    "initial":"testsuites/CWE680/interprocedural/bad_malloc_interproc_01a.c:14:10",
+    "dependence":[],
+    "aliases":[],
+    "calls":[{"functionName":"free","parameter":"1","definitionPosition":"","invoke":"testsuites/CWE680/interprocedural/bad_malloc_interproc_01a.c:16:5"}],
+    "use":["testsuites/CWE680/interprocedural/bad_malloc_interproc_01a.c:15:9","testsuites/CWE680/interprocedural/bad_malloc_interproc_01a.c:16:10"],
+    "definition":["testsuites/CWE680/interprocedural/bad_malloc_interproc_01a.c:14:10"]
+},
+"data-13-9-865c911a34e12796685eec2b0fe06d0354bd7f2c":{
+    "file":"testsuites/CWE680/interprocedural/bad_malloc_interproc_01a.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"bad_malloc_interproc",
+    "type":"int",
+    "name":"data",
+    "initial":"testsuites/CWE680/interprocedural/bad_malloc_interproc_01a.c:13:9",
+    "dependence":[{"p":"testsuites/CWE680/interprocedural/bad_malloc_interproc_01a.c:14:28"}],
+    "aliases":[],
+    "calls":[{"functionName":"malloc","parameter":"1","definitionPosition":"","invoke":"testsuites/CWE680/interprocedural/bad_malloc_interproc_01a.c:14:21"}],
+    "use":["testsuites/CWE680/interprocedural/bad_malloc_interproc_01a.c:14:28"],
+    "definition":["testsuites/CWE680/interprocedural/bad_malloc_interproc_01a.c:13:9"]
+}
+}

@@ -1,32 +1,32 @@
 {
 "buf-22-10-5a33660524c7a11a6cb32e515bdba6097245d74c":{
-    "file":"/Users/afiaasante/Security-Code-Smells/SCS010_Hardcoded_Sensitive_Data/testsuites/CWE259/define_const/good_define_const_01.c",
+    "file":"testsuites/CWE259/define_const/good_define_const_01.c",
     "language":"C",
     "namespace":[],
     "class":"",
     "function":"main",
     "type":"char[]",
     "name":"buf",
-    "initial":"/Users/afiaasante/Security-Code-Smells/SCS010_Hardcoded_Sensitive_Data/testsuites/CWE259/define_const/good_define_const_01.c:22:10",
+    "initial":"testsuites/CWE259/define_const/good_define_const_01.c:22:10",
     "dependence":[],
     "aliases":[],
-    "calls":[{"functionName":"fgets","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS010_Hardcoded_Sensitive_Data/testsuites/CWE259/define_const/good_define_const_01.c:23:9"},{"functionName":"fgets","parameter":"2","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS010_Hardcoded_Sensitive_Data/testsuites/CWE259/define_const/good_define_const_01.c:23:9"},{"functionName":"strcspn","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS010_Hardcoded_Sensitive_Data/testsuites/CWE259/define_const/good_define_const_01.c:25:9"},{"functionName":"strcmp","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS010_Hardcoded_Sensitive_Data/testsuites/CWE259/define_const/good_define_const_01.c:27:9"}],
-    "use":["/Users/afiaasante/Security-Code-Smells/SCS010_Hardcoded_Sensitive_Data/testsuites/CWE259/define_const/good_define_const_01.c:23:15","/Users/afiaasante/Security-Code-Smells/SCS010_Hardcoded_Sensitive_Data/testsuites/CWE259/define_const/good_define_const_01.c:23:27","/Users/afiaasante/Security-Code-Smells/SCS010_Hardcoded_Sensitive_Data/testsuites/CWE259/define_const/good_define_const_01.c:25:17","/Users/afiaasante/Security-Code-Smells/SCS010_Hardcoded_Sensitive_Data/testsuites/CWE259/define_const/good_define_const_01.c:27:16"],
-    "definition":["/Users/afiaasante/Security-Code-Smells/SCS010_Hardcoded_Sensitive_Data/testsuites/CWE259/define_const/good_define_const_01.c:22:10","/Users/afiaasante/Security-Code-Smells/SCS010_Hardcoded_Sensitive_Data/testsuites/CWE259/define_const/good_define_const_01.c:25:5"]
+    "calls":[{"functionName":"fgets","parameter":"1","definitionPosition":"","invoke":"testsuites/CWE259/define_const/good_define_const_01.c:23:9"},{"functionName":"fgets","parameter":"2","definitionPosition":"","invoke":"testsuites/CWE259/define_const/good_define_const_01.c:23:9"},{"functionName":"strcspn","parameter":"1","definitionPosition":"","invoke":"testsuites/CWE259/define_const/good_define_const_01.c:25:9"},{"functionName":"strcmp","parameter":"1","definitionPosition":"","invoke":"testsuites/CWE259/define_const/good_define_const_01.c:27:9"}],
+    "use":["testsuites/CWE259/define_const/good_define_const_01.c:23:15","testsuites/CWE259/define_const/good_define_const_01.c:23:27","testsuites/CWE259/define_const/good_define_const_01.c:25:17","testsuites/CWE259/define_const/good_define_const_01.c:27:16"],
+    "definition":["testsuites/CWE259/define_const/good_define_const_01.c:22:10","testsuites/CWE259/define_const/good_define_const_01.c:25:5"]
 },
 "expected-16-17-5a33660524c7a11a6cb32e515bdba6097245d74c":{
-    "file":"/Users/afiaasante/Security-Code-Smells/SCS010_Hardcoded_Sensitive_Data/testsuites/CWE259/define_const/good_define_const_01.c",
+    "file":"testsuites/CWE259/define_const/good_define_const_01.c",
     "language":"C",
     "namespace":[],
     "class":"",
     "function":"main",
     "type":"char*",
     "name":"expected",
-    "initial":"/Users/afiaasante/Security-Code-Smells/SCS010_Hardcoded_Sensitive_Data/testsuites/CWE259/define_const/good_define_const_01.c:16:17",
+    "initial":"testsuites/CWE259/define_const/good_define_const_01.c:16:17",
     "dependence":[],
     "aliases":[],
-    "calls":[{"functionName":"strcmp","parameter":"2","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS010_Hardcoded_Sensitive_Data/testsuites/CWE259/define_const/good_define_const_01.c:27:9"}],
-    "use":["/Users/afiaasante/Security-Code-Smells/SCS010_Hardcoded_Sensitive_Data/testsuites/CWE259/define_const/good_define_const_01.c:17:9","/Users/afiaasante/Security-Code-Smells/SCS010_Hardcoded_Sensitive_Data/testsuites/CWE259/define_const/good_define_const_01.c:27:21"],
-    "definition":["/Users/afiaasante/Security-Code-Smells/SCS010_Hardcoded_Sensitive_Data/testsuites/CWE259/define_const/good_define_const_01.c:16:17"]
+    "calls":[{"functionName":"strcmp","parameter":"2","definitionPosition":"","invoke":"testsuites/CWE259/define_const/good_define_const_01.c:27:9"}],
+    "use":["testsuites/CWE259/define_const/good_define_const_01.c:17:9","testsuites/CWE259/define_const/good_define_const_01.c:27:21"],
+    "definition":["testsuites/CWE259/define_const/good_define_const_01.c:16:17"]
 }
 }

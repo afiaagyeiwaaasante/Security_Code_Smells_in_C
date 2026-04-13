@@ -1,0 +1,109 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/cpp_virtual_ref/bad_int_multiply_81.cpp
+ Report  : /Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/results/bad_int_multiply_81_report_20260411_063207.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/results/bad_int_multiply_81_findings_20260411_063207.json
+ Date    : Sat Apr 11 06:32:07 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.005s
+user	0m0.003s
+sys	0m0.002s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/cpp_virtual_ref/bad_int_multiply_81.cpp.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/cpp_virtual_ref/bad_int_multiply_81.cpp.json
+
+real	0m0.172s
+user	0m0.009s
+sys	0m0.002s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.008s
+user	0m0.006s
+sys	0m0.002s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/cpp_virtual_ref/bad_int_multiply_81.cpp.xml
+    output : /tmp/cwe190_findings_tn6IXr
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks scanned via Python fallback
+
+
+real	0m0.006s
+user	0m0.003s
+sys	0m0.002s
+
+--- post-filter: checking for absent MAX guard in <condition> ---
+    finding: /Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/cpp_virtual_ref/bad_int_multiply_81.cpp:19:31 — action() multiplies without MAX guard
+    finding: /Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/cpp_virtual_ref/bad_int_multiply_81.cpp:19:31 — ~MultiplyBase() multiplies without MAX guard
+[ unchecked_multiply ] 2 finding(s) written to /tmp/cwe190_findings_tn6IXr
+
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/cpp_virtual_ref/bad_int_multiply_81.cpp.xml
+    output : /tmp/cwe190_findings_tn6IXr
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks scanned via Python fallback
+
+
+real	0m0.005s
+user	0m0.003s
+sys	0m0.002s
+
+--- post-filter: checking for absent MAX guard in <condition> ---
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_tn6IXr
+
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/cpp_virtual_ref/bad_int_multiply_81.cpp.xml
+    output : /tmp/cwe190_findings_tn6IXr
+
+    strategy : XPath — <operator>++</operator> inside function blocks
+--- post-filter: extracting ++ usages, checking for absent MAX guard ---
+[ unchecked_increment ] 0 finding(s) written to /tmp/cwe190_findings_tn6IXr
+
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/cpp_virtual_ref/bad_int_multiply_81.cpp",
+  "line": 19,
+  "col": 31,
+  "varname": "action",
+  "note": {
+    "line": 19,
+    "col": 31,
+    "message": "multiplication in action() \u2014 no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/cpp_virtual_ref/bad_int_multiply_81.cpp",
+  "line": 19,
+  "col": 31,
+  "varname": "~MultiplyBase",
+  "note": {
+    "line": 19,
+    "col": 31,
+    "message": "multiplication in ~MultiplyBase() \u2014 no upper-bound guard (INT_MAX / 2)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_multiply        2
+========================================

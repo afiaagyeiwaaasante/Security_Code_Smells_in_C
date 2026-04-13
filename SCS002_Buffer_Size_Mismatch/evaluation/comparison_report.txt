@@ -2,22 +2,39 @@
 ==============================================================================================================================
   SCS002 CWE-680  Tool Comparison: SmellDetect vs cppcheck vs Joern
 ==============================================================================================================================
-                                     |    Time  Peak RSS   Det |    Time  Peak RSS   Det |    Time  Peak RSS   Det
-Test Case                            |      --- SmellDetect ---       |      --- cppcheck ---       |        --- Joern ---       
+                                     |    Time  Mem Used  Detect |    Time  Mem Used  Detect |    Time  Mem Used  Detect
+Test Case                            |     --- SmellDetect ---     |      --- cppcheck ---       |        --- Joern ---       
 ------------------------------------------------------------------------------------------------------------------------------
-bad_malloc_01                        |  0.120s   14.7 MB   YES |  0.000s    8.0 MB    NO |  4.220s  431.2 MB   YES
-good_malloc_01                       |  0.050s   14.7 MB    NO |  0.000s    7.9 MB    NO |  3.710s  421.7 MB    NO
+bad_malloc_01                        |  0.330s   14.7 MB   FOUND |  0.000s    7.9 MB  MISSED |  4.580s  414.8 MB   FOUND
+good_malloc_01                       |  0.250s   14.7 MB  MISSED |  0.000s    8.0 MB  MISSED |  3.550s  451.6 MB  MISSED
+good_malloc_01_guarded               |  0.280s   14.6 MB  MISSED |  0.000s    7.9 MB  MISSED |  3.630s  415.4 MB   FOUND
+bad_malloc_fixed_01                  |  0.280s   14.7 MB   FOUND |  0.000s    8.0 MB  MISSED |  3.690s  469.7 MB   FOUND
+good_malloc_fixed_01                 |  0.290s   14.7 MB  MISSED |  0.000s    7.9 MB  MISSED |  3.610s  380.8 MB  MISSED
+good_malloc_fixed_01_guarded         |  0.280s   14.7 MB  MISSED |  0.000s    8.0 MB  MISSED |  3.510s  419.3 MB   FOUND
+bad_malloc_fgets_01                  |  0.290s   14.6 MB   FOUND |  0.000s    8.0 MB  MISSED |  3.630s  395.4 MB   FOUND
+good_malloc_fgets_01                 |  0.260s   14.6 MB  MISSED |  0.000s    8.0 MB  MISSED |  3.540s  419.2 MB  MISSED
+good_malloc_fgets_01_guarded         |  0.280s   14.7 MB  MISSED |  0.000s    8.0 MB  MISSED |  3.580s  456.5 MB   FOUND
+bad_malloc_rand_01                   |  0.290s   14.7 MB   FOUND |  0.000s    8.0 MB  MISSED |  3.720s  436.3 MB   FOUND
+good_malloc_rand_01                  |  0.250s   14.7 MB  MISSED |  0.000s    8.0 MB  MISSED |  3.640s  432.1 MB  MISSED
+good_malloc_rand_01_guarded          |  0.290s   14.6 MB  MISSED |  0.000s    8.0 MB  MISSED |  3.690s  469.8 MB   FOUND
+bad_malloc_precomputed_01            |  0.300s   14.6 MB   FOUND |  0.000s    8.0 MB  MISSED |  4.130s  415.4 MB  MISSED
+good_malloc_precomputed_01           |  0.290s   14.6 MB  MISSED |  0.000s    7.9 MB  MISSED |  3.590s  421.2 MB  MISSED
+bad_malloc_return_01                 |  0.300s   14.7 MB   FOUND |  0.000s    7.9 MB  MISSED |  3.620s  432.8 MB   FOUND
+good_malloc_interproc_01             |  0.260s   14.7 MB  MISSED |  0.000s    7.9 MB  MISSED |  3.670s  464.8 MB  MISSED
+bad_malloc_interproc_01              |  0.100s   14.7 MB   FOUND |  0.000s    8.0 MB  MISSED |  3.660s  426.1 MB   FOUND
+bad_malloc_struct_01                 |  0.280s   14.7 MB   FOUND |  0.000s    7.9 MB  MISSED |  3.670s  380.5 MB   FOUND
+good_malloc_struct_01                |  0.250s   14.6 MB  MISSED |  0.000s    7.9 MB  MISSED |  3.690s  430.9 MB  MISSED
 ------------------------------------------------------------------------------------------------------------------------------
 
-  Detections    : SmellDetect 1/2   cppcheck 0/2   Joern 1/2
-  Avg peak RSS  : SmellDetect 14.7 MB   cppcheck 8.0 MB   Joern 426.4 MB
+  Detected       : SmellDetect detected 8/19   cppcheck 0/19   Joern 11/19
+  Avg Memory Used  : SmellDetect 14.7 MB   cppcheck 8.0 MB   Joern 428.0 MB
 
-                                     SmellDetect       cppcheck          Joern
-  True Positives  (TP)                      1              0              1
-  True Negatives  (TN)                      1              1              1
-  False Positives (FP)                      0              0              0
-  False Negatives (FN)                      0              1              0
-  Precision  TP/(TP+FP)                100.0%            N/A         100.0%
-  Recall     TP/(TP+FN)                100.0%           0.0%         100.0%
+                                  SmellDetect       cppcheck          Joern
+  True Positives  (TP)                      8              0              7
+  True Negatives  (TN)                     11             11              7
+  False Positives (FP)                      0              0              4
+  False Negatives (FN)                      0              8              1
+  Precision  TP/(TP+FP)                100.0%            N/A          63.6%
+  Recall     TP/(TP+FN)                100.0%           0.0%          87.5%
 
 ==============================================================================================================================
