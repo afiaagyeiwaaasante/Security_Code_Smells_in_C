@@ -12,24 +12,48 @@ string. An attacker who controls the format string can inject format directives
 
 **Severity:** `warning [SCS008-PRINTF | SCS008-FPRINTF | SCS008-SYSLOG]`
 
-## Why This Is a Vulnerability
+## Vulnerability vs. Smell Classification
 
-`printf(user_input)` is exploitable as written — when the format string is attacker-controlled, the `%n` specifier enables arbitrary memory writes and `%s`/`%x` leak stack contents. The taint co-occurrence check (fgets/getenv in the same function) confirms a user-controlled value reaches the format position. `cppcheck` flags this as `warning [formatString]` (some configurations raise it to `error`). Maps to CWE-134.
+SCS008 findings are classified at detection time based on whether a taint source
+(`fgets`, `getenv`, `scanf`, `fscanf`) appears in the same function scope as the
+unguarded format call.
+
+| Condition                                   | Severity  | Classification  |
+|---------------------------------------------|-----------|-----------------|
+| Taint source present in scope               | `error`   | `vulnerability` |
+| No taint source (interprocedural / unknown) | `warning` | `smell`         |
+
+**Why a taint source makes it a vulnerability:** If an attacker-controlled value
+reaches the format position, the `%n` specifier enables arbitrary memory writes
+and `%s`/`%x` directives leak stack contents. The co-occurrence of `fgets`/`getenv`
+confirms a user-controlled value is in scope. Maps to CWE-134.
+
+**Why the taint-invisible form is a smell:** When no taint source is visible in the
+same block (e.g., the tainted value arrives via a function argument or global), the
+pattern is structurally fragile — the format argument is not a literal, and any
+future wiring of user input to that argument would be immediately exploitable.
+`cppcheck` flags this as `warning [formatString]`.
 
 ## Smell Pattern
 
-**Bad — variable used directly as format argument:**
+**Vulnerability (taint source present → `error/vulnerability`):**
 ```c
 char data[100];
-fgets(data, sizeof(data), stdin);
-printf(data);               // FLAW: attacker controls format directives
-fprintf(stderr, data);      // FLAW: same issue with fprintf
-syslog(LOG_INFO, data);     // FLAW: same issue with syslog
+fgets(data, sizeof(data), stdin);  // taint source — attacker-controlled
+printf(data);                       // FLAW: %n writes, %s/%x leaks stack
+fprintf(stderr, data);              // FLAW: same issue
+syslog(LOG_INFO, data);             // FLAW: same issue
 ```
 
-**Good — literal format string, variable as data argument:**
+**Smell (no taint in scope → `warning/smell`):**
 ```c
-printf("%s\n", data);       // FIX: data treated as a value, not a format
+extern char *get_message(void);     // taint origin not visible here
+printf(get_message());              // SMELL: non-literal format, taint unknown
+```
+
+**Good — literal format string:**
+```c
+printf("%s\n", data);               // FIX: data is a value, not a format
 fprintf(stderr, "%s\n", data);
 syslog(LOG_INFO, "%s", data);
 ```
@@ -53,8 +77,8 @@ SCS008_Missing_Format_Specifier/
 │       ├── printf_direct/               # Group 1 — console source, printf sink
 │       ├── fprintf_direct/              # Group 2 — file source, fprintf sink
 │       ├── env_format/                  # Group 3 — getenv source, printf sink
-│       ├── interprocedural/             # Group 4 — flow 22 two-file source/sink
-│       └── cpp_class/                   # Group 5 — flow 84 C++ class destructor
+│       ├── interprocedural/             # Group 4 — flow 22 two-file source/sink (warning/smell on 22b)
+│       └── cpp_class/                   # Group 5 — flow 84 C++ class ctor/dtor split
 ├── cppcheck/
 │   ├── scripts/run_cppcheck.sh
 │   └── results/
@@ -80,9 +104,13 @@ SCS008_Missing_Format_Specifier/
 | `detect_fprintf_direct.sh` | `fprintf`, `vfprintf` | 1 (second, after stream) | `SCS008-FPRINTF` |
 | `detect_syslog_direct.sh` | `syslog` | 1 (second, after priority) | `SCS008-SYSLOG` |
 
-All detectors scan the annotated srcML XML for format-function calls and check
-whether the format argument is a `<literal>` (literal string) or a `<name>`
-(variable reference). A literal format string is the guard.
+All detectors use a two-stage approach:
+- **Stage 1 (srcQL):** Scopes to function bodies; checks whether the format
+  argument is a `<literal>` (safe) or `<name>` (variable). If a taint source is
+  also present → `error/vulnerability`; otherwise → `warning/smell`.
+- **Stage 2 (XPath fallback):** Covers destructor/constructor blocks (not matched
+  by srcQL). Stage 2b additionally handles the ctor/dtor split: `printf` sink in
+  destructor with `fgets`/`getenv` in sibling constructor → `error/vulnerability`.
 
 ## Usage
 
@@ -101,23 +129,45 @@ bash joern/scripts/run_joern.sh
 bash evaluation/compare_report.sh
 ```
 
-## Evaluation Results
+## Test Results
 
-| | SmellDetect | cppcheck | Joern |
-|---|---|---|---|
-| True Positives (TP) | 5 | 0 | 5 |
-| True Negatives (TN) | 5 | 5 | 5 |
-| False Positives (FP) | 0 | 0 | 0 |
-| False Negatives (FN) | 0 | 5 | 0 |
-| Precision | 100% | N/A | 100% |
-| Recall | 100% | 0% | 100% |
-| Avg wall time | 0.301s | 0.010s | 3.684s |
-| Avg peak RSS | 14.8 MB | 8.0 MB | 428.9 MB |
+**SmellDetect — 10/10 test cases (100%)**
 
-**cppcheck** misses all cases — it requires type-mismatch evidence that is only
-available at link time or with explicit format-checking attributes.
-**Joern** detects correctly (literal vs. identifier node type is preserved in
-the CPG), but at ~12× the runtime and ~29× the memory of SmellDetect.
+`bad_*` cases are expected to produce at least one finding (any severity).
+`good_*` cases are expected to produce zero findings.
+
+| Group           | Bad | Good | TP | TN | FP | FN | Severity |
+|-----------------|-----|------|----|----|----|-----|---------|
+| printf_direct   | 1   | 1    | 1  | 1  | 0  | 0  | error/vulnerability |
+| fprintf_direct  | 1   | 1    | 1  | 1  | 0  | 0  | error/vulnerability |
+| env_format      | 1   | 1    | 1  | 1  | 0  | 0  | error/vulnerability |
+| interprocedural | 1   | 1    | 1  | 1  | 0  | 0  | warning/smell (no taint in 22b) |
+| cpp_class       | 1   | 1    | 1  | 1  | 0  | 0  | error/vulnerability (ctor/dtor split) |
+| **Total**       | **5** | **5** | **5** | **5** | **0** | **0** | |
+
+### Benchmark comparison (SmellDetect vs cppcheck vs Joern)
+
+| Metric        | SmellDetect | cppcheck | Joern    |
+|---------------|-------------|----------|----------|
+| Precision     | 100%        | N/A      | 100%     |
+| Recall        | 100%        | 0%       | 100%     |
+| Avg time      | ~0.30s      | ~0.01s   | ~3.68s   |
+| Avg memory    | ~14.8 MB    | ~8.0 MB  | ~428.9 MB|
+
+**cppcheck** misses all cases — it requires type-mismatch evidence only available
+at link time or with explicit format-checking attributes (`__attribute__((format))`).
+**Joern** detects all cases correctly (literal vs. identifier node type is preserved
+in the CPG), but at ~12× the runtime and ~29× the memory of SmellDetect.
+
+## Known Limitations
+
+- KI-001 (resolved): interprocedural 22b now fires `warning/smell`
+- KI-002 (resolved): C++ ctor/dtor split now detected via Stage 2b XPath
+- `snprintf`/`sprintf` not yet covered (KI-007)
+- Wrapper functions around printf not detected (KI-003)
+- No path sensitivity — co-occurrence model only (KI-006)
+
+See [docs/known_issues.md](docs/known_issues.md) for full details.
 
 ## Documentation
 

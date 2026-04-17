@@ -12,9 +12,21 @@ trivially extract the credential and bypass authentication.
 
 **Severity:** `warning [SCS010-PASSWD-VAR | SCS010-PASSWD-DEFINE | SCS010-PASSWD-STRCMP]`
 
-## Why This Is a Vulnerability
+## Vulnerability vs. Smell Classification
 
-A hardcoded credential is exploitable as written — the secret is readable from the binary via `strings`, source code review, or disassembly. There is no runtime condition that prevents exposure. Hardcoded passwords in `strcmp` comparisons are additionally bypassable by anyone who can read the binary. Maps to CWE-259 / CWE-798. `cppcheck` does not flag this pattern; it is a key differentiator for SmellDetect.
+SCS010 findings are always classified as `error/vulnerability`. Unlike SCS006–SCS009,
+there is no smell variant: a hardcoded credential is exploitable as written regardless
+of runtime conditions.
+
+| Condition                  | Severity  | Classification  |
+|----------------------------|-----------|-----------------|
+| Hardcoded credential found | `error`   | `vulnerability` |
+
+**Why hardcoded credentials are always vulnerabilities:** The secret is readable from
+the binary via `strings`, source code review, or disassembly. Hardcoded passwords in
+`strcmp` comparisons are bypassable by anyone who can inspect the binary. There is no
+runtime condition that prevents exposure. Maps to CWE-259 / CWE-798. `cppcheck`
+does not flag this pattern; it is a key differentiator for SmellDetect.
 
 ## Smell Patterns
 
@@ -59,7 +71,7 @@ SCS010_Hardcoded_Sensitive_Data/
 │       ├── password_var/                    # Group 1 — char *password = "literal"
 │       ├── define_const/                    # Group 2 — #define PASSWORD "literal"
 │       ├── strcmp_auth/                     # Group 3 — strcmp(input, "literal")
-│       ├── interprocedural/                 # Group 4 — flow 22 two-file pattern
+│       ├── interprocedural/                 # Group 4 — flow 22 (literal in 22a; 22b has no literal)
 │       └── cpp_class/                       # Group 5 — flow 84 C++ class constructor
 ├── cppcheck/
 │   ├── scripts/run_cppcheck.sh
@@ -107,27 +119,47 @@ bash joern/scripts/run_joern.sh
 bash evaluation/compare_report.sh
 ```
 
-## Evaluation Results
+## Test Results
 
-| | SmellDetect | cppcheck | Joern |
-|---|---|---|---|
-| True Positives (TP) | 5 | 0 | TBD |
-| True Negatives (TN) | 5 | 5 | TBD |
-| False Positives (FP) | 0 | 0 | TBD |
-| False Negatives (FN) | 0 | 5 | TBD |
-| Precision | 100% | N/A | TBD |
-| Recall | 100% | 0% | TBD |
-| Avg wall time | ~0.30s | ~0.01s | TBD |
-| Avg peak RSS | ~15.0 MB | ~8.0 MB | TBD |
+**SmellDetect — 9/9 test cases (100%)**
 
-**SmellDetect** achieves 100% precision and 100% recall across all five test groups.
-The three complementary detectors cover the main structural forms of the smell:
-variable initialiser, preprocessor macro, and authentication comparison.
+`bad_*` cases are expected to produce at least one `error/vulnerability` finding.
+`good_*` cases are expected to produce zero findings.
+
+| Group           | Bad | Good | TP | TN | FP | FN | Note |
+|-----------------|-----|------|----|----|----|-----|------|
+| password_var    | 1   | 1    | 1  | 1  | 0  | 0  | |
+| define_const    | 1   | 1    | 1  | 1  | 0  | 0  | |
+| strcmp_auth     | 1   | 1    | 1  | 1  | 0  | 0  | |
+| interprocedural | 1   | —    | 1  | —  | 0  | 0  | 22a tested (literal there); 22b has no literal |
+| cpp_class       | 1   | 1    | 1  | 1  | 0  | 0  | |
+| **Total**       | **5** | **4** | **5** | **4** | **0** | **0** | |
+
+### Benchmark comparison (SmellDetect vs cppcheck vs Joern)
+
+| Metric        | SmellDetect | cppcheck | Joern  |
+|---------------|-------------|----------|--------|
+| Precision     | 100%        | N/A      | TBD    |
+| Recall        | 100%        | 0%       | TBD    |
+| Avg time      | ~0.30s      | ~0.01s   | TBD    |
+| Avg memory    | ~15.0 MB    | ~8.0 MB  | TBD    |
+
+**SmellDetect** achieves 100% precision and 100% recall across all test groups.
+The three complementary detectors cover the main structural forms: variable
+initialiser, preprocessor macro, and authentication comparison.
 
 **cppcheck** v2.19 does not flag any of the cross-platform test cases. Its
 `[hardcodedCredentials]` check is limited to specific Windows API calls (e.g.,
 `LogonUserA`) and does not detect generic `strcmp`-based authentication or
 plain variable initialisers.
+
+## Known Limitations
+
+- Interprocedural 22b (sink file): `strcmp(input, g_password)` with no literal in 22b — known FN by design; literal is in 22a
+- Non-secret string literals in credential-named variables may produce FPs (KI-001)
+- `const` variable holding a non-password literal alongside credential keyword may FP (KI-003)
+
+See [docs/known_issues.md](docs/known_issues.md) for full details.
 
 ## Documentation
 

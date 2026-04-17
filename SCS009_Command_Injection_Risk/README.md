@@ -12,24 +12,47 @@ operating system commands with the privileges of the running process.
 
 **Severity:** `warning [SCS009-SYSTEM | SCS009-POPEN | SCS009-EXECL]`
 
-## Why This Is a Vulnerability
+## Vulnerability vs. Smell Classification
 
-`system(cmd)` / `popen(cmd)` / `execl(path)` with a tainted argument is exploitable as written — shell metacharacters in the argument allow arbitrary command execution. The taint co-occurrence check confirms a user-controlled source (fgets, getenv) reaches the sink in the same function scope. `cppcheck` flags tainted `system()` calls as `error [commandInjection]` when `--enable=all` is used. Maps to CWE-78.
+SCS009 findings are classified at detection time based on whether a taint source
+(`fgets`, `getenv`) appears in the same function scope as the unguarded sink call.
+
+| Condition                                   | Severity  | Classification  |
+|---------------------------------------------|-----------|-----------------|
+| Taint source present in scope               | `error`   | `vulnerability` |
+| No taint source (interprocedural / unknown) | `warning` | `smell`         |
+
+**Why a taint source makes it a vulnerability:** Shell metacharacters (`;`, `|`,
+`&`, `` ` ``, `$()`) in the argument to `system`/`popen`/`execl` allow arbitrary
+command execution with the process's privileges. The co-occurrence of `fgets`/
+`getenv` confirms a user-controlled value is in scope. Maps to CWE-78.
+
+**Why the taint-invisible form is a smell:** When no taint source is visible in the
+same block (e.g., the tainted value arrives via a function argument or global),
+the pattern is structurally fragile — a non-literal command argument with unknown
+provenance. `cppcheck` flags tainted `system()` calls as `error [commandInjection]`
+when `--enable=all` is used.
 
 ## Smell Pattern
 
-**Bad — user input flows directly into OS command sink:**
+**Vulnerability (taint source present → `error/vulnerability`):**
 ```c
 char data[256];
-fgets(data, sizeof(data), stdin);  // source: user input
-system(data);                      // FLAW: shell metacharacters not stripped
-popen(data, "r");                  // FLAW: same issue with popen
+fgets(data, sizeof(data), stdin);  // taint source — attacker-controlled
+system(data);                       // FLAW: shell metacharacters not stripped
+popen(data, "r");                   // FLAW: same issue
 ```
 
-**Good — literal command string, no user input:**
+**Smell (no taint in scope → `warning/smell`):**
 ```c
-system("ls -l");                   // FIX: literal command, no taint
-popen("ls -l", "r");              // FIX: literal command
+extern char *get_command(void);     // taint origin not visible here
+system(get_command());              // SMELL: non-literal command, taint unknown
+```
+
+**Good — literal command string:**
+```c
+system("ls -l");                    // FIX: literal command, no taint
+popen("ls -l", "r");               // FIX: literal command
 ```
 
 ## Folder Structure
@@ -51,8 +74,8 @@ SCS009_Command_Injection_Risk/
 │       ├── system_console/                 # Group 1 — fgets source, system() sink
 │       ├── system_env/                     # Group 2 — getenv source, system() sink
 │       ├── popen_console/                  # Group 3 — fgets source, popen() sink
-│       ├── interprocedural/                # Group 4 — flow 22 cross-file (known FN)
-│       └── cpp_class/                      # Group 5 — flow 84 C++ class (known FN)
+│       ├── interprocedural/                # Group 4 — flow 22 cross-file (warning/smell on 22b)
+│       └── cpp_class/                      # Group 5 — flow 84 C++ class ctor/dtor split
 ├── cppcheck/
 │   ├── scripts/run_cppcheck.sh
 │   └── results/
@@ -78,12 +101,16 @@ SCS009_Command_Injection_Risk/
 | `detect_popen_tainted.sh` | `popen` | 0 (first, the command) | `SCS009-POPEN` |
 | `detect_execl_tainted.sh` | `execl`, `execlp` | 0 (the path) | `SCS009-EXECL` |
 
-All detectors apply a **two-part guard**:
-1. A taint source (`fgets` or `getenv`) must be present in the same function block.
-2. The command argument must be a `<name>` (variable), not a `<literal>` (string constant).
-
-A finding is emitted only when both conditions hold. This eliminates the
-goodG2B pattern (hardcoded literal passed to sink, even if `fgets` is present).
+All detectors use a two-stage approach:
+- **Stage 1 (srcQL):** Scopes to function bodies; checks whether the command
+  argument is a `<literal>` (safe) or `<name>` (variable). If a taint source
+  (`fgets`/`getenv`) is also present → `error/vulnerability`; otherwise →
+  `warning/smell`. This eliminates the goodG2B pattern (literal passed to sink
+  even if `fgets` is present) while still flagging taint-invisible non-literals.
+- **Stage 2 (XPath fallback):** Covers destructor/constructor blocks (not matched
+  by srcQL). `detect_system_tainted.sh` additionally implements Stage 2b for the
+  ctor/dtor split: `system()` sink in destructor with `fgets`/`getenv` in sibling
+  constructor → `error/vulnerability`.
 
 ## Usage
 
@@ -102,30 +129,47 @@ bash joern/scripts/run_joern.sh
 bash evaluation/compare_report.sh
 ```
 
-## Evaluation Results
+## Test Results
 
-| | SmellDetect | cppcheck | Joern |
-|---|---|---|---|
-| True Positives (TP) | 3 | 0 | TBD |
-| True Negatives (TN) | 5 | 5 | TBD |
-| False Positives (FP) | 0 | 0 | TBD |
-| False Negatives (FN) | 2 | 5 | TBD |
-| Precision | 100% | N/A | TBD |
-| Recall | 60% | 0% | TBD |
-| Avg wall time | ~0.30s | ~0.00s | TBD |
-| Avg peak RSS | ~14.8 MB | ~7.9 MB | TBD |
+**SmellDetect — 12/12 test cases (100%)**
 
-**SmellDetect** achieves 100% precision (no false positives) and 60% recall. The
-two false negatives are known limitations: the interprocedural (flow 22) and
-C++ class (flow 84) patterns require cross-block/cross-file taint analysis
-beyond the scope of the structural detector.
+`bad_*` cases are expected to produce at least one finding (any severity).
+`good_*` cases are expected to produce zero findings.
 
-**cppcheck** produces no findings for any CWE-78 test case — it has no
-dedicated command injection check in version 2.19.
+| Group           | Bad | Good | TP | TN | FP | FN | Severity |
+|-----------------|-----|------|----|----|----|-----|---------|
+| system_console  | 1   | 1    | 1  | 1  | 0  | 0  | error/vulnerability |
+| system_env      | 1   | 1    | 1  | 1  | 0  | 0  | error/vulnerability |
+| popen_console   | 1   | 1    | 1  | 1  | 0  | 0  | error/vulnerability |
+| execl_console   | 1   | 1    | 1  | 1  | 0  | 0  | error/vulnerability |
+| interprocedural | 1   | 1    | 1  | 1  | 0  | 0  | warning/smell (no taint in 22b) |
+| cpp_class       | 1   | 1    | 1  | 1  | 0  | 0  | error/vulnerability (ctor/dtor split) |
+| **Total**       | **6** | **6** | **6** | **6** | **0** | **0** | |
 
-**Joern** results pending. The Joern query (CPG-based, argument node type
-check) is expected to detect Groups 1–3 and may also detect Group 4 via
-inter-procedural taint propagation.
+### Benchmark comparison (SmellDetect vs cppcheck vs Joern)
+
+| Metric        | SmellDetect | cppcheck | Joern  |
+|---------------|-------------|----------|--------|
+| Precision     | 100%        | N/A      | TBD    |
+| Recall        | 100%        | 0%       | TBD    |
+| Avg time      | ~0.30s      | ~0.01s   | TBD    |
+| Avg memory    | ~14.8 MB    | ~7.9 MB  | TBD    |
+
+**cppcheck** produces no findings for any CWE-78 test case — it has no dedicated
+command injection check in version 2.19.
+
+**Joern** results pending. The CPG-based taint analysis is expected to detect
+Groups 1–4 and may detect Group 5 (ctor/dtor) via inter-procedural propagation.
+
+## Known Limitations
+
+- KI-001 (resolved): interprocedural 22b now fires `warning/smell`
+- KI-002 (resolved): C++ ctor/dtor split now detected via Stage 2b in `detect_system_tainted.sh`
+- `detect_popen_tainted.sh` and `detect_execl_tainted.sh` lack Stage 2b (no cpp_class test cases for those sinks)
+- `execvp`, `execve`, `posix_spawn` not covered (KI-007)
+- No path sensitivity — co-occurrence model only (KI-006)
+
+See [docs/known_issues.md](docs/known_issues.md) for full details.
 
 ## Documentation
 

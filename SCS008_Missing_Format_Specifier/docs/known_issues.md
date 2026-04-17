@@ -4,6 +4,8 @@
 
 ### KI-001: Interprocedural format string — taint source in a different file
 
+**Status: RESOLVED** — detector now fires `warning/smell` on the sink-side file.
+
 **Description:** When the user input is read in one function (or file) and the
 printf sink is called in a different function (or file), the detector cannot
 correlate the two. The sink-side block contains no `fgets`/`getenv`/`scanf`
@@ -12,16 +14,24 @@ but also misses the real taint flow.
 
 **Affected group:** `interprocedural` (flows 22a/22b). `bad_printf_interprocedural_22a.c`
 reads user input into a global; `bad_printf_interprocedural_22b.c` calls
-`printf(data)` but contains no taint source. The detector produces no finding
-on 22b (known false negative).
+`printf(data)` but contains no taint source.
 
-**Limitation:** Cross-file / cross-function taint tracking requires a full
-dataflow graph (e.g., Joern's CPG). The structural analyser is intentionally
-single-block scoped.
+**Fix (Stage 1 smell fallback):** When the structural pattern is found
+(non-literal format argument) but no taint source is visible in the same
+function scope, the detector now emits `severity=warning, classification=smell`
+instead of suppressing the finding entirely. This correctly classifies the
+single-file view as a smell: the pattern is fragile, and cross-file taint cannot
+be ruled out. A co-located taint source still escalates to `error/vulnerability`.
+
+**Remaining limitation:** The `22b` finding is `warning/smell` rather than
+`error/vulnerability` because taint is not visible in that file alone.
+Full cross-file classification requires interprocedural dataflow (e.g., Joern CPG).
 
 ---
 
 ### KI-002: C++ class — taint source in constructor, sink in destructor
+
+**Status: RESOLVED** — detector now fires `error/vulnerability` via Stage 2b.
 
 **Description:** In a C++ class where the constructor reads user input into a
 member variable and the destructor calls `printf(data_)`, the constructor body
@@ -30,10 +40,27 @@ The taint co-occurrence guard sees no `fgets`/`getenv`/`scanf` in the destructor
 block and suppresses the finding.
 
 **Affected group:** `cpp_class` (flow 84). `bad_printf_class_84.cpp` exhibits
-this pattern. The detector produces no finding (known false negative).
+this pattern.
 
-**Limitation:** Cross-block (ctor → member → dtor) taint tracking is not
-supported. This would require inter-method data-flow analysis.
+**Fix (Stage 2b — ctor/dtor split XPath):** A new XPath stage was added to
+`detect_printf_direct.sh` that targets this cross-block pattern directly:
+```xpath
+//*[local-name()='call']
+  [*[local-name()='name'][.='printf' or .='vprintf']]
+  [*[local-name()='argument_list']/*[local-name()='argument'][1]
+    [not(.//*[local-name()='literal'])]]
+  [ancestor::*[local-name()='destructor']]
+  [ancestor::*[local-name()='class'][1]
+    [.//*[local-name()='constructor']
+      [.//*[local-name()='call']
+        [*[local-name()='name'][.='fgets' or .='getenv' or .='scanf' or .='fscanf']]]]]
+```
+This matches a `printf` with a non-literal format inside a destructor, where a
+sibling constructor (same class) contains a taint source. The finding is emitted
+as `error/vulnerability` because the ctor→member→dtor flow is confirmed.
+
+**Remaining limitation:** `detect_fprintf_direct.sh` does not yet have a Stage
+2b block; no cpp_class test case exists for `fprintf` so this gap is untested.
 
 ---
 
