@@ -78,10 +78,21 @@ if grep -q '<function' "$TMPRESULT" 2>/dev/null; then
         LINE=${POS%%:*}
         COL=${POS##*:}
 
+        TAINT_XPATH="count(//*[local-name()='call'][*[local-name()='name'][.='fscanf' or .='scanf' or .='fgets' or .='getenv']])"
+        TAINT=$(xmllint --xpath "$TAINT_XPATH" "$TMPRESULT" 2>/dev/null)
+        if [ "${TAINT:-0}" -gt 0 ]; then
+            SEV="error"; CLASS="vulnerability"
+            echo "    taint source present -- escalating to error/vulnerability"
+        else
+            SEV="warning"; CLASS="smell"
+            echo "    no taint source -- warning/smell"
+        fi
+
         write_finding \
             --findings  "$FINDINGS" \
             --detector  "signed_malloc" \
-            --severity  "warning" \
+            --severity  "$SEV" \
+            --classification  "$CLASS" \
             --rule      "signedUnsignedConversion" \
             --file      "$FILENAME" \
             --line      "$LINE" \
@@ -109,10 +120,19 @@ if [ -n "$DES_POS" ]; then
         'string(//*[local-name()="destructor" or local-name()="constructor"]/*[local-name()="name"])' \
         "$XML" 2>/dev/null)
 
+    TAINT_XPATH="count(//*[local-name()='call'][*[local-name()='name'][.='fscanf' or .='scanf' or .='fgets' or .='getenv']])"
+    TAINT=$(xmllint --xpath "$TAINT_XPATH" "$XML" 2>/dev/null)
+    if [ "${TAINT:-0}" -gt 0 ]; then
+        SEV="error"; CLASS="vulnerability"
+    else
+        SEV="warning"; CLASS="smell"
+    fi
+
     write_finding \
         --findings  "$FINDINGS" \
         --detector  "signed_malloc" \
-        --severity  "warning" \
+        --severity  "$SEV" \
+        --classification  "$CLASS" \
         --rule      "signedUnsignedConversion" \
         --file      "$FILENAME" \
         --line      "$LINE" \

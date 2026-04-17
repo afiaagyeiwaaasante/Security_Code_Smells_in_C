@@ -117,6 +117,7 @@ while IFS= read -r CALLEE; do
         --findings  "$FINDINGS" \
         --detector  "interprocedural_uaf" \
         --severity  "warning" \
+        --classification  "vulnerability" \
         --rule      "useAfterFree" \
         --file      "$CALLEE_FILE" \
         --line      "$CALLEE_LINE" \
@@ -189,6 +190,7 @@ _run_pass2() {
         --findings  "$FINDINGS" \
         --detector  "interprocedural_uaf" \
         --severity  "error" \
+        --classification  "vulnerability" \
         --rule      "useAfterFree" \
         --file      "$CALLER_FILE" \
         --line      "$USE_LINE" \

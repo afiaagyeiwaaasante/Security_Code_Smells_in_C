@@ -12,6 +12,10 @@ trivially extract the credential and bypass authentication.
 
 **Severity:** `warning [SCS010-PASSWD-VAR | SCS010-PASSWD-DEFINE | SCS010-PASSWD-STRCMP]`
 
+## Why This Is a Vulnerability
+
+A hardcoded credential is exploitable as written — the secret is readable from the binary via `strings`, source code review, or disassembly. There is no runtime condition that prevents exposure. Hardcoded passwords in `strcmp` comparisons are additionally bypassable by anyone who can read the binary. Maps to CWE-259 / CWE-798. `cppcheck` does not flag this pattern; it is a key differentiator for SmellDetect.
+
 ## Smell Patterns
 
 **Bad — variable initialised to a string literal:**

@@ -118,6 +118,7 @@ write_finding \
     --findings  "$FINDINGS" \
     --detector  "operator_equals_uaf" \
     --severity  "error" \
+    --classification  "vulnerability" \
     --rule      "useAfterFree" \
     --file      "$FILENAME" \
     --line      "$DELETE_LINE" \

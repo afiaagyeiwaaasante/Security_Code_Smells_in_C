@@ -106,6 +106,7 @@ write_finding \
     --findings  "$FINDINGS" \
     --detector  "overwrite_leak" \
     --severity  "warning" \
+    --classification  "smell" \
     --rule      "overwriteLeak" \
     --file      "$FILENAME" \
     --line      "$LINE" \

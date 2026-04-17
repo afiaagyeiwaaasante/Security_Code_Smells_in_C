@@ -28,6 +28,11 @@
 #   Position and function name are extracted via separate XPath queries on
 #   the same XML file.
 #
+#   Taint co-occurrence (severity escalation):
+#     If a taint source (fscanf/scanf/fgets/getenv) is present in the same
+#     function scope → severity: error, classification: vulnerability.
+#     Otherwise → severity: warning, classification: smell.
+#
 # Requires: srcml, xmllint
 
 source "$(dirname "$0")/../../../shared/lib/write_finding.sh"
@@ -78,10 +83,21 @@ echo "    function : $FUNC_NAME"
 echo "    position : $LINE:$COL"
 echo
 
+TAINT_XPATH="count(//*[local-name()='call'][*[local-name()='name'][.='fscanf' or .='scanf' or .='fgets' or .='getenv']])"
+TAINT=$(xmllint --xpath "$TAINT_XPATH" "$XML" 2>/dev/null)
+if [ "${TAINT:-0}" -gt 0 ]; then
+    SEV="error"; CLASS="vulnerability"
+    echo "    taint source present -- escalating to error/vulnerability"
+else
+    SEV="warning"; CLASS="smell"
+    echo "    no taint source -- warning/smell"
+fi
+
 write_finding \
     --findings  "$FINDINGS" \
     --detector  "unchecked_increment" \
-    --severity  "warning" \
+    --severity  "$SEV" \
+    --classification  "$CLASS" \
     --rule      "integerOverflow" \
     --file      "$FILENAME" \
     --line      "$LINE" \

@@ -116,6 +116,7 @@ while IFS= read -r CALLEE; do
         --findings  "$FINDINGS" \
         --detector  "interprocedural" \
         --severity  "warning" \
+        --classification  "smell" \
         --rule      "missingNullCheck" \
         --file      "$FILENAME" \
         --line      "$CALLEE_LINE" \
@@ -156,6 +157,7 @@ while IFS= read -r CALLEE; do
             --findings  "$FINDINGS" \
             --detector  "interprocedural" \
             --severity  "error" \
+            --classification  "vulnerability" \
             --rule      "nullPointer" \
             --file      "$FILENAME" \
             --line      "$CALL_LINE" \
@@ -186,6 +188,7 @@ while IFS= read -r CALLEE; do
             --findings  "$FINDINGS" \
             --detector  "interprocedural" \
             --severity  "warning" \
+            --classification  "smell" \
             --rule      "missingNullCheck" \
             --file      "$FILENAME" \
             --line      "$CALL_LINE" \

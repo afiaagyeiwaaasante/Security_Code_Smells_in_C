@@ -1,0 +1,32 @@
+{
+"buf-37-15-f115a8789410d645f8bcfdea44c609479b17c374":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/malloc_size/smell_malloc_size_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"smell_malloc_size",
+    "type":"char*",
+    "name":"buf",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/malloc_size/smell_malloc_size_01.c:37:15",
+    "dependence":[],
+    "aliases":[],
+    "calls":[{"functionName":"memset","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/malloc_size/smell_malloc_size_01.c:39:9"},{"functionName":"free","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/malloc_size/smell_malloc_size_01.c:41:9"},{"functionName":"memset","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/malloc_size/smell_malloc_size_01.c:39:9"},{"functionName":"free","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/malloc_size/smell_malloc_size_01.c:41:9"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/malloc_size/smell_malloc_size_01.c:38:13","/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/malloc_size/smell_malloc_size_01.c:39:16","/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/malloc_size/smell_malloc_size_01.c:41:14"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/malloc_size/smell_malloc_size_01.c:37:15","/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/malloc_size/smell_malloc_size_01.c:40:9"]
+},
+"data-32-9-f115a8789410d645f8bcfdea44c609479b17c374":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/malloc_size/smell_malloc_size_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"smell_malloc_size",
+    "type":"int",
+    "name":"data",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/malloc_size/smell_malloc_size_01.c:32:9",
+    "dependence":[{"buf":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/malloc_size/smell_malloc_size_01.c:37:36"}],
+    "aliases":[],
+    "calls":[{"functionName":"malloc","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/malloc_size/smell_malloc_size_01.c:37:29"},{"functionName":"memset","parameter":"3","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/malloc_size/smell_malloc_size_01.c:39:9"},{"functionName":"memset","parameter":"3","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/malloc_size/smell_malloc_size_01.c:39:9"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/malloc_size/smell_malloc_size_01.c:35:9","/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/malloc_size/smell_malloc_size_01.c:37:36","/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/malloc_size/smell_malloc_size_01.c:39:26","/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/malloc_size/smell_malloc_size_01.c:40:13"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/malloc_size/smell_malloc_size_01.c:32:9"]
+}
+}

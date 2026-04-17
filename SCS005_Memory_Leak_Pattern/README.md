@@ -14,6 +14,12 @@ and XPath post-filtering.
 
 ---
 
+## Why This Is a Smell
+
+Memory that is allocated but never freed does not crash the program on a single call — it causes resource exhaustion over repeated calls or long-running sessions. No single execution path currently terminates due to this pattern. The smell matters because a function that leaks on every call will eventually exhaust heap space; for short-lived processes the impact may be negligible. `cppcheck` flags this as `warning [memleak]`.
+
+---
+
 ## Detectors
 
 | # | Detector | Pattern | Severity |

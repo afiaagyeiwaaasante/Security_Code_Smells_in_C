@@ -87,7 +87,8 @@ else
             write_finding \
                 --findings  "$FINDINGS" \
                 --detector  "fprintf_direct" \
-                --severity  "warning" \
+                --severity  "error" \
+                --classification  "vulnerability" \
                 --rule      "SCS008-FPRINTF" \
                 --file      "$FILENAME" \
                 --line      "$LINE" \
@@ -123,7 +124,8 @@ if [ -n "$DES_POS" ]; then
     write_finding \
         --findings  "$FINDINGS" \
         --detector  "fprintf_direct" \
-        --severity  "warning" \
+        --severity  "error" \
+        --classification  "vulnerability" \
         --rule      "SCS008-FPRINTF" \
         --file      "$FILENAME" \
         --line      "$LINE" \

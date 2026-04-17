@@ -125,6 +125,7 @@ PYEOF
         --findings  "$FINDINGS" \
         --detector  "precomputed_size" \
         --severity  "warning" \
+        --classification  "smell" \
         --rule      "bufferSizeMismatch" \
         --file      "$FILENAME" \
         --line      "$CALL_LINE" \

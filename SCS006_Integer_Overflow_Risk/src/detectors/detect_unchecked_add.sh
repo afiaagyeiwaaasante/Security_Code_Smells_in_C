@@ -23,6 +23,11 @@
 #     only, not the whole function body. A srcQL DIFFERENCE with CONTAINS
 #     UINT_MAX would incorrectly exclude this case.
 #
+#   Taint co-occurrence (severity escalation):
+#     If a taint source (fscanf/scanf/fgets/getenv) is present in the same
+#     function scope → severity: error, classification: vulnerability.
+#     Otherwise → severity: warning, classification: smell.
+#
 # Requires: srcml, xmllint
 
 source "$(dirname "$0")/../../../shared/lib/write_finding.sh"
@@ -80,10 +85,21 @@ if grep -q '<function' "$TMPRESULT" 2>/dev/null; then
         LINE=${POS%%:*}
         COL=${POS##*:}
 
+        TAINT_XPATH="count(//*[local-name()='call'][*[local-name()='name'][.='fscanf' or .='scanf' or .='fgets' or .='getenv']])"
+        TAINT=$(xmllint --xpath "$TAINT_XPATH" "$TMPRESULT" 2>/dev/null)
+        if [ "${TAINT:-0}" -gt 0 ]; then
+            SEV="error"; CLASS="vulnerability"
+            echo "    taint source present -- escalating to error/vulnerability"
+        else
+            SEV="warning"; CLASS="smell"
+            echo "    no taint source -- warning/smell"
+        fi
+
         write_finding \
             --findings  "$FINDINGS" \
             --detector  "unchecked_add" \
-            --severity  "warning" \
+            --severity  "$SEV" \
+            --classification  "$CLASS" \
             --rule      "integerOverflow" \
             --file      "$FILENAME" \
             --line      "$LINE" \
@@ -111,10 +127,19 @@ if [ -n "$DES_POS" ]; then
         'string(//*[local-name()="destructor" or local-name()="constructor"]/*[local-name()="name"])' \
         "$XML" 2>/dev/null)
 
+    TAINT_XPATH="count(//*[local-name()='call'][*[local-name()='name'][.='fscanf' or .='scanf' or .='fgets' or .='getenv']])"
+    TAINT=$(xmllint --xpath "$TAINT_XPATH" "$XML" 2>/dev/null)
+    if [ "${TAINT:-0}" -gt 0 ]; then
+        SEV="error"; CLASS="vulnerability"
+    else
+        SEV="warning"; CLASS="smell"
+    fi
+
     write_finding \
         --findings  "$FINDINGS" \
         --detector  "unchecked_add" \
-        --severity  "warning" \
+        --severity  "$SEV" \
+        --classification  "$CLASS" \
         --rule      "integerOverflow" \
         --file      "$FILENAME" \
         --line      "$LINE" \

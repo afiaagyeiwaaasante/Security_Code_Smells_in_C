@@ -1,0 +1,32 @@
+{
+"result-27-13-4d80e30eb8d850660de3552e718c9589a3f7f5a4":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/square/smell_int64_square_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"smell_int64_square",
+    "type":"int64_t",
+    "name":"result",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/square/smell_int64_square_01.c:27:13",
+    "dependence":[],
+    "aliases":[],
+    "calls":[],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/square/smell_int64_square_01.c:28:11"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/square/smell_int64_square_01.c:27:13"]
+},
+"data-24-13-4d80e30eb8d850660de3552e718c9589a3f7f5a4":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/square/smell_int64_square_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"smell_int64_square",
+    "type":"int64_t",
+    "name":"data",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/square/smell_int64_square_01.c:24:13",
+    "dependence":[{"result":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/square/smell_int64_square_01.c:27:22"},{"result":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/square/smell_int64_square_01.c:27:29"}],
+    "aliases":[],
+    "calls":[],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/square/smell_int64_square_01.c:27:22","/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/square/smell_int64_square_01.c:27:29"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/square/smell_int64_square_01.c:24:13"]
+}
+}

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" xmlns:cpp="http://www.srcML.org/srcML/cpp" xmlns:pos="http://www.srcML.org/srcML/position" xmlns:slice="http://www.srcML.org/srcML/slice" revision="1.0.0" language="C" filename="/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/multiply/smell_int_multiply_01.c" pos:tabs="8" hash="5d89ec38a74f0f126fb0d1536482a675c9c16ba6"><comment type="block" pos:start="1:1" pos:end="16:3">/*
+ * CWE-190 Integer Overflow Risk
+ * Scenario : int multiplication â smell (warning level)
+ * Source   : rand() â not user-controlled, internal only
+ * Sink     : data * 2 with no overflow guard
+ * Detector : unchecked_multiply
+ * Expected : warning [integerOverflow] [unchecked_multiply]
+ *
+ * Why this is a smell and not a vulnerability:
+ *   data comes from rand(), which is not attacker-controlled. The pattern
+ *   is structurally fragile: wiring user input to data without a bounds
+ *   check would make this directly exploitable â integer overflow flowing
+ *   into a downstream malloc or array index enables heap corruption.
+ *
+ * Compare: bad_int_multiply_22a/b.c â same sink, fscanf source â error/vulnerability
+ */</comment>
+<cpp:include pos:start="17:1" pos:end="17:19">#<cpp:directive pos:start="17:2" pos:end="17:8">include</cpp:directive> <cpp:file pos:start="17:10" pos:end="17:19">&lt;stdlib.h&gt;</cpp:file></cpp:include>
+
+<function pos:start="19:1" pos:end="26:1"><type pos:start="19:1" pos:end="19:4"><name pos:start="19:1" pos:end="19:4">void</name></type> <name pos:start="19:6" pos:end="19:23">smell_int_multiply</name><parameter_list pos:start="19:24" pos:end="19:29">(<parameter pos:start="19:25" pos:end="19:28"><decl pos:start="19:25" pos:end="19:28"><type pos:start="19:25" pos:end="19:28"><name pos:start="19:25" pos:end="19:28">void</name></type></decl></parameter>)</parameter_list>
+<block pos:start="20:1" pos:end="26:1">{<block_content pos:start="20:2" pos:end="26:0">
+    <decl_stmt pos:start="21:5" pos:end="21:22"><decl pos:start="21:5" pos:end="21:21" slice:decl="b69680cebc195fea3287489f3a428baf8eb10976"><type pos:start="21:5" pos:end="21:7"><name pos:start="21:5" pos:end="21:7">int</name></type> <name pos:start="21:9" pos:end="21:12">data</name> <init pos:start="21:14" pos:end="21:21">= <expr pos:start="21:16" pos:end="21:21"><call pos:start="21:16" pos:end="21:21"><name pos:start="21:16" pos:end="21:19">rand</name><argument_list pos:start="21:20" pos:end="21:21">()</argument_list></call></expr></init></decl>;</decl_stmt>
+
+    <comment type="block" pos:start="23:5" pos:end="23:66">/* SMELL: no MAX/2 guard, but source is not user-controlled */</comment>
+    <decl_stmt pos:start="24:5" pos:end="24:26"><decl pos:start="24:5" pos:end="24:25" slice:use="b69680cebc195fea3287489f3a428baf8eb10976" slice:decl="b521680f9b74922b70686c6b694fd22ebc970e06"><type pos:start="24:5" pos:end="24:7"><name pos:start="24:5" pos:end="24:7">int</name></type> <name pos:start="24:9" pos:end="24:14">result</name> <init pos:start="24:16" pos:end="24:25">= <expr pos:start="24:18" pos:end="24:25"><name pos:start="24:18" pos:end="24:21">data</name> <operator pos:start="24:23" pos:end="24:23">*</operator> <literal type="number" pos:start="24:25" pos:end="24:25">2</literal></expr></init></decl>;</decl_stmt>
+    <expr_stmt pos:start="25:5" pos:end="25:17"><expr pos:start="25:5" pos:end="25:16" slice:use="b521680f9b74922b70686c6b694fd22ebc970e06"><operator pos:start="25:5" pos:end="25:5">(</operator><name pos:start="25:6" pos:end="25:9">void</name><operator pos:start="25:10" pos:end="25:10">)</operator><name pos:start="25:11" pos:end="25:16">result</name></expr>;</expr_stmt>
+</block_content>}</block></function>
+</unit>

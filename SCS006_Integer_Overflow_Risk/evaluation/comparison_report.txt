@@ -2,39 +2,43 @@
 ==============================================================================================================================
   SCS006 CWE-190  Tool Comparison: SmellDetect vs cppcheck vs Joern
 ==============================================================================================================================
-                                     |    Time  Peak RSS   Det |    Time  Peak RSS   Det |    Time  Peak RSS   Det
-Test Case                            |      --- SmellDetect ---       |      --- cppcheck ---       |        --- Joern ---       
+                                     |    Time  Mem Used  Detect |    Time  Mem Used  Detect |    Time  Mem Used  Detect
+Test Case                            |     --- SmellDetect ---     |      --- cppcheck ---       |        --- Joern ---       
 ------------------------------------------------------------------------------------------------------------------------------
-bad_int_multiply_01                  |  0.340s   14.8 MB   YES |  0.010s    7.8 MB    NO |  3.900s  435.8 MB   YES
-good_int_multiply_01                 |  0.300s   14.8 MB    NO |  0.000s    7.9 MB    NO |  3.620s  454.1 MB   YES
-bad_char_add_01                      |  0.300s   14.8 MB   YES |  0.000s    7.8 MB    NO |  3.580s  427.3 MB   YES
-good_char_add_01                     |  0.300s   14.8 MB    NO |  0.000s    7.9 MB    NO |  3.550s  429.6 MB   YES
-bad_unsigned_int_add_01              |  0.310s   14.8 MB   YES |  0.000s    7.8 MB    NO |  3.620s  410.2 MB   YES
-good_unsigned_int_add_01             |  0.300s   14.8 MB    NO |  0.000s    7.8 MB    NO |  3.600s  441.5 MB   YES
-bad_int64_square_01                  |  0.310s   14.8 MB   YES |  0.000s    7.8 MB    NO |  3.510s  411.7 MB   YES
-good_int64_square_01                 |  0.300s   14.8 MB    NO |  0.000s    7.9 MB    NO |  3.640s  438.4 MB   YES
-bad_short_square_01                  |  0.300s   14.8 MB   YES |  0.000s    7.7 MB    NO |  3.670s  378.4 MB   YES
-good_short_square_01                 |  0.300s   14.8 MB    NO |  0.000s    7.9 MB    NO |  3.440s  441.4 MB   YES
-bad_int_postinc_01                   |  0.310s   14.9 MB   YES |  0.000s    7.7 MB    NO |  3.620s  412.7 MB   YES
-good_int_postinc_01                  |  0.330s   14.9 MB    NO |  0.000s    7.8 MB    NO |  3.640s  384.2 MB   YES
-bad_int_preinc_01                    |  0.300s   14.9 MB   YES |  0.000s    7.6 MB    NO |  3.530s  429.6 MB   YES
-good_int_preinc_01                   |  0.300s   14.8 MB    NO |  0.000s    7.8 MB    NO |  3.620s  419.2 MB   YES
-bad_int_multiply_81                  |  0.300s   14.8 MB   YES |  0.000s    8.1 MB    NO |  3.650s  418.6 MB   YES
-good_int_multiply_81                 |  0.300s   14.8 MB    NO |  0.000s    8.0 MB    NO |  3.890s  379.6 MB   YES
-bad_int_multiply_82                  |  0.300s   14.9 MB   YES |  0.000s    8.1 MB    NO |  3.700s  449.3 MB   YES
-good_int_multiply_82                 |  0.310s   14.8 MB    NO |  0.000s    8.0 MB    NO |  3.910s  419.1 MB   YES
-bad_int_multiply_83                  |  0.300s   14.8 MB   YES |  0.000s    8.1 MB    NO |  3.730s  435.3 MB   YES
-good_int_multiply_83                 |  0.310s   14.8 MB    NO |  0.000s    8.1 MB    NO |  3.750s  433.0 MB   YES
-bad_int_multiply_84                  |  0.310s   14.8 MB   YES |  0.000s    8.1 MB    NO |  3.550s  439.6 MB   YES
-good_int_multiply_84                 |  0.300s   14.8 MB    NO |  0.000s    8.1 MB    NO |  3.790s  426.7 MB   YES
+bad_int_multiply_01                  |  0.300s   14.6 MB   FOUND |  0.010s    7.8 MB  MISSED |  3.900s  435.8 MB   FOUND
+good_int_multiply_01                 |  0.300s   14.6 MB  MISSED |  0.000s    7.9 MB  MISSED |  3.620s  454.1 MB   FOUND
+smell_int_multiply_01                |  0.290s   14.6 MB   FOUND |    -         -     MISSED |    -         -     MISSED
+bad_char_add_01                      |  0.290s   14.7 MB   FOUND |  0.000s    7.8 MB  MISSED |  3.580s  427.3 MB   FOUND
+good_char_add_01                     |  0.280s   14.6 MB  MISSED |  0.000s    7.9 MB  MISSED |  3.550s  429.6 MB   FOUND
+smell_char_add_01                    |  0.290s   14.7 MB   FOUND |    -         -     MISSED |    -         -     MISSED
+bad_unsigned_int_add_01              |  0.280s   14.7 MB   FOUND |  0.000s    7.8 MB  MISSED |  3.620s  410.2 MB   FOUND
+good_unsigned_int_add_01             |  0.280s   14.6 MB  MISSED |  0.000s    7.8 MB  MISSED |  3.600s  441.5 MB   FOUND
+bad_int64_square_01                  |  0.290s   14.8 MB   FOUND |  0.000s    7.8 MB  MISSED |  3.510s  411.7 MB   FOUND
+good_int64_square_01                 |  0.280s   14.6 MB  MISSED |  0.000s    7.9 MB  MISSED |  3.640s  438.4 MB   FOUND
+smell_int64_square_01                |  0.290s   14.6 MB   FOUND |    -         -     MISSED |    -         -     MISSED
+bad_short_square_01                  |  0.280s   14.7 MB   FOUND |  0.000s    7.7 MB  MISSED |  3.670s  378.4 MB   FOUND
+good_short_square_01                 |  0.260s   14.6 MB  MISSED |  0.000s    7.9 MB  MISSED |  3.440s  441.4 MB   FOUND
+bad_int_postinc_01                   |  0.280s   14.6 MB   FOUND |  0.000s    7.7 MB  MISSED |  3.620s  412.7 MB   FOUND
+good_int_postinc_01                  |  0.280s   14.6 MB  MISSED |  0.000s    7.8 MB  MISSED |  3.640s  384.2 MB   FOUND
+smell_int_postinc_01                 |  0.280s   14.7 MB   FOUND |    -         -     MISSED |    -         -     MISSED
+bad_int_preinc_01                    |  0.290s   14.6 MB   FOUND |  0.000s    7.6 MB  MISSED |  3.530s  429.6 MB   FOUND
+good_int_preinc_01                   |  0.280s   14.8 MB  MISSED |  0.000s    7.8 MB  MISSED |  3.620s  419.2 MB   FOUND
+bad_int_multiply_81                  |  0.290s   14.6 MB   FOUND |  0.000s    8.1 MB  MISSED |  3.650s  418.6 MB   FOUND
+good_int_multiply_81                 |  0.270s   14.7 MB  MISSED |  0.000s    8.0 MB  MISSED |  3.890s  379.6 MB   FOUND
+bad_int_multiply_82                  |  0.290s   14.7 MB   FOUND |  0.000s    8.1 MB  MISSED |  3.700s  449.3 MB   FOUND
+good_int_multiply_82                 |  0.280s   14.6 MB  MISSED |  0.000s    8.0 MB  MISSED |  3.910s  419.1 MB   FOUND
+bad_int_multiply_83                  |  0.290s   14.6 MB   FOUND |  0.000s    8.1 MB  MISSED |  3.730s  435.3 MB   FOUND
+good_int_multiply_83                 |  0.260s   14.7 MB  MISSED |  0.000s    8.1 MB  MISSED |  3.750s  433.0 MB   FOUND
+bad_int_multiply_84                  |  0.290s   14.7 MB   FOUND |  0.000s    8.1 MB  MISSED |  3.550s  439.6 MB   FOUND
+good_int_multiply_84                 |  0.260s   14.7 MB  MISSED |  0.000s    8.1 MB  MISSED |  3.790s  426.7 MB   FOUND
 ------------------------------------------------------------------------------------------------------------------------------
 
-  Detections    : SmellDetect 11/22   cppcheck 0/22   Joern 22/22
-  Avg wall time : SmellDetect 0.306s   cppcheck 0.010s   Joern 3.660s
-  Avg peak RSS  : SmellDetect 14.8 MB   cppcheck 7.9 MB   Joern 423.4 MB
+  Detected       : SmellDetect detected 15/26   cppcheck 0/26   Joern 22/26
+  Avg Run Time : SmellDetect 0.283s   cppcheck 0.010s   Joern 3.660s
+  Avg Memory Used  : SmellDetect 14.7 MB   cppcheck 7.9 MB   Joern 423.4 MB
 
-                                     SmellDetect       cppcheck          Joern
-  True Positives  (TP)                     11              0             11
+                                  SmellDetect       cppcheck          Joern
+  True Positives  (TP)                     15              0             11
   True Negatives  (TN)                     11             11              0
   False Positives (FP)                      0              0             11
   False Negatives (FN)                      0             11              0

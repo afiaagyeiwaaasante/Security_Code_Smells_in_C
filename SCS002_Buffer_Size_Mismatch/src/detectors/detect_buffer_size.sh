@@ -129,6 +129,7 @@ write_finding \
     --findings  "$FINDINGS" \
     --detector  "buffer_size_mismatch" \
     --severity  "warning" \
+    --classification  "smell" \
     --rule      "bufferSizeMismatch" \
     --file      "$FILENAME" \
     --line      "$CALL_LINE" \

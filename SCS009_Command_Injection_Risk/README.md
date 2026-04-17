@@ -12,6 +12,10 @@ operating system commands with the privileges of the running process.
 
 **Severity:** `warning [SCS009-SYSTEM | SCS009-POPEN | SCS009-EXECL]`
 
+## Why This Is a Vulnerability
+
+`system(cmd)` / `popen(cmd)` / `execl(path)` with a tainted argument is exploitable as written — shell metacharacters in the argument allow arbitrary command execution. The taint co-occurrence check confirms a user-controlled source (fgets, getenv) reaches the sink in the same function scope. `cppcheck` flags tainted `system()` calls as `error [commandInjection]` when `--enable=all` is used. Maps to CWE-78.
+
 ## Smell Pattern
 
 **Bad — user input flows directly into OS command sink:**

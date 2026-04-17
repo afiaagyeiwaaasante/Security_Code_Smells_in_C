@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" xmlns:cpp="http://www.srcML.org/srcML/cpp" xmlns:pos="http://www.srcML.org/srcML/position" xmlns:slice="http://www.srcML.org/srcML/slice" revision="1.0.0" language="C" filename="/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/malloc_size/smell_malloc_size_01.c" pos:tabs="8" hash="f115a8789410d645f8bcfdea44c609479b17c374"><comment type="block" pos:start="1:1" pos:end="26:3">/*
+ * CWE-195 Signed-to-Unsigned Conversion Error
+ * Scenario : malloc size â smell (warning level)
+ * Source   : internal constant (42) â not user-controlled
+ * Sink     : malloc(data) â signed int used as size, no positivity guard
+ * Detector : signed_malloc
+ * Expected : warning [signedUnsignedConversion] [signed_malloc]
+ *
+ * Why this is a smell and not a vulnerability:
+ *   data is always 42 â a valid, positive allocation size. malloc() will
+ *   never receive a wrapped size_t value in this code. The pattern is
+ *   structurally fragile: changing the source from a constant to
+ *   unvalidated user input (e.g. fscanf) without a positivity check
+ *   allows a negative value to wrap to near-SIZE_MAX, enabling a
+ *   subsequent heap overflow on any write into the buffer.
+ *
+ * Compare: bad_malloc_size_01.c â same sink, fscanf source â error/vulnerability
+ *
+ * Smell form (this file):
+ *   int data = 42;              // internally fixed â always positive
+ *   char *buf = malloc(data);   // SMELL: signed type, no positivity guard
+ *
+ * Vulnerability form (bad_malloc_size_01.c):
+ *   fscanf(stdin, "%d", &amp;data); // user-controlled â may be negative
+ *   char *buf = malloc(data);   // FLAW: wraps to huge size_t
+ */</comment>
+<cpp:include pos:start="27:1" pos:end="27:19">#<cpp:directive pos:start="27:2" pos:end="27:8">include</cpp:directive> <cpp:file pos:start="27:10" pos:end="27:19">&lt;stdlib.h&gt;</cpp:file></cpp:include>
+<cpp:include pos:start="28:1" pos:end="28:19">#<cpp:directive pos:start="28:2" pos:end="28:8">include</cpp:directive> <cpp:file pos:start="28:10" pos:end="28:19">&lt;string.h&gt;</cpp:file></cpp:include>
+
+<function pos:start="30:1" pos:end="43:1"><type pos:start="30:1" pos:end="30:4"><name pos:start="30:1" pos:end="30:4">void</name></type> <name pos:start="30:6" pos:end="30:22">smell_malloc_size</name><parameter_list pos:start="30:23" pos:end="30:28">(<parameter pos:start="30:24" pos:end="30:27"><decl pos:start="30:24" pos:end="30:27"><type pos:start="30:24" pos:end="30:27"><name pos:start="30:24" pos:end="30:27">void</name></type></decl></parameter>)</parameter_list>
+<block pos:start="31:1" pos:end="43:1">{<block_content pos:start="31:2" pos:end="43:0">
+    <decl_stmt pos:start="32:5" pos:end="32:18"><decl pos:start="32:5" pos:end="32:17" slice:decl="a49cbfebd6be859b4000b28a4a914bb9d1e8d665"><type pos:start="32:5" pos:end="32:7"><name pos:start="32:5" pos:end="32:7">int</name></type> <name pos:start="32:9" pos:end="32:12">data</name> <init pos:start="32:14" pos:end="32:17">= <expr pos:start="32:16" pos:end="32:17"><literal type="number" pos:start="32:16" pos:end="32:17">42</literal></expr></init></decl>;</decl_stmt>
+
+    <comment type="block" pos:start="34:5" pos:end="34:82">/* SMELL: signed int as malloc size, no positivity guard â currently safe */</comment>
+    <if_stmt pos:start="35:5" pos:end="42:5"><if pos:start="35:5" pos:end="42:5">if <condition pos:start="35:8" pos:end="35:19">(<expr pos:start="35:9" pos:end="35:18" slice:use="a49cbfebd6be859b4000b28a4a914bb9d1e8d665"><name pos:start="35:9" pos:end="35:12">data</name> <operator pos:start="35:14" pos:end="35:14">&lt;</operator> <literal type="number" pos:start="35:16" pos:end="35:18">100</literal></expr>)</condition>
+    <block pos:start="36:5" pos:end="42:5">{<block_content pos:start="36:6" pos:end="42:4">
+        <decl_stmt pos:start="37:9" pos:end="37:41"><decl pos:start="37:9" pos:end="37:40" slice:decl="3347fe5583d18f2af4fa803b4eb3c999ab80a52c" slice:use="a49cbfebd6be859b4000b28a4a914bb9d1e8d665"><type pos:start="37:9" pos:end="37:14"><name pos:start="37:9" pos:end="37:12">char</name> <modifier pos:start="37:14" pos:end="37:14">*</modifier></type><name pos:start="37:15" pos:end="37:17">buf</name> <init pos:start="37:19" pos:end="37:40">= <expr pos:start="37:21" pos:end="37:40"><operator pos:start="37:21" pos:end="37:21">(</operator><name pos:start="37:22" pos:end="37:25">char</name> <operator pos:start="37:27" pos:end="37:27">*</operator><operator pos:start="37:28" pos:end="37:28">)</operator><call pos:start="37:29" pos:end="37:40"><name pos:start="37:29" pos:end="37:34">malloc</name><argument_list pos:start="37:35" pos:end="37:40">(<argument pos:start="37:36" pos:end="37:39"><expr pos:start="37:36" pos:end="37:39"><name pos:start="37:36" pos:end="37:39">data</name></expr></argument>)</argument_list></call></expr></init></decl>;</decl_stmt>
+        <if_stmt pos:start="38:9" pos:end="38:36"><if pos:start="38:9" pos:end="38:36">if <condition pos:start="38:12" pos:end="38:24">(<expr pos:start="38:13" pos:end="38:23" slice:use="3347fe5583d18f2af4fa803b4eb3c999ab80a52c"><name pos:start="38:13" pos:end="38:15">buf</name> <operator pos:start="38:17" pos:end="38:18">==</operator> <name pos:start="38:20" pos:end="38:23">NULL</name></expr>)</condition> <block pos:start="38:26" pos:end="38:36">{<block_content pos:start="38:27" pos:end="38:35"> <return pos:start="38:28" pos:end="38:34">return;</return> </block_content>}</block></if></if_stmt>
+        <expr_stmt pos:start="39:9" pos:end="39:35"><expr pos:start="39:9" pos:end="39:34" slice:use="3347fe5583d18f2af4fa803b4eb3c999ab80a52c a49cbfebd6be859b4000b28a4a914bb9d1e8d665"><call pos:start="39:9" pos:end="39:34"><name pos:start="39:9" pos:end="39:14">memset</name><argument_list pos:start="39:15" pos:end="39:34">(<argument pos:start="39:16" pos:end="39:18"><expr pos:start="39:16" pos:end="39:18"><name pos:start="39:16" pos:end="39:18">buf</name></expr></argument>, <argument pos:start="39:21" pos:end="39:23"><expr pos:start="39:21" pos:end="39:23"><literal type="char" pos:start="39:21" pos:end="39:23">'A'</literal></expr></argument>, <argument pos:start="39:26" pos:end="39:33"><expr pos:start="39:26" pos:end="39:33"><name pos:start="39:26" pos:end="39:29">data</name> <operator pos:start="39:31" pos:end="39:31">-</operator> <literal type="number" pos:start="39:33" pos:end="39:33">1</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+        <expr_stmt pos:start="40:9" pos:end="40:29"><expr pos:start="40:9" pos:end="40:28" slice:def="3347fe5583d18f2af4fa803b4eb3c999ab80a52c" slice:use="a49cbfebd6be859b4000b28a4a914bb9d1e8d665"><name pos:start="40:9" pos:end="40:21"><name pos:start="40:9" pos:end="40:11">buf</name><index pos:start="40:12" pos:end="40:21">[<expr pos:start="40:13" pos:end="40:20"><name pos:start="40:13" pos:end="40:16">data</name> <operator pos:start="40:18" pos:end="40:18">-</operator> <literal type="number" pos:start="40:20" pos:end="40:20">1</literal></expr>]</index></name> <operator pos:start="40:23" pos:end="40:23">=</operator> <literal type="char" pos:start="40:25" pos:end="40:28">'\0'</literal></expr>;</expr_stmt>
+        <expr_stmt pos:start="41:9" pos:end="41:18"><expr pos:start="41:9" pos:end="41:17" slice:use="3347fe5583d18f2af4fa803b4eb3c999ab80a52c"><call pos:start="41:9" pos:end="41:17"><name pos:start="41:9" pos:end="41:12">free</name><argument_list pos:start="41:13" pos:end="41:17">(<argument pos:start="41:14" pos:end="41:16"><expr pos:start="41:14" pos:end="41:16"><name pos:start="41:14" pos:end="41:16">buf</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+    </block_content>}</block></if></if_stmt>
+</block_content>}</block></function>
+</unit>

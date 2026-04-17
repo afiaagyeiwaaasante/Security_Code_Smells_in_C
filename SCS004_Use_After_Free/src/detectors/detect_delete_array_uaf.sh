@@ -127,6 +127,7 @@ process_query() {
             --findings  "$FINDINGS" \
             --detector  "delete_array_uaf" \
             --severity  "error" \
+            --classification  "vulnerability" \
             --rule      "useAfterFree" \
             --file      "$FILENAME" \
             --line      "$USE_LINE" \

@@ -25,6 +25,10 @@ int *p = (int *)malloc(n * sizeof(int));   /* SMELL: n * sizeof may overflow */
 int *p = (int *)calloc((size_t)n, sizeof(int));  /* FIX: calloc checks overflow internally */
 ```
 
+## Why This Is a Smell
+
+`malloc(n * sizeof(T))` is not exploitable as currently written — overflow only occurs if `n` is attacker-controlled and unbounded. The pattern is structurally fragile: add one call that reads `n` from user input without a bounds check and the allocation silently underflows, enabling a heap overflow on the subsequent write. `cppcheck` does not flag this pattern.
+
 ## Security Classification
 
 CWE ID: 680

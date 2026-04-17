@@ -10,7 +10,27 @@ control flow, or security vulnerabilities.
 
 **CWE:** [CWE-190: Integer Overflow or Wraparound](https://cwe.mitre.org/data/definitions/190.html)
 
-**Severity:** `warning [integerOverflow]`
+## Vulnerability vs. Smell Classification
+
+SCS006 findings are classified at detection time based on whether a taint source
+(`fscanf`, `scanf`, `fgets`, `getenv`) appears in the same function scope as the
+unchecked arithmetic expression.
+
+| Condition                          | Severity  | Classification  |
+|------------------------------------|-----------|-----------------|
+| Taint source present in scope      | `error`   | `vulnerability` |
+| No taint source (constant/internal)| `warning` | `smell`         |
+
+**Why a taint source makes it a vulnerability:** If attacker-controlled input
+reaches the arithmetic operand without a bounds check, the value can be made
+arbitrarily large, causing wrap-around. This is directly exploitable via
+crafted input (e.g., `fscanf(stdin, "%d", &data)` followed by `data * 2`).
+
+**Why the untainted form is a smell:** When the value comes from a constant or
+internal computation, no overflow occurs as written. The pattern is structurally
+fragile — replacing the constant with unvalidated user input would immediately
+introduce a vulnerability. `cppcheck` flags this as `warning [integerOverflow]`.
+Maps to CWE-190.
 
 ## Folder Structure
 
@@ -93,31 +113,53 @@ bash evaluation/compare_report.sh
 
 ## Test Results
 
-**SmellDetect — 22/22 test cases (100%)**
+**SmellDetect — 26/26 test cases (100%)**
 
-| Group           | Bad cases | Good cases | TP | TN | FP | FN |
-|-----------------|-----------|------------|----|----|----|----|
-| add             | 2         | 2          | 2  | 2  | 0  | 0  |
-| multiply        | 1         | 1          | 1  | 1  | 0  | 0  |
-| square          | 2         | 2          | 2  | 2  | 0  | 0  |
-| postinc         | 1         | 1          | 1  | 1  | 0  | 0  |
-| preinc          | 1         | 1          | 1  | 1  | 0  | 0  |
-| cpp_virtual_ref | 1         | 1          | 1  | 1  | 0  | 0  |
-| cpp_virtual_ptr | 1         | 1          | 1  | 1  | 0  | 0  |
-| cpp_ctor_stack  | 1         | 1          | 1  | 1  | 0  | 0  |
-| cpp_ctor_heap   | 1         | 1          | 1  | 1  | 0  | 0  |
-| **Total**       | **11**    | **11**     | **11** | **11** | **0** | **0** |
+`bad_*` cases are expected to produce at least one finding (any severity).
+`good_*` cases are expected to produce zero findings.
+`smell_*` cases are expected to produce a finding with `severity=warning` and `classification=smell`.
+
+| Group           | Bad | Good | Smell | TP | TN | SMELL-TP | FP | FN |
+|-----------------|-----|------|-------|----|----|----------|----|-----|
+| add             | 2   | 2    | 1     | 2  | 2  | 1        | 0  | 0  |
+| multiply        | 1   | 1    | 1     | 1  | 1  | 1        | 0  | 0  |
+| square          | 2   | 2    | 1     | 2  | 2  | 1        | 0  | 0  |
+| postinc         | 1   | 1    | 1     | 1  | 1  | 1        | 0  | 0  |
+| preinc          | 1   | 1    | —     | 1  | 1  | —        | 0  | 0  |
+| cpp_virtual_ref | 1   | 1    | —     | 1  | 1  | —        | 0  | 0  |
+| cpp_virtual_ptr | 1   | 1    | —     | 1  | 1  | —        | 0  | 0  |
+| cpp_ctor_stack  | 1   | 1    | —     | 1  | 1  | —        | 0  | 0  |
+| cpp_ctor_heap   | 1   | 1    | —     | 1  | 1  | —        | 0  | 0  |
+| **Total**       | **11** | **11** | **4** | **11** | **11** | **4** | **0** | **0** |
+
+**Benchmark comparison (SmellDetect vs cppcheck vs Joern):**
+
+| Metric        | SmellDetect | cppcheck | Joern   |
+|---------------|-------------|----------|---------|
+| Precision     | 100%        | N/A      | 50%     |
+| Recall        | 100%        | 0%       | 100%    |
+| Avg time      | 0.283s      | 0.010s   | 3.660s  |
+| Avg memory    | 14.7 MB     | 7.9 MB   | 423.4 MB|
+
+cppcheck misses all cases (no integerOverflow rule for these patterns).
+Joern detects all bad_ cases but produces false positives on good_ cases (50% precision).
 
 ## Detection Pattern
 
-**Bad (no guard):**
+**Vulnerability (tainted, no guard → `error/vulnerability`):**
 ```c
-int result = data * 2;          // overflow if data > INT_MAX / 2
-char result = data + 1;         // overflow if data == CHAR_MAX
-data++;                         // overflow if data == INT_MAX
+int data;
+fscanf(stdin, "%d", &data);     // taint source — attacker-controlled
+int result = data * 2;          // FLAW: overflow if data > INT_MAX / 2
 ```
 
-**Good (guarded):**
+**Smell (untainted, no guard → `warning/smell`):**
+```c
+int data = rand() % 100;        // internal source — not attacker-controlled
+int result = data * 2;          // SMELL: structurally fragile, safe as written
+```
+
+**Good (guarded → no finding):**
 ```c
 if (data <= (INT_MAX / 2)) { int result = data * 2; }
 if (data < CHAR_MAX) { char result = data + 1; }

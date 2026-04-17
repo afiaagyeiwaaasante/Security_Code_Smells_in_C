@@ -20,23 +20,24 @@
 #     --note-msg  <text>      OPTIONAL: note message
 
 write_finding() {
-    local FINDINGS="" DETECTOR="" SEVERITY="" RULE=""
+    local FINDINGS="" DETECTOR="" SEVERITY="" CLASSIFICATION="" RULE=""
     local FILE="" LINE="" COL="" VARNAME=""
     local NOTE_LINE="" NOTE_COL="" NOTE_MSG=""
 
     while [[ $# -gt 0 ]]; do
         case "$1" in
-            --findings)  FINDINGS="$2";  shift 2 ;;
-            --detector)  DETECTOR="$2";  shift 2 ;;
-            --severity)  SEVERITY="$2";  shift 2 ;;
-            --rule)      RULE="$2";      shift 2 ;;
-            --file)      FILE="$2";      shift 2 ;;
-            --line)      LINE="$2";      shift 2 ;;
-            --col)       COL="$2";       shift 2 ;;
-            --varname)   VARNAME="$2";   shift 2 ;;
-            --note-line) NOTE_LINE="$2"; shift 2 ;;
-            --note-col)  NOTE_COL="$2";  shift 2 ;;
-            --note-msg)  NOTE_MSG="$2";  shift 2 ;;
+            --findings)        FINDINGS="$2";        shift 2 ;;
+            --detector)        DETECTOR="$2";        shift 2 ;;
+            --severity)        SEVERITY="$2";        shift 2 ;;
+            --classification)  CLASSIFICATION="$2";  shift 2 ;;
+            --rule)            RULE="$2";            shift 2 ;;
+            --file)            FILE="$2";            shift 2 ;;
+            --line)            LINE="$2";            shift 2 ;;
+            --col)             COL="$2";             shift 2 ;;
+            --varname)         VARNAME="$2";         shift 2 ;;
+            --note-line)       NOTE_LINE="$2";       shift 2 ;;
+            --note-col)        NOTE_COL="$2";        shift 2 ;;
+            --note-msg)        NOTE_MSG="$2";        shift 2 ;;
             *) echo "write_finding: unknown argument $1" >&2; return 1 ;;
         esac
     done
@@ -60,6 +61,7 @@ write_finding() {
 {
   "detector": "${DETECTOR}",
   "severity": "${SEVERITY}",
+  "classification": "${CLASSIFICATION}",
   "rule": "${RULE}",
   "file": "${FILE_ESC}",
   "line": ${LINE},
@@ -77,6 +79,7 @@ EOF
 {
   "detector": "${DETECTOR}",
   "severity": "${SEVERITY}",
+  "classification": "${CLASSIFICATION}",
   "rule": "${RULE}",
   "file": "${FILE_ESC}",
   "line": ${LINE},

@@ -97,6 +97,7 @@ write_finding \
     --findings  "$FINDINGS" \
     --detector  "no_free_on_exit" \
     --severity  "warning" \
+    --classification  "smell" \
     --rule      "memoryLeak" \
     --file      "$FILENAME" \
     --line      "$LINE" \

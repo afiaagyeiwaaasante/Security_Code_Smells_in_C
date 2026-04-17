@@ -2,27 +2,30 @@
 ==============================================================================================================================
   SCS007 CWE-195  Tool Comparison: SmellDetect vs cppcheck vs Joern
 ==============================================================================================================================
-                                     |    Time  Peak RSS   Det |    Time  Peak RSS   Det |    Time  Peak RSS   Det
-Test Case                            |      --- SmellDetect ---       |      --- cppcheck ---       |        --- Joern ---       
+                                     |    Time  Mem Used  Detect |    Time  Mem Used  Detect |    Time  Mem Used  Detect
+Test Case                            |     --- SmellDetect ---     |      --- cppcheck ---       |        --- Joern ---       
 ------------------------------------------------------------------------------------------------------------------------------
-bad_malloc_size_01                   |  0.340s   14.9 MB   YES |  0.010s    7.9 MB    NO |  3.990s  397.7 MB   YES
-good_malloc_size_01                  |  0.300s   14.8 MB    NO |  0.000s    7.9 MB    NO |  3.540s  432.8 MB    NO
-bad_memcpy_count_01                  |  0.300s   14.8 MB   YES |  0.000s    7.9 MB    NO |  3.580s  449.8 MB   YES
-good_memcpy_count_01                 |  0.290s   14.8 MB    NO |  0.000s    8.0 MB    NO |  3.580s  460.6 MB    NO
-bad_strncpy_count_01                 |  0.290s   14.8 MB   YES |  0.000s    7.9 MB    NO |  3.630s  440.2 MB   YES
-good_strncpy_count_01                |  0.300s   14.7 MB    NO |  0.000s    7.9 MB    NO |  3.600s  485.6 MB    NO
-bad_signed_malloc_22b                |  0.300s   14.8 MB   YES |  0.000s    7.9 MB    NO |  3.590s  430.9 MB   YES
-good_signed_malloc_22b               |  0.310s   14.8 MB    NO |  0.000s    7.9 MB    NO |  3.520s  423.9 MB    NO
-bad_signed_malloc_84                 |  0.310s   14.8 MB   YES |  0.000s    8.1 MB    NO |  3.620s  459.1 MB   YES
-good_signed_malloc_84                |  0.300s   14.9 MB    NO |  0.000s    8.1 MB    NO |  3.660s  461.8 MB    NO
+bad_malloc_size_01                   |  0.320s   14.6 MB   FOUND |  0.010s    7.9 MB  MISSED |  3.990s  397.7 MB   FOUND
+good_malloc_size_01                  |  0.290s   14.8 MB  MISSED |  0.000s    7.9 MB  MISSED |  3.540s  432.8 MB  MISSED
+smell_malloc_size_01                 |  0.330s   14.7 MB   FOUND |    -         -     MISSED |    -         -     MISSED
+bad_memcpy_count_01                  |  0.310s   14.7 MB   FOUND |  0.000s    7.9 MB  MISSED |  3.580s  449.8 MB   FOUND
+good_memcpy_count_01                 |  0.310s   14.6 MB  MISSED |  0.000s    8.0 MB  MISSED |  3.580s  460.6 MB  MISSED
+smell_memcpy_count_01                |  0.310s   14.8 MB   FOUND |    -         -     MISSED |    -         -     MISSED
+bad_strncpy_count_01                 |  0.310s   14.6 MB   FOUND |  0.000s    7.9 MB  MISSED |  3.630s  440.2 MB   FOUND
+good_strncpy_count_01                |  0.280s   14.6 MB  MISSED |  0.000s    7.9 MB  MISSED |  3.600s  485.6 MB  MISSED
+smell_strncpy_count_01               |  0.320s   14.7 MB   FOUND |    -         -     MISSED |    -         -     MISSED
+bad_signed_malloc_22b                |  0.310s   14.7 MB   FOUND |  0.000s    7.9 MB  MISSED |  3.590s  430.9 MB   FOUND
+good_signed_malloc_22b               |  0.300s   14.6 MB  MISSED |  0.000s    7.9 MB  MISSED |  3.520s  423.9 MB  MISSED
+bad_signed_malloc_84                 |  0.300s   14.7 MB   FOUND |  0.000s    8.1 MB  MISSED |  3.620s  459.1 MB   FOUND
+good_signed_malloc_84                |  0.300s   14.7 MB  MISSED |  0.000s    8.1 MB  MISSED |  3.660s  461.8 MB  MISSED
 ------------------------------------------------------------------------------------------------------------------------------
 
-  Detections    : SmellDetect 5/10   cppcheck 0/10   Joern 5/10
-  Avg wall time : SmellDetect 0.304s   cppcheck 0.010s   Joern 3.631s
-  Avg peak RSS  : SmellDetect 14.8 MB   cppcheck 8.0 MB   Joern 444.2 MB
+  Detected       : SmellDetect detected 8/13   cppcheck 0/13   Joern 5/13
+  Avg Run Time : SmellDetect 0.307s   cppcheck 0.010s   Joern 3.631s
+  Avg Memory Used  : SmellDetect 14.7 MB   cppcheck 8.0 MB   Joern 444.2 MB
 
-                                     SmellDetect       cppcheck          Joern
-  True Positives  (TP)                      5              0              5
+                                  SmellDetect       cppcheck          Joern
+  True Positives  (TP)                      8              0              5
   True Negatives  (TN)                      5              5              5
   False Positives (FP)                      0              0              0
   False Negatives (FN)                      0              5              0

@@ -108,7 +108,7 @@ cpp_mems    = [int(r["peak_rss_kb"])   for r in cpp.values()   if r.get("peak_rs
 joern_mems  = [int(r["peak_rss_kb"])   for r in joern.values() if r.get("peak_rss_kb")] if joern else []
 
 def expected(test_name):
-    return test_name.startswith("bad_")
+    return test_name.startswith("bad_") or test_name.startswith("smell_")
 
 def tptnfpfn(results):
     tp = tn = fp = fn = 0

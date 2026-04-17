@@ -91,7 +91,8 @@ else
             write_finding \
                 --findings  "$FINDINGS" \
                 --detector  "system_tainted" \
-                --severity  "warning" \
+                --severity  "error" \
+                --classification  "vulnerability" \
                 --rule      "SCS009-SYSTEM" \
                 --file      "$FILENAME" \
                 --line      "$LINE" \
@@ -127,7 +128,8 @@ if [ -n "$DES_POS" ]; then
     write_finding \
         --findings  "$FINDINGS" \
         --detector  "system_tainted" \
-        --severity  "warning" \
+        --severity  "error" \
+        --classification  "vulnerability" \
         --rule      "SCS009-SYSTEM" \
         --file      "$FILENAME" \
         --line      "$LINE" \

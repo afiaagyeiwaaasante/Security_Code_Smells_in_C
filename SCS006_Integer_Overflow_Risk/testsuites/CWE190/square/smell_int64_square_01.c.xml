@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" xmlns:cpp="http://www.srcML.org/srcML/cpp" xmlns:pos="http://www.srcML.org/srcML/position" xmlns:slice="http://www.srcML.org/srcML/slice" revision="1.0.0" language="C" filename="/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/square/smell_int64_square_01.c" pos:tabs="8" hash="4d80e30eb8d850660de3552e718c9589a3f7f5a4"><comment type="block" pos:start="1:1" pos:end="18:3">/*
+ * CWE-190 Integer Overflow Risk
+ * Scenario : int64_t squaring â smell (warning level)
+ * Source   : rand() â not user-controlled, internal only
+ * Sink     : data * data with no overflow guard
+ * Detector : unchecked_multiply
+ * Expected : warning [integerOverflow] [unchecked_multiply]
+ *
+ * Why this is a smell and not a vulnerability:
+ *   data is derived from rand(), not from user input. A wide type (int64_t)
+ *   does not prevent overflow â data * data exceeds INT64_MAX when
+ *   data &gt; sqrt(INT64_MAX) (~3e9). The pattern is structurally fragile:
+ *   replacing rand() with user-controlled input without a MAX guard
+ *   converts this into a directly exploitable integer overflow.
+ *
+ * Compare: bad_int64_square_01.c â identical source; provided for explicit
+ *   smell labelling and documentation alignment with the SCS003 pattern.
+ */</comment>
+<cpp:include pos:start="19:1" pos:end="19:19">#<cpp:directive pos:start="19:2" pos:end="19:8">include</cpp:directive> <cpp:file pos:start="19:10" pos:end="19:19">&lt;stdlib.h&gt;</cpp:file></cpp:include>
+<cpp:include pos:start="20:1" pos:end="20:19">#<cpp:directive pos:start="20:2" pos:end="20:8">include</cpp:directive> <cpp:file pos:start="20:10" pos:end="20:19">&lt;stdint.h&gt;</cpp:file></cpp:include>
+
+<function pos:start="22:1" pos:end="29:1"><type pos:start="22:1" pos:end="22:4"><name pos:start="22:1" pos:end="22:4">void</name></type> <name pos:start="22:6" pos:end="22:23">smell_int64_square</name><parameter_list pos:start="22:24" pos:end="22:29">(<parameter pos:start="22:25" pos:end="22:28"><decl pos:start="22:25" pos:end="22:28"><type pos:start="22:25" pos:end="22:28"><name pos:start="22:25" pos:end="22:28">void</name></type></decl></parameter>)</parameter_list>
+<block pos:start="23:1" pos:end="29:1">{<block_content pos:start="23:2" pos:end="29:0">
+    <decl_stmt pos:start="24:5" pos:end="24:35"><decl pos:start="24:5" pos:end="24:34" slice:decl="be2db02e01138ff81b2513b900f61635061d7fef"><type pos:start="24:5" pos:end="24:11"><name pos:start="24:5" pos:end="24:11">int64_t</name></type> <name pos:start="24:13" pos:end="24:16">data</name> <init pos:start="24:18" pos:end="24:34">= <expr pos:start="24:20" pos:end="24:34"><operator pos:start="24:20" pos:end="24:20">(</operator><name pos:start="24:21" pos:end="24:27">int64_t</name><operator pos:start="24:28" pos:end="24:28">)</operator><call pos:start="24:29" pos:end="24:34"><name pos:start="24:29" pos:end="24:32">rand</name><argument_list pos:start="24:33" pos:end="24:34">()</argument_list></call></expr></init></decl>;</decl_stmt>
+
+    <comment type="block" pos:start="26:5" pos:end="26:64">/* SMELL: no MAX guard, but source is not user-controlled */</comment>
+    <decl_stmt pos:start="27:5" pos:end="27:33"><decl pos:start="27:5" pos:end="27:32" slice:use="be2db02e01138ff81b2513b900f61635061d7fef" slice:decl="4c9385ebd96ba13cc0d077b70b93efb84a060a6e"><type pos:start="27:5" pos:end="27:11"><name pos:start="27:5" pos:end="27:11">int64_t</name></type> <name pos:start="27:13" pos:end="27:18">result</name> <init pos:start="27:20" pos:end="27:32">= <expr pos:start="27:22" pos:end="27:32"><name pos:start="27:22" pos:end="27:25">data</name> <operator pos:start="27:27" pos:end="27:27">*</operator> <name pos:start="27:29" pos:end="27:32">data</name></expr></init></decl>;</decl_stmt>
+    <expr_stmt pos:start="28:5" pos:end="28:17"><expr pos:start="28:5" pos:end="28:16" slice:use="4c9385ebd96ba13cc0d077b70b93efb84a060a6e"><operator pos:start="28:5" pos:end="28:5">(</operator><name pos:start="28:6" pos:end="28:9">void</name><operator pos:start="28:10" pos:end="28:10">)</operator><name pos:start="28:11" pos:end="28:16">result</name></expr>;</expr_stmt>
+</block_content>}</block></function>
+</unit>

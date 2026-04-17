@@ -12,6 +12,14 @@ srcattributor) followed by six structural detectors built with srcQL and xmllint
 
 ---
 
+## Why Some Patterns Are Vulnerabilities, Others Are Smells
+
+**Vulnerability patterns** (`binary_if`, `null_deref`, `deref_after_check`): the null dereference occurs on a provably reachable code path — the check is either absent, logically inverted (`&` instead of `&&`), or performed after the dereference. `cppcheck` flags these as `error [nullPointer]`. Maps to CWE-476.
+
+**Smell patterns** (`missing_guard`, `check_after_deref`, `interprocedural`): a pointer is dereferenced before a guard is confirmed absent — the code may work correctly today but breaks the moment a caller passes NULL or an allocation fails. No crash path is currently provable; one code change is enough to trigger one.
+
+---
+
 ## Detectors
 
 | # | Detector | Pattern | Severity |

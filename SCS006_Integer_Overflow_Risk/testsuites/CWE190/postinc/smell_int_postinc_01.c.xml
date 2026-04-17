@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" xmlns:pos="http://www.srcML.org/srcML/position" xmlns:slice="http://www.srcML.org/srcML/slice" revision="1.0.0" language="C" filename="/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/postinc/smell_int_postinc_01.c" pos:tabs="8" hash="c6dd8588ccc7b9ca5a34d6cfe57062f41341961a"><comment type="block" pos:start="1:1" pos:end="17:3">/*
+ * CWE-190 Integer Overflow Risk
+ * Scenario : post-increment â smell (warning level)
+ * Source   : internal constant â not user-controlled
+ * Sink     : data++ with no overflow guard
+ * Detector : unchecked_increment
+ * Expected : warning [integerOverflow] [unchecked_increment]
+ *
+ * Why this is a smell and not a vulnerability:
+ *   data is initialised from a compile-time constant (42). The increment
+ *   will never overflow in the current code. The pattern is structurally
+ *   fragile: replacing the constant with user-supplied input without an
+ *   INT_MAX guard converts this into a signed overflow vulnerability.
+ *
+ * Compare: bad_int_postinc_01.c â same sink, user-controlled source
+ *   would produce â error/vulnerability once taint is wired in.
+ */</comment>
+
+<function pos:start="19:1" pos:end="26:1"><type pos:start="19:1" pos:end="19:4"><name pos:start="19:1" pos:end="19:4">void</name></type> <name pos:start="19:6" pos:end="19:22">smell_int_postinc</name><parameter_list pos:start="19:23" pos:end="19:28">(<parameter pos:start="19:24" pos:end="19:27"><decl pos:start="19:24" pos:end="19:27"><type pos:start="19:24" pos:end="19:27"><name pos:start="19:24" pos:end="19:27">void</name></type></decl></parameter>)</parameter_list>
+<block pos:start="20:1" pos:end="26:1">{<block_content pos:start="20:2" pos:end="26:0">
+    <decl_stmt pos:start="21:5" pos:end="21:18"><decl pos:start="21:5" pos:end="21:17" slice:decl="bc4a5ad780fb737db79d7e055a66c9a1249889f0"><type pos:start="21:5" pos:end="21:7"><name pos:start="21:5" pos:end="21:7">int</name></type> <name pos:start="21:9" pos:end="21:12">data</name> <init pos:start="21:14" pos:end="21:17">= <expr pos:start="21:16" pos:end="21:17"><literal type="number" pos:start="21:16" pos:end="21:17">42</literal></expr></init></decl>;</decl_stmt>
+
+    <comment type="block" pos:start="23:5" pos:end="23:66">/* SMELL: no INT_MAX guard, but data is not user-controlled */</comment>
+    <expr_stmt pos:start="24:5" pos:end="24:11"><expr pos:start="24:5" pos:end="24:10" slice:def="bc4a5ad780fb737db79d7e055a66c9a1249889f0"><name pos:start="24:5" pos:end="24:8">data</name><operator pos:start="24:9" pos:end="24:10">++</operator></expr>;</expr_stmt>
+    <expr_stmt pos:start="25:5" pos:end="25:15"><expr pos:start="25:5" pos:end="25:14" slice:use="bc4a5ad780fb737db79d7e055a66c9a1249889f0"><operator pos:start="25:5" pos:end="25:5">(</operator><name pos:start="25:6" pos:end="25:9">void</name><operator pos:start="25:10" pos:end="25:10">)</operator><name pos:start="25:11" pos:end="25:14">data</name></expr>;</expr_stmt>
+</block_content>}</block></function>
+</unit>

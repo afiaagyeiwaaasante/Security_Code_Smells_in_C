@@ -12,6 +12,10 @@ string. An attacker who controls the format string can inject format directives
 
 **Severity:** `warning [SCS008-PRINTF | SCS008-FPRINTF | SCS008-SYSLOG]`
 
+## Why This Is a Vulnerability
+
+`printf(user_input)` is exploitable as written — when the format string is attacker-controlled, the `%n` specifier enables arbitrary memory writes and `%s`/`%x` leak stack contents. The taint co-occurrence check (fgets/getenv in the same function) confirms a user-controlled value reaches the format position. `cppcheck` flags this as `warning [formatString]` (some configurations raise it to `error`). Maps to CWE-134.
+
 ## Smell Pattern
 
 **Bad — variable used directly as format argument:**

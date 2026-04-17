@@ -100,6 +100,7 @@ echo "--- building findings ---"
             --findings  "$FINDINGS" \
             --detector  "check_after_deref" \
             --severity  "warning" \
+            --classification  "smell" \
             --rule      "missingNullCheck" \
             --file      "$FILENAME" \
             --line      "$IF_LINE" \

@@ -1,0 +1,47 @@
+{
+"dest-32-10-6280f5397fee8050e8ffa6dfec791b3ee33b5e15":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/strncpy_count/smell_strncpy_count_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"smell_strncpy_count",
+    "type":"char[]",
+    "name":"dest",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/strncpy_count/smell_strncpy_count_01.c:32:10",
+    "dependence":[],
+    "aliases":[],
+    "calls":[{"functionName":"strncpy","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/strncpy_count/smell_strncpy_count_01.c:39:9"},{"functionName":"strncpy","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/strncpy_count/smell_strncpy_count_01.c:39:9"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/strncpy_count/smell_strncpy_count_01.c:39:17"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/strncpy_count/smell_strncpy_count_01.c:32:10","/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/strncpy_count/smell_strncpy_count_01.c:40:9"]
+},
+"src-31-10-6280f5397fee8050e8ffa6dfec791b3ee33b5e15":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/strncpy_count/smell_strncpy_count_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"smell_strncpy_count",
+    "type":"char[]",
+    "name":"src",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/strncpy_count/smell_strncpy_count_01.c:31:10",
+    "dependence":[],
+    "aliases":[],
+    "calls":[{"functionName":"memset","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/strncpy_count/smell_strncpy_count_01.c:33:5"},{"functionName":"memset","parameter":"3","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/strncpy_count/smell_strncpy_count_01.c:33:5"},{"functionName":"strncpy","parameter":"2","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/strncpy_count/smell_strncpy_count_01.c:39:9"},{"functionName":"strncpy","parameter":"2","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/strncpy_count/smell_strncpy_count_01.c:39:9"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/strncpy_count/smell_strncpy_count_01.c:33:12","/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/strncpy_count/smell_strncpy_count_01.c:33:29","/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/strncpy_count/smell_strncpy_count_01.c:34:16","/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/strncpy_count/smell_strncpy_count_01.c:39:23"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/strncpy_count/smell_strncpy_count_01.c:31:10","/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/strncpy_count/smell_strncpy_count_01.c:34:5"]
+},
+"data-29-9-6280f5397fee8050e8ffa6dfec791b3ee33b5e15":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/strncpy_count/smell_strncpy_count_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"smell_strncpy_count",
+    "type":"int",
+    "name":"data",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/strncpy_count/smell_strncpy_count_01.c:29:9",
+    "dependence":[],
+    "aliases":[],
+    "calls":[{"functionName":"strncpy","parameter":"3","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/strncpy_count/smell_strncpy_count_01.c:39:9"},{"functionName":"strncpy","parameter":"3","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/strncpy_count/smell_strncpy_count_01.c:39:9"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/strncpy_count/smell_strncpy_count_01.c:36:9","/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/strncpy_count/smell_strncpy_count_01.c:39:28","/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/strncpy_count/smell_strncpy_count_01.c:40:14"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/strncpy_count/smell_strncpy_count_01.c:29:9"]
+}
+}

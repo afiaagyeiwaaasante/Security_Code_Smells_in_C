@@ -68,7 +68,8 @@ echo
 write_finding \
     --findings  "$FINDINGS" \
     --detector  "define_credential" \
-    --severity  "warning" \
+    --severity  "error" \
+    --classification  "vulnerability" \
     --rule      "SCS010-PASSWD-DEFINE" \
     --file      "$FILENAME" \
     --line      "$LINE" \

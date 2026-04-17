@@ -101,6 +101,7 @@ while [ $((PAIR * 2 + 1)) -lt "$COUNT" ]; do
         --findings  "$FINDINGS" \
         --detector  "double_free" \
         --severity  "error" \
+        --classification  "vulnerability" \
         --rule      "doubleFree" \
         --file      "$FILENAME" \
         --line      "$SECOND_LINE" \

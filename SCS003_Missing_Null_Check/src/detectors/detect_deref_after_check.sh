@@ -98,6 +98,7 @@ echo "--- building findings ---"
             --findings  "$FINDINGS" \
             --detector  "deref_after_check" \
             --severity  "error" \
+            --classification  "vulnerability" \
             --rule      "nullPointer" \
             --file      "$FILENAME" \
             --line      "$DEREF_LINE" \

@@ -12,6 +12,12 @@ srcattributor) followed by structural detectors built with srcQL and xmllint.
 
 ---
 
+## Why This Is a Vulnerability
+
+Use-after-free is exploitable as written — once a pointer is freed, the memory it pointed to can be reclaimed and overwritten by any subsequent allocation. Reading or writing through the freed pointer accesses attacker-controlled data in heap exploitation scenarios. `cppcheck` flags `free(ptr)` followed by use as `error [deallocuse]`. Maps to CWE-416.
+
+---
+
 ## Detectors
 
 | # | Detector | Pattern | Severity |

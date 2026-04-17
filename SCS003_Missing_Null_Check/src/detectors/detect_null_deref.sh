@@ -153,6 +153,7 @@ run_query() {
             --findings  "$FINDINGS" \
             --detector  "null_deref" \
             --severity  "error" \
+            --classification  "vulnerability" \
             --rule      "nullPointer" \
             --file      "$FILENAME" \
             --line      "$ARROW_LINE" \

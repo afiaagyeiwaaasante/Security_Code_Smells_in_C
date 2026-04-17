@@ -40,47 +40,63 @@ run_case() {
     PEAK_RSS_BYTES=$(grep "maximum resident set size" "$TIMEFILE" | awk '{print $1}')
     PEAK_RSS_KB=$(( PEAK_RSS_BYTES / 1024 ))
 
+    local SEVERITY="" CLASSIFICATION=""
     if grep -q '"severity":' "$TMPOUT" 2>/dev/null; then
         DETECTED="true"
+        SEVERITY=$(grep '"severity"' "$TMPOUT" | head -1 | grep -o '"error"\|"warning"' | tr -d '"')
+        CLASSIFICATION=$(grep '"classification"' "$TMPOUT" | head -1 | grep -o '"vulnerability"\|"smell"' | tr -d '"')
     else
         DETECTED="false"
     fi
 
-    printf '{"test":"%s","files":["%s"],"detected":%s,"wall_time_s":%s,"peak_rss_kb":%s}\n' \
-        "$TEST_NAME" "$(basename "$FILE")" "$DETECTED" "$WALL_TIME" "$PEAK_RSS_KB" \
+    printf '{"test":"%s","files":["%s"],"detected":%s,"severity":"%s","classification":"%s","wall_time_s":%s,"peak_rss_kb":%s}\n' \
+        "$TEST_NAME" "$(basename "$FILE")" "$DETECTED" "$SEVERITY" "$CLASSIFICATION" \
+        "$WALL_TIME" "$PEAK_RSS_KB" \
         >> "$RESULTS"
 
-    echo "    detected  : $DETECTED"
-    echo "    wall time : ${WALL_TIME}s"
-    echo "    peak RSS  : ${PEAK_RSS_KB} KB"
+    echo "    detected       : $DETECTED"
+    echo "    severity       : ${SEVERITY:-(none)}"
+    echo "    classification : ${CLASSIFICATION:-(none)}"
+    echo "    wall time      : ${WALL_TIME}s"
+    echo "    peak RSS       : ${PEAK_RSS_KB} KB"
     echo
 
     rm -f "$TMPOUT" "$TIMEFILE"
 }
 
 # Detector 1 — unchecked_multiply
-run_case "bad_int_multiply_01"   "$TESTSUITE/multiply/bad_int_multiply_01.c"
-run_case "good_int_multiply_01"  "$TESTSUITE/multiply/good_int_multiply_01.c"
+# bad_int_multiply_01 uses rand() → no taint → warning/smell
+run_case "bad_int_multiply_01"    "$TESTSUITE/multiply/bad_int_multiply_01.c"
+run_case "good_int_multiply_01"   "$TESTSUITE/multiply/good_int_multiply_01.c"
+run_case "smell_int_multiply_01"  "$TESTSUITE/multiply/smell_int_multiply_01.c"
 
 # Detector 2 — unchecked_add
+# bad_char_add_01 uses fscanf → taint present → error/vulnerability
 run_case "bad_char_add_01"           "$TESTSUITE/add/bad_char_add_01.c"
 run_case "good_char_add_01"          "$TESTSUITE/add/good_char_add_01.c"
+run_case "smell_char_add_01"         "$TESTSUITE/add/smell_char_add_01.c"
 run_case "bad_unsigned_int_add_01"   "$TESTSUITE/add/bad_unsigned_int_add_01.c"
 run_case "good_unsigned_int_add_01"  "$TESTSUITE/add/good_unsigned_int_add_01.c"
 
 # Square (multiply variant)
-run_case "bad_int64_square_01"   "$TESTSUITE/square/bad_int64_square_01.c"
-run_case "good_int64_square_01"  "$TESTSUITE/square/good_int64_square_01.c"
-run_case "bad_short_square_01"   "$TESTSUITE/square/bad_short_square_01.c"
-run_case "good_short_square_01"  "$TESTSUITE/square/good_short_square_01.c"
+# bad_int64_square_01 uses rand() → no taint → warning/smell
+run_case "bad_int64_square_01"    "$TESTSUITE/square/bad_int64_square_01.c"
+run_case "good_int64_square_01"   "$TESTSUITE/square/good_int64_square_01.c"
+run_case "smell_int64_square_01"  "$TESTSUITE/square/smell_int64_square_01.c"
+run_case "bad_short_square_01"    "$TESTSUITE/square/bad_short_square_01.c"
+run_case "good_short_square_01"   "$TESTSUITE/square/good_short_square_01.c"
 
 # Detector 3 — unchecked_increment (postfix)
-run_case "bad_int_postinc_01"   "$TESTSUITE/postinc/bad_int_postinc_01.c"
-run_case "good_int_postinc_01"  "$TESTSUITE/postinc/good_int_postinc_01.c"
+run_case "bad_int_postinc_01"    "$TESTSUITE/postinc/bad_int_postinc_01.c"
+run_case "good_int_postinc_01"   "$TESTSUITE/postinc/good_int_postinc_01.c"
+run_case "smell_int_postinc_01"  "$TESTSUITE/postinc/smell_int_postinc_01.c"
 
 # Detector 3 — unchecked_increment (prefix)
 run_case "bad_int_preinc_01"    "$TESTSUITE/preinc/bad_int_preinc_01.c"
 run_case "good_int_preinc_01"   "$TESTSUITE/preinc/good_int_preinc_01.c"
+
+# NOTE: interprocedural cases (bad_int_add_22a/b, bad_int_multiply_22a/b) require
+# multi-file analysis — not benchmarked here (no smell_report_multi.sh for SCS006).
 
 # C++ class variants
 run_case "bad_int_multiply_81"   "$TESTSUITE/cpp_virtual_ref/bad_int_multiply_81.cpp"

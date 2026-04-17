@@ -64,7 +64,8 @@ echo
 write_finding \
     --findings  "$FINDINGS" \
     --detector  "strcmp_hardcoded" \
-    --severity  "warning" \
+    --severity  "error" \
+    --classification  "vulnerability" \
     --rule      "SCS010-PASSWD-STRCMP" \
     --file      "$FILENAME" \
     --line      "$LINE" \

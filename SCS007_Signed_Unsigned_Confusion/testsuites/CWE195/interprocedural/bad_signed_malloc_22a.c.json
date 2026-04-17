@@ -1,0 +1,32 @@
+{
+"data-9-33-98de5289428e2ee792f3853c76e7c060974415e3":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/interprocedural/bad_signed_malloc_22a.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"bad_signed_malloc_sink",
+    "type":"int",
+    "name":"data",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/interprocedural/bad_signed_malloc_22a.c:9:33",
+    "dependence":[],
+    "aliases":[],
+    "calls":[],
+    "use":[],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/interprocedural/bad_signed_malloc_22a.c:9:33"]
+},
+"data-13-9-98de5289428e2ee792f3853c76e7c060974415e3":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/interprocedural/bad_signed_malloc_22a.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"bad_signed_malloc_source",
+    "type":"int",
+    "name":"data",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/interprocedural/bad_signed_malloc_22a.c:13:9",
+    "dependence":[],
+    "aliases":[],
+    "calls":[{"functionName":"fscanf","parameter":"3","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/interprocedural/bad_signed_malloc_22a.c:15:5"},{"functionName":"bad_signed_malloc_sink","parameter":"1","definitionPosition":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/interprocedural/bad_signed_malloc_22a.c:9:1","invoke":"/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/interprocedural/bad_signed_malloc_22a.c:16:5"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/interprocedural/bad_signed_malloc_22a.c:9:33","/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/interprocedural/bad_signed_malloc_22a.c:15:26","/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/interprocedural/bad_signed_malloc_22a.c:16:28"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS007_Signed_Unsigned_Confusion/testsuites/CWE195/interprocedural/bad_signed_malloc_22a.c:13:9"]
+}
+}

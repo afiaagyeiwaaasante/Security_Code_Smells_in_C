@@ -132,6 +132,7 @@ run_query() {
             --findings  "$FINDINGS" \
             --detector  "missing_guard" \
             --severity  "warning" \
+            --classification  "smell" \
             --rule      "missingNullCheck" \
             --file      "$FILENAME" \
             --line      "$ARROW_LINE" \

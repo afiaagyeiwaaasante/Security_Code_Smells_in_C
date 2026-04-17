@@ -105,6 +105,7 @@ echo "--- building findings ---"
             --findings  "$FINDINGS" \
             --detector  "binary_if" \
             --severity  "error" \
+            --classification  "vulnerability" \
             --rule      "nullPointer" \
             --file      "$FILENAME" \
             --line      "$ARROW_LINE" \

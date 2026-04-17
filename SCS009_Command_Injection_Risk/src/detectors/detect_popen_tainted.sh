@@ -91,7 +91,8 @@ else
             write_finding \
                 --findings  "$FINDINGS" \
                 --detector  "popen_tainted" \
-                --severity  "warning" \
+                --severity  "error" \
+                --classification  "vulnerability" \
                 --rule      "SCS009-POPEN" \
                 --file      "$FILENAME" \
                 --line      "$LINE" \
@@ -127,7 +128,8 @@ if [ -n "$DES_POS" ]; then
     write_finding \
         --findings  "$FINDINGS" \
         --detector  "popen_tainted" \
-        --severity  "warning" \
+        --severity  "error" \
+        --classification  "vulnerability" \
         --rule      "SCS009-POPEN" \
         --file      "$FILENAME" \
         --line      "$LINE" \

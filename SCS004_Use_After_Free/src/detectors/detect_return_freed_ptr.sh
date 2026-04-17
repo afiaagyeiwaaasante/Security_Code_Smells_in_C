@@ -114,6 +114,7 @@ for i in $(seq 0 $((COUNT - 1))); do
         --findings  "$FINDINGS" \
         --detector  "return_freed_ptr" \
         --severity  "error" \
+        --classification  "vulnerability" \
         --rule      "useAfterFree" \
         --file      "$FILENAME" \
         --line      "$RETURN_LINE" \

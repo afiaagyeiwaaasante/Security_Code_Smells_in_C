@@ -93,6 +93,7 @@ write_finding \
     --findings  "$FINDINGS" \
     --detector  "new_no_delete" \
     --severity  "warning" \
+    --classification  "smell" \
     --rule      "newNoDelete" \
     --file      "$FILENAME" \
     --line      "$LINE" \

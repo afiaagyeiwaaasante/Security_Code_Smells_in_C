@@ -115,6 +115,7 @@ process_query() {
             --findings  "$FINDINGS" \
             --detector  "use_after_free" \
             --severity  "error" \
+            --classification  "vulnerability" \
             --rule      "useAfterFree" \
             --file      "$FILENAME" \
             --line      "$USE_LINE" \

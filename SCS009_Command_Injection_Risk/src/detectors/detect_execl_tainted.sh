@@ -103,7 +103,8 @@ for SINK in execl execlp; do
     write_finding \
         --findings  "$FINDINGS" \
         --detector  "execl_tainted" \
-        --severity  "warning" \
+        --severity  "error" \
+        --classification  "vulnerability" \
         --rule      "SCS009-EXECL" \
         --file      "$FILENAME" \
         --line      "$LINE" \
@@ -138,7 +139,8 @@ if [ -n "$DES_POS" ]; then
     write_finding \
         --findings  "$FINDINGS" \
         --detector  "execl_tainted" \
-        --severity  "warning" \
+        --severity  "error" \
+        --classification  "vulnerability" \
         --rule      "SCS009-EXECL" \
         --file      "$FILENAME" \
         --line      "$LINE" \

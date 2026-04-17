@@ -13,6 +13,7 @@ workspace/
 experiments/
 cwe242-cpg
 
-# Runtime output — timestamped detector results (top-level results/ per SCS)
+# Runtime output — timestamped detector results (top-level and testsuite-level)
 SCS*/results/
+SCS*/testsuites/*/results/
 

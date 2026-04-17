@@ -15,6 +15,10 @@ checking or input validation mechanisms. These functions can lead to:
 - Arbitrary code execution
 - Denial of service
 
+## Why This Is a Vulnerability
+
+`gets()` is exploitable as written — any input longer than the destination buffer causes a stack overflow immediately. There is no condition under which `gets()` is safe. It was removed from the C standard in C11 precisely because it cannot be used securely. `cppcheck` flags every use as `error [dangerousFunction]`. Maps directly to CWE-242.
+
 ## Why this is a Problem
 
 Certain legacy C functions do not enforce input size constraints. When used

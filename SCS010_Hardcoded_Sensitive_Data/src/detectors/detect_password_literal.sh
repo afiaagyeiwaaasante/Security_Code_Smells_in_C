@@ -83,7 +83,8 @@ if [ -n "$POS" ]; then
     write_finding \
         --findings  "$FINDINGS" \
         --detector  "password_literal" \
-        --severity  "warning" \
+        --severity  "error" \
+        --classification  "vulnerability" \
         --rule      "SCS010-PASSWD-VAR" \
         --file      "$FILENAME" \
         --line      "$LINE" \
@@ -123,7 +124,8 @@ if [ -n "$POS" ]; then
     write_finding \
         --findings  "$FINDINGS" \
         --detector  "password_literal" \
-        --severity  "warning" \
+        --severity  "error" \
+        --classification  "vulnerability" \
         --rule      "SCS010-PASSWD-VAR" \
         --file      "$FILENAME" \
         --line      "$LINE" \
