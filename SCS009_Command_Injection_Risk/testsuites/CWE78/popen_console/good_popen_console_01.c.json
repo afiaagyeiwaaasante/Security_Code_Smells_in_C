@@ -1,32 +1,32 @@
 {
 "pipe-15-11-5bc2e5aca5fe7c2437418c85c9711a093fa025dd":{
-    "file":"testsuites/CWE78/popen_console/good_popen_console_01.c",
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/popen_console/good_popen_console_01.c",
     "language":"C",
     "namespace":[],
     "class":"",
     "function":"main",
     "type":"FILE*",
     "name":"pipe",
-    "initial":"testsuites/CWE78/popen_console/good_popen_console_01.c:15:11",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/popen_console/good_popen_console_01.c:15:11",
     "dependence":[],
     "aliases":[],
-    "calls":[{"functionName":"pclose","parameter":"1","definitionPosition":"","invoke":"testsuites/CWE78/popen_console/good_popen_console_01.c:24:9"},{"functionName":"pclose","parameter":"1","definitionPosition":"","invoke":"testsuites/CWE78/popen_console/good_popen_console_01.c:24:9"}],
-    "use":["testsuites/CWE78/popen_console/good_popen_console_01.c:23:9","testsuites/CWE78/popen_console/good_popen_console_01.c:24:16"],
-    "definition":["testsuites/CWE78/popen_console/good_popen_console_01.c:15:11","testsuites/CWE78/popen_console/good_popen_console_01.c:22:5"]
+    "calls":[{"functionName":"pclose","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/popen_console/good_popen_console_01.c:24:9"},{"functionName":"pclose","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/popen_console/good_popen_console_01.c:24:9"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/popen_console/good_popen_console_01.c:23:9","/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/popen_console/good_popen_console_01.c:24:16"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/popen_console/good_popen_console_01.c:15:11","/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/popen_console/good_popen_console_01.c:22:5"]
 },
 "data-14-10-5bc2e5aca5fe7c2437418c85c9711a093fa025dd":{
-    "file":"testsuites/CWE78/popen_console/good_popen_console_01.c",
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/popen_console/good_popen_console_01.c",
     "language":"C",
     "namespace":[],
     "class":"",
     "function":"main",
     "type":"char[]",
     "name":"data",
-    "initial":"testsuites/CWE78/popen_console/good_popen_console_01.c:14:10",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/popen_console/good_popen_console_01.c:14:10",
     "dependence":[],
     "aliases":[],
-    "calls":[{"functionName":"fgets","parameter":"1","definitionPosition":"","invoke":"testsuites/CWE78/popen_console/good_popen_console_01.c:18:9"}],
-    "use":["testsuites/CWE78/popen_console/good_popen_console_01.c:18:15"],
-    "definition":["testsuites/CWE78/popen_console/good_popen_console_01.c:14:10"]
+    "calls":[{"functionName":"fgets","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/popen_console/good_popen_console_01.c:18:9"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/popen_console/good_popen_console_01.c:18:15"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/popen_console/good_popen_console_01.c:14:10"]
 }
 }

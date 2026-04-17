@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<unit xmlns="http://www.srcML.org/srcML/src" xmlns:cpp="http://www.srcML.org/srcML/cpp" xmlns:pos="http://www.srcML.org/srcML/position" xmlns:slice="http://www.srcML.org/srcML/slice" revision="1.0.0" language="C" filename="testsuites/CWE78/interprocedural/good_system_interprocedural_22b.c" pos:tabs="8" hash="bbd425c89072878685e55a6fbed6ddfa9f1d897b"><comment type="block" pos:start="1:1" pos:end="5:3">/* good_system_interprocedural_22b.c
+<unit xmlns="http://www.srcML.org/srcML/src" xmlns:cpp="http://www.srcML.org/srcML/cpp" xmlns:pos="http://www.srcML.org/srcML/position" xmlns:slice="http://www.srcML.org/srcML/slice" revision="1.0.0" language="C" filename="/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/interprocedural/good_system_interprocedural_22b.c" pos:tabs="8" hash="bbd425c89072878685e55a6fbed6ddfa9f1d897b"><comment type="block" pos:start="1:1" pos:end="5:3">/* good_system_interprocedural_22b.c
  * CWE-78 Command Injection Risk â SCS009
  * GOOD: system() is called with a hard-coded string literal.
  * Juliet basis: CWE78_OS_Command_Injection__char_console_system_22b (goodG2B)

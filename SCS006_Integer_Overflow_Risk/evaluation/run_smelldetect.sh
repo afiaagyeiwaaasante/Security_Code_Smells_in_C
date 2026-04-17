@@ -85,6 +85,7 @@ run_case "good_int64_square_01"   "$TESTSUITE/square/good_int64_square_01.c"
 run_case "smell_int64_square_01"  "$TESTSUITE/square/smell_int64_square_01.c"
 run_case "bad_short_square_01"    "$TESTSUITE/square/bad_short_square_01.c"
 run_case "good_short_square_01"   "$TESTSUITE/square/good_short_square_01.c"
+run_case "smell_short_square_01"  "$TESTSUITE/square/smell_short_square_01.c"
 
 # Detector 3 — unchecked_increment (postfix)
 run_case "bad_int_postinc_01"    "$TESTSUITE/postinc/bad_int_postinc_01.c"
@@ -94,6 +95,7 @@ run_case "smell_int_postinc_01"  "$TESTSUITE/postinc/smell_int_postinc_01.c"
 # Detector 3 — unchecked_increment (prefix)
 run_case "bad_int_preinc_01"    "$TESTSUITE/preinc/bad_int_preinc_01.c"
 run_case "good_int_preinc_01"   "$TESTSUITE/preinc/good_int_preinc_01.c"
+run_case "smell_int_preinc_01"  "$TESTSUITE/preinc/smell_int_preinc_01.c"
 
 # NOTE: interprocedural cases (bad_int_add_22a/b, bad_int_multiply_22a/b) require
 # multi-file analysis — not benchmarked here (no smell_report_multi.sh for SCS006).

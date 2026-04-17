@@ -1,32 +1,32 @@
 {
 "data_-18-10-":{
-    "file":"testsuites/CWE78/cpp_class/bad_system_class_84.cpp",
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/cpp_class/bad_system_class_84.cpp",
     "language":"C++",
     "namespace":[],
     "class":"BadCommandClass",
     "function":"",
     "type":"char[]",
     "name":"data_",
-    "initial":"testsuites/CWE78/cpp_class/bad_system_class_84.cpp:18:10",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/cpp_class/bad_system_class_84.cpp:18:10",
     "dependence":[],
     "aliases":[],
-    "calls":[{"functionName":"fgets","parameter":"1","definitionPosition":"","invoke":"testsuites/CWE78/cpp_class/bad_system_class_84.cpp:23:13"},{"functionName":"strcspn","parameter":"1","definitionPosition":"","invoke":"testsuites/CWE78/cpp_class/bad_system_class_84.cpp:24:19"},{"functionName":"strcspn","parameter":"1","definitionPosition":"","invoke":"testsuites/CWE78/cpp_class/bad_system_class_84.cpp:24:19"},{"functionName":"system","parameter":"1","definitionPosition":"","invoke":"testsuites/CWE78/cpp_class/bad_system_class_84.cpp:30:9"}],
-    "use":["testsuites/CWE78/cpp_class/bad_system_class_84.cpp:23:19","testsuites/CWE78/cpp_class/bad_system_class_84.cpp:24:27","testsuites/CWE78/cpp_class/bad_system_class_84.cpp:30:16"],
-    "definition":["testsuites/CWE78/cpp_class/bad_system_class_84.cpp:18:10","testsuites/CWE78/cpp_class/bad_system_class_84.cpp:24:13"]
+    "calls":[{"functionName":"fgets","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/cpp_class/bad_system_class_84.cpp:23:13"},{"functionName":"strcspn","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/cpp_class/bad_system_class_84.cpp:24:19"},{"functionName":"strcspn","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/cpp_class/bad_system_class_84.cpp:24:19"},{"functionName":"system","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/cpp_class/bad_system_class_84.cpp:30:9"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/cpp_class/bad_system_class_84.cpp:23:19","/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/cpp_class/bad_system_class_84.cpp:24:27","/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/cpp_class/bad_system_class_84.cpp:30:16"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/cpp_class/bad_system_class_84.cpp:18:10","/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/cpp_class/bad_system_class_84.cpp:24:13"]
 },
 "obj-36-21-c3a54e22b0620e0300393a9bd08a11f481b9c3bb":{
-    "file":"testsuites/CWE78/cpp_class/bad_system_class_84.cpp",
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/cpp_class/bad_system_class_84.cpp",
     "language":"C++",
     "namespace":[],
     "class":"",
     "function":"main",
     "type":"BadCommandClass",
     "name":"obj",
-    "initial":"testsuites/CWE78/cpp_class/bad_system_class_84.cpp:36:21",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/cpp_class/bad_system_class_84.cpp:36:21",
     "dependence":[],
     "aliases":[],
     "calls":[],
     "use":[],
-    "definition":["testsuites/CWE78/cpp_class/bad_system_class_84.cpp:36:21"]
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/cpp_class/bad_system_class_84.cpp:36:21"]
 }
 }

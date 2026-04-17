@@ -162,8 +162,9 @@ for f in "$SCRIPT_DIR/postinc"/smell_*.c; do [ -f "$f" ] && run_smell_case "$f";
 
 # --- preinc group ---
 echo "[ preinc ]"
-for f in "$SCRIPT_DIR/preinc"/bad_*.c; do [ -f "$f" ] && run_case "$f" bad; done
-for f in "$SCRIPT_DIR/preinc"/good_*.c; do [ -f "$f" ] && run_case "$f" good; done
+for f in "$SCRIPT_DIR/preinc"/bad_*.c;   do [ -f "$f" ] && run_case "$f" bad; done
+for f in "$SCRIPT_DIR/preinc"/good_*.c;  do [ -f "$f" ] && run_case "$f" good; done
+for f in "$SCRIPT_DIR/preinc"/smell_*.c; do [ -f "$f" ] && run_smell_case "$f"; done
 
 # --- C++ virtual ref (flow 81) ---
 echo "[ cpp_virtual_ref ]"

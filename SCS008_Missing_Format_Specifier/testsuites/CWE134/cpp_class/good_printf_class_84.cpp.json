@@ -1,47 +1,47 @@
 {
 "len-16-20-a0b8db2298255e3c4130a969c043b07a71fb3295":{
-    "file":"testsuites/CWE134/cpp_class/good_printf_class_84.cpp",
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/cpp_class/good_printf_class_84.cpp",
     "language":"C++",
     "namespace":[],
     "class":"",
     "function":"GoodFormatClass",
     "type":"size_t",
     "name":"len",
-    "initial":"testsuites/CWE134/cpp_class/good_printf_class_84.cpp:16:20",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/cpp_class/good_printf_class_84.cpp:16:20",
     "dependence":[],
     "aliases":[],
     "calls":[],
-    "use":["testsuites/CWE134/cpp_class/good_printf_class_84.cpp:17:17","testsuites/CWE134/cpp_class/good_printf_class_84.cpp:17:34","testsuites/CWE134/cpp_class/good_printf_class_84.cpp:17:58"],
-    "definition":["testsuites/CWE134/cpp_class/good_printf_class_84.cpp:16:20"]
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/cpp_class/good_printf_class_84.cpp:17:17","/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/cpp_class/good_printf_class_84.cpp:17:34","/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/cpp_class/good_printf_class_84.cpp:17:58"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/cpp_class/good_printf_class_84.cpp:16:20"]
 },
 "data_-11-10-":{
-    "file":"testsuites/CWE134/cpp_class/good_printf_class_84.cpp",
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/cpp_class/good_printf_class_84.cpp",
     "language":"C++",
     "namespace":[],
     "class":"GoodFormatClass",
     "function":"",
     "type":"char[]",
     "name":"data_",
-    "initial":"testsuites/CWE134/cpp_class/good_printf_class_84.cpp:11:10",
-    "dependence":[{"len":"testsuites/CWE134/cpp_class/good_printf_class_84.cpp:16:33"}],
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/cpp_class/good_printf_class_84.cpp:11:10",
+    "dependence":[{"len":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/cpp_class/good_printf_class_84.cpp:16:33"}],
     "aliases":[],
-    "calls":[{"functionName":"fgets","parameter":"1","definitionPosition":"","invoke":"testsuites/CWE134/cpp_class/good_printf_class_84.cpp:15:13"},{"functionName":"fgets","parameter":"2","definitionPosition":"","invoke":"testsuites/CWE134/cpp_class/good_printf_class_84.cpp:15:13"},{"functionName":"strlen","parameter":"1","definitionPosition":"","invoke":"testsuites/CWE134/cpp_class/good_printf_class_84.cpp:16:26"},{"functionName":"printf","parameter":"2","definitionPosition":"","invoke":"testsuites/CWE134/cpp_class/good_printf_class_84.cpp:23:9"}],
-    "use":["testsuites/CWE134/cpp_class/good_printf_class_84.cpp:15:19","testsuites/CWE134/cpp_class/good_printf_class_84.cpp:15:33","testsuites/CWE134/cpp_class/good_printf_class_84.cpp:16:33","testsuites/CWE134/cpp_class/good_printf_class_84.cpp:17:28","testsuites/CWE134/cpp_class/good_printf_class_84.cpp:23:24"],
-    "definition":["testsuites/CWE134/cpp_class/good_printf_class_84.cpp:11:10","testsuites/CWE134/cpp_class/good_printf_class_84.cpp:14:9","testsuites/CWE134/cpp_class/good_printf_class_84.cpp:17:52"]
+    "calls":[{"functionName":"fgets","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/cpp_class/good_printf_class_84.cpp:15:13"},{"functionName":"fgets","parameter":"2","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/cpp_class/good_printf_class_84.cpp:15:13"},{"functionName":"strlen","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/cpp_class/good_printf_class_84.cpp:16:26"},{"functionName":"printf","parameter":"2","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/cpp_class/good_printf_class_84.cpp:23:9"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/cpp_class/good_printf_class_84.cpp:15:19","/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/cpp_class/good_printf_class_84.cpp:15:33","/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/cpp_class/good_printf_class_84.cpp:16:33","/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/cpp_class/good_printf_class_84.cpp:17:28","/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/cpp_class/good_printf_class_84.cpp:23:24"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/cpp_class/good_printf_class_84.cpp:11:10","/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/cpp_class/good_printf_class_84.cpp:14:9","/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/cpp_class/good_printf_class_84.cpp:17:52"]
 },
 "obj-29-21-a0b8db2298255e3c4130a969c043b07a71fb3295":{
-    "file":"testsuites/CWE134/cpp_class/good_printf_class_84.cpp",
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/cpp_class/good_printf_class_84.cpp",
     "language":"C++",
     "namespace":[],
     "class":"",
     "function":"main",
     "type":"GoodFormatClass",
     "name":"obj",
-    "initial":"testsuites/CWE134/cpp_class/good_printf_class_84.cpp:29:21",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/cpp_class/good_printf_class_84.cpp:29:21",
     "dependence":[],
     "aliases":[],
     "calls":[],
     "use":[],
-    "definition":["testsuites/CWE134/cpp_class/good_printf_class_84.cpp:29:21"]
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/cpp_class/good_printf_class_84.cpp:29:21"]
 }
 }

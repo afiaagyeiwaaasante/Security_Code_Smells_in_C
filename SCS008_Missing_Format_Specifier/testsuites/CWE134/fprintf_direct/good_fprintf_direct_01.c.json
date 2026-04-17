@@ -1,62 +1,62 @@
 {
 "len-16-20-e98d60334e21eebebb5240d63f2cda19d21a78a0":{
-    "file":"testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c",
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c",
     "language":"C",
     "namespace":[],
     "class":"",
     "function":"good_fprintf_direct_01",
     "type":"size_t",
     "name":"len",
-    "initial":"testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:16:20",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:16:20",
     "dependence":[],
     "aliases":[],
     "calls":[],
-    "use":["testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:17:17","testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:17:33","testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:17:56"],
-    "definition":["testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:16:20"]
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:17:17","/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:17:33","/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:17:56"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:16:20"]
 },
 "len-16-20-e98d60334e21eebebb5240d63f2cda19d21a78a0/":{
-    "file":"testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c",
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c",
     "language":"C",
     "namespace":[],
     "class":"",
     "function":"good_fprintf_direct_01",
     "type":"size_t",
     "name":"len",
-    "initial":"testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:16:20",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:16:20",
     "dependence":[],
     "aliases":[],
     "calls":[],
-    "use":["testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:17:17","testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:17:33","testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:17:56"],
-    "definition":["testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:16:20"]
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:17:17","/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:17:33","/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:17:56"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:16:20"]
 },
 "fp-13-11-e98d60334e21eebebb5240d63f2cda19d21a78a0":{
-    "file":"testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c",
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c",
     "language":"C",
     "namespace":[],
     "class":"",
     "function":"good_fprintf_direct_01",
     "type":"FILE*",
     "name":"fp",
-    "initial":"testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:13:11",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:13:11",
     "dependence":[],
     "aliases":[],
-    "calls":[{"functionName":"fgets","parameter":"3","definitionPosition":"","invoke":"testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:15:13"},{"functionName":"fclose","parameter":"1","definitionPosition":"","invoke":"testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:19:9"},{"functionName":"fgets","parameter":"3","definitionPosition":"","invoke":"testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:15:13"},{"functionName":"fclose","parameter":"1","definitionPosition":"","invoke":"testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:19:9"}],
-    "use":["testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:14:9","testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:15:39","testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:19:16"],
-    "definition":["testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:13:11"]
+    "calls":[{"functionName":"fgets","parameter":"3","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:15:13"},{"functionName":"fclose","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:19:9"},{"functionName":"fgets","parameter":"3","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:15:13"},{"functionName":"fclose","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:19:9"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:14:9","/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:15:39","/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:19:16"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:13:11"]
 },
 "data-12-10-e98d60334e21eebebb5240d63f2cda19d21a78a0":{
-    "file":"testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c",
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c",
     "language":"C",
     "namespace":[],
     "class":"",
     "function":"good_fprintf_direct_01",
     "type":"char[]",
     "name":"data",
-    "initial":"testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:12:10",
-    "dependence":[{"len":"testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:16:33"}],
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:12:10",
+    "dependence":[{"len":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:16:33"}],
     "aliases":[],
-    "calls":[{"functionName":"fgets","parameter":"1","definitionPosition":"","invoke":"testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:15:13"},{"functionName":"fgets","parameter":"2","definitionPosition":"","invoke":"testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:15:13"},{"functionName":"strlen","parameter":"1","definitionPosition":"","invoke":"testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:16:26"},{"functionName":"fgets","parameter":"1","definitionPosition":"","invoke":"testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:15:13"},{"functionName":"fgets","parameter":"2","definitionPosition":"","invoke":"testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:15:13"},{"functionName":"strlen","parameter":"1","definitionPosition":"","invoke":"testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:16:26"},{"functionName":"fprintf","parameter":"3","definitionPosition":"","invoke":"testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:22:5"}],
-    "use":["testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:15:19","testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:15:32","testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:16:33","testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:17:28","testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:22:29"],
-    "definition":["testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:12:10","testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:17:51"]
+    "calls":[{"functionName":"fgets","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:15:13"},{"functionName":"fgets","parameter":"2","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:15:13"},{"functionName":"strlen","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:16:26"},{"functionName":"fgets","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:15:13"},{"functionName":"fgets","parameter":"2","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:15:13"},{"functionName":"strlen","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:16:26"},{"functionName":"fprintf","parameter":"3","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:22:5"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:15:19","/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:15:32","/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:16:33","/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:17:28","/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:22:29"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:12:10","/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/fprintf_direct/good_fprintf_direct_01.c:17:51"]
 }
 }

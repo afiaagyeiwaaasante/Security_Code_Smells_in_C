@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<unit xmlns="http://www.srcML.org/srcML/src" xmlns:cpp="http://www.srcML.org/srcML/cpp" xmlns:pos="http://www.srcML.org/srcML/position" xmlns:slice="http://www.srcML.org/srcML/slice" revision="1.0.0" language="C" filename="testsuites/CWE78/execl_console/good_execl_console_01.c" pos:tabs="8" hash="8375873c081eac1576f18f530edbc09f55c87025"><comment type="block" pos:start="1:1" pos:end="4:3">/* good_execl_console_01.c
+<unit xmlns="http://www.srcML.org/srcML/src" xmlns:cpp="http://www.srcML.org/srcML/cpp" xmlns:pos="http://www.srcML.org/srcML/position" xmlns:slice="http://www.srcML.org/srcML/slice" revision="1.0.0" language="C" filename="/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/execl_console/good_execl_console_01.c" pos:tabs="8" hash="8375873c081eac1576f18f530edbc09f55c87025"><comment type="block" pos:start="1:1" pos:end="4:3">/* good_execl_console_01.c
  * CWE-78 Command Injection Risk â SCS009
  * GOOD: execl() called with a hardcoded literal path â no user input.
  */</comment>

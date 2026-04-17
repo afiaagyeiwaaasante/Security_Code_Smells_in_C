@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" xmlns:cpp="http://www.srcML.org/srcML/cpp" xmlns:pos="http://www.srcML.org/srcML/position" xmlns:slice="http://www.srcML.org/srcML/slice" revision="1.0.0" language="C" filename="/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/square/smell_short_square_01.c" pos:tabs="8" hash="b624cd7412f9d07edcee19c750dd7441899756e4"><comment type="block" pos:start="1:1" pos:end="21:3">/*
+ * CWE-190 Integer Overflow Risk
+ * Scenario : short squaring â smell (warning level)
+ * Source   : internal constant (10 as short) â not user-controlled
+ * Sink     : data * data â no SHRT_MAX guard
+ * Detector : unchecked_multiply
+ * Expected : warning [integerOverflow] [unchecked_multiply]
+ *
+ * Why this is a smell and not a vulnerability:
+ *   data is always 10 â 10*10 = 100, well within short range (max 32,767).
+ *   The pattern is structurally fragile: replacing the constant with
+ *   unvalidated user input allows values near SHRT_MAX to overflow when
+ *   squared (SHRT_MAX^2 = 1,073,676,289 &gt; 32,767).
+ *
+ * Compare: bad_short_square_01.c â same sink, rand() source â warning/smell
+ *          (rand() is untainted; a fscanf source would give error/vulnerability)
+ *
+ * Smell form (this file):
+ *   short data = 10;              // internally fixed â always safe
+ *   short result = data * data;   // SMELL: no SHRT_MAX guard
+ */</comment>
+<cpp:include pos:start="22:1" pos:end="22:19">#<cpp:directive pos:start="22:2" pos:end="22:8">include</cpp:directive> <cpp:file pos:start="22:10" pos:end="22:19">&lt;limits.h&gt;</cpp:file></cpp:include>
+
+<function pos:start="24:1" pos:end="31:1"><type pos:start="24:1" pos:end="24:4"><name pos:start="24:1" pos:end="24:4">void</name></type> <name pos:start="24:6" pos:end="24:23">smell_short_square</name><parameter_list pos:start="24:24" pos:end="24:29">(<parameter pos:start="24:25" pos:end="24:28"><decl pos:start="24:25" pos:end="24:28"><type pos:start="24:25" pos:end="24:28"><name pos:start="24:25" pos:end="24:28">void</name></type></decl></parameter>)</parameter_list>
+<block pos:start="25:1" pos:end="31:1">{<block_content pos:start="25:2" pos:end="31:0">
+    <decl_stmt pos:start="26:5" pos:end="26:20"><decl pos:start="26:5" pos:end="26:19" slice:decl="63dd86506e0464521eb4ae5c88a59b6add7e7376"><type pos:start="26:5" pos:end="26:9"><name pos:start="26:5" pos:end="26:9">short</name></type> <name pos:start="26:11" pos:end="26:14">data</name> <init pos:start="26:16" pos:end="26:19">= <expr pos:start="26:18" pos:end="26:19"><literal type="number" pos:start="26:18" pos:end="26:19">10</literal></expr></init></decl>;</decl_stmt>
+
+    <comment type="block" pos:start="28:5" pos:end="28:71">/* SMELL: data * data without SHRT_MAX guard â safe as written */</comment>
+    <decl_stmt pos:start="29:5" pos:end="29:31"><decl pos:start="29:5" pos:end="29:30" slice:use="63dd86506e0464521eb4ae5c88a59b6add7e7376" slice:decl="9e67e09e521fbc2c2db9039f3a78c55f4044dd5a"><type pos:start="29:5" pos:end="29:9"><name pos:start="29:5" pos:end="29:9">short</name></type> <name pos:start="29:11" pos:end="29:16">result</name> <init pos:start="29:18" pos:end="29:30">= <expr pos:start="29:20" pos:end="29:30"><name pos:start="29:20" pos:end="29:23">data</name> <operator pos:start="29:25" pos:end="29:25">*</operator> <name pos:start="29:27" pos:end="29:30">data</name></expr></init></decl>;</decl_stmt>
+    <expr_stmt pos:start="30:5" pos:end="30:17"><expr pos:start="30:5" pos:end="30:16" slice:use="9e67e09e521fbc2c2db9039f3a78c55f4044dd5a"><operator pos:start="30:5" pos:end="30:5">(</operator><name pos:start="30:6" pos:end="30:9">void</name><operator pos:start="30:10" pos:end="30:10">)</operator><name pos:start="30:11" pos:end="30:16">result</name></expr>;</expr_stmt>
+</block_content>}</block></function>
+</unit>

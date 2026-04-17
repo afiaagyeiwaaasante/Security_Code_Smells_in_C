@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" xmlns:cpp="http://www.srcML.org/srcML/cpp" xmlns:pos="http://www.srcML.org/srcML/position" xmlns:slice="http://www.srcML.org/srcML/slice" revision="1.0.0" language="C" filename="/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/preinc/smell_int_preinc_01.c" pos:tabs="8" hash="c4d5e84ba55681fa50264d6b87501288b8c537cf"><comment type="block" pos:start="1:1" pos:end="21:3">/*
+ * CWE-190 Integer Overflow Risk
+ * Scenario : pre-increment â smell (warning level)
+ * Source   : internal constant (42) â not user-controlled
+ * Sink     : ++data â no INT_MAX guard
+ * Detector : unchecked_increment
+ * Expected : warning [integerOverflow] [unchecked_increment]
+ *
+ * Why this is a smell and not a vulnerability:
+ *   data is always 42 â no overflow occurs as written. The pattern is
+ *   structurally fragile: replacing the constant with unvalidated user
+ *   input converts this into an integer overflow vulnerability when
+ *   data == INT_MAX (++INT_MAX wraps to INT_MIN, undefined behaviour).
+ *
+ * Compare: bad_int_preinc_01.c â same sink, rand() source â warning/smell
+ *          (rand() is untainted; a fscanf source would give error/vulnerability)
+ *
+ * Smell form (this file):
+ *   int data = 42;    // internally fixed â always safe
+ *   ++data;           // SMELL: no INT_MAX guard
+ */</comment>
+<cpp:include pos:start="22:1" pos:end="22:19">#<cpp:directive pos:start="22:2" pos:end="22:8">include</cpp:directive> <cpp:file pos:start="22:10" pos:end="22:19">&lt;stdlib.h&gt;</cpp:file></cpp:include>
+
+<function pos:start="24:1" pos:end="31:1"><type pos:start="24:1" pos:end="24:4"><name pos:start="24:1" pos:end="24:4">void</name></type> <name pos:start="24:6" pos:end="24:21">smell_int_preinc</name><parameter_list pos:start="24:22" pos:end="24:27">(<parameter pos:start="24:23" pos:end="24:26"><decl pos:start="24:23" pos:end="24:26"><type pos:start="24:23" pos:end="24:26"><name pos:start="24:23" pos:end="24:26">void</name></type></decl></parameter>)</parameter_list>
+<block pos:start="25:1" pos:end="31:1">{<block_content pos:start="25:2" pos:end="31:0">
+    <decl_stmt pos:start="26:5" pos:end="26:18"><decl pos:start="26:5" pos:end="26:17" slice:decl="f9f6144159544c55dbcae5a655f7110f5e48335b"><type pos:start="26:5" pos:end="26:7"><name pos:start="26:5" pos:end="26:7">int</name></type> <name pos:start="26:9" pos:end="26:12">data</name> <init pos:start="26:14" pos:end="26:17">= <expr pos:start="26:16" pos:end="26:17"><literal type="number" pos:start="26:16" pos:end="26:17">42</literal></expr></init></decl>;</decl_stmt>
+
+    <comment type="block" pos:start="28:5" pos:end="28:72">/* SMELL: pre-increment without INT_MAX guard â safe as written */</comment>
+    <expr_stmt pos:start="29:5" pos:end="29:11"><expr pos:start="29:5" pos:end="29:10" slice:def="f9f6144159544c55dbcae5a655f7110f5e48335b"><operator pos:start="29:5" pos:end="29:6">++</operator><name pos:start="29:7" pos:end="29:10">data</name></expr>;</expr_stmt>
+    <expr_stmt pos:start="30:5" pos:end="30:15"><expr pos:start="30:5" pos:end="30:14" slice:use="f9f6144159544c55dbcae5a655f7110f5e48335b"><operator pos:start="30:5" pos:end="30:5">(</operator><name pos:start="30:6" pos:end="30:9">void</name><operator pos:start="30:10" pos:end="30:10">)</operator><name pos:start="30:11" pos:end="30:14">data</name></expr>;</expr_stmt>
+</block_content>}</block></function>
+</unit>
