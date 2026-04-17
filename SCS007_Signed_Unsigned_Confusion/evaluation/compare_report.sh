@@ -67,9 +67,20 @@ def fmt_det(val, missing=False):
     if missing: return " N/A"
     return "FOUND" if val else "MISSED"
 
-COL = 27
-header_tool = f"{'Test Case':<36} | {'--- SmellDetect ---':^{COL}} | {'--- cppcheck ---':^{COL}} | {'--- Joern ---':^{COL}}"
-header_sub  = f"{'':36} | {'Time':>7} {'Mem Used':>9} {'Detect':>7} | {'Time':>7} {'Mem Used':>9} {'Detect':>7} | {'Time':>7} {'Mem Used':>9} {'Detect':>7}"
+def fmt_cls(r):
+    if not r.get("detected"):
+        return "   -"
+    sev = r.get("severity", "")
+    cls = r.get("classification", "")
+    if sev == "error"   and cls == "vulnerability": return "err/vuln"
+    if sev == "warning" and cls == "smell":         return "wrn/sml"
+    if sev or cls: return f"{sev[:3]}/{cls[:3]}"
+    return "?"
+
+COL_SD    = 36   # SmellDetect: Time + Mem + Detect + Sev/Cls
+COL_OTHER = 27   # cppcheck / Joern: Time + Mem + Detect
+header_tool = f"{'Test Case':<36} | {'--- SmellDetect ---':^{COL_SD}} | {'--- cppcheck ---':^{COL_OTHER}} | {'--- Joern ---':^{COL_OTHER}}"
+header_sub  = f"{'':36} | {'Time':>7} {'Mem Used':>9} {'Detect':>7} {'Sev/Cls':>8} | {'Time':>7} {'Mem Used':>9} {'Detect':>7} | {'Time':>7} {'Mem Used':>9} {'Detect':>7}"
 LINE = "-" * len(header_tool)
 
 print()
@@ -87,7 +98,7 @@ for test in all_tests:
     joern_missing = not joern
     print(
         f"{test:<36} | "
-        f"{fmt_time(o.get('wall_time_s')):>7} {fmt_mem(o.get('peak_rss_kb')):>9} {fmt_det(o.get('detected')):>7} | "
+        f"{fmt_time(o.get('wall_time_s')):>7} {fmt_mem(o.get('peak_rss_kb')):>9} {fmt_det(o.get('detected')):>7} {fmt_cls(o):>8} | "
         f"{fmt_time(c.get('wall_time_s')):>7} {fmt_mem(c.get('peak_rss_kb')):>9} {fmt_det(c.get('detected')):>7} | "
         f"{fmt_time(j.get('wall_time_s') if j else None):>7} {fmt_mem(j.get('peak_rss_kb') if j else None):>9} {fmt_det(j.get('detected') if j else None, missing=joern_missing):>7}"
     )

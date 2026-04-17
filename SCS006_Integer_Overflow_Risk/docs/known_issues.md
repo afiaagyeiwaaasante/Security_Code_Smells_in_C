@@ -4,18 +4,24 @@
 
 ### KI-001: Interprocedural overflow — no cross-file data flow
 
-**Description:** When tainted data originates in one function and the arithmetic
-operation is performed in a separate function (or file), single-file analysis
-will not detect the overflow risk in the sink function because the sink function
-may contain a `+` or `*` that the detector flags — but only if the sink itself
-has no MAX guard. If the source passes a value the sink does not guard against,
-the detector reports a finding correctly only when both files are analysed
-together via `smell_report_multi.sh`.
+**Description:** When tainted data originates in a source file (`22a.c` —
+contains the `fscanf` call) and the arithmetic operation is performed in a
+separate sink file (`22b.c` — receives the value as a parameter), single-file
+analysis of `22b.c` alone cannot see the taint source. The detector fires on
+`22b.c` because the arithmetic has no MAX guard, but classifies the finding as
+`warning/smell` (no taint source visible) rather than `error/vulnerability`.
 
-**Affected files:** `interprocedural/bad_int_multiply_22a.c` + `22b.c`
+**Affected files:** `interprocedural/bad_int_multiply_22a.c` + `22b.c`,
+`bad_int_add_22a.c` + `22b.c`
 
-**Workaround:** Use `smell_report_multi.sh` to combine source and sink files
-into a single srcML unit before detection.
+**Current handling:** The `22a` (source-only) files are explicitly excluded
+from `run_test.sh` and `run_smelldetect.sh`. Only the `22b` (sink) files are
+benchmarked; they correctly produce a finding but with downgraded severity.
+
+**Limitation:** `smell_report_multi.sh` does not exist for SCS006. Full
+interprocedural taint tracking (correct `error/vulnerability` classification)
+would require a multi-file analysis pass that combines both files into one
+srcML unit before running the detectors.
 
 ---
 

@@ -5,14 +5,22 @@
 ### KI-001: Interprocedural — signed value originates in a separate file
 
 **Description:** When the tainted signed integer is read in a source file
-(e.g., `fscanf` in `22a.c`) and passed to `malloc()` in a separate sink file
-(`22b.c`), running the detector on the sink file alone produces no finding —
-the sink function receives the value as a parameter with no visible taint
-source and the call site may include a guard not visible from the sink.
+(`22a.c` — contains the `fscanf` call) and passed to `malloc()` in a separate
+sink file (`22b.c` — receives the value as a parameter), single-file analysis
+of `22b.c` alone cannot see the taint source. The detector fires on `22b.c`
+because the signed variable has no positivity guard, but classifies the finding
+as `warning/smell` (no taint source visible) rather than `error/vulnerability`.
 
-**Affected group:** `interprocedural/` — running on `22b` only is a known
-false negative by design. Scanning both files together via
-`smell_report_multi.sh` gives correct detection.
+**Affected group:** `interprocedural/bad_signed_malloc_22a.c` + `22b.c`
+
+**Current handling:** The `22a` (source-only) files are explicitly excluded
+from `run_test.sh` and `run_smelldetect.sh`. Only the `22b` (sink) files are
+benchmarked; they correctly produce a finding but with downgraded severity.
+
+**Limitation:** `smell_report_multi.sh` does not exist for SCS007. Full
+interprocedural taint tracking (correct `error/vulnerability` classification)
+would require a multi-file analysis pass that combines both files into one
+srcML unit before running the detectors.
 
 ---
 
