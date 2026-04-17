@@ -45,6 +45,33 @@ set -eo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
+# ── /usr/bin/time flags (macOS vs Linux) ─────────────────────────────────────
+# macOS: /usr/bin/time -l  → "N.NN real"  and "N maximum resident set size" (bytes)
+# Linux: /usr/bin/time -v  → "Elapsed ... m:ss.ss"  and "Maximum resident set size (kbytes): N"
+if [ "$(uname)" = "Darwin" ]; then
+    TIME_FLAG="-l"
+    parse_timing() {            # args: timefile → prints "wall_s=N rss_kb=N"
+        local tf="$1"
+        local wall rss_b rss_kb
+        wall=$(grep 'real' "$tf" 2>/dev/null | awk '{print $1}' | head -1)
+        rss_b=$(grep 'maximum resident set size' "$tf" 2>/dev/null | awk '{print $1}' | head -1)
+        rss_kb=$(( ${rss_b:-0} / 1024 ))
+        echo "wall_s=${wall:-0} rss_kb=${rss_kb:-0}"
+    }
+else
+    TIME_FLAG="-v"
+    parse_timing() {
+        local tf="$1"
+        local wall rss_kb
+        # "Elapsed (wall clock) time (h:mm:ss or m:ss): 0:00.31"
+        wall=$(grep 'Elapsed' "$tf" 2>/dev/null | awk '{print $NF}' | sed 's/.*://' | head -1)
+        rss_kb=$(grep 'Maximum resident set size' "$tf" 2>/dev/null | awk '{print $NF}' | head -1)
+        echo "wall_s=${wall:-0} rss_kb=${rss_kb:-0}"
+    }
+fi
+export TIME_FLAG
+export -f parse_timing 2>/dev/null || true   # bash 3.2 may not export functions
+
 # ── defaults ──────────────────────────────────────────────────────────────────
 TARGET_DIR=""
 SCS_LIST=""
@@ -189,18 +216,37 @@ for i in $(seq 0 $((${#VALID_SCS[@]} - 1))); do
             file_out="${SCS_OUT}/${safe}"
             mkdir -p "$file_out"
 
-            bash "$REPORT" "$file" "$file_out" > "$file_out/stdout.log" 2>&1 || true
+            # time the detector run; stdout → log, stderr → raw timing file
+            /usr/bin/time "$TIME_FLAG" \
+                bash "$REPORT" "$file" "$file_out" \
+                > "$file_out/stdout.log" 2>"$file_out/timing.raw" || true
 
             # clean up srcML sidecars written into the source tree
             rm -f "${file}.xml" "${file}.json"
+
+            # parse wall time and peak RSS from timing output
+            wall=$(grep 'real\|Elapsed' "$file_out/timing.raw" 2>/dev/null \
+                       | awk '{print $1}' | head -1)
+            if [ "$(uname)" = "Darwin" ]; then
+                rss_b=$(grep 'maximum resident set size' "$file_out/timing.raw" \
+                            2>/dev/null | awk '{print $1}' | head -1)
+                rss_kb=$(( ${rss_b:-0} / 1024 ))
+            else
+                rss_kb=$(grep 'Maximum resident set size' "$file_out/timing.raw" \
+                             2>/dev/null | awk '{print $NF}' | head -1)
+                rss_kb=${rss_kb:-0}
+            fi
+            # save parsed metrics for aggregation
+            printf "wall_s=%s\nrss_kb=%s\n" "${wall:-0}" "${rss_kb:-0}" \
+                > "$file_out/timing.txt"
 
             # count findings in this file's output
             n=$(find "$file_out" -name "*_findings_*.json" \
                     -exec cat {} \; 2>/dev/null \
                 | grep -c '"detector"' 2>/dev/null || true)
 
-            printf "  [%5d/%d]  %-5s findings  %s\n" \
-                "$local_done" "$TOTAL" "$n" "$rel"
+            printf "  [%5d/%d]  %3s findings  %6ss  %5s KB  %s\n" \
+                "$local_done" "$TOTAL" "${n:-0}" "${wall:-?}" "${rss_kb:-?}" "$rel"
         ) &
         pids+=($!)
     done
@@ -307,7 +353,60 @@ agg_path = os.path.join(out_dir, "findings_all.json")
 with open(agg_path, "w") as f:
     json.dump(all_findings, f, indent=2)
 
-# statistics
+# ── timing stats ─────────────────────────────────────────────────────────────
+wall_times = []
+rss_kbs    = []
+for tf in glob.glob(os.path.join(out_dir, "**", "timing.txt"), recursive=True):
+    kv = {}
+    for line in open(tf):
+        if "=" in line:
+            k, v = line.strip().split("=", 1)
+            kv[k] = v
+    try:
+        w = float(kv.get("wall_s", 0))
+        r = int(kv.get("rss_kb", 0))
+        if w > 0: wall_times.append(w)
+        if r > 0: rss_kbs.append(r)
+    except (ValueError, TypeError):
+        pass
+
+def fmt_s(v):  return f"{v:.3f}s"
+def fmt_mb(kb): return f"{kb/1024:.1f} MB"
+
+if wall_times:
+    w_total = sum(wall_times)
+    w_avg   = w_total / len(wall_times)
+    w_min   = min(wall_times)
+    w_max   = max(wall_times)
+    # slowest files
+    slow_files = []
+    for tf in glob.glob(os.path.join(out_dir, "**", "timing.txt"), recursive=True):
+        kv = {}
+        for line in open(tf):
+            if "=" in line:
+                k, v = line.strip().split("=", 1)
+                kv[k] = v
+        try:
+            w = float(kv.get("wall_s", 0))
+            if w > 0:
+                # recover relative path from the timing.txt directory
+                rel_safe = os.path.basename(os.path.dirname(tf))
+                slow_files.append((w, rel_safe.replace("__", "/")))
+        except (ValueError, TypeError):
+            pass
+    slow_files.sort(reverse=True)
+    slow_files = slow_files[:10]
+else:
+    w_total = w_avg = w_min = w_max = 0.0
+    slow_files = []
+
+if rss_kbs:
+    r_avg = sum(rss_kbs) / len(rss_kbs)
+    r_max = max(rss_kbs)
+else:
+    r_avg = r_max = 0
+
+# ── findings stats ────────────────────────────────────────────────────────────
 n         = len(all_findings)
 n_error   = sum(1 for f in all_findings if f.get("severity")       == "error")
 n_warn    = sum(1 for f in all_findings if f.get("severity")       == "warning")
@@ -350,6 +449,18 @@ lines += ["", f" ── Top {len(top_files)} files by finding count ────
 for fpath, cnt in top_files:
     rel = fpath.replace(target_dir.rstrip("/") + "/", "")
     lines.append(f"   {cnt:>4}  {rel}")
+lines += [
+    "",
+    " ── Timing & Memory ─────────────────────────────────────────",
+    f"   Wall time  total : {fmt_s(w_total)}",
+    f"              avg   : {fmt_s(w_avg)}   min: {fmt_s(w_min)}   max: {fmt_s(w_max)}",
+    f"   Peak RSS   avg   : {fmt_mb(r_avg)}   max: {fmt_mb(r_max)}",
+]
+if slow_files:
+    lines.append("")
+    lines.append(f"   Slowest {len(slow_files)} files:")
+    for w, rel in slow_files:
+        lines.append(f"     {fmt_s(w):>10}  {rel}")
 lines += [
     "",
     f" Findings JSON : {agg_path}",
