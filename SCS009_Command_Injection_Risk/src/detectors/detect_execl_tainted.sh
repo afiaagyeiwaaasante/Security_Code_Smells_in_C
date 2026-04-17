@@ -83,18 +83,20 @@ for SINK in execl execlp; do
         continue
     fi
 
-    TAINT=$(xmllint --xpath "$TAINT_XPATH" "$TMPRESULT" 2>/dev/null)
-    if [ "${TAINT:-0}" -eq 0 ]; then
-        echo "    no taint source (fgets/getenv) in same function, no finding"
-        rm -f "$TMPRESULT"
-        continue
-    fi
-
     LINE=${POS%%:*}
     COL=${POS##*:}
     FUNC_NAME=$(xmllint --xpath \
         'string(//*[local-name()="function"]/*[local-name()="name"])' \
         "$TMPRESULT" 2>/dev/null)
+
+    TAINT=$(xmllint --xpath "$TAINT_XPATH" "$TMPRESULT" 2>/dev/null)
+    if [ "${TAINT:-0}" -gt 0 ]; then
+        SEV="error"; CLASS="vulnerability"
+        echo "    taint source present -- escalating to error/vulnerability"
+    else
+        SEV="warning"; CLASS="smell"
+        echo "    no taint source in same function -- warning/smell (possible interprocedural)"
+    fi
 
     echo "    function : $FUNC_NAME"
     echo "    position : $LINE:$COL"
@@ -103,8 +105,8 @@ for SINK in execl execlp; do
     write_finding \
         --findings  "$FINDINGS" \
         --detector  "execl_tainted" \
-        --severity  "error" \
-        --classification  "vulnerability" \
+        --severity  "$SEV" \
+        --classification  "$CLASS" \
         --rule      "SCS009-EXECL" \
         --file      "$FILENAME" \
         --line      "$LINE" \
@@ -112,9 +114,9 @@ for SINK in execl execlp; do
         --varname   "${FUNC_NAME:-?}" \
         --note-line "$LINE" \
         --note-col  "$COL" \
-        --note-msg  "${SINK}() in ${FUNC_NAME}() -- user input source (fgets/getenv) in same block"
+        --note-msg  "${SINK}() in ${FUNC_NAME}() -- variable used as exec path; data may contain shell metacharacters"
 
-    echo "    finding: ${FILENAME}:${LINE}:${COL} -- ${FUNC_NAME}() ${SINK}() with tainted input"
+    echo "    finding: ${FILENAME}:${LINE}:${COL} -- ${FUNC_NAME}() ${SINK}() with non-literal path"
     found=$((found + 1))
     rm -f "$TMPRESULT"
 done

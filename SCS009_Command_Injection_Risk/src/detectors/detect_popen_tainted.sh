@@ -74,37 +74,41 @@ else
     if [ -z "$POS" ]; then
         echo "    guarded -- popen() first argument is a literal, no finding"
     else
+        LINE=${POS%%:*}
+        COL=${POS##*:}
+        FUNC_NAME=$(xmllint --xpath \
+            'string(//*[local-name()="function"]/*[local-name()="name"])' \
+            "$TMPRESULT" 2>/dev/null)
+
         TAINT=$(xmllint --xpath "$TAINT_XPATH" "$TMPRESULT" 2>/dev/null)
-        if [ "${TAINT:-0}" -eq 0 ]; then
-            echo "    no taint source (fgets/getenv) in same function, no finding"
+        if [ "${TAINT:-0}" -gt 0 ]; then
+            SEV="error"; CLASS="vulnerability"
+            echo "    taint source present -- escalating to error/vulnerability"
         else
-            LINE=${POS%%:*}
-            COL=${POS##*:}
-            FUNC_NAME=$(xmllint --xpath \
-                'string(//*[local-name()="function"]/*[local-name()="name"])' \
-                "$TMPRESULT" 2>/dev/null)
-
-            echo "    function : $FUNC_NAME"
-            echo "    position : $LINE:$COL"
-            echo
-
-            write_finding \
-                --findings  "$FINDINGS" \
-                --detector  "popen_tainted" \
-                --severity  "error" \
-                --classification  "vulnerability" \
-                --rule      "SCS009-POPEN" \
-                --file      "$FILENAME" \
-                --line      "$LINE" \
-                --col       "$COL" \
-                --varname   "${FUNC_NAME:-?}" \
-                --note-line "$LINE" \
-                --note-col  "$COL" \
-                --note-msg  "popen() in ${FUNC_NAME}() -- user input source (fgets/getenv) in same block; pipe opened with tainted command"
-
-            echo "    finding: ${FILENAME}:${LINE}:${COL} -- ${FUNC_NAME}() popen() with tainted input"
-            found=$((found + 1))
+            SEV="warning"; CLASS="smell"
+            echo "    no taint source in same function -- warning/smell (possible interprocedural)"
         fi
+
+        echo "    function : $FUNC_NAME"
+        echo "    position : $LINE:$COL"
+        echo
+
+        write_finding \
+            --findings  "$FINDINGS" \
+            --detector  "popen_tainted" \
+            --severity  "$SEV" \
+            --classification  "$CLASS" \
+            --rule      "SCS009-POPEN" \
+            --file      "$FILENAME" \
+            --line      "$LINE" \
+            --col       "$COL" \
+            --varname   "${FUNC_NAME:-?}" \
+            --note-line "$LINE" \
+            --note-col  "$COL" \
+            --note-msg  "popen() in ${FUNC_NAME}() -- variable used as pipe command; data may contain shell metacharacters"
+
+        echo "    finding: ${FILENAME}:${LINE}:${COL} -- ${FUNC_NAME}() popen() with non-literal command"
+        found=$((found + 1))
     fi
 fi
 

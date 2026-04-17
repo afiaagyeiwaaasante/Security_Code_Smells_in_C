@@ -71,37 +71,41 @@ else
     if [ -z "$POS" ]; then
         echo "    guarded -- printf/vprintf format argument is a literal, no finding"
     else
+        LINE=${POS%%:*}
+        COL=${POS##*:}
+        FUNC_NAME=$(xmllint --xpath \
+            'string(//*[local-name()="function"]/*[local-name()="name"])' \
+            "$TMPRESULT" 2>/dev/null)
+
         TAINT=$(xmllint --xpath "$TAINT_XPATH" "$TMPRESULT" 2>/dev/null)
-        if [ "${TAINT:-0}" -eq 0 ]; then
-            echo "    no taint source (fgets/getenv/scanf/fscanf) in same function, no finding"
+        if [ "${TAINT:-0}" -gt 0 ]; then
+            SEV="error"; CLASS="vulnerability"
+            echo "    taint source present -- escalating to error/vulnerability"
         else
-            LINE=${POS%%:*}
-            COL=${POS##*:}
-            FUNC_NAME=$(xmllint --xpath \
-                'string(//*[local-name()="function"]/*[local-name()="name"])' \
-                "$TMPRESULT" 2>/dev/null)
-
-            echo "    function : $FUNC_NAME"
-            echo "    position : $LINE:$COL"
-            echo
-
-            write_finding \
-                --findings  "$FINDINGS" \
-                --detector  "printf_direct" \
-                --severity  "error" \
-                --classification  "vulnerability" \
-                --rule      "SCS008-PRINTF" \
-                --file      "$FILENAME" \
-                --line      "$LINE" \
-                --col       "$COL" \
-                --varname   "${FUNC_NAME:-?}" \
-                --note-line "$LINE" \
-                --note-col  "$COL" \
-                --note-msg  "printf/vprintf in ${FUNC_NAME}() -- variable used directly as format argument (no literal format specifier)"
-
-            echo "    finding: ${FILENAME}:${LINE}:${COL} -- ${FUNC_NAME}() printf without literal format specifier"
-            found=$((found + 1))
+            SEV="warning"; CLASS="smell"
+            echo "    no taint source in same function -- warning/smell (possible interprocedural)"
         fi
+
+        echo "    function : $FUNC_NAME"
+        echo "    position : $LINE:$COL"
+        echo
+
+        write_finding \
+            --findings  "$FINDINGS" \
+            --detector  "printf_direct" \
+            --severity  "$SEV" \
+            --classification  "$CLASS" \
+            --rule      "SCS008-PRINTF" \
+            --file      "$FILENAME" \
+            --line      "$LINE" \
+            --col       "$COL" \
+            --varname   "${FUNC_NAME:-?}" \
+            --note-line "$LINE" \
+            --note-col  "$COL" \
+            --note-msg  "printf/vprintf in ${FUNC_NAME}() -- variable used directly as format argument (no literal format specifier)"
+
+        echo "    finding: ${FILENAME}:${LINE}:${COL} -- ${FUNC_NAME}() printf without literal format specifier"
+        found=$((found + 1))
     fi
 fi
 
@@ -140,6 +144,43 @@ if [ -n "$DES_POS" ]; then
     found=$((found + 1))
 else
     echo "    no unguarded destructor/constructor printf found"
+fi
+
+# -----------------------------------------------------------------------
+# Stage 2b: ctor/dtor split — sink in destructor, taint in sibling constructor
+# -----------------------------------------------------------------------
+echo
+echo "--- Stage 2b: ctor/dtor split (taint in constructor, sink in destructor) ---"
+
+CTR_SPLIT_XPATH="//*[local-name()='call'][*[local-name()='name'][.='printf' or .='vprintf']][*[local-name()='argument_list']/*[local-name()='argument'][1][not(.//*[local-name()='literal'])]][ancestor::*[local-name()='destructor']][ancestor::*[local-name()='class'][1][.//*[local-name()='constructor'][.//*[local-name()='call'][*[local-name()='name'][.='fgets' or .='getenv' or .='scanf' or .='fscanf']]]]]"
+
+CTR_POS=$(xmllint --xpath "string(${CTR_SPLIT_XPATH}/@*[local-name()='start'])" "$XML" 2>/dev/null)
+
+if [ -n "$CTR_POS" ]; then
+    LINE=${CTR_POS%%:*}
+    COL=${CTR_POS##*:}
+    DTOR_NAME=$(xmllint --xpath \
+        'string(//*[local-name()="destructor"]/*[local-name()="name"])' \
+        "$XML" 2>/dev/null)
+
+    write_finding \
+        --findings  "$FINDINGS" \
+        --detector  "printf_direct" \
+        --severity  "error" \
+        --classification  "vulnerability" \
+        --rule      "SCS008-PRINTF" \
+        --file      "$FILENAME" \
+        --line      "$LINE" \
+        --col       "$COL" \
+        --varname   "${DTOR_NAME:-?}" \
+        --note-line "$LINE" \
+        --note-col  "$COL" \
+        --note-msg  "printf/vprintf in destructor -- member variable from tainted constructor used as format argument (ctor/dtor split)"
+
+    echo "    finding: ${FILENAME}:${LINE}:${COL} -- ${DTOR_NAME} printf (ctor/dtor split taint)"
+    found=$((found + 1))
+else
+    echo "    no ctor/dtor split printf found"
 fi
 
 echo

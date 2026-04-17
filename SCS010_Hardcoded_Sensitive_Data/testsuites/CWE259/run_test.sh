@@ -104,12 +104,11 @@ echo "[ cpp_class ]"
 for f in "$SCRIPT_DIR/cpp_class"/bad_*.cpp;  do [ -f "$f" ] && run_case "$f" bad; done
 for f in "$SCRIPT_DIR/cpp_class"/good_*.cpp; do [ -f "$f" ] && run_case "$f" good; done
 
-# --- interprocedural group (sink file only — source credential set in 22a) ---
-# NOTE: 22a files contain only the credential assignment, no authentication sink —
-# single-file analysis cannot detect them. Only 22b (sink side) is tested here.
+# --- interprocedural group (source file — credential literal is in 22a) ---
+# NOTE: 22a files contain the hardcoded literal (strcpy(g_password, "...")) — detector finds it.
+# 22b files contain only the sink (strcmp against the global) — no literal, known FN on 22b.
 echo "[ interprocedural ]"
-for f in "$SCRIPT_DIR/interprocedural"/bad_*_22b.c;  do [ -f "$f" ] && run_case "$f" bad; done
-for f in "$SCRIPT_DIR/interprocedural"/good_*_22b.c; do [ -f "$f" ] && run_case "$f" good; done
+for f in "$SCRIPT_DIR/interprocedural"/bad_*_22a.c;  do [ -f "$f" ] && run_case "$f" bad; done
 
 echo
 echo "========================================"

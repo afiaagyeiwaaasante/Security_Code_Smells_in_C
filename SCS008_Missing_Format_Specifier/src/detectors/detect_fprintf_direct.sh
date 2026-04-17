@@ -70,37 +70,41 @@ else
     if [ -z "$POS" ]; then
         echo "    guarded -- fprintf/vfprintf format argument is a literal, no finding"
     else
+        LINE=${POS%%:*}
+        COL=${POS##*:}
+        FUNC_NAME=$(xmllint --xpath \
+            'string(//*[local-name()="function"]/*[local-name()="name"])' \
+            "$TMPRESULT" 2>/dev/null)
+
         TAINT=$(xmllint --xpath "$TAINT_XPATH" "$TMPRESULT" 2>/dev/null)
-        if [ "${TAINT:-0}" -eq 0 ]; then
-            echo "    no taint source (fgets/getenv/scanf/fscanf) in same function, no finding"
+        if [ "${TAINT:-0}" -gt 0 ]; then
+            SEV="error"; CLASS="vulnerability"
+            echo "    taint source present -- escalating to error/vulnerability"
         else
-            LINE=${POS%%:*}
-            COL=${POS##*:}
-            FUNC_NAME=$(xmllint --xpath \
-                'string(//*[local-name()="function"]/*[local-name()="name"])' \
-                "$TMPRESULT" 2>/dev/null)
-
-            echo "    function : $FUNC_NAME"
-            echo "    position : $LINE:$COL"
-            echo
-
-            write_finding \
-                --findings  "$FINDINGS" \
-                --detector  "fprintf_direct" \
-                --severity  "error" \
-                --classification  "vulnerability" \
-                --rule      "SCS008-FPRINTF" \
-                --file      "$FILENAME" \
-                --line      "$LINE" \
-                --col       "$COL" \
-                --varname   "${FUNC_NAME:-?}" \
-                --note-line "$LINE" \
-                --note-col  "$COL" \
-                --note-msg  "fprintf/vfprintf in ${FUNC_NAME}() -- variable used directly as format argument (no literal format specifier)"
-
-            echo "    finding: ${FILENAME}:${LINE}:${COL} -- ${FUNC_NAME}() fprintf without literal format specifier"
-            found=$((found + 1))
+            SEV="warning"; CLASS="smell"
+            echo "    no taint source in same function -- warning/smell (possible interprocedural)"
         fi
+
+        echo "    function : $FUNC_NAME"
+        echo "    position : $LINE:$COL"
+        echo
+
+        write_finding \
+            --findings  "$FINDINGS" \
+            --detector  "fprintf_direct" \
+            --severity  "$SEV" \
+            --classification  "$CLASS" \
+            --rule      "SCS008-FPRINTF" \
+            --file      "$FILENAME" \
+            --line      "$LINE" \
+            --col       "$COL" \
+            --varname   "${FUNC_NAME:-?}" \
+            --note-line "$LINE" \
+            --note-col  "$COL" \
+            --note-msg  "fprintf/vfprintf in ${FUNC_NAME}() -- variable used directly as format argument (no literal format specifier)"
+
+        echo "    finding: ${FILENAME}:${LINE}:${COL} -- ${FUNC_NAME}() fprintf without literal format specifier"
+        found=$((found + 1))
     fi
 fi
 
