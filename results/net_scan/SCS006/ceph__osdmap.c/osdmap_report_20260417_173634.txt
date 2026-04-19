@@ -1,0 +1,123 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ceph/osdmap.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ceph__osdmap.c/osdmap_report_20260417_173634.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ceph__osdmap.c/osdmap_findings_20260417_173634.json
+ Date    : Fri Apr 17 17:36:34 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.117s
+user	0m0.105s
+sys	0m0.006s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ceph/osdmap.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ceph/osdmap.c.json
+
+real	0m0.360s
+user	0m0.238s
+sys	0m0.007s
+
+=== Stage 3: srcattributor ===
+
+real	0m18.678s
+user	0m17.918s
+sys	0m0.164s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ceph/osdmap.c.xml
+    output : /tmp/cwe190_findings_ei8UZB
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.054s
+user	0m0.045s
+sys	0m0.007s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_ei8UZB
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ceph/osdmap.c.xml
+    output : /tmp/cwe190_findings_ei8UZB
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.036s
+user	0m0.030s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ceph/osdmap.c:2407:36 -- __ceph_object_locator_to_pg() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_ei8UZB
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ceph/osdmap.c.xml
+    output : /tmp/cwe190_findings_ei8UZB
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : calc_bits_of
+    position : 54:18
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ceph/osdmap.c:54:18 -- calc_bits_of() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_ei8UZB
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ceph/osdmap.c",
+  "line": 2407,
+  "col": 36,
+  "varname": "__ceph_object_locator_to_pg",
+  "note": {
+    "line": 2407,
+    "col": 36,
+    "message": "addition in __ceph_object_locator_to_pg() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ceph/osdmap.c",
+  "line": 54,
+  "col": 18,
+  "varname": "calc_bits_of",
+  "note": {
+    "line": 54,
+    "col": 18,
+    "message": "increment (++) in calc_bits_of() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+========================================

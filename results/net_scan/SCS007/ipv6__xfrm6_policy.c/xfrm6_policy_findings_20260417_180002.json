@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/xfrm6_policy.c",
+  "line": 36,
+  "col": 9,
+  "varname": "xfrm6_dst_lookup",
+  "note": {
+    "line": 36,
+    "col": 9,
+    "message": "memcpy() in xfrm6_dst_lookup() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

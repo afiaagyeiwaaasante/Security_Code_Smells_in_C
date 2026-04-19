@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/caif/cfpkt_skbuff.c",
+  "line": 327,
+  "col": 31,
+  "varname": "cfpkt_split",
+  "note": {
+    "line": 327,
+    "col": 31,
+    "message": "addition in cfpkt_split() -- no upper-bound guard before adding"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/nfc/digital_core.c",
+  "line": 458,
+  "col": 60,
+  "varname": "digital_add_poll_tech",
+  "note": {
+    "line": 458,
+    "col": 60,
+    "message": "increment (++) in digital_add_poll_tech() -- no upper-bound guard (INT_MAX check)"
+  }
+}

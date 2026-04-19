@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/svcsock.c",
+  "line": 405,
+  "col": 50,
+  "varname": "svc_data_ready",
+  "note": {
+    "line": 405,
+    "col": 50,
+    "message": "multiplication in svc_data_ready() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/svcsock.c",
+  "line": 352,
+  "col": 41,
+  "varname": "svc_tcp_read_msg",
+  "note": {
+    "line": 352,
+    "col": 41,
+    "message": "increment (++) in svc_tcp_read_msg() -- no upper-bound guard (INT_MAX check)"
+  }
+}

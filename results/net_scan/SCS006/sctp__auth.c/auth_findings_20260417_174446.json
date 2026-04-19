@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sctp/auth.c",
+  "line": 164,
+  "col": 45,
+  "varname": "sctp_auth_compare_vectors",
+  "note": {
+    "line": 164,
+    "col": 45,
+    "message": "increment (++) in sctp_auth_compare_vectors() -- no upper-bound guard (INT_MAX check)"
+  }
+}

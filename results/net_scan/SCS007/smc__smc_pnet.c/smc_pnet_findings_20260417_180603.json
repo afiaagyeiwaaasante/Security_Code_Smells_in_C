@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/smc/smc_pnet.c",
+  "line": 255,
+  "col": 17,
+  "varname": "smc_pnet_apply_ib",
+  "note": {
+    "line": 255,
+    "col": 17,
+    "message": "memcpy() in smc_pnet_apply_ib() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

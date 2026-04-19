@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ax25/ax25_std_timer.c",
+  "line": 135,
+  "col": 38,
+  "varname": "ax25_std_t1timer_expiry",
+  "note": {
+    "line": 135,
+    "col": 38,
+    "message": "increment (++) in ax25_std_t1timer_expiry() -- no upper-bound guard (INT_MAX check)"
+  }
+}

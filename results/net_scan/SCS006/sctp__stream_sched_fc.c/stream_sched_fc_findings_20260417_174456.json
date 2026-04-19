@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sctp/stream_sched_fc.c",
+  "line": 143,
+  "col": 50,
+  "varname": "sctp_sched_fc_dequeue_done",
+  "note": {
+    "line": 143,
+    "col": 50,
+    "message": "increment (++) in sctp_sched_fc_dequeue_done() -- no upper-bound guard (INT_MAX check)"
+  }
+}

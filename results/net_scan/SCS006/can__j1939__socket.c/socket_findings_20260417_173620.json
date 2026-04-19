@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/can/j1939/socket.c",
+  "line": 446,
+  "col": 58,
+  "varname": "j1939_sk_bind",
+  "note": {
+    "line": 446,
+    "col": 58,
+    "message": "multiplication in j1939_sk_bind() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/can/j1939/socket.c",
+  "line": 278,
+  "col": 25,
+  "varname": "j1939_sk_match_filter",
+  "note": {
+    "line": 278,
+    "col": 25,
+    "message": "increment (++) in j1939_sk_match_filter() -- no upper-bound guard (INT_MAX check)"
+  }
+}

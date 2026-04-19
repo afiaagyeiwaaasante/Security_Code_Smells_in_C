@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/xprtrdma/svc_rdma_rw.c",
+  "line": 871,
+  "col": 17,
+  "varname": "svc_rdma_copy_inline_range",
+  "note": {
+    "line": 871,
+    "col": 17,
+    "message": "memcpy() in svc_rdma_copy_inline_range() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

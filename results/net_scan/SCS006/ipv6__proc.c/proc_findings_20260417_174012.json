@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/proc.c",
+  "line": 218,
+  "col": 39,
+  "varname": "snmp6_seq_show",
+  "note": {
+    "line": 218,
+    "col": 39,
+    "message": "multiplication in snmp6_seq_show() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/proc.c",
+  "line": 130,
+  "col": 44,
+  "varname": "snmp6_seq_show_icmpv6msg",
+  "note": {
+    "line": 130,
+    "col": 44,
+    "message": "increment (++) in snmp6_seq_show_icmpv6msg() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/netfilter/ip6table_nat.c",
+  "line": 77,
+  "col": 55,
+  "varname": "ip6t_nat_register_lookups",
+  "note": {
+    "line": 77,
+    "col": 55,
+    "message": "increment (++) in ip6t_nat_register_lookups() -- no upper-bound guard (INT_MAX check)"
+  }
+}

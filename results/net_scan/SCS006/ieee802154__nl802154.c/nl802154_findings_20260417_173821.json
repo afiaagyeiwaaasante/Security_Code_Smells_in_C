@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ieee802154/nl802154.c",
+  "line": 601,
+  "col": 60,
+  "varname": "nl802154_dump_wpan_phy",
+  "note": {
+    "line": 601,
+    "col": 60,
+    "message": "multiplication in nl802154_dump_wpan_phy() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ieee802154/nl802154.c",
+  "line": 335,
+  "col": 18,
+  "varname": "nl802154_put_flags",
+  "note": {
+    "line": 335,
+    "col": 18,
+    "message": "increment (++) in nl802154_put_flags() -- no upper-bound guard (INT_MAX check)"
+  }
+}

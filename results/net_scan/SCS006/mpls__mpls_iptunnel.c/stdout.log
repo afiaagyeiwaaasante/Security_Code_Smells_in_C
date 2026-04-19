@@ -1,0 +1,104 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/mpls/mpls_iptunnel.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/mpls__mpls_iptunnel.c/mpls_iptunnel_report_20260417_174143.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/mpls__mpls_iptunnel.c/mpls_iptunnel_findings_20260417_174143.json
+ Date    : Fri Apr 17 17:41:43 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.024s
+user	0m0.017s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/mpls/mpls_iptunnel.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/mpls/mpls_iptunnel.c.json
+
+real	0m0.185s
+user	0m0.048s
+sys	0m0.004s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.147s
+user	0m0.137s
+sys	0m0.006s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mpls/mpls_iptunnel.c.xml
+    output : /tmp/cwe190_findings_CfsfcS
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.017s
+user	0m0.010s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_CfsfcS
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mpls/mpls_iptunnel.c.xml
+    output : /tmp/cwe190_findings_CfsfcS
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.017s
+user	0m0.010s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_CfsfcS
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mpls/mpls_iptunnel.c.xml
+    output : /tmp/cwe190_findings_CfsfcS
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : mpls_encap_cmp
+    position : 273:41
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/mpls/mpls_iptunnel.c:273:41 -- mpls_encap_cmp() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_CfsfcS
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mpls/mpls_iptunnel.c",
+  "line": 273,
+  "col": 41,
+  "varname": "mpls_encap_cmp",
+  "note": {
+    "line": 273,
+    "col": 41,
+    "message": "increment (++) in mpls_encap_cmp() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_increment       1
+========================================

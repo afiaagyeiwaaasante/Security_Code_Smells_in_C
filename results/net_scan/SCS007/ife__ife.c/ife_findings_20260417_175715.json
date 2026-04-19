@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ife/ife.c",
+  "line": 53,
+  "col": 9,
+  "varname": "ife_encode",
+  "note": {
+    "line": 53,
+    "col": 9,
+    "message": "memcpy() in ife_encode() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

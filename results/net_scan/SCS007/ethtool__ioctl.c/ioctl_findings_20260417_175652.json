@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ethtool/ioctl.c",
+  "line": 200,
+  "col": 17,
+  "varname": "__ethtool_get_strings",
+  "note": {
+    "line": 200,
+    "col": 17,
+    "message": "memcpy() in __ethtool_get_strings() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

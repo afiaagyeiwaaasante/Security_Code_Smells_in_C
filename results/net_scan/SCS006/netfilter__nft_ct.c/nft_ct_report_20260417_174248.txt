@@ -1,0 +1,123 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_ct.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/netfilter__nft_ct.c/nft_ct_report_20260417_174248.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/netfilter__nft_ct.c/nft_ct_findings_20260417_174248.json
+ Date    : Fri Apr 17 17:42:48 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.076s
+user	0m0.069s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_ct.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_ct.c.json
+
+real	0m0.305s
+user	0m0.147s
+sys	0m0.006s
+
+=== Stage 3: srcattributor ===
+
+real	0m3.050s
+user	0m2.818s
+sys	0m0.027s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_ct.c.xml
+    output : /tmp/cwe190_findings_G9x2C8
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.033s
+user	0m0.024s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_ct.c:929:46 -- nft_ct_timeout_obj_eval() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_G9x2C8
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_ct.c.xml
+    output : /tmp/cwe190_findings_G9x2C8
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.036s
+user	0m0.025s
+sys	0m0.006s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_G9x2C8
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_ct.c.xml
+    output : /tmp/cwe190_findings_G9x2C8
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : nft_ct_set_init
+    position : 594:44
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_ct.c:594:44 -- nft_ct_set_init() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_G9x2C8
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_ct.c",
+  "line": 929,
+  "col": 46,
+  "varname": "nft_ct_timeout_obj_eval",
+  "note": {
+    "line": 929,
+    "col": 46,
+    "message": "multiplication in nft_ct_timeout_obj_eval() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_ct.c",
+  "line": 594,
+  "col": 44,
+  "varname": "nft_ct_set_init",
+  "note": {
+    "line": 594,
+    "col": 44,
+    "message": "increment (++) in nft_ct_set_init() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/auth_gss.c",
+  "line": 1478,
+  "col": 65,
+  "varname": "gss_key_timeout",
+  "note": {
+    "line": 1478,
+    "col": 65,
+    "message": "multiplication in gss_key_timeout() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/auth_gss.c",
+  "line": 1478,
+  "col": 41,
+  "varname": "gss_key_timeout",
+  "note": {
+    "line": 1478,
+    "col": 41,
+    "message": "addition in gss_key_timeout() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/auth_gss.c",
+  "line": 1550,
+  "col": 11,
+  "varname": "gss_marshal",
+  "note": {
+    "line": 1550,
+    "col": 11,
+    "message": "increment (++) in gss_marshal() -- no upper-bound guard (INT_MAX check)"
+  }
+}

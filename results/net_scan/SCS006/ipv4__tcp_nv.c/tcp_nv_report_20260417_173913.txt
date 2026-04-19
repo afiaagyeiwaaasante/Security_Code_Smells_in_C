@@ -1,0 +1,104 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_nv.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv4__tcp_nv.c/tcp_nv_report_20260417_173913.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv4__tcp_nv.c/tcp_nv_findings_20260417_173913.json
+ Date    : Fri Apr 17 17:39:13 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.029s
+user	0m0.024s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_nv.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_nv.c.json
+
+real	0m0.190s
+user	0m0.058s
+sys	0m0.004s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.282s
+user	0m0.274s
+sys	0m0.005s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_nv.c.xml
+    output : /tmp/cwe190_findings_AuBkvu
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.021s
+user	0m0.010s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_AuBkvu
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_nv.c.xml
+    output : /tmp/cwe190_findings_AuBkvu
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.019s
+user	0m0.011s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_AuBkvu
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_nv.c.xml
+    output : /tmp/cwe190_findings_AuBkvu
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : tcpnv_acked
+    position : 300:37
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_nv.c:300:37 -- tcpnv_acked() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_AuBkvu
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_nv.c",
+  "line": 300,
+  "col": 37,
+  "varname": "tcpnv_acked",
+  "note": {
+    "line": 300,
+    "col": 37,
+    "message": "increment (++) in tcpnv_acked() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_increment       1
+========================================

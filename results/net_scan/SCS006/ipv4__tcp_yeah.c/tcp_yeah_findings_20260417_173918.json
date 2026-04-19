@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_yeah.c",
+  "line": 156,
+  "col": 57,
+  "varname": "tcp_yeah_cong_avoid",
+  "note": {
+    "line": 156,
+    "col": 57,
+    "message": "increment (++) in tcp_yeah_cong_avoid() -- no upper-bound guard (INT_MAX check)"
+  }
+}

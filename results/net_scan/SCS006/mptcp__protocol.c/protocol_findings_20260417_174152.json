@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mptcp/protocol.c",
+  "line": 1022,
+  "col": 35,
+  "varname": "dfrag_clear",
+  "note": {
+    "line": 1022,
+    "col": 35,
+    "message": "addition in dfrag_clear() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mptcp/protocol.c",
+  "line": 120,
+  "col": 46,
+  "varname": "__mptcp_socket_create",
+  "note": {
+    "line": 120,
+    "col": 46,
+    "message": "increment (++) in __mptcp_socket_create() -- no upper-bound guard (INT_MAX check)"
+  }
+}

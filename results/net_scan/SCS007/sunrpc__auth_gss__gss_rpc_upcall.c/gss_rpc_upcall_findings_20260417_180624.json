@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/gss_rpc_upcall.c",
+  "line": 324,
+  "col": 25,
+  "varname": "gssp_accept_sec_context_upcall",
+  "note": {
+    "line": 324,
+    "col": 25,
+    "message": "memcpy() in gssp_accept_sec_context_upcall() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

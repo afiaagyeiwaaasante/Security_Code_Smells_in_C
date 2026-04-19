@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/output.c",
+  "line": 158,
+  "col": 63,
+  "varname": "rxrpc_fill_out_ack",
+  "note": {
+    "line": 158,
+    "col": 63,
+    "message": "multiplication in rxrpc_fill_out_ack() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/output.c",
+  "line": 157,
+  "col": 59,
+  "varname": "rxrpc_fill_out_ack",
+  "note": {
+    "line": 157,
+    "col": 59,
+    "message": "addition in rxrpc_fill_out_ack() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/output.c",
+  "line": 338,
+  "col": 30,
+  "varname": "rxrpc_send_ACK",
+  "note": {
+    "line": 338,
+    "col": 30,
+    "message": "increment (++) in rxrpc_send_ACK() -- no upper-bound guard (INT_MAX check)"
+  }
+}

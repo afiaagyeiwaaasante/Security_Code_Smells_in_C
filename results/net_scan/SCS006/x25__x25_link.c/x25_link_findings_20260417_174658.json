@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/x25/x25_link.c",
+  "line": 135,
+  "col": 34,
+  "varname": "x25_transmit_restart_request",
+  "note": {
+    "line": 135,
+    "col": 34,
+    "message": "addition in x25_transmit_restart_request() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/x25/x25_link.c",
+  "line": 145,
+  "col": 14,
+  "varname": "x25_transmit_restart_request",
+  "note": {
+    "line": 145,
+    "col": 14,
+    "message": "increment (++) in x25_transmit_restart_request() -- no upper-bound guard (INT_MAX check)"
+  }
+}

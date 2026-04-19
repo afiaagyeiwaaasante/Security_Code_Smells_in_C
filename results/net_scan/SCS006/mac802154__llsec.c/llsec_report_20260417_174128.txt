@@ -1,0 +1,104 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/mac802154/llsec.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/mac802154__llsec.c/llsec_report_20260417_174128.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/mac802154__llsec.c/llsec_findings_20260417_174128.json
+ Date    : Fri Apr 17 17:41:28 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.065s
+user	0m0.057s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/mac802154/llsec.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/mac802154/llsec.c.json
+
+real	0m0.251s
+user	0m0.119s
+sys	0m0.006s
+
+=== Stage 3: srcattributor ===
+
+real	0m2.167s
+user	0m2.090s
+sys	0m0.026s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mac802154/llsec.c.xml
+    output : /tmp/cwe190_findings_38Kgvq
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.027s
+user	0m0.019s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_38Kgvq
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mac802154/llsec.c.xml
+    output : /tmp/cwe190_findings_38Kgvq
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.028s
+user	0m0.021s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_38Kgvq
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mac802154/llsec.c.xml
+    output : /tmp/cwe190_findings_38Kgvq
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : llsec_key_alloc
+    position : 129:48
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/mac802154/llsec.c:129:48 -- llsec_key_alloc() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_38Kgvq
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac802154/llsec.c",
+  "line": 129,
+  "col": 48,
+  "varname": "llsec_key_alloc",
+  "note": {
+    "line": 129,
+    "col": 48,
+    "message": "increment (++) in llsec_key_alloc() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_increment       1
+========================================

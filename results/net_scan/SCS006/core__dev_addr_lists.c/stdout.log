@@ -1,0 +1,104 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/core/dev_addr_lists.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/core__dev_addr_lists.c/dev_addr_lists_report_20260417_173640.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/core__dev_addr_lists.c/dev_addr_lists_findings_20260417_173640.json
+ Date    : Fri Apr 17 17:36:40 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.037s
+user	0m0.032s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/core/dev_addr_lists.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/core/dev_addr_lists.c.json
+
+real	0m0.185s
+user	0m0.072s
+sys	0m0.004s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.867s
+user	0m0.837s
+sys	0m0.011s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/core/dev_addr_lists.c.xml
+    output : /tmp/cwe190_findings_fdLUHF
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.021s
+user	0m0.016s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_fdLUHF
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/core/dev_addr_lists.c.xml
+    output : /tmp/cwe190_findings_fdLUHF
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.022s
+user	0m0.016s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_fdLUHF
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/core/dev_addr_lists.c.xml
+    output : /tmp/cwe190_findings_fdLUHF
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : __hw_addr_add_ex
+    position : 111:51
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/core/dev_addr_lists.c:111:51 -- __hw_addr_add_ex() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_fdLUHF
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/dev_addr_lists.c",
+  "line": 111,
+  "col": 51,
+  "varname": "__hw_addr_add_ex",
+  "note": {
+    "line": 111,
+    "col": 51,
+    "message": "increment (++) in __hw_addr_add_ex() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_increment       1
+========================================

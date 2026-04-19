@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_hybla.c",
+  "line": 142,
+  "col": 41,
+  "varname": "hybla_cong_avoid",
+  "note": {
+    "line": 142,
+    "col": 41,
+    "message": "increment (++) in hybla_cong_avoid() -- no upper-bound guard (INT_MAX check)"
+  }
+}

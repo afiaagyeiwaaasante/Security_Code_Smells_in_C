@@ -1,0 +1,93 @@
+========================================
+ CWE-195 Signed-to-Unsigned Conversion Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/caif/chnl_net.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS007/caif__chnl_net.c/chnl_net_report_20260417_175346.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS007/caif__chnl_net.c/chnl_net_findings_20260417_175346.json
+ Date    : Fri Apr 17 17:53:46 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.040s
+user	0m0.031s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/caif/chnl_net.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/caif/chnl_net.c.json
+
+real	0m0.195s
+user	0m0.068s
+sys	0m0.004s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.413s
+user	0m0.393s
+sys	0m0.007s
+
+=== Detector 1: signed_malloc ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/caif/chnl_net.c.xml
+    output : /tmp/cwe195_findings_3lb4jo
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS malloc($A)
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.024s
+user	0m0.015s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor malloc found
+
+[ signed_malloc ] 0 finding(s) written to /tmp/cwe195_findings_3lb4jo
+=== Detector 2: signed_memcpy ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/caif/chnl_net.c.xml
+    output : /tmp/cwe195_findings_3lb4jo
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS memcpy($A, $B, $C)
+
+real	0m0.022s
+user	0m0.014s
+sys	0m0.004s
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS memmove($A, $B, $C)
+
+real	0m0.021s
+user	0m0.014s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor memcpy/memmove found
+
+[ signed_memcpy ] 0 finding(s) written to /tmp/cwe195_findings_3lb4jo
+=== Detector 3: signed_strncpy ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/caif/chnl_net.c.xml
+    output : /tmp/cwe195_findings_3lb4jo
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS strncpy($A, $B, $C)
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.040s
+user	0m0.015s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor strncpy found
+
+[ signed_strncpy ] 0 finding(s) written to /tmp/cwe195_findings_3lb4jo
+========================================
+ Findings JSON
+========================================
+
+========================================
+ Summary
+ Total findings : 0
+ Errors         : 0
+ Warnings       : 0
+========================================

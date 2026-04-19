@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netlink/policy.c",
+  "line": 212,
+  "col": 24,
+  "varname": "netlink_policy_dump_attr_size_estimate",
+  "note": {
+    "line": 212,
+    "col": 24,
+    "message": "multiplication in netlink_policy_dump_attr_size_estimate() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netlink/policy.c",
+  "line": 37,
+  "col": 42,
+  "varname": "add_policy",
+  "note": {
+    "line": 37,
+    "col": 42,
+    "message": "increment (++) in add_policy() -- no upper-bound guard (INT_MAX check)"
+  }
+}

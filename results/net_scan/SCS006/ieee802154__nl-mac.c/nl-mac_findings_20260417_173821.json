@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ieee802154/nl-mac.c",
+  "line": 448,
+  "col": 20,
+  "varname": "ieee802154_dump_iface",
+  "note": {
+    "line": 448,
+    "col": 20,
+    "message": "increment (++) in ieee802154_dump_iface() -- no upper-bound guard (INT_MAX check)"
+  }
+}

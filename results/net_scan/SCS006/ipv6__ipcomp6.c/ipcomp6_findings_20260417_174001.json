@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ipcomp6.c",
+  "line": 49,
+  "col": 59,
+  "varname": "ipcomp6_err",
+  "note": {
+    "line": 49,
+    "col": 59,
+    "message": "multiplication in ipcomp6_err() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ipcomp6.c",
+  "line": 51,
+  "col": 50,
+  "varname": "ipcomp6_err",
+  "note": {
+    "line": 51,
+    "col": 50,
+    "message": "addition in ipcomp6_err() -- no upper-bound guard before adding"
+  }
+}

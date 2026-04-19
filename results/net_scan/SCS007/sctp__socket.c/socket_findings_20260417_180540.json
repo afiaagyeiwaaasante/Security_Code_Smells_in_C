@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sctp/socket.c",
+  "line": 635,
+  "col": 25,
+  "varname": "sctp_send_asconf_add_ip",
+  "note": {
+    "line": 635,
+    "col": 25,
+    "message": "memcpy() in sctp_send_asconf_add_ip() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

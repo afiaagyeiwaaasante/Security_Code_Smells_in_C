@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/inet_connection_sock.c",
+  "line": 936,
+  "col": 9,
+  "varname": "inet_reqsk_clone",
+  "note": {
+    "line": 936,
+    "col": 9,
+    "message": "memcpy() in inet_reqsk_clone() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

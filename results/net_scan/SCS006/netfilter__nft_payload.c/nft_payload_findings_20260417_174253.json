@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_payload.c",
+  "line": 150,
+  "col": 40,
+  "varname": "nft_payload_need_vlan_adjust",
+  "note": {
+    "line": 150,
+    "col": 40,
+    "message": "addition in nft_payload_need_vlan_adjust() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_payload.c",
+  "line": 1020,
+  "col": 41,
+  "varname": "nft_payload_set_reduce",
+  "note": {
+    "line": 1020,
+    "col": 41,
+    "message": "increment (++) in nft_payload_set_reduce() -- no upper-bound guard (INT_MAX check)"
+  }
+}

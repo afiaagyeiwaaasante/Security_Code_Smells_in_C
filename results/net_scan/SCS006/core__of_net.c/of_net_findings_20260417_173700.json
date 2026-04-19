@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/of_net.c",
+  "line": 40,
+  "col": 50,
+  "varname": "of_get_phy_mode",
+  "note": {
+    "line": 40,
+    "col": 50,
+    "message": "increment (++) in of_get_phy_mode() -- no upper-bound guard (INT_MAX check)"
+  }
+}

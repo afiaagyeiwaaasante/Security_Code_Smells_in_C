@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/openvswitch/flow_netlink.c",
+  "line": 2502,
+  "col": 43,
+  "varname": "add_nested_action_end",
+  "note": {
+    "line": 2502,
+    "col": 43,
+    "message": "multiplication in add_nested_action_end() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/openvswitch/flow_netlink.c",
+  "line": 2434,
+  "col": 69,
+  "varname": "reserve_sfa_size",
+  "note": {
+    "line": 2434,
+    "col": 69,
+    "message": "addition in reserve_sfa_size() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/openvswitch/flow_netlink.c",
+  "line": 470,
+  "col": 32,
+  "varname": "is_all_zero",
+  "note": {
+    "line": 470,
+    "col": 32,
+    "message": "increment (++) in is_all_zero() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ieee802154/header_ops.c",
+  "line": 294,
+  "col": 51,
+  "varname": "ieee802154_hdr_pull",
+  "note": {
+    "line": 294,
+    "col": 51,
+    "message": "addition in ieee802154_hdr_pull() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ieee802154/header_ops.c",
+  "line": 72,
+  "col": 16,
+  "varname": "ieee802154_hdr_push_sechdr",
+  "note": {
+    "line": 72,
+    "col": 16,
+    "message": "increment (++) in ieee802154_hdr_push_sechdr() -- no upper-bound guard (INT_MAX check)"
+  }
+}

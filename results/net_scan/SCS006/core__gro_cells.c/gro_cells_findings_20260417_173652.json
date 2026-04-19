@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/gro_cells.c",
+  "line": 70,
+  "col": 26,
+  "varname": "gro_cell_poll",
+  "note": {
+    "line": 70,
+    "col": 26,
+    "message": "increment (++) in gro_cell_poll() -- no upper-bound guard (INT_MAX check)"
+  }
+}

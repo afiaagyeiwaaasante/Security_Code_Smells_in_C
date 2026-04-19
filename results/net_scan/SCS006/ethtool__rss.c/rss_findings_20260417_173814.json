@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ethtool/rss.c",
+  "line": 979,
+  "col": 38,
+  "varname": "ethnl_rss_create_send_ntf",
+  "note": {
+    "line": 979,
+    "col": 38,
+    "message": "multiplication in ethnl_rss_create_send_ntf() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ethtool/rss.c",
+  "line": 98,
+  "col": 48,
+  "varname": "rss_prepare_flow_hash",
+  "note": {
+    "line": 98,
+    "col": 48,
+    "message": "increment (++) in rss_prepare_flow_hash() -- no upper-bound guard (INT_MAX check)"
+  }
+}

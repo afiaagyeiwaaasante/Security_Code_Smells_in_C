@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/link.c",
+  "line": 181,
+  "col": 73,
+  "varname": "ieee80211_tear_down_links",
+  "note": {
+    "line": 181,
+    "col": 73,
+    "message": "increment (++) in ieee80211_tear_down_links() -- no upper-bound guard (INT_MAX check)"
+  }
+}

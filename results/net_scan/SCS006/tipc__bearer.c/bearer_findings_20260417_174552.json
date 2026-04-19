@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/tipc/bearer.c",
+  "line": 427,
+  "col": 61,
+  "varname": "tipc_enable_l2_media",
+  "note": {
+    "line": 427,
+    "col": 61,
+    "message": "addition in tipc_enable_l2_media() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/tipc/bearer.c",
+  "line": 81,
+  "col": 51,
+  "varname": "tipc_media_find",
+  "note": {
+    "line": 81,
+    "col": 51,
+    "message": "increment (++) in tipc_media_find() -- no upper-bound guard (INT_MAX check)"
+  }
+}

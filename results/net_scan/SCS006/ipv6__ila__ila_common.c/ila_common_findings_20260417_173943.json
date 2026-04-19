@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ila/ila_common.c",
+  "line": 43,
+  "col": 44,
+  "varname": "ila_csum_do_neutral_fmt",
+  "note": {
+    "line": 43,
+    "col": 44,
+    "message": "multiplication in ila_csum_do_neutral_fmt() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ila/ila_common.c",
+  "line": 83,
+  "col": 53,
+  "varname": "ila_csum_adjust_transport",
+  "note": {
+    "line": 83,
+    "col": 53,
+    "message": "addition in ila_csum_adjust_transport() -- no upper-bound guard before adding"
+  }
+}

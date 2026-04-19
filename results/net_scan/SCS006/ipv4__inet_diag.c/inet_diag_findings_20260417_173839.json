@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/inet_diag.c",
+  "line": 235,
+  "col": 53,
+  "varname": "inet_sk_diag_fill",
+  "note": {
+    "line": 235,
+    "col": 53,
+    "message": "multiplication in inet_sk_diag_fill() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/netfilter/nf_nat_snmp_basic_main.c",
+  "line": 108,
+  "col": 49,
+  "varname": "snmp_helper",
+  "note": {
+    "line": 108,
+    "col": 49,
+    "message": "multiplication in snmp_helper() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/netfilter/nf_nat_snmp_basic_main.c",
+  "line": 129,
+  "col": 63,
+  "varname": "snmp_translate",
+  "note": {
+    "line": 129,
+    "col": 63,
+    "message": "addition in snmp_translate() -- no upper-bound guard before adding"
+  }
+}

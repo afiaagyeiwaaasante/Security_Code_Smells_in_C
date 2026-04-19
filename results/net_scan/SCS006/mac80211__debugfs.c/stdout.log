@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/debugfs.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/mac80211__debugfs.c/debugfs_report_20260417_174046.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/mac80211__debugfs.c/debugfs_findings_20260417_174046.json
+ Date    : Fri Apr 17 17:40:46 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.056s
+user	0m0.045s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/debugfs.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/debugfs.c.json
+
+real	0m0.252s
+user	0m0.087s
+sys	0m0.006s
+
+=== Stage 3: srcattributor ===
+
+real	0m1.045s
+user	0m0.772s
+sys	0m0.018s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/debugfs.c.xml
+    output : /tmp/cwe190_findings_7Po41Z
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.023s
+user	0m0.016s
+sys	0m0.004s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/debugfs.c:496:27 -- hwflags_read() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_7Po41Z
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/debugfs.c.xml
+    output : /tmp/cwe190_findings_7Po41Z
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.021s
+user	0m0.015s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/debugfs.c:566:50 -- misc_read() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_7Po41Z
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/debugfs.c.xml
+    output : /tmp/cwe190_findings_7Po41Z
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : hwflags_read
+    position : 510:50
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/debugfs.c:510:50 -- hwflags_read() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_7Po41Z
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/debugfs.c",
+  "line": 496,
+  "col": 27,
+  "varname": "hwflags_read",
+  "note": {
+    "line": 496,
+    "col": 27,
+    "message": "multiplication in hwflags_read() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/debugfs.c",
+  "line": 566,
+  "col": 50,
+  "varname": "misc_read",
+  "note": {
+    "line": 566,
+    "col": 50,
+    "message": "addition in misc_read() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/debugfs.c",
+  "line": 510,
+  "col": 50,
+  "varname": "hwflags_read",
+  "note": {
+    "line": 510,
+    "col": 50,
+    "message": "increment (++) in hwflags_read() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

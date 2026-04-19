@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ceph/crush/mapper.c",
+  "line": 660,
+  "col": 29,
+  "varname": "crush_choose_indep",
+  "note": {
+    "line": 660,
+    "col": 29,
+    "message": "addition in crush_choose_indep() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ceph/crush/mapper.c",
+  "line": 46,
+  "col": 42,
+  "varname": "crush_find_rule",
+  "note": {
+    "line": 46,
+    "col": 42,
+    "message": "increment (++) in crush_find_rule() -- no upper-bound guard (INT_MAX check)"
+  }
+}

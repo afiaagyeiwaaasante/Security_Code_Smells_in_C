@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/can/proc.c",
+  "line": 91,
+  "col": 37,
+  "varname": "can_init_stats",
+  "note": {
+    "line": 91,
+    "col": 37,
+    "message": "increment (++) in can_init_stats() -- no upper-bound guard (INT_MAX check)"
+  }
+}

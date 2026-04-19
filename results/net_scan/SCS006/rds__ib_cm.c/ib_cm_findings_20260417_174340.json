@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rds/ib_cm.c",
+  "line": 284,
+  "col": 66,
+  "varname": "rds_ib_tasklet_fn_send",
+  "note": {
+    "line": 284,
+    "col": 66,
+    "message": "multiplication in rds_ib_tasklet_fn_send() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rds/ib_cm.c",
+  "line": 266,
+  "col": 38,
+  "varname": "poll_scq",
+  "note": {
+    "line": 266,
+    "col": 38,
+    "message": "increment (++) in poll_scq() -- no upper-bound guard (INT_MAX check)"
+  }
+}

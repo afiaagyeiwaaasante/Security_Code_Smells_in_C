@@ -1,0 +1,100 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/mcast_snoop.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv6__mcast_snoop.c/mcast_snoop_report_20260417_174002.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv6__mcast_snoop.c/mcast_snoop_findings_20260417_174002.json
+ Date    : Fri Apr 17 17:40:02 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.017s
+user	0m0.012s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/mcast_snoop.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/mcast_snoop.c.json
+
+real	0m0.185s
+user	0m0.032s
+sys	0m0.003s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.056s
+user	0m0.051s
+sys	0m0.004s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/mcast_snoop.c.xml
+    output : /tmp/cwe190_findings_R7Cj2v
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.013s
+user	0m0.008s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_R7Cj2v
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/mcast_snoop.c.xml
+    output : /tmp/cwe190_findings_R7Cj2v
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.014s
+user	0m0.009s
+sys	0m0.004s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/mcast_snoop.c:18:55 -- ipv6_mc_check_ip6hdr() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_R7Cj2v
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/mcast_snoop.c.xml
+    output : /tmp/cwe190_findings_R7Cj2v
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+[ unchecked_increment ] No smell detected.
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/mcast_snoop.c",
+  "line": 18,
+  "col": 55,
+  "varname": "ipv6_mc_check_ip6hdr",
+  "note": {
+    "line": 18,
+    "col": 55,
+    "message": "addition in ipv6_mc_check_ip6hdr() -- no upper-bound guard before adding"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_add             1
+========================================

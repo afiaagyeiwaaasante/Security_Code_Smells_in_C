@@ -1,0 +1,104 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/xprtrdma/frwr_ops.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/sunrpc__xprtrdma__frwr_ops.c/frwr_ops_report_20260417_174544.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/sunrpc__xprtrdma__frwr_ops.c/frwr_ops_findings_20260417_174544.json
+ Date    : Fri Apr 17 17:45:44 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.041s
+user	0m0.034s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/xprtrdma/frwr_ops.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/xprtrdma/frwr_ops.c.json
+
+real	0m0.194s
+user	0m0.076s
+sys	0m0.004s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.649s
+user	0m0.629s
+sys	0m0.009s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/xprtrdma/frwr_ops.c.xml
+    output : /tmp/cwe190_findings_3a6kU2
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.019s
+user	0m0.013s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_3a6kU2
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/xprtrdma/frwr_ops.c.xml
+    output : /tmp/cwe190_findings_3a6kU2
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.020s
+user	0m0.014s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_3a6kU2
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/xprtrdma/frwr_ops.c.xml
+    output : /tmp/cwe190_findings_3a6kU2
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : frwr_map
+    position : 302:17
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/xprtrdma/frwr_ops.c:302:17 -- frwr_map() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_3a6kU2
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/xprtrdma/frwr_ops.c",
+  "line": 302,
+  "col": 17,
+  "varname": "frwr_map",
+  "note": {
+    "line": 302,
+    "col": 17,
+    "message": "increment (++) in frwr_map() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_increment       1
+========================================

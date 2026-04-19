@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nfnetlink_log.c",
+  "line": 631,
+  "col": 63,
+  "varname": "__build_packet_message",
+  "note": {
+    "line": 631,
+    "col": 63,
+    "message": "increment (++) in __build_packet_message() -- no upper-bound guard (INT_MAX check)"
+  }
+}

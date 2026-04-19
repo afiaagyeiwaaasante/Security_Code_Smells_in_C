@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_fdb.c",
+  "line": 214,
+  "col": 9,
+  "varname": "fdb_find_rcu",
+  "note": {
+    "line": 214,
+    "col": 9,
+    "message": "memcpy() in fdb_find_rcu() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

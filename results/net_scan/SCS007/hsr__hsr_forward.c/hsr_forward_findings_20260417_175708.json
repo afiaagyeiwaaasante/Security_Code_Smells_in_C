@@ -1,0 +1,30 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/hsr/hsr_forward.c",
+  "line": 172,
+  "col": 9,
+  "varname": "create_stripped_skb_hsr",
+  "note": {
+    "line": 172,
+    "col": 9,
+    "message": "memcpy() in create_stripped_skb_hsr() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/hsr/hsr_forward.c",
+  "line": 365,
+  "col": 9,
+  "varname": "hsr_create_tagged_frame",
+  "note": {
+    "line": 365,
+    "col": 9,
+    "message": "memmove() in hsr_create_tagged_frame() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/nfc/hci/llc_shdlc.c",
+  "line": 609,
+  "col": 41,
+  "varname": "llc_shdlc_sm_work",
+  "note": {
+    "line": 609,
+    "col": 41,
+    "message": "increment (++) in llc_shdlc_sm_work() -- no upper-bound guard (INT_MAX check)"
+  }
+}

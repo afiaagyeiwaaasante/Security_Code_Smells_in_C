@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/dev_ioctl.c",
+  "line": 92,
+  "col": 68,
+  "varname": "dev_getifmap",
+  "note": {
+    "line": 92,
+    "col": 68,
+    "message": "multiplication in dev_getifmap() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}

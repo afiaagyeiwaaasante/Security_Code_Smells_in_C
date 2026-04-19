@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/dcb/dcbnl.c",
+  "line": 280,
+  "col": 62,
+  "varname": "dcbnl_getpfccfg",
+  "note": {
+    "line": 280,
+    "col": 62,
+    "message": "increment (++) in dcbnl_getpfccfg() -- no upper-bound guard (INT_MAX check)"
+  }
+}

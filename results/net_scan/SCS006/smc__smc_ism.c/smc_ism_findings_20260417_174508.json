@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/smc/smc_ism.c",
+  "line": 52,
+  "col": 38,
+  "varname": "smc_ism_create_system_eid",
+  "note": {
+    "line": 52,
+    "col": 38,
+    "message": "multiplication in smc_ism_create_system_eid() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/smc/smc_ism.c",
+  "line": 383,
+  "col": 20,
+  "varname": "smc_nl_prep_smcd_dev",
+  "note": {
+    "line": 383,
+    "col": 20,
+    "message": "increment (++) in smc_nl_prep_smcd_dev() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/mesh_ps.c",
+  "line": 43,
+  "col": 9,
+  "varname": "mps_qos_null_get",
+  "note": {
+    "line": 43,
+    "col": 9,
+    "message": "memcpy() in mps_qos_null_get() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

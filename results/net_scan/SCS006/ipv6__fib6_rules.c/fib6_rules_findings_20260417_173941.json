@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/fib6_rules.c",
+  "line": 140,
+  "col": 49,
+  "varname": "fib6_rule_saddr",
+  "note": {
+    "line": 140,
+    "col": 49,
+    "message": "multiplication in fib6_rule_saddr() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/fib6_rules.c",
+  "line": 472,
+  "col": 55,
+  "varname": "fib6_rule_configure",
+  "note": {
+    "line": 472,
+    "col": 55,
+    "message": "increment (++) in fib6_rule_configure() -- no upper-bound guard (INT_MAX check)"
+  }
+}

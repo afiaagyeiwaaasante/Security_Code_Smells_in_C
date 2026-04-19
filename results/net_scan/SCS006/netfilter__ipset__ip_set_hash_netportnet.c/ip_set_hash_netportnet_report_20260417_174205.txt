@@ -1,0 +1,104 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipset/ip_set_hash_netportnet.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/netfilter__ipset__ip_set_hash_netportnet.c/ip_set_hash_netportnet_report_20260417_174205.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/netfilter__ipset__ip_set_hash_netportnet.c/ip_set_hash_netportnet_findings_20260417_174205.json
+ Date    : Fri Apr 17 17:42:05 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.045s
+user	0m0.039s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipset/ip_set_hash_netportnet.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipset/ip_set_hash_netportnet.c.json
+
+real	0m0.241s
+user	0m0.093s
+sys	0m0.005s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.751s
+user	0m0.719s
+sys	0m0.010s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipset/ip_set_hash_netportnet.c.xml
+    output : /tmp/cwe190_findings_uHuQZZ
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.022s
+user	0m0.016s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_uHuQZZ
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipset/ip_set_hash_netportnet.c.xml
+    output : /tmp/cwe190_findings_uHuQZZ
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.022s
+user	0m0.016s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_uHuQZZ
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipset/ip_set_hash_netportnet.c.xml
+    output : /tmp/cwe190_findings_uHuQZZ
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : hash_netportnet6_uadt
+    position : 558:37
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipset/ip_set_hash_netportnet.c:558:37 -- hash_netportnet6_uadt() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_uHuQZZ
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipset/ip_set_hash_netportnet.c",
+  "line": 558,
+  "col": 37,
+  "varname": "hash_netportnet6_uadt",
+  "note": {
+    "line": 558,
+    "col": 37,
+    "message": "increment (++) in hash_netportnet6_uadt() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_increment       1
+========================================

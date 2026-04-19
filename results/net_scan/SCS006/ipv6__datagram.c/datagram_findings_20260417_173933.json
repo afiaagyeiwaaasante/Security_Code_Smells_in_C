@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/datagram.c",
+  "line": 145,
+  "col": 62,
+  "varname": "__ip6_datagram_connect",
+  "note": {
+    "line": 145,
+    "col": 62,
+    "message": "multiplication in __ip6_datagram_connect() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/datagram.c",
+  "line": 646,
+  "col": 30,
+  "varname": "ip6_datagram_recv_specific_ctl",
+  "note": {
+    "line": 646,
+    "col": 30,
+    "message": "addition in ip6_datagram_recv_specific_ctl() -- no upper-bound guard before adding"
+  }
+}

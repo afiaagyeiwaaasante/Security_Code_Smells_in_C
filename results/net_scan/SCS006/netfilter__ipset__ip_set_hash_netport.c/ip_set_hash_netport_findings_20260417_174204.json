@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipset/ip_set_hash_netport.c",
+  "line": 448,
+  "col": 37,
+  "varname": "hash_netport6_uadt",
+  "note": {
+    "line": 448,
+    "col": 37,
+    "message": "increment (++) in hash_netport6_uadt() -- no upper-bound guard (INT_MAX check)"
+  }
+}

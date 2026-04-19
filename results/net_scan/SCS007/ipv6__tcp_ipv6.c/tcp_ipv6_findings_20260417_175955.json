@@ -1,0 +1,30 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/tcp_ipv6.c",
+  "line": 1322,
+  "col": 9,
+  "varname": "tcp_v6_timewait_ack",
+  "note": {
+    "line": 1322,
+    "col": 9,
+    "message": "memcpy() in tcp_v6_timewait_ack() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/tcp_ipv6.c",
+  "line": 1309,
+  "col": 9,
+  "varname": "tcp_v6_timewait_ack",
+  "note": {
+    "line": 1309,
+    "col": 9,
+    "message": "memmove() in tcp_v6_timewait_ack() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

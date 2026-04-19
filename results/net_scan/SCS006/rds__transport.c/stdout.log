@@ -1,0 +1,104 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/rds/transport.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/rds__transport.c/transport_report_20260417_174348.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/rds__transport.c/transport_findings_20260417_174348.json
+ Date    : Fri Apr 17 17:43:48 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.017s
+user	0m0.012s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/rds/transport.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/rds/transport.c.json
+
+real	0m0.187s
+user	0m0.032s
+sys	0m0.004s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.047s
+user	0m0.042s
+sys	0m0.004s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/rds/transport.c.xml
+    output : /tmp/cwe190_findings_Y6uZ6a
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.013s
+user	0m0.008s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_Y6uZ6a
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/rds/transport.c.xml
+    output : /tmp/cwe190_findings_Y6uZ6a
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.013s
+user	0m0.008s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_Y6uZ6a
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/rds/transport.c.xml
+    output : /tmp/cwe190_findings_Y6uZ6a
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : rds_trans_get_preferred
+    position : 101:43
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/rds/transport.c:101:43 -- rds_trans_get_preferred() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_Y6uZ6a
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rds/transport.c",
+  "line": 101,
+  "col": 43,
+  "varname": "rds_trans_get_preferred",
+  "note": {
+    "line": 101,
+    "col": 43,
+    "message": "increment (++) in rds_trans_get_preferred() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_increment       1
+========================================

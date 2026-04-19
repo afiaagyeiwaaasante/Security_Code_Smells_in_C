@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_api.c",
+  "line": 1441,
+  "col": 61,
+  "varname": "check_loop_fn",
+  "note": {
+    "line": 1441,
+    "col": 61,
+    "message": "multiplication in check_loop_fn() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_api.c",
+  "line": 435,
+  "col": 37,
+  "varname": "qdisc_get_rtab",
+  "note": {
+    "line": 435,
+    "col": 37,
+    "message": "increment (++) in qdisc_get_rtab() -- no upper-bound guard (INT_MAX check)"
+  }
+}

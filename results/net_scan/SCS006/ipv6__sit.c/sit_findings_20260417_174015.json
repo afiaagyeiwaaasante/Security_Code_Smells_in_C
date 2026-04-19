@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/sit.c",
+  "line": 530,
+  "col": 55,
+  "varname": "ipip6_err",
+  "note": {
+    "line": 530,
+    "col": 55,
+    "message": "multiplication in ipip6_err() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/sit.c",
+  "line": 915,
+  "col": 35,
+  "varname": "ipip6_tunnel_xmit",
+  "note": {
+    "line": 915,
+    "col": 35,
+    "message": "addition in ipip6_tunnel_xmit() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/sit.c",
+  "line": 353,
+  "col": 18,
+  "varname": "ipip6_tunnel_get_prl",
+  "note": {
+    "line": 353,
+    "col": 18,
+    "message": "increment (++) in ipip6_tunnel_get_prl() -- no upper-bound guard (INT_MAX check)"
+  }
+}

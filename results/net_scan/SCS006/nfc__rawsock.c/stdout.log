@@ -1,0 +1,100 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/nfc/rawsock.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/nfc__rawsock.c/rawsock_report_20260417_174322.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/nfc__rawsock.c/rawsock_findings_20260417_174322.json
+ Date    : Fri Apr 17 17:43:22 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.032s
+user	0m0.025s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/nfc/rawsock.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/nfc/rawsock.c.json
+
+real	0m0.187s
+user	0m0.060s
+sys	0m0.005s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.290s
+user	0m0.270s
+sys	0m0.006s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/nfc/rawsock.c.xml
+    output : /tmp/cwe190_findings_LvZV55
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.020s
+user	0m0.013s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/nfc/rawsock.c:91:58 -- rawsock_connect() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_LvZV55
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/nfc/rawsock.c.xml
+    output : /tmp/cwe190_findings_LvZV55
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.018s
+user	0m0.012s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_LvZV55
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/nfc/rawsock.c.xml
+    output : /tmp/cwe190_findings_LvZV55
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+[ unchecked_increment ] No smell detected.
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/nfc/rawsock.c",
+  "line": 91,
+  "col": 58,
+  "varname": "rawsock_connect",
+  "note": {
+    "line": 91,
+    "col": 58,
+    "message": "multiplication in rawsock_connect() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_multiply        1
+========================================

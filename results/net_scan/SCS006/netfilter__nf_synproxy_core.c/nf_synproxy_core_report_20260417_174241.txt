@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_synproxy_core.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/netfilter__nf_synproxy_core.c/nf_synproxy_core_report_20260417_174241.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/netfilter__nf_synproxy_core.c/nf_synproxy_core_findings_20260417_174241.json
+ Date    : Fri Apr 17 17:42:41 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.076s
+user	0m0.068s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_synproxy_core.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_synproxy_core.c.json
+
+real	0m0.253s
+user	0m0.155s
+sys	0m0.006s
+
+=== Stage 3: srcattributor ===
+
+real	0m4.054s
+user	0m3.898s
+sys	0m0.035s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_synproxy_core.c.xml
+    output : /tmp/cwe190_findings_1F7kp4
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.030s
+user	0m0.024s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_synproxy_core.c:32:32 -- synproxy_parse_options() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_1F7kp4
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_synproxy_core.c.xml
+    output : /tmp/cwe190_findings_1F7kp4
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.031s
+user	0m0.024s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_synproxy_core.c:118:37 -- synproxy_build_options() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_1F7kp4
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_synproxy_core.c.xml
+    output : /tmp/cwe190_findings_1F7kp4
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : synproxy_parse_options
+    position : 44:34
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_synproxy_core.c:44:34 -- synproxy_parse_options() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_1F7kp4
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_synproxy_core.c",
+  "line": 32,
+  "col": 32,
+  "varname": "synproxy_parse_options",
+  "note": {
+    "line": 32,
+    "col": 32,
+    "message": "multiplication in synproxy_parse_options() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_synproxy_core.c",
+  "line": 118,
+  "col": 37,
+  "varname": "synproxy_build_options",
+  "note": {
+    "line": 118,
+    "col": 37,
+    "message": "addition in synproxy_build_options() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_synproxy_core.c",
+  "line": 44,
+  "col": 34,
+  "varname": "synproxy_parse_options",
+  "note": {
+    "line": 44,
+    "col": 34,
+    "message": "increment (++) in synproxy_parse_options() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/atm/svc.c",
+  "line": 432,
+  "col": 9,
+  "varname": "svc_getname",
+  "note": {
+    "line": 432,
+    "col": 9,
+    "message": "memcpy() in svc_getname() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

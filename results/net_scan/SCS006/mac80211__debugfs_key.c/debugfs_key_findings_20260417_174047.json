@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/debugfs_key.c",
+  "line": 168,
+  "col": 54,
+  "varname": "key_rx_spec_read",
+  "note": {
+    "line": 168,
+    "col": 54,
+    "message": "increment (++) in key_rx_spec_read() -- no upper-bound guard (INT_MAX check)"
+  }
+}

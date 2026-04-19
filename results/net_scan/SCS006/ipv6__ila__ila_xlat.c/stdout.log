@@ -1,0 +1,123 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ila/ila_xlat.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv6__ila__ila_xlat.c/ila_xlat_report_20260417_173944.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv6__ila__ila_xlat.c/ila_xlat_findings_20260417_173944.json
+ Date    : Fri Apr 17 17:39:44 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.041s
+user	0m0.035s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ila/ila_xlat.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ila/ila_xlat.c.json
+
+real	0m0.188s
+user	0m0.080s
+sys	0m0.004s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.698s
+user	0m0.685s
+sys	0m0.008s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ila/ila_xlat.c.xml
+    output : /tmp/cwe190_findings_6VcmAY
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.020s
+user	0m0.013s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ila/ila_xlat.c:42:23 -- ila_locator_hash() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_6VcmAY
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ila/ila_xlat.c.xml
+    output : /tmp/cwe190_findings_6VcmAY
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.036s
+user	0m0.015s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_6VcmAY
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ila/ila_xlat.c.xml
+    output : /tmp/cwe190_findings_6VcmAY
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : ila_xlat_nl_dump
+    position : 588:29
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ila/ila_xlat.c:588:29 -- ila_xlat_nl_dump() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_6VcmAY
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ila/ila_xlat.c",
+  "line": 42,
+  "col": 23,
+  "varname": "ila_locator_hash",
+  "note": {
+    "line": 42,
+    "col": 23,
+    "message": "multiplication in ila_locator_hash() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ila/ila_xlat.c",
+  "line": 588,
+  "col": 29,
+  "varname": "ila_xlat_nl_dump",
+  "note": {
+    "line": 588,
+    "col": 29,
+    "message": "increment (++) in ila_xlat_nl_dump() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

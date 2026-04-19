@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/nfc/nci/rsp.c",
+  "line": 65,
+  "col": 9,
+  "varname": "nci_core_init_rsp_packet_v1",
+  "note": {
+    "line": 65,
+    "col": 9,
+    "message": "memcpy() in nci_core_init_rsp_packet_v1() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

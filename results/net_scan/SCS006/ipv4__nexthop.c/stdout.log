@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/nexthop.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv4__nexthop.c/nexthop_report_20260417_173857.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv4__nexthop.c/nexthop_findings_20260417_173857.json
+ Date    : Fri Apr 17 17:38:57 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.204s
+user	0m0.192s
+sys	0m0.007s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/nexthop.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/nexthop.c.json
+
+real	0m0.426s
+user	0m0.352s
+sys	0m0.008s
+
+=== Stage 3: srcattributor ===
+
+real	0m33.567s
+user	0m32.980s
+sys	0m0.201s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/nexthop.c.xml
+    output : /tmp/cwe190_findings_ct6vyO
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.073s
+user	0m0.063s
+sys	0m0.008s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/nexthop.c:870:34 -- nla_put_nh_group() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_ct6vyO
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/nexthop.c.xml
+    output : /tmp/cwe190_findings_ct6vyO
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.068s
+user	0m0.058s
+sys	0m0.008s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/nexthop.c:1010:41 -- nh_nlmsg_size_grp() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_ct6vyO
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/nexthop.c.xml
+    output : /tmp/cwe190_findings_ct6vyO
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : nh_notifier_mpath_info_init
+    position : 148:34
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/nexthop.c:148:34 -- nh_notifier_mpath_info_init() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_ct6vyO
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/nexthop.c",
+  "line": 870,
+  "col": 34,
+  "varname": "nla_put_nh_group",
+  "note": {
+    "line": 870,
+    "col": 34,
+    "message": "multiplication in nla_put_nh_group() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/nexthop.c",
+  "line": 1010,
+  "col": 41,
+  "varname": "nh_nlmsg_size_grp",
+  "note": {
+    "line": 1010,
+    "col": 41,
+    "message": "addition in nh_nlmsg_size_grp() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/nexthop.c",
+  "line": 148,
+  "col": 34,
+  "varname": "nh_notifier_mpath_info_init",
+  "note": {
+    "line": 148,
+    "col": 34,
+    "message": "increment (++) in nh_notifier_mpath_info_init() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

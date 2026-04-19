@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/smc/smc_tx.c",
+  "line": 434,
+  "col": 66,
+  "varname": "smcd_tx_rdma_writes",
+  "note": {
+    "line": 434,
+    "col": 66,
+    "message": "addition in smcd_tx_rdma_writes() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/smc/smc_tx.c",
+  "line": 248,
+  "col": 49,
+  "varname": "smc_tx_sendmsg",
+  "note": {
+    "line": 248,
+    "col": 49,
+    "message": "increment (++) in smc_tx_sendmsg() -- no upper-bound guard (INT_MAX check)"
+  }
+}

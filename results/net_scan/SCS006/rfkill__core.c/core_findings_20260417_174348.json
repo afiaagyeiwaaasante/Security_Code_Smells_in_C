@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rfkill/core.c",
+  "line": 281,
+  "col": 38,
+  "varname": "rfkill_fill_event",
+  "note": {
+    "line": 281,
+    "col": 38,
+    "message": "increment (++) in rfkill_fill_event() -- no upper-bound guard (INT_MAX check)"
+  }
+}

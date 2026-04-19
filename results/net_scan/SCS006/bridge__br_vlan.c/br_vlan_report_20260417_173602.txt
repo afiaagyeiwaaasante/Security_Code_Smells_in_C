@@ -1,0 +1,123 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_vlan.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/bridge__br_vlan.c/br_vlan_report_20260417_173602.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/bridge__br_vlan.c/br_vlan_findings_20260417_173602.json
+ Date    : Fri Apr 17 17:36:02 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.083s
+user	0m0.076s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_vlan.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_vlan.c.json
+
+real	0m0.322s
+user	0m0.161s
+sys	0m0.007s
+
+=== Stage 3: srcattributor ===
+
+real	0m6.128s
+user	0m5.710s
+sys	0m0.112s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_vlan.c.xml
+    output : /tmp/cwe190_findings_exqUnF
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.034s
+user	0m0.028s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_vlan.c:17:19 -- br_vlan_cmp() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_exqUnF
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_vlan.c.xml
+    output : /tmp/cwe190_findings_exqUnF
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.033s
+user	0m0.026s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_exqUnF
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_vlan.c.xml
+    output : /tmp/cwe190_findings_exqUnF
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : __vlan_add
+    position : 341:30
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_vlan.c:341:30 -- __vlan_add() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_exqUnF
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_vlan.c",
+  "line": 17,
+  "col": 19,
+  "varname": "br_vlan_cmp",
+  "note": {
+    "line": 17,
+    "col": 19,
+    "message": "multiplication in br_vlan_cmp() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_vlan.c",
+  "line": 341,
+  "col": 30,
+  "varname": "__vlan_add",
+  "note": {
+    "line": 341,
+    "col": 30,
+    "message": "increment (++) in __vlan_add() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

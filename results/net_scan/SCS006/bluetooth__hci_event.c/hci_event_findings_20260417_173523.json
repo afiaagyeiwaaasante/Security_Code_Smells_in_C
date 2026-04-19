@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/hci_event.c",
+  "line": 403,
+  "col": 30,
+  "varname": "hci_cc_write_auth_enable",
+  "note": {
+    "line": 403,
+    "col": 30,
+    "message": "multiplication in hci_cc_write_auth_enable() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/hci_event.c",
+  "line": 3057,
+  "col": 35,
+  "varname": "hci_inquiry_result_evt",
+  "note": {
+    "line": 3057,
+    "col": 35,
+    "message": "increment (++) in hci_inquiry_result_evt() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/multicast_forw.c",
+  "line": 1090,
+  "col": 38,
+  "varname": "batadv_mcast_forw_expand_head",
+  "note": {
+    "line": 1090,
+    "col": 38,
+    "message": "addition in batadv_mcast_forw_expand_head() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/multicast_forw.c",
+  "line": 170,
+  "col": 21,
+  "varname": "batadv_mcast_forw_push_dest",
+  "note": {
+    "line": 170,
+    "col": 21,
+    "message": "increment (++) in batadv_mcast_forw_push_dest() -- no upper-bound guard (INT_MAX check)"
+  }
+}

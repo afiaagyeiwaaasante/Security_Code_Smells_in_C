@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ethtool/ioctl.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ethtool__ioctl.c/ioctl_report_20260417_173808.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ethtool__ioctl.c/ioctl_findings_20260417_173808.json
+ Date    : Fri Apr 17 17:38:08 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.164s
+user	0m0.154s
+sys	0m0.006s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ethtool/ioctl.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ethtool/ioctl.c.json
+
+real	0m0.452s
+user	0m0.311s
+sys	0m0.008s
+
+=== Stage 3: srcattributor ===
+
+real	0m29.747s
+user	0m27.939s
+sys	0m0.258s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ethtool/ioctl.c.xml
+    output : /tmp/cwe190_findings_adeKAz
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.063s
+user	0m0.050s
+sys	0m0.009s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ethtool/ioctl.c:2467:44 -- ethtool_phys_id() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_adeKAz
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ethtool/ioctl.c.xml
+    output : /tmp/cwe190_findings_adeKAz
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.059s
+user	0m0.050s
+sys	0m0.007s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ethtool/ioctl.c:1976:41 -- ethtool_get_any_eeprom() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_adeKAz
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ethtool/ioctl.c.xml
+    output : /tmp/cwe190_findings_adeKAz
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : ethtool_get_features
+    position : 97:52
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ethtool/ioctl.c:97:52 -- ethtool_get_features() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_adeKAz
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ethtool/ioctl.c",
+  "line": 2467,
+  "col": 44,
+  "varname": "ethtool_phys_id",
+  "note": {
+    "line": 2467,
+    "col": 44,
+    "message": "multiplication in ethtool_phys_id() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ethtool/ioctl.c",
+  "line": 1976,
+  "col": 41,
+  "varname": "ethtool_get_any_eeprom",
+  "note": {
+    "line": 1976,
+    "col": 41,
+    "message": "addition in ethtool_get_any_eeprom() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ethtool/ioctl.c",
+  "line": 97,
+  "col": 52,
+  "varname": "ethtool_get_features",
+  "note": {
+    "line": 97,
+    "col": 52,
+    "message": "increment (++) in ethtool_get_features() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

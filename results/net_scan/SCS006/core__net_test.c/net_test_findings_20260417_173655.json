@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/net_test.c",
+  "line": 173,
+  "col": 51,
+  "varname": "gso_test_func",
+  "note": {
+    "line": 173,
+    "col": 51,
+    "message": "increment (++) in gso_test_func() -- no upper-bound guard (INT_MAX check)"
+  }
+}

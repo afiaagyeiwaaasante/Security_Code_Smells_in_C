@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_tbf.c",
+  "line": 125,
+  "col": 30,
+  "varname": "psched_ns_t2l",
+  "note": {
+    "line": 125,
+    "col": 30,
+    "message": "multiplication in psched_ns_t2l() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_tbf.c",
+  "line": 230,
+  "col": 27,
+  "varname": "tbf_segment",
+  "note": {
+    "line": 230,
+    "col": 27,
+    "message": "increment (++) in tbf_segment() -- no upper-bound guard (INT_MAX check)"
+  }
+}

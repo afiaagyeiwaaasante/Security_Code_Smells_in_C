@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/xprt.c",
+  "line": 1161,
+  "col": 9,
+  "varname": "xprt_request_enqueue_receive",
+  "note": {
+    "line": 1161,
+    "col": 9,
+    "message": "memcpy() in xprt_request_enqueue_receive() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

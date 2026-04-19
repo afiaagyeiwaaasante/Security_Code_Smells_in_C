@@ -1,0 +1,125 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_input.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv4__tcp_input.c/tcp_input_report_20260417_173909.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv4__tcp_input.c/tcp_input_findings_20260417_173909.json
+ Date    : Fri Apr 17 17:39:09 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.337s
+user	0m0.323s
+sys	0m0.008s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_input.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_input.c.json
+
+real	0m0.789s
+user	0m0.699s
+sys	0m0.015s
+
+=== Stage 3: srcattributor ===
+
+real	1m42.426s
+user	1m36.888s
+sys	0m0.921s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_input.c.xml
+    output : /tmp/cwe190_findings_cpBWJG
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.125s
+user	0m0.106s
+sys	0m0.012s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_input.c:314:59 -- tcp_incr_quickack() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_cpBWJG
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_input.c.xml
+    output : /tmp/cwe190_findings_cpBWJG
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.118s
+user	0m0.104s
+sys	0m0.011s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    guarded -- MAX constant found in condition, no finding
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_cpBWJG
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_input.c.xml
+    output : /tmp/cwe190_findings_cpBWJG
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : tcp_accecn_process_option
+    position : 441:29
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_input.c:441:29 -- tcp_accecn_process_option() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_cpBWJG
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_input.c",
+  "line": 314,
+  "col": 59,
+  "varname": "tcp_incr_quickack",
+  "note": {
+    "line": 314,
+    "col": 59,
+    "message": "multiplication in tcp_incr_quickack() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_input.c",
+  "line": 441,
+  "col": 29,
+  "varname": "tcp_accecn_process_option",
+  "note": {
+    "line": 441,
+    "col": 29,
+    "message": "increment (++) in tcp_accecn_process_option() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

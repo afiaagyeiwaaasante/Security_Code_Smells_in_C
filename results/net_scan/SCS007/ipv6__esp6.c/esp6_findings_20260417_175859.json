@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/esp6.c",
+  "line": 616,
+  "col": 9,
+  "varname": "esp6_output_tail",
+  "note": {
+    "line": 616,
+    "col": 9,
+    "message": "memcpy() in esp6_output_tail() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

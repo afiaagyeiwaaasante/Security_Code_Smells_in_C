@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/8021q/vlan_netlink.c",
+  "line": 244,
+  "col": 74,
+  "varname": "vlan_fill_info",
+  "note": {
+    "line": 244,
+    "col": 74,
+    "message": "increment (++) in vlan_fill_info() -- no upper-bound guard (INT_MAX check)"
+  }
+}

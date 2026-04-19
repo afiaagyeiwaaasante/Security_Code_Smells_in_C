@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac802154/rx.c",
+  "line": 207,
+  "col": 37,
+  "varname": "ieee802154_subif_frame",
+  "note": {
+    "line": 207,
+    "col": 37,
+    "message": "increment (++) in ieee802154_subif_frame() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/devinet.c",
+  "line": 1065,
+  "col": 55,
+  "varname": "devinet_ioctl",
+  "note": {
+    "line": 1065,
+    "col": 55,
+    "message": "multiplication in devinet_ioctl() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/devinet.c",
+  "line": 1917,
+  "col": 58,
+  "varname": "inet_base_seq",
+  "note": {
+    "line": 1917,
+    "col": 58,
+    "message": "addition in inet_base_seq() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/devinet.c",
+  "line": 721,
+  "col": 42,
+  "varname": "check_lifetime",
+  "note": {
+    "line": 721,
+    "col": 42,
+    "message": "increment (++) in check_lifetime() -- no upper-bound guard (INT_MAX check)"
+  }
+}

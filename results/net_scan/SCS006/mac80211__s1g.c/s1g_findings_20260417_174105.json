@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/s1g.c",
+  "line": 22,
+  "col": 62,
+  "varname": "ieee80211_s1g_is_twt_setup",
+  "note": {
+    "line": 22,
+    "col": 62,
+    "message": "multiplication in ieee80211_s1g_is_twt_setup() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/s1g.c",
+  "line": 37,
+  "col": 45,
+  "varname": "ieee80211_s1g_send_twt_setup",
+  "note": {
+    "line": 37,
+    "col": 45,
+    "message": "addition in ieee80211_s1g_send_twt_setup() -- no upper-bound guard before adding"
+  }
+}

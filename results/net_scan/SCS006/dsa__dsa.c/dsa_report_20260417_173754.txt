@@ -1,0 +1,104 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/dsa/dsa.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/dsa__dsa.c/dsa_report_20260417_173754.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/dsa__dsa.c/dsa_findings_20260417_173754.json
+ Date    : Fri Apr 17 17:37:54 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.068s
+user	0m0.059s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/dsa/dsa.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/dsa/dsa.c.json
+
+real	0m0.242s
+user	0m0.119s
+sys	0m0.004s
+
+=== Stage 3: srcattributor ===
+
+real	0m2.804s
+user	0m2.754s
+sys	0m0.019s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/dsa/dsa.c.xml
+    output : /tmp/cwe190_findings_UgwroC
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.026s
+user	0m0.021s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_UgwroC
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/dsa/dsa.c.xml
+    output : /tmp/cwe190_findings_UgwroC
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.026s
+user	0m0.021s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_UgwroC
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/dsa/dsa.c.xml
+    output : /tmp/cwe190_findings_UgwroC
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : dsa_lag_map
+    position : 68:45
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/dsa/dsa.c:68:45 -- dsa_lag_map() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_UgwroC
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/dsa/dsa.c",
+  "line": 68,
+  "col": 45,
+  "varname": "dsa_lag_map",
+  "note": {
+    "line": 68,
+    "col": 45,
+    "message": "increment (++) in dsa_lag_map() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_increment       1
+========================================

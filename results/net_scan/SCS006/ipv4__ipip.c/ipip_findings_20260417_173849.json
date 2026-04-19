@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ipip.c",
+  "line": 132,
+  "col": 55,
+  "varname": "ipip_err",
+  "note": {
+    "line": 132,
+    "col": 55,
+    "message": "multiplication in ipip_err() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ipip.c",
+  "line": 194,
+  "col": 29,
+  "varname": "ipip_err",
+  "note": {
+    "line": 194,
+    "col": 29,
+    "message": "increment (++) in ipip_err() -- no upper-bound guard (INT_MAX check)"
+  }
+}

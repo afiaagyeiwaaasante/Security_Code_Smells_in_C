@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_exthdr.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/netfilter__nft_exthdr.c/nft_exthdr_report_20260417_174249.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/netfilter__nft_exthdr.c/nft_exthdr_findings_20260417_174249.json
+ Date    : Fri Apr 17 17:42:49 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.053s
+user	0m0.044s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_exthdr.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_exthdr.c.json
+
+real	0m0.247s
+user	0m0.108s
+sys	0m0.005s
+
+=== Stage 3: srcattributor ===
+
+real	0m1.357s
+user	0m1.295s
+sys	0m0.016s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_exthdr.c.xml
+    output : /tmp/cwe190_findings_8dwPpN
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.024s
+user	0m0.018s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_exthdr.c:86:53 -- ipv4_find_option() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_8dwPpN
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_exthdr.c.xml
+    output : /tmp/cwe190_findings_8dwPpN
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.026s
+user	0m0.019s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_exthdr.c:373:46 -- nft_exthdr_sctp_eval() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_8dwPpN
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_exthdr.c.xml
+    output : /tmp/cwe190_findings_8dwPpN
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : nft_exthdr_tcp_strip_eval
+    position : 342:39
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_exthdr.c:342:39 -- nft_exthdr_tcp_strip_eval() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_8dwPpN
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_exthdr.c",
+  "line": 86,
+  "col": 53,
+  "varname": "ipv4_find_option",
+  "note": {
+    "line": 86,
+    "col": 53,
+    "message": "multiplication in ipv4_find_option() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_exthdr.c",
+  "line": 373,
+  "col": 46,
+  "varname": "nft_exthdr_sctp_eval",
+  "note": {
+    "line": 373,
+    "col": 46,
+    "message": "addition in nft_exthdr_sctp_eval() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_exthdr.c",
+  "line": 342,
+  "col": 39,
+  "varname": "nft_exthdr_tcp_strip_eval",
+  "note": {
+    "line": 342,
+    "col": 39,
+    "message": "increment (++) in nft_exthdr_tcp_strip_eval() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

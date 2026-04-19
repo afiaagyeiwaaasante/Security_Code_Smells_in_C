@@ -1,0 +1,100 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/bat_v_ogm.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/batman-adv__bat_v_ogm.c/bat_v_ogm_report_20260417_173517.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/batman-adv__bat_v_ogm.c/bat_v_ogm_findings_20260417_173517.json
+ Date    : Fri Apr 17 17:35:17 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.024s
+user	0m0.020s
+sys	0m0.003s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/bat_v_ogm.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/bat_v_ogm.c.json
+
+real	0m0.177s
+user	0m0.050s
+sys	0m0.003s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.557s
+user	0m0.529s
+sys	0m0.006s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/bat_v_ogm.c.xml
+    output : /tmp/cwe190_findings_FPc7s9
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.016s
+user	0m0.012s
+sys	0m0.003s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/bat_v_ogm.c:87:56 -- batadv_v_ogm_start_queue_timer() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_FPc7s9
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/bat_v_ogm.c.xml
+    output : /tmp/cwe190_findings_FPc7s9
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.017s
+user	0m0.011s
+sys	0m0.003s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_FPc7s9
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/bat_v_ogm.c.xml
+    output : /tmp/cwe190_findings_FPc7s9
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+[ unchecked_increment ] No smell detected.
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/bat_v_ogm.c",
+  "line": 87,
+  "col": 56,
+  "varname": "batadv_v_ogm_start_queue_timer",
+  "note": {
+    "line": 87,
+    "col": 56,
+    "message": "multiplication in batadv_v_ogm_start_queue_timer() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_multiply        1
+========================================

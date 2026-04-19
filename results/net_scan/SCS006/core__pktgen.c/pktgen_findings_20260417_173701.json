@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/pktgen.c",
+  "line": 580,
+  "col": 59,
+  "varname": "pktgen_if_show",
+  "note": {
+    "line": 580,
+    "col": 59,
+    "message": "increment (++) in pktgen_if_show() -- no upper-bound guard (INT_MAX check)"
+  }
+}

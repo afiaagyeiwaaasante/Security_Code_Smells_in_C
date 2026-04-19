@@ -1,0 +1,79 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6_udp_tunnel.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv6__ip6_udp_tunnel.c/ip6_udp_tunnel_report_20260417_173951.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv6__ip6_udp_tunnel.c/ip6_udp_tunnel_findings_20260417_173951.json
+ Date    : Fri Apr 17 17:39:51 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.017s
+user	0m0.012s
+sys	0m0.003s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6_udp_tunnel.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6_udp_tunnel.c.json
+
+real	0m0.186s
+user	0m0.036s
+sys	0m0.003s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.093s
+user	0m0.087s
+sys	0m0.004s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6_udp_tunnel.c.xml
+    output : /tmp/cwe190_findings_2U9dNb
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.015s
+user	0m0.009s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_2U9dNb
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6_udp_tunnel.c.xml
+    output : /tmp/cwe190_findings_2U9dNb
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.013s
+user	0m0.008s
+sys	0m0.003s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_2U9dNb
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6_udp_tunnel.c.xml
+    output : /tmp/cwe190_findings_2U9dNb
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+[ unchecked_increment ] No smell detected.
+========================================
+ Findings JSON
+========================================
+
+========================================
+ Summary
+ Total findings : 0
+ Errors         : 0
+ Warnings       : 0
+========================================

@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/act_sample.c",
+  "line": 197,
+  "col": 25,
+  "varname": "tcf_sample_act",
+  "note": {
+    "line": 197,
+    "col": 25,
+    "message": "memcpy() in tcf_sample_act() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

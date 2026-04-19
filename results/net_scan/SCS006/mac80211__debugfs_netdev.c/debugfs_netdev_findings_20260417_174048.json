@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/debugfs_netdev.c",
+  "line": 324,
+  "col": 47,
+  "varname": "ieee80211_if_fmt_rc_rateidx_vht_mcs_mask_2ghz",
+  "note": {
+    "line": 324,
+    "col": 47,
+    "message": "increment (++) in ieee80211_if_fmt_rc_rateidx_vht_mcs_mask_2ghz() -- no upper-bound guard (INT_MAX check)"
+  }
+}

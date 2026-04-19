@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/af_rxrpc.c",
+  "line": 132,
+  "col": 61,
+  "varname": "rxrpc_bind",
+  "note": {
+    "line": 132,
+    "col": 61,
+    "message": "multiplication in rxrpc_bind() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}

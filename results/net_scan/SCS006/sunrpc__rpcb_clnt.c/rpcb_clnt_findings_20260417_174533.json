@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/rpcb_clnt.c",
+  "line": 486,
+  "col": 67,
+  "varname": "rpcb_register_inet4",
+  "note": {
+    "line": 486,
+    "col": 67,
+    "message": "multiplication in rpcb_register_inet4() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/rpcb_clnt.c",
+  "line": 171,
+  "col": 31,
+  "varname": "rpcb_get_local",
+  "note": {
+    "line": 171,
+    "col": 31,
+    "message": "increment (++) in rpcb_get_local() -- no upper-bound guard (INT_MAX check)"
+  }
+}

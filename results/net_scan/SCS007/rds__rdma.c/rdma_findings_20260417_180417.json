@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rds/rdma.c",
+  "line": 820,
+  "col": 9,
+  "varname": "rds_cmsg_rdma_dest",
+  "note": {
+    "line": 820,
+    "col": 9,
+    "message": "memcpy() in rds_cmsg_rdma_dest() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

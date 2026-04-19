@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/wireless/mlme.c",
+  "line": 585,
+  "col": 9,
+  "varname": "cfg80211_mlme_down",
+  "note": {
+    "line": 585,
+    "col": 9,
+    "message": "memcpy() in cfg80211_mlme_down() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

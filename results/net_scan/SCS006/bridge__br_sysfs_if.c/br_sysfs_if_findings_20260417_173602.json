@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_sysfs_if.c",
+  "line": 381,
+  "col": 36,
+  "varname": "br_sysfs_addif",
+  "note": {
+    "line": 381,
+    "col": 36,
+    "message": "increment (++) in br_sysfs_addif() -- no upper-bound guard (INT_MAX check)"
+  }
+}

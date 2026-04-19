@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_set_pipapo_avx2.c",
+  "line": 223,
+  "col": 22,
+  "varname": "nft_pipapo_avx2_lookup_4b_2",
+  "note": {
+    "line": 223,
+    "col": 22,
+    "message": "multiplication in nft_pipapo_avx2_lookup_4b_2() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_set_pipapo_avx2.c",
+  "line": 119,
+  "col": 21,
+  "varname": "nft_pipapo_avx2_fill",
+  "note": {
+    "line": 119,
+    "col": 21,
+    "message": "increment (++) in nft_pipapo_avx2_fill() -- no upper-bound guard (INT_MAX check)"
+  }
+}

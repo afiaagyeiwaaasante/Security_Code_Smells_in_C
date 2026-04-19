@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sctp/stream_interleave.c",
+  "line": 43,
+  "col": 9,
+  "varname": "sctp_make_idatafrag_empty",
+  "note": {
+    "line": 43,
+    "col": 9,
+    "message": "memcpy() in sctp_make_idatafrag_empty() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

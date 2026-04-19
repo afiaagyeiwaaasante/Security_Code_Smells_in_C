@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/wireless/reg.c",
+  "line": 459,
+  "col": 9,
+  "varname": "reg_copy_regd",
+  "note": {
+    "line": 459,
+    "col": 9,
+    "message": "memcpy() in reg_copy_regd() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

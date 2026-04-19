@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/devlink/dpipe.c",
+  "line": 264,
+  "col": 18,
+  "varname": "devlink_dpipe_tables_fill",
+  "note": {
+    "line": 264,
+    "col": 18,
+    "message": "increment (++) in devlink_dpipe_tables_fill() -- no upper-bound guard (INT_MAX check)"
+  }
+}

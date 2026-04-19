@@ -1,0 +1,113 @@
+========================================
+ CWE-195 Signed-to-Unsigned Conversion Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/local_object.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS007/rxrpc__local_object.c/local_object_report_20260417_180432.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS007/rxrpc__local_object.c/local_object_findings_20260417_180432.json
+ Date    : Fri Apr 17 18:04:32 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.044s
+user	0m0.032s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/local_object.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/local_object.c.json
+
+real	0m0.199s
+user	0m0.071s
+sys	0m0.005s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.383s
+user	0m0.342s
+sys	0m0.009s
+
+=== Detector 1: signed_malloc ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/local_object.c.xml
+    output : /tmp/cwe195_findings_Iryis6
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS malloc($A)
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.023s
+user	0m0.013s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor malloc found
+
+[ signed_malloc ] 0 finding(s) written to /tmp/cwe195_findings_Iryis6
+=== Detector 2: signed_memcpy ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/local_object.c.xml
+    output : /tmp/cwe195_findings_Iryis6
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS memcpy($A, $B, $C)
+
+real	0m0.020s
+user	0m0.014s
+sys	0m0.004s
+
+--- Stage 1 (memcpy): checking srcQL result for positivity guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/local_object.c:140:17 -- rxrpc_alloc_local() memcpy without positivity guard
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS memmove($A, $B, $C)
+
+real	0m0.019s
+user	0m0.014s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+
+[ signed_memcpy ] 1 finding(s) written to /tmp/cwe195_findings_Iryis6
+=== Detector 3: signed_strncpy ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/local_object.c.xml
+    output : /tmp/cwe195_findings_Iryis6
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS strncpy($A, $B, $C)
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.022s
+user	0m0.014s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor strncpy found
+
+[ signed_strncpy ] 0 finding(s) written to /tmp/cwe195_findings_Iryis6
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/local_object.c",
+  "line": 140,
+  "col": 17,
+  "varname": "rxrpc_alloc_local",
+  "note": {
+    "line": 140,
+    "col": 17,
+    "message": "memcpy() in rxrpc_alloc_local() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   signed_memcpy             1
+========================================

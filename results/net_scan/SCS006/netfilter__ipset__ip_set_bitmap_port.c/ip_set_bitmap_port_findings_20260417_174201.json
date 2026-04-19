@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipset/ip_set_bitmap_port.c",
+  "line": 197,
+  "col": 37,
+  "varname": "bitmap_port_uadt",
+  "note": {
+    "line": 197,
+    "col": 37,
+    "message": "increment (++) in bitmap_port_uadt() -- no upper-bound guard (INT_MAX check)"
+  }
+}

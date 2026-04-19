@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/tipc/topsrv.c",
+  "line": 616,
+  "col": 20,
+  "varname": "tipc_topsrv_kern_evt",
+  "note": {
+    "line": 616,
+    "col": 20,
+    "message": "multiplication in tipc_topsrv_kern_evt() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/tipc/topsrv.c",
+  "line": 205,
+  "col": 22,
+  "varname": "tipc_conn_alloc",
+  "note": {
+    "line": 205,
+    "col": 22,
+    "message": "increment (++) in tipc_conn_alloc() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/hidp/sock.c",
+  "line": 197,
+  "col": 17,
+  "varname": "hidp_sock_compat_ioctl",
+  "note": {
+    "line": 197,
+    "col": 17,
+    "message": "memcpy() in hidp_sock_compat_ioctl() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

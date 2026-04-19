@@ -1,0 +1,79 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_cfm_netlink.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/bridge__br_cfm_netlink.c/br_cfm_netlink_report_20260417_173545.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/bridge__br_cfm_netlink.c/br_cfm_netlink_findings_20260417_173545.json
+ Date    : Fri Apr 17 17:35:45 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.026s
+user	0m0.021s
+sys	0m0.003s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_cfm_netlink.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_cfm_netlink.c.json
+
+real	0m0.184s
+user	0m0.053s
+sys	0m0.003s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.316s
+user	0m0.303s
+sys	0m0.006s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_cfm_netlink.c.xml
+    output : /tmp/cwe190_findings_pvZ9HM
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.013s
+user	0m0.009s
+sys	0m0.003s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_pvZ9HM
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_cfm_netlink.c.xml
+    output : /tmp/cwe190_findings_pvZ9HM
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.018s
+user	0m0.011s
+sys	0m0.003s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_pvZ9HM
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_cfm_netlink.c.xml
+    output : /tmp/cwe190_findings_pvZ9HM
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+[ unchecked_increment ] No smell detected.
+========================================
+ Findings JSON
+========================================
+
+========================================
+ Summary
+ Total findings : 0
+ Errors         : 0
+ Warnings       : 0
+========================================

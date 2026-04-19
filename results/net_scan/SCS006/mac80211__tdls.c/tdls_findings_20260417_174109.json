@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/tdls.c",
+  "line": 1752,
+  "col": 48,
+  "varname": "ieee80211_process_tdls_channel_switch_resp",
+  "note": {
+    "line": 1752,
+    "col": 48,
+    "message": "multiplication in ieee80211_process_tdls_channel_switch_resp() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/tdls.c",
+  "line": 1555,
+  "col": 24,
+  "varname": "ieee80211_tdls_ch_sw_tmpl_get",
+  "note": {
+    "line": 1555,
+    "col": 24,
+    "message": "addition in ieee80211_tdls_ch_sw_tmpl_get() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/tdls.c",
+  "line": 58,
+  "col": 13,
+  "varname": "ieee80211_tdls_add_ext_capab",
+  "note": {
+    "line": 58,
+    "col": 13,
+    "message": "increment (++) in ieee80211_tdls_add_ext_capab() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ncsi/ncsi-aen.c",
+  "line": 217,
+  "col": 57,
+  "varname": "ncsi_aen_handler",
+  "note": {
+    "line": 217,
+    "col": 57,
+    "message": "increment (++) in ncsi_aen_handler() -- no upper-bound guard (INT_MAX check)"
+  }
+}

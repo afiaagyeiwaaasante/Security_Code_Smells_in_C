@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/nfc/digital_technology.c",
+  "line": 366,
+  "col": 9,
+  "varname": "digital_in_send_sel_req",
+  "note": {
+    "line": 366,
+    "col": 9,
+    "message": "memcpy() in digital_in_send_sel_req() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

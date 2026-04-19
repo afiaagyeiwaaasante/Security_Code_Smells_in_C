@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/rc80211_minstrel_ht_debugfs.c",
+  "line": 40,
+  "col": 59,
+  "varname": "minstrel_ht_is_sample_rate",
+  "note": {
+    "line": 40,
+    "col": 59,
+    "message": "increment (++) in minstrel_ht_is_sample_rate() -- no upper-bound guard (INT_MAX check)"
+  }
+}

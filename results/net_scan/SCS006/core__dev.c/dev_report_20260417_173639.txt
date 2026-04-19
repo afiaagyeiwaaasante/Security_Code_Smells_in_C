@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/core/dev.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/core__dev.c/dev_report_20260417_173639.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/core__dev.c/dev_findings_20260417_173639.json
+ Date    : Fri Apr 17 17:36:39 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.464s
+user	0m0.433s
+sys	0m0.012s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/core/dev.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/core/dev.c.json
+
+real	0m0.907s
+user	0m0.763s
+sys	0m0.019s
+
+=== Stage 3: srcattributor ===
+
+real	3m27.017s
+user	3m19.281s
+sys	0m1.629s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/core/dev.c.xml
+    output : /tmp/cwe190_findings_xKAcq9
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.164s
+user	0m0.145s
+sys	0m0.015s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/core/dev.c:1362:37 -- __dev_alloc_name() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_xKAcq9
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/core/dev.c.xml
+    output : /tmp/cwe190_findings_xKAcq9
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.164s
+user	0m0.145s
+sys	0m0.015s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/core/dev.c:189:46 -- dev_base_seq_inc() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_xKAcq9
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/core/dev.c.xml
+    output : /tmp/cwe190_findings_xKAcq9
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : netdev_lock_pos
+    position : 533:56
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/core/dev.c:533:56 -- netdev_lock_pos() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_xKAcq9
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/dev.c",
+  "line": 1362,
+  "col": 37,
+  "varname": "__dev_alloc_name",
+  "note": {
+    "line": 1362,
+    "col": 37,
+    "message": "multiplication in __dev_alloc_name() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/dev.c",
+  "line": 189,
+  "col": 46,
+  "varname": "dev_base_seq_inc",
+  "note": {
+    "line": 189,
+    "col": 46,
+    "message": "addition in dev_base_seq_inc() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/dev.c",
+  "line": 533,
+  "col": 56,
+  "varname": "netdev_lock_pos",
+  "note": {
+    "line": 533,
+    "col": 56,
+    "message": "increment (++) in netdev_lock_pos() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

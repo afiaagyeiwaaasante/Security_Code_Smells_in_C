@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6_output.c",
+  "line": 1785,
+  "col": 61,
+  "varname": "__ip6_append_data",
+  "note": {
+    "line": 1785,
+    "col": 61,
+    "message": "increment (++) in __ip6_append_data() -- no upper-bound guard (INT_MAX check)"
+  }
+}

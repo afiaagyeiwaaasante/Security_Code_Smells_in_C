@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/mpls/af_mpls.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/mpls__af_mpls.c/af_mpls_report_20260417_174142.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/mpls__af_mpls.c/af_mpls_findings_20260417_174142.json
+ Date    : Fri Apr 17 17:41:42 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.156s
+user	0m0.146s
+sys	0m0.007s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/mpls/af_mpls.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/mpls/af_mpls.c.json
+
+real	0m0.374s
+user	0m0.280s
+sys	0m0.008s
+
+=== Stage 3: srcattributor ===
+
+real	0m14.936s
+user	0m14.381s
+sys	0m0.118s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mpls/af_mpls.c.xml
+    output : /tmp/cwe190_findings_8V5itq
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.054s
+user	0m0.044s
+sys	0m0.006s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/mpls/af_mpls.c:1400:20 -- mpls_conf_proc() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_8V5itq
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mpls/af_mpls.c.xml
+    output : /tmp/cwe190_findings_8V5itq
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.051s
+user	0m0.044s
+sys	0m0.006s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/mpls/af_mpls.c:1203:25 -- mpls_netconf_msgsize_devconf() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_8V5itq
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mpls/af_mpls.c.xml
+    output : /tmp/cwe190_findings_8V5itq
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : mpls_multipath_hash
+    position : 191:25
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/mpls/af_mpls.c:191:25 -- mpls_multipath_hash() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_8V5itq
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mpls/af_mpls.c",
+  "line": 1400,
+  "col": 20,
+  "varname": "mpls_conf_proc",
+  "note": {
+    "line": 1400,
+    "col": 20,
+    "message": "multiplication in mpls_conf_proc() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mpls/af_mpls.c",
+  "line": 1203,
+  "col": 25,
+  "varname": "mpls_netconf_msgsize_devconf",
+  "note": {
+    "line": 1203,
+    "col": 25,
+    "message": "addition in mpls_netconf_msgsize_devconf() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mpls/af_mpls.c",
+  "line": 191,
+  "col": 25,
+  "varname": "mpls_multipath_hash",
+  "note": {
+    "line": 191,
+    "col": 25,
+    "message": "increment (++) in mpls_multipath_hash() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

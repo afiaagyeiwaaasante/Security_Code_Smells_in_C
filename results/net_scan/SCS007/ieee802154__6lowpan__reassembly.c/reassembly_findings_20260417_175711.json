@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ieee802154/6lowpan/reassembly.c",
+  "line": 42,
+  "col": 9,
+  "varname": "lowpan_frag_init",
+  "note": {
+    "line": 42,
+    "col": 9,
+    "message": "memcpy() in lowpan_frag_init() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

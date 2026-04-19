@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/qrtr/af_qrtr.c",
+  "line": 222,
+  "col": 59,
+  "varname": "qrtr_tx_resume",
+  "note": {
+    "line": 222,
+    "col": 59,
+    "message": "multiplication in qrtr_tx_resume() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/qrtr/af_qrtr.c",
+  "line": 300,
+  "col": 30,
+  "varname": "qrtr_tx_wait",
+  "note": {
+    "line": 300,
+    "col": 30,
+    "message": "increment (++) in qrtr_tx_wait() -- no upper-bound guard (INT_MAX check)"
+  }
+}

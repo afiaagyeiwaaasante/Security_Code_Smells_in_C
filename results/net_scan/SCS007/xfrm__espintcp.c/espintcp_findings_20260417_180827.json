@@ -1,0 +1,30 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/xfrm/espintcp.c",
+  "line": 569,
+  "col": 9,
+  "varname": "build_protos",
+  "note": {
+    "line": 569,
+    "col": 9,
+    "message": "memcpy() in build_protos() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/xfrm/espintcp.c",
+  "line": 39,
+  "col": 9,
+  "varname": "handle_esp",
+  "note": {
+    "line": 39,
+    "col": 9,
+    "message": "memmove() in handle_esp() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

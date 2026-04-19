@@ -1,0 +1,104 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/devlink/rate.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/devlink__rate.c/rate_report_20260417_173748.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/devlink__rate.c/rate_findings_20260417_173748.json
+ Date    : Fri Apr 17 17:37:48 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.034s
+user	0m0.030s
+sys	0m0.003s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/devlink/rate.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/devlink/rate.c.json
+
+real	0m0.190s
+user	0m0.082s
+sys	0m0.004s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.966s
+user	0m0.928s
+sys	0m0.016s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/devlink/rate.c.xml
+    output : /tmp/cwe190_findings_bO8Uy6
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.021s
+user	0m0.016s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_bO8Uy6
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/devlink/rate.c.xml
+    output : /tmp/cwe190_findings_bO8Uy6
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.017s
+user	0m0.012s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_bO8Uy6
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/devlink/rate.c.xml
+    output : /tmp/cwe190_findings_bO8Uy6
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : devlink_rate_put_tc_bws
+    position : 87:48
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/devlink/rate.c:87:48 -- devlink_rate_put_tc_bws() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_bO8Uy6
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/devlink/rate.c",
+  "line": 87,
+  "col": 48,
+  "varname": "devlink_rate_put_tc_bws",
+  "note": {
+    "line": 87,
+    "col": 48,
+    "message": "increment (++) in devlink_rate_put_tc_bws() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_increment       1
+========================================

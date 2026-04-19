@@ -1,0 +1,104 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/openvswitch/vport.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/openvswitch__vport.c/vport_report_20260417_174331.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/openvswitch__vport.c/vport_findings_20260417_174331.json
+ Date    : Fri Apr 17 17:43:31 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.032s
+user	0m0.026s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/openvswitch/vport.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/openvswitch/vport.c.json
+
+real	0m0.190s
+user	0m0.062s
+sys	0m0.004s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.326s
+user	0m0.314s
+sys	0m0.007s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/openvswitch/vport.c.xml
+    output : /tmp/cwe190_findings_FHkyCH
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.019s
+user	0m0.013s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_FHkyCH
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/openvswitch/vport.c.xml
+    output : /tmp/cwe190_findings_FHkyCH
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.019s
+user	0m0.013s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_FHkyCH
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/openvswitch/vport.c.xml
+    output : /tmp/cwe190_findings_FHkyCH
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : ovs_vport_send
+    position : 566:44
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/openvswitch/vport.c:566:44 -- ovs_vport_send() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_FHkyCH
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/openvswitch/vport.c",
+  "line": 566,
+  "col": 44,
+  "varname": "ovs_vport_send",
+  "note": {
+    "line": 566,
+    "col": 44,
+    "message": "increment (++) in ovs_vport_send() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_increment       1
+========================================

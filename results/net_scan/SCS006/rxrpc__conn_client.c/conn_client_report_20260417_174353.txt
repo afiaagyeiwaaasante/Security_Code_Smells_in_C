@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/conn_client.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/rxrpc__conn_client.c/conn_client_report_20260417_174353.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/rxrpc__conn_client.c/conn_client_findings_20260417_174353.json
+ Date    : Fri Apr 17 17:43:53 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.052s
+user	0m0.045s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/conn_client.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/conn_client.c.json
+
+real	0m0.251s
+user	0m0.097s
+sys	0m0.005s
+
+=== Stage 3: srcattributor ===
+
+real	0m1.155s
+user	0m1.121s
+sys	0m0.012s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/conn_client.c.xml
+    output : /tmp/cwe190_findings_hpcS1x
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.024s
+user	0m0.017s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/conn_client.c:342:35 -- rxrpc_add_conn_to_bundle() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_hpcS1x
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/conn_client.c.xml
+    output : /tmp/cwe190_findings_hpcS1x
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.024s
+user	0m0.017s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/conn_client.c:419:42 -- rxrpc_activate_one_channel() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_hpcS1x
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/conn_client.c.xml
+    output : /tmp/cwe190_findings_hpcS1x
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : rxrpc_add_conn_to_bundle
+    position : 363:42
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/conn_client.c:363:42 -- rxrpc_add_conn_to_bundle() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_hpcS1x
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/conn_client.c",
+  "line": 342,
+  "col": 35,
+  "varname": "rxrpc_add_conn_to_bundle",
+  "note": {
+    "line": 342,
+    "col": 35,
+    "message": "multiplication in rxrpc_add_conn_to_bundle() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/conn_client.c",
+  "line": 419,
+  "col": 42,
+  "varname": "rxrpc_activate_one_channel",
+  "note": {
+    "line": 419,
+    "col": 42,
+    "message": "addition in rxrpc_activate_one_channel() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/conn_client.c",
+  "line": 363,
+  "col": 42,
+  "varname": "rxrpc_add_conn_to_bundle",
+  "note": {
+    "line": 363,
+    "col": 42,
+    "message": "increment (++) in rxrpc_add_conn_to_bundle() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

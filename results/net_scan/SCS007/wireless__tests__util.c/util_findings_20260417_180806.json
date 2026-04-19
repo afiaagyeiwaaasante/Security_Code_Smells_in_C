@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/wireless/tests/util.c",
+  "line": 31,
+  "col": 9,
+  "varname": "t_wiphy_init",
+  "note": {
+    "line": 31,
+    "col": 9,
+    "message": "memcpy() in t_wiphy_init() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

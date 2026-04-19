@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/x25/af_x25.c",
+  "line": 676,
+  "col": 58,
+  "varname": "x25_bind",
+  "note": {
+    "line": 676,
+    "col": 58,
+    "message": "multiplication in x25_bind() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/x25/af_x25.c",
+  "line": 129,
+  "col": 10,
+  "varname": "x25_addr_ntoa",
+  "note": {
+    "line": 129,
+    "col": 10,
+    "message": "increment (++) in x25_addr_ntoa() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/bat_algo.c",
+  "line": 122,
+  "col": 33,
+  "varname": "batadv_param_set_ra",
+  "note": {
+    "line": 122,
+    "col": 33,
+    "message": "multiplication in batadv_param_set_ra() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/bat_algo.c",
+  "line": 197,
+  "col": 22,
+  "varname": "batadv_algo_dump",
+  "note": {
+    "line": 197,
+    "col": 22,
+    "message": "increment (++) in batadv_algo_dump() -- no upper-bound guard (INT_MAX check)"
+  }
+}

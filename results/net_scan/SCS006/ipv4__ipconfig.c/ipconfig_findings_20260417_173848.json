@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ipconfig.c",
+  "line": 370,
+  "col": 41,
+  "varname": "ic_setup_if",
+  "note": {
+    "line": 370,
+    "col": 41,
+    "message": "multiplication in ic_setup_if() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ipconfig.c",
+  "line": 1003,
+  "col": 49,
+  "varname": "ic_bootp_recv",
+  "note": {
+    "line": 1003,
+    "col": 49,
+    "message": "addition in ic_bootp_recv() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ipconfig.c",
+  "line": 608,
+  "col": 48,
+  "varname": "ic_nameservers_predef",
+  "note": {
+    "line": 608,
+    "col": 48,
+    "message": "increment (++) in ic_nameservers_predef() -- no upper-bound guard (INT_MAX check)"
+  }
+}

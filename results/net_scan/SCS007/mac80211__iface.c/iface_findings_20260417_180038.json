@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/iface.c",
+  "line": 298,
+  "col": 17,
+  "varname": "_ieee80211_change_mac",
+  "note": {
+    "line": 298,
+    "col": 17,
+    "message": "memcpy() in _ieee80211_change_mac() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

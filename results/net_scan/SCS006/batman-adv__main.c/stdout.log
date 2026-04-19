@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/main.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/batman-adv__main.c/main_report_20260417_173519.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/batman-adv__main.c/main_findings_20260417_173519.json
+ Date    : Fri Apr 17 17:35:19 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.021s
+user	0m0.017s
+sys	0m0.003s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/main.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/main.c.json
+
+real	0m0.173s
+user	0m0.038s
+sys	0m0.003s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.187s
+user	0m0.175s
+sys	0m0.004s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/main.c.xml
+    output : /tmp/cwe190_findings_1Ki4jF
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.011s
+user	0m0.007s
+sys	0m0.003s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/main.c:573:48 -- batadv_get_vid() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_1Ki4jF
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/main.c.xml
+    output : /tmp/cwe190_findings_1Ki4jF
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.015s
+user	0m0.010s
+sys	0m0.003s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/main.c:573:61 -- batadv_get_vid() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_1Ki4jF
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/main.c.xml
+    output : /tmp/cwe190_findings_1Ki4jF
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : batadv_recv_handler_init
+    position : 485:57
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/main.c:485:57 -- batadv_recv_handler_init() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_1Ki4jF
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/main.c",
+  "line": 573,
+  "col": 48,
+  "varname": "batadv_get_vid",
+  "note": {
+    "line": 573,
+    "col": 48,
+    "message": "multiplication in batadv_get_vid() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/main.c",
+  "line": 573,
+  "col": 61,
+  "varname": "batadv_get_vid",
+  "note": {
+    "line": 573,
+    "col": 61,
+    "message": "addition in batadv_get_vid() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/main.c",
+  "line": 485,
+  "col": 57,
+  "varname": "batadv_recv_handler_init",
+  "note": {
+    "line": 485,
+    "col": 57,
+    "message": "increment (++) in batadv_recv_handler_init() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

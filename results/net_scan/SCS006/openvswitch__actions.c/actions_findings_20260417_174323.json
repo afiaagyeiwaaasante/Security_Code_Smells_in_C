@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/openvswitch/actions.c",
+  "line": 216,
+  "col": 25,
+  "varname": "ether_addr_copy_masked",
+  "note": {
+    "line": 216,
+    "col": 25,
+    "message": "multiplication in ether_addr_copy_masked() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/openvswitch/actions.c",
+  "line": 78,
+  "col": 38,
+  "varname": "action_fifo_get",
+  "note": {
+    "line": 78,
+    "col": 38,
+    "message": "increment (++) in action_fifo_get() -- no upper-bound guard (INT_MAX check)"
+  }
+}

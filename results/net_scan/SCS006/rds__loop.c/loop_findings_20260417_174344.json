@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rds/loop.c",
+  "line": 80,
+  "col": 45,
+  "varname": "rds_loop_xmit",
+  "note": {
+    "line": 80,
+    "col": 45,
+    "message": "addition in rds_loop_xmit() -- no upper-bound guard before adding"
+  }
+}

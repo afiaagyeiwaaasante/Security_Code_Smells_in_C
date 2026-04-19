@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/xdp/xsk.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/xdp__xsk.c/xsk_report_20260417_174700.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/xdp__xsk.c/xsk_findings_20260417_174700.json
+ Date    : Fri Apr 17 17:47:00 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.144s
+user	0m0.101s
+sys	0m0.007s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/xdp/xsk.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/xdp/xsk.c.json
+
+real	0m0.314s
+user	0m0.209s
+sys	0m0.008s
+
+=== Stage 3: srcattributor ===
+
+real	0m6.677s
+user	0m6.411s
+sys	0m0.065s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/xdp/xsk.c.xml
+    output : /tmp/cwe190_findings_E5M5G8
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.045s
+user	0m0.037s
+sys	0m0.006s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/xdp/xsk.c:1283:58 -- xsk_bind() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_E5M5G8
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/xdp/xsk.c.xml
+    output : /tmp/cwe190_findings_E5M5G8
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.043s
+user	0m0.036s
+sys	0m0.006s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/xdp/xsk.c:251:19 -- __xsk_rcv() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_E5M5G8
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/xdp/xsk.c.xml
+    output : /tmp/cwe190_findings_E5M5G8
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : __xsk_rcv_zc
+    position : 155:34
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/xdp/xsk.c:155:34 -- __xsk_rcv_zc() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_E5M5G8
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/xdp/xsk.c",
+  "line": 1283,
+  "col": 58,
+  "varname": "xsk_bind",
+  "note": {
+    "line": 1283,
+    "col": 58,
+    "message": "multiplication in xsk_bind() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/xdp/xsk.c",
+  "line": 251,
+  "col": 19,
+  "varname": "__xsk_rcv",
+  "note": {
+    "line": 251,
+    "col": 19,
+    "message": "addition in __xsk_rcv() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/xdp/xsk.c",
+  "line": 155,
+  "col": 34,
+  "varname": "__xsk_rcv_zc",
+  "note": {
+    "line": 155,
+    "col": 34,
+    "message": "increment (++) in __xsk_rcv_zc() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

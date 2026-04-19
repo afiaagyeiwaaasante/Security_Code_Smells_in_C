@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ip_sockglue.c",
+  "line": 88,
+  "col": 53,
+  "varname": "ip_cmsg_recv_retopts",
+  "note": {
+    "line": 88,
+    "col": 53,
+    "message": "multiplication in ip_cmsg_recv_retopts() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ip_sockglue.c",
+  "line": 122,
+  "col": 58,
+  "varname": "ip_cmsg_recv_checksum",
+  "note": {
+    "line": 122,
+    "col": 58,
+    "message": "addition in ip_cmsg_recv_checksum() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ip_sockglue.c",
+  "line": 682,
+  "col": 33,
+  "varname": "set_mcast_msfilter",
+  "note": {
+    "line": 682,
+    "col": 33,
+    "message": "increment (++) in set_mcast_msfilter() -- no upper-bound guard (INT_MAX check)"
+  }
+}

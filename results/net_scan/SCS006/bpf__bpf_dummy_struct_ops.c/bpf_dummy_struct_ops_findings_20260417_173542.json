@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bpf/bpf_dummy_struct_ops.c",
+  "line": 72,
+  "col": 44,
+  "varname": "dummy_ops_call_op",
+  "note": {
+    "line": 72,
+    "col": 44,
+    "message": "multiplication in dummy_ops_call_op() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bpf/bpf_dummy_struct_ops.c",
+  "line": 72,
+  "col": 52,
+  "varname": "dummy_ops_call_op",
+  "note": {
+    "line": 72,
+    "col": 52,
+    "message": "addition in dummy_ops_call_op() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bpf/bpf_dummy_struct_ops.c",
+  "line": 86,
+  "col": 50,
+  "varname": "find_ctx_arg_info",
+  "note": {
+    "line": 86,
+    "col": 50,
+    "message": "increment (++) in find_ctx_arg_info() -- no upper-bound guard (INT_MAX check)"
+  }
+}

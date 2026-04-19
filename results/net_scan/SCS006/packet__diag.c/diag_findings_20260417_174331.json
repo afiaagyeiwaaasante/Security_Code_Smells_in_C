@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/packet/diag.c",
+  "line": 215,
+  "col": 20,
+  "varname": "packet_diag_dump",
+  "note": {
+    "line": 215,
+    "col": 20,
+    "message": "increment (++) in packet_diag_dump() -- no upper-bound guard (INT_MAX check)"
+  }
+}

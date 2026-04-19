@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/l2tp/l2tp_core.c",
+  "line": 779,
+  "col": 48,
+  "varname": "l2tp_recv_data_seq",
+  "note": {
+    "line": 779,
+    "col": 48,
+    "message": "addition in l2tp_recv_data_seq() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/l2tp/l2tp_core.c",
+  "line": 245,
+  "col": 23,
+  "varname": "l2tp_tunnel_get_next",
+  "note": {
+    "line": 245,
+    "col": 23,
+    "message": "increment (++) in l2tp_tunnel_get_next() -- no upper-bound guard (INT_MAX check)"
+  }
+}

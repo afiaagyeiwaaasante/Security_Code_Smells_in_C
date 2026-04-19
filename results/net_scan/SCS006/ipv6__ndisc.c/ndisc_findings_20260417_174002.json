@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ndisc.c",
+  "line": 224,
+  "col": 56,
+  "varname": "ndisc_parse_options",
+  "note": {
+    "line": 224,
+    "col": 56,
+    "message": "multiplication in ndisc_parse_options() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ndisc.c",
+  "line": 793,
+  "col": 75,
+  "varname": "ndisc_recv_ns",
+  "note": {
+    "line": 793,
+    "col": 75,
+    "message": "addition in ndisc_recv_ns() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ndisc.c",
+  "line": 1648,
+  "col": 14,
+  "varname": "ndisc_fill_redirect_hdr_option",
+  "note": {
+    "line": 1648,
+    "col": 14,
+    "message": "increment (++) in ndisc_fill_redirect_hdr_option() -- no upper-bound guard (INT_MAX check)"
+  }
+}

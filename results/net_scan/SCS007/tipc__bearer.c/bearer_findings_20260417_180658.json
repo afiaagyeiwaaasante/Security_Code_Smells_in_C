@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/tipc/bearer.c",
+  "line": 448,
+  "col": 17,
+  "varname": "tipc_enable_l2_media",
+  "note": {
+    "line": 448,
+    "col": 17,
+    "message": "memcpy() in tipc_enable_l2_media() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

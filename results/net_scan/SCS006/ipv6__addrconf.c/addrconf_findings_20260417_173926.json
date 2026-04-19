@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/addrconf.c",
+  "line": 107,
+  "col": 61,
+  "varname": "rfc3315_s14_backoff_init",
+  "note": {
+    "line": 107,
+    "col": 61,
+    "message": "multiplication in rfc3315_s14_backoff_init() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/addrconf.c",
+  "line": 510,
+  "col": 21,
+  "varname": "inet6_netconf_msgsize_devconf",
+  "note": {
+    "line": 510,
+    "col": 21,
+    "message": "addition in inet6_netconf_msgsize_devconf() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/addrconf.c",
+  "line": 640,
+  "col": 41,
+  "varname": "inet6_netconf_valid_get_req",
+  "note": {
+    "line": 640,
+    "col": 41,
+    "message": "increment (++) in inet6_netconf_valid_get_req() -- no upper-bound guard (INT_MAX check)"
+  }
+}

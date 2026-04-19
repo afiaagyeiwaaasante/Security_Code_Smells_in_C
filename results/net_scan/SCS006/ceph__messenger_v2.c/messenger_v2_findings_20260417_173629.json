@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ceph/messenger_v2.c",
+  "line": 485,
+  "col": 24,
+  "varname": "encode_preamble",
+  "note": {
+    "line": 485,
+    "col": 24,
+    "message": "addition in encode_preamble() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ceph/messenger_v2.c",
+  "line": 218,
+  "col": 28,
+  "varname": "add_in_kvec",
+  "note": {
+    "line": 218,
+    "col": 28,
+    "message": "increment (++) in add_in_kvec() -- no upper-bound guard (INT_MAX check)"
+  }
+}

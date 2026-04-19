@@ -1,0 +1,123 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/can/gw.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/can__gw.c/gw_report_20260417_173617.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/can__gw.c/gw_findings_20260417_173617.json
+ Date    : Fri Apr 17 17:36:17 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.058s
+user	0m0.050s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/can/gw.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/can/gw.c.json
+
+real	0m0.242s
+user	0m0.121s
+sys	0m0.005s
+
+=== Stage 3: srcattributor ===
+
+real	0m1.920s
+user	0m1.806s
+sys	0m0.018s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/can/gw.c.xml
+    output : /tmp/cwe190_findings_FaC1uE
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.025s
+user	0m0.017s
+sys	0m0.004s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/can/gw.c:206:51 -- mod_retrieve_ccdlc() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_FaC1uE
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/can/gw.c.xml
+    output : /tmp/cwe190_findings_FaC1uE
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.025s
+user	0m0.019s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_FaC1uE
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/can/gw.c.xml
+    output : /tmp/cwe190_findings_FaC1uE
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : cgw_csum_xor_rel
+    position : 333:42
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/can/gw.c:333:42 -- cgw_csum_xor_rel() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_FaC1uE
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/can/gw.c",
+  "line": 206,
+  "col": 51,
+  "varname": "mod_retrieve_ccdlc",
+  "note": {
+    "line": 206,
+    "col": 51,
+    "message": "multiplication in mod_retrieve_ccdlc() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/can/gw.c",
+  "line": 333,
+  "col": 42,
+  "varname": "cgw_csum_xor_rel",
+  "note": {
+    "line": 333,
+    "col": 42,
+    "message": "increment (++) in cgw_csum_xor_rel() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

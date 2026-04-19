@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/cfg.c",
+  "line": 1212,
+  "col": 30,
+  "varname": "ieee80211_set_s1g_short_beacon",
+  "note": {
+    "line": 1212,
+    "col": 30,
+    "message": "addition in ieee80211_set_s1g_short_beacon() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/cfg.c",
+  "line": 1292,
+  "col": 36,
+  "varname": "ieee80211_copy_mbssid_beacon",
+  "note": {
+    "line": 1292,
+    "col": 36,
+    "message": "increment (++) in ieee80211_copy_mbssid_beacon() -- no upper-bound guard (INT_MAX check)"
+  }
+}

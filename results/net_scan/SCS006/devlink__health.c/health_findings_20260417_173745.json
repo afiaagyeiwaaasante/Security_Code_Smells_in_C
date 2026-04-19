@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/devlink/health.c",
+  "line": 540,
+  "col": 68,
+  "varname": "devlink_health_reporter_in_burst",
+  "note": {
+    "line": 540,
+    "col": 68,
+    "message": "addition in devlink_health_reporter_in_burst() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/devlink/health.c",
+  "line": 411,
+  "col": 28,
+  "varname": "devlink_nl_health_reporter_get_dump_one",
+  "note": {
+    "line": 411,
+    "col": 28,
+    "message": "increment (++) in devlink_nl_health_reporter_get_dump_one() -- no upper-bound guard (INT_MAX check)"
+  }
+}

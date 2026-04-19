@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ipmr.c",
+  "line": 2517,
+  "col": 17,
+  "varname": "mroute_msgsize",
+  "note": {
+    "line": 2517,
+    "col": 17,
+    "message": "addition in mroute_msgsize() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ipmr.c",
+  "line": 815,
+  "col": 48,
+  "varname": "ipmr_update_thresholds",
+  "note": {
+    "line": 815,
+    "col": 48,
+    "message": "increment (++) in ipmr_update_thresholds() -- no upper-bound guard (INT_MAX check)"
+  }
+}

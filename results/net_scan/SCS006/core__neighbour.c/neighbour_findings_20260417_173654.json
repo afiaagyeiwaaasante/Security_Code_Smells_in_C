@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/neighbour.c",
+  "line": 258,
+  "col": 42,
+  "varname": "neigh_forced_gc",
+  "note": {
+    "line": 258,
+    "col": 42,
+    "message": "multiplication in neigh_forced_gc() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/neighbour.c",
+  "line": 257,
+  "col": 35,
+  "varname": "neigh_forced_gc",
+  "note": {
+    "line": 257,
+    "col": 35,
+    "message": "addition in neigh_forced_gc() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/neighbour.c",
+  "line": 281,
+  "col": 39,
+  "varname": "neigh_forced_gc",
+  "note": {
+    "line": 281,
+    "col": 39,
+    "message": "increment (++) in neigh_forced_gc() -- no upper-bound guard (INT_MAX check)"
+  }
+}

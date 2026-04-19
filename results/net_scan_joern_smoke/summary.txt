@@ -1,0 +1,54 @@
+════════════════════════════════════════════════════════════
+ Joern Scan Summary
+ Target       : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4
+ SCS detectors: SCS006,SCS007
+ Date         : 2026-04-18 17:49
+════════════════════════════════════════════════════════════
+
+ Files scanned       : 127
+ Files with findings : 97  (76%)
+ Files clean         : 30  (24%)
+
+ Total findings      : 1808
+   warning/smell      : 1808  (100%)
+
+── By rule ─────────────────────────────────────────────────
+  unchecked_add                          935
+  unchecked_increment                    444
+  unchecked_multiply                     318
+  signedUnsignedConversion               111
+
+── By detector ─────────────────────────────────────────────
+  joern_scs006                          1697
+  joern_scs007                           111
+
+── Top 20 files by finding count ──────────────────────────
+   143  tcp_input.c
+   106  tcp_output.c
+    85  ip_options.c
+    69  cipso_ipv4.c
+    58  fib_trie.c
+    57  nexthop.c
+    50  ah4.c
+    50  esp4.c
+    49  tcp.c
+    47  devinet.c
+    38  fib_semantics.c
+    38  ipmr.c
+    36  netfilter/arp_tables.c
+    35  tcp_bbr.c
+    35  udp_tunnel_nic.c
+    34  ip_gre.c
+    34  ip_output.c
+    33  ip_tunnel_core.c
+    33  netfilter/ip_tables.c
+    28  proc.c
+
+── Timing & Memory ─────────────────────────────────────────
+  CPG build  (c2cpg.sh)            : 3.910s   peak 841.1 MB
+  Query      (joern --script)      : 3.020s   peak 474.7 MB
+  Total wall time                  : 6.930s
+  Peak RSS   (max of both phases)  : 841.1 MB
+
+ Findings JSON : /Users/afiaasante/Security-Code-Smells/results/net_scan_joern_smoke/findings_all.json
+════════════════════════════════════════════════════════════

@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/mcast.c",
+  "line": 1819,
+  "col": 51,
+  "varname": "mld_sendpack",
+  "note": {
+    "line": 1819,
+    "col": 51,
+    "message": "multiplication in mld_sendpack() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/mcast.c",
+  "line": 413,
+  "col": 49,
+  "varname": "ip6_mc_source",
+  "note": {
+    "line": 413,
+    "col": 49,
+    "message": "increment (++) in ip6_mc_source() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_dup_netdev.c",
+  "line": 49,
+  "col": 32,
+  "varname": "nf_do_netdev_egress",
+  "note": {
+    "line": 49,
+    "col": 32,
+    "message": "increment (++) in nf_do_netdev_egress() -- no upper-bound guard (INT_MAX check)"
+  }
+}

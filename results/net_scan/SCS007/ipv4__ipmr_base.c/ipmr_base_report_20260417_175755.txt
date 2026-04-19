@@ -1,0 +1,26 @@
+========================================
+ CWE-195 Signed-to-Unsigned Conversion Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ipmr_base.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS007/ipv4__ipmr_base.c/ipmr_base_report_20260417_175755.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS007/ipv4__ipmr_base.c/ipmr_base_findings_20260417_175755.json
+ Date    : Fri Apr 17 17:57:55 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.051s
+user	0m0.039s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+HERE: /Users/afiaasante/Security-Code-Smells/tools/srcslice/srcDispatch/src/policy_classes/DeclPolicy.hpp operator() 273
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ipmr_base.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ipmr_base.c.json
+
+real	0m0.198s
+user	0m0.076s
+sys	0m0.005s
+
+=== Stage 3: srcattributor ===
+invalid argument in getSliceDeclLine.
+/Users/afiaasante/Security-Code-Smells/shared/pipeline.sh: line 21: 49892 Segmentation fault: 11  srcattributor -i "$JSON" -o "$XML"

@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/rtnetlink.c",
+  "line": 4861,
+  "col": 50,
+  "varname": "nlmsg_populate_fdb",
+  "note": {
+    "line": 4861,
+    "col": 50,
+    "message": "multiplication in nlmsg_populate_fdb() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/rtnetlink.c",
+  "line": 1200,
+  "col": 17,
+  "varname": "rtnl_port_size",
+  "note": {
+    "line": 1200,
+    "col": 17,
+    "message": "addition in rtnl_port_size() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/rtnetlink.c",
+  "line": 301,
+  "col": 42,
+  "varname": "rtnl_nets_destroy",
+  "note": {
+    "line": 301,
+    "col": 42,
+    "message": "increment (++) in rtnl_nets_destroy() -- no upper-bound guard (INT_MAX check)"
+  }
+}

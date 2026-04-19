@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/svc_xprt.c",
+  "line": 384,
+  "col": 9,
+  "varname": "svc_xprt_copy_addrs",
+  "note": {
+    "line": 384,
+    "col": 9,
+    "message": "memcpy() in svc_xprt_copy_addrs() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

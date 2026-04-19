@@ -1,0 +1,123 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/x25/af_x25.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/x25__af_x25.c/af_x25_report_20260417_174652.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/x25__af_x25.c/af_x25_findings_20260417_174652.json
+ Date    : Fri Apr 17 17:46:52 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.113s
+user	0m0.095s
+sys	0m0.006s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/x25/af_x25.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/x25/af_x25.c.json
+
+real	0m0.312s
+user	0m0.182s
+sys	0m0.006s
+
+=== Stage 3: srcattributor ===
+
+real	0m5.180s
+user	0m4.871s
+sys	0m0.047s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/x25/af_x25.c.xml
+    output : /tmp/cwe190_findings_zaKKus
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.041s
+user	0m0.032s
+sys	0m0.007s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/x25/af_x25.c:676:58 -- x25_bind() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_zaKKus
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/x25/af_x25.c.xml
+    output : /tmp/cwe190_findings_zaKKus
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.040s
+user	0m0.031s
+sys	0m0.006s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_zaKKus
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/x25/af_x25.c.xml
+    output : /tmp/cwe190_findings_zaKKus
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : x25_addr_ntoa
+    position : 129:10
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/x25/af_x25.c:129:10 -- x25_addr_ntoa() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_zaKKus
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/x25/af_x25.c",
+  "line": 676,
+  "col": 58,
+  "varname": "x25_bind",
+  "note": {
+    "line": 676,
+    "col": 58,
+    "message": "multiplication in x25_bind() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/x25/af_x25.c",
+  "line": 129,
+  "col": 10,
+  "varname": "x25_addr_ntoa",
+  "note": {
+    "line": 129,
+    "col": 10,
+    "message": "increment (++) in x25_addr_ntoa() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

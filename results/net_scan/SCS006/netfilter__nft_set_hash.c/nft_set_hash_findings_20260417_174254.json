@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_set_hash.c",
+  "line": 623,
+  "col": 37,
+  "varname": "nft_hash_get",
+  "note": {
+    "line": 623,
+    "col": 37,
+    "message": "multiplication in nft_hash_get() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_set_hash.c",
+  "line": 295,
+  "col": 28,
+  "varname": "nft_rhash_walk_ro",
+  "note": {
+    "line": 295,
+    "col": 28,
+    "message": "increment (++) in nft_rhash_walk_ro() -- no upper-bound guard (INT_MAX check)"
+  }
+}

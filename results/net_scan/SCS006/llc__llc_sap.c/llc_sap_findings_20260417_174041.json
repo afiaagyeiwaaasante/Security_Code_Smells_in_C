@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/llc/llc_sap.c",
+  "line": 128,
+  "col": 72,
+  "varname": "llc_find_sap_trans",
+  "note": {
+    "line": 128,
+    "col": 72,
+    "message": "increment (++) in llc_find_sap_trans() -- no upper-bound guard (INT_MAX check)"
+  }
+}

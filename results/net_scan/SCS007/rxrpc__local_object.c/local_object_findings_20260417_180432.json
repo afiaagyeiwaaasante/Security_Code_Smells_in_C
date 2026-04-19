@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/local_object.c",
+  "line": 140,
+  "col": 17,
+  "varname": "rxrpc_alloc_local",
+  "note": {
+    "line": 140,
+    "col": 17,
+    "message": "memcpy() in rxrpc_alloc_local() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

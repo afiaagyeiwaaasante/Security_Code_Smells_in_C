@@ -1,0 +1,79 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_inner.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/netfilter__nft_inner.c/nft_inner_report_20260417_174251.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/netfilter__nft_inner.c/nft_inner_findings_20260417_174251.json
+ Date    : Fri Apr 17 17:42:51 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.032s
+user	0m0.026s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_inner.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_inner.c.json
+
+real	0m0.186s
+user	0m0.060s
+sys	0m0.004s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.304s
+user	0m0.272s
+sys	0m0.007s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_inner.c.xml
+    output : /tmp/cwe190_findings_fXugpu
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.016s
+user	0m0.011s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_fXugpu
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_inner.c.xml
+    output : /tmp/cwe190_findings_fXugpu
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.016s
+user	0m0.011s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_fXugpu
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_inner.c.xml
+    output : /tmp/cwe190_findings_fXugpu
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+[ unchecked_increment ] No smell detected.
+========================================
+ Findings JSON
+========================================
+
+========================================
+ Summary
+ Total findings : 0
+ Errors         : 0
+ Warnings       : 0
+========================================

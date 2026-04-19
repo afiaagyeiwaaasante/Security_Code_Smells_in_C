@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/cipso_ipv4.c",
+  "line": 740,
+  "col": 42,
+  "varname": "cipso_v4_map_cat_rbm_valid",
+  "note": {
+    "line": 740,
+    "col": 42,
+    "message": "multiplication in cipso_v4_map_cat_rbm_valid() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/cipso_ipv4.c",
+  "line": 1010,
+  "col": 46,
+  "varname": "cipso_v4_map_cat_rng_valid",
+  "note": {
+    "line": 1010,
+    "col": 46,
+    "message": "addition in cipso_v4_map_cat_rng_valid() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/cipso_ipv4.c",
+  "line": 176,
+  "col": 59,
+  "varname": "cipso_v4_cache_init",
+  "note": {
+    "line": 176,
+    "col": 59,
+    "message": "increment (++) in cipso_v4_cache_init() -- no upper-bound guard (INT_MAX check)"
+  }
+}

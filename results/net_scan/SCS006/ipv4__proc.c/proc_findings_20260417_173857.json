@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/proc.c",
+  "line": 495,
+  "col": 36,
+  "varname": "netstat_seq_show",
+  "note": {
+    "line": 495,
+    "col": 36,
+    "message": "multiplication in netstat_seq_show() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/proc.c",
+  "line": 317,
+  "col": 40,
+  "varname": "icmpmsg_put_line",
+  "note": {
+    "line": 317,
+    "col": 40,
+    "message": "increment (++) in icmpmsg_put_line() -- no upper-bound guard (INT_MAX check)"
+  }
+}

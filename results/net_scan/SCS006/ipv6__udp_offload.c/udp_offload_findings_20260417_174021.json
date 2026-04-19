@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/udp_offload.c",
+  "line": 170,
+  "col": 55,
+  "varname": "udp6_gro_complete",
+  "note": {
+    "line": 170,
+    "col": 55,
+    "message": "multiplication in udp6_gro_complete() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/udp_offload.c",
+  "line": 170,
+  "col": 68,
+  "varname": "udp6_gro_complete",
+  "note": {
+    "line": 170,
+    "col": 68,
+    "message": "addition in udp6_gro_complete() -- no upper-bound guard before adding"
+  }
+}

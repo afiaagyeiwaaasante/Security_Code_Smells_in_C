@@ -1,0 +1,104 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/xprtrdma/svc_rdma_backchannel.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/sunrpc__xprtrdma__svc_rdma_backchannel.c/svc_rdma_backchannel_report_20260417_174545.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/sunrpc__xprtrdma__svc_rdma_backchannel.c/svc_rdma_backchannel_findings_20260417_174545.json
+ Date    : Fri Apr 17 17:45:45 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.026s
+user	0m0.018s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/xprtrdma/svc_rdma_backchannel.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/xprtrdma/svc_rdma_backchannel.c.json
+
+real	0m0.191s
+user	0m0.044s
+sys	0m0.004s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.134s
+user	0m0.128s
+sys	0m0.004s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/xprtrdma/svc_rdma_backchannel.c.xml
+    output : /tmp/cwe190_findings_FGb2kU
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.016s
+user	0m0.010s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_FGb2kU
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/xprtrdma/svc_rdma_backchannel.c.xml
+    output : /tmp/cwe190_findings_FGb2kU
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.018s
+user	0m0.011s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_FGb2kU
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/xprtrdma/svc_rdma_backchannel.c.xml
+    output : /tmp/cwe190_findings_FGb2kU
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : rpcrdma_bc_send_request
+    position : 151:11
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/xprtrdma/svc_rdma_backchannel.c:151:11 -- rpcrdma_bc_send_request() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_FGb2kU
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/xprtrdma/svc_rdma_backchannel.c",
+  "line": 151,
+  "col": 11,
+  "varname": "rpcrdma_bc_send_request",
+  "note": {
+    "line": 151,
+    "col": 11,
+    "message": "increment (++) in rpcrdma_bc_send_request() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_increment       1
+========================================

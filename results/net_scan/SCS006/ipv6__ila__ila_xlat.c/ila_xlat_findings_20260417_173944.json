@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ila/ila_xlat.c",
+  "line": 42,
+  "col": 23,
+  "varname": "ila_locator_hash",
+  "note": {
+    "line": 42,
+    "col": 23,
+    "message": "multiplication in ila_locator_hash() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ila/ila_xlat.c",
+  "line": 588,
+  "col": 29,
+  "varname": "ila_xlat_nl_dump",
+  "note": {
+    "line": 588,
+    "col": 29,
+    "message": "increment (++) in ila_xlat_nl_dump() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_labels.c",
+  "line": 46,
+  "col": 35,
+  "varname": "nf_connlabels_replace",
+  "note": {
+    "line": 46,
+    "col": 35,
+    "message": "increment (++) in nf_connlabels_replace() -- no upper-bound guard (INT_MAX check)"
+  }
+}

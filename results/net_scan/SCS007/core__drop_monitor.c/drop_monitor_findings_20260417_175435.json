@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/drop_monitor.c",
+  "line": 253,
+  "col": 9,
+  "varname": "trace_drop_common",
+  "note": {
+    "line": 253,
+    "col": 9,
+    "message": "memcpy() in trace_drop_common() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

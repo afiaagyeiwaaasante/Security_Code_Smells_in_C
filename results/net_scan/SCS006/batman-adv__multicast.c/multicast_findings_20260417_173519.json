@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/multicast.c",
+  "line": 410,
+  "col": 20,
+  "varname": "batadv_mcast_mla_meshif_get_ipv4",
+  "note": {
+    "line": 410,
+    "col": 20,
+    "message": "increment (++) in batadv_mcast_mla_meshif_get_ipv4() -- no upper-bound guard (INT_MAX check)"
+  }
+}

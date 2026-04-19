@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/core/flow_dissector.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/core__flow_dissector.c/flow_dissector_report_20260417_173648.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/core__flow_dissector.c/flow_dissector_findings_20260417_173648.json
+ Date    : Fri Apr 17 17:36:48 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.088s
+user	0m0.074s
+sys	0m0.006s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/core/flow_dissector.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/core/flow_dissector.c.json
+
+real	0m0.245s
+user	0m0.146s
+sys	0m0.005s
+
+=== Stage 3: srcattributor ===
+
+real	0m4.040s
+user	0m3.950s
+sys	0m0.029s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/core/flow_dissector.c.xml
+    output : /tmp/cwe190_findings_LVkLCk
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.032s
+user	0m0.024s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/core/flow_dissector.c:1851:44 -- make_flow_keys_digest() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_LVkLCk
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/core/flow_dissector.c.xml
+    output : /tmp/cwe190_findings_LVkLCk
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.029s
+user	0m0.023s
+sys	0m0.004s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/core/flow_dissector.c:1716:45 -- flow_keys_hash_length() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_LVkLCk
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/core/flow_dissector.c.xml
+    output : /tmp/cwe190_findings_LVkLCk
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : skb_flow_dissector_init
+    position : 54:37
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/core/flow_dissector.c:54:37 -- skb_flow_dissector_init() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_LVkLCk
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/flow_dissector.c",
+  "line": 1851,
+  "col": 44,
+  "varname": "make_flow_keys_digest",
+  "note": {
+    "line": 1851,
+    "col": 44,
+    "message": "multiplication in make_flow_keys_digest() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/flow_dissector.c",
+  "line": 1716,
+  "col": 45,
+  "varname": "flow_keys_hash_length",
+  "note": {
+    "line": 1716,
+    "col": 45,
+    "message": "addition in flow_keys_hash_length() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/flow_dissector.c",
+  "line": 54,
+  "col": 37,
+  "varname": "skb_flow_dissector_init",
+  "note": {
+    "line": 54,
+    "col": 37,
+    "message": "increment (++) in skb_flow_dissector_init() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

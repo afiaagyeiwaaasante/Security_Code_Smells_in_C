@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/main.c",
+  "line": 641,
+  "col": 57,
+  "varname": "ieee80211_ifa6_changed",
+  "note": {
+    "line": 641,
+    "col": 57,
+    "message": "multiplication in ieee80211_ifa6_changed() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/main.c",
+  "line": 622,
+  "col": 18,
+  "varname": "ieee80211_ifa_changed",
+  "note": {
+    "line": 622,
+    "col": 18,
+    "message": "increment (++) in ieee80211_ifa_changed() -- no upper-bound guard (INT_MAX check)"
+  }
+}

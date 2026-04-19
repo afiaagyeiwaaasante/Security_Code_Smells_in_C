@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/vmw_vsock/af_vsock.c",
+  "line": 266,
+  "col": 56,
+  "varname": "vsock_init_tables",
+  "note": {
+    "line": 266,
+    "col": 56,
+    "message": "increment (++) in vsock_init_tables() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ipconfig.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv4__ipconfig.c/ipconfig_report_20260417_173848.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv4__ipconfig.c/ipconfig_findings_20260417_173848.json
+ Date    : Fri Apr 17 17:38:48 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.065s
+user	0m0.057s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ipconfig.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ipconfig.c.json
+
+real	0m0.247s
+user	0m0.147s
+sys	0m0.005s
+
+=== Stage 3: srcattributor ===
+
+real	0m3.413s
+user	0m3.338s
+sys	0m0.031s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ipconfig.c.xml
+    output : /tmp/cwe190_findings_ab9okl
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.032s
+user	0m0.025s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ipconfig.c:370:41 -- ic_setup_if() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_ab9okl
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ipconfig.c.xml
+    output : /tmp/cwe190_findings_ab9okl
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.030s
+user	0m0.024s
+sys	0m0.004s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ipconfig.c:1003:49 -- ic_bootp_recv() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_ab9okl
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ipconfig.c.xml
+    output : /tmp/cwe190_findings_ab9okl
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : ic_nameservers_predef
+    position : 608:48
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ipconfig.c:608:48 -- ic_nameservers_predef() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_ab9okl
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ipconfig.c",
+  "line": 370,
+  "col": 41,
+  "varname": "ic_setup_if",
+  "note": {
+    "line": 370,
+    "col": 41,
+    "message": "multiplication in ic_setup_if() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ipconfig.c",
+  "line": 1003,
+  "col": 49,
+  "varname": "ic_bootp_recv",
+  "note": {
+    "line": 1003,
+    "col": 49,
+    "message": "addition in ic_bootp_recv() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ipconfig.c",
+  "line": 608,
+  "col": 48,
+  "varname": "ic_nameservers_predef",
+  "note": {
+    "line": 608,
+    "col": 48,
+    "message": "increment (++) in ic_nameservers_predef() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

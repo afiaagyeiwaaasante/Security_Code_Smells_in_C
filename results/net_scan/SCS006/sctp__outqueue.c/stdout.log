@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/sctp/outqueue.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/sctp__outqueue.c/outqueue_report_20260417_174449.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/sctp__outqueue.c/outqueue_findings_20260417_174449.json
+ Date    : Fri Apr 17 17:44:49 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.090s
+user	0m0.077s
+sys	0m0.006s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/sctp/outqueue.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/sctp/outqueue.c.json
+
+real	0m0.302s
+user	0m0.162s
+sys	0m0.006s
+
+=== Stage 3: srcattributor ===
+
+real	0m3.190s
+user	0m3.107s
+sys	0m0.026s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sctp/outqueue.c.xml
+    output : /tmp/cwe190_findings_h2DOJ0
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.033s
+user	0m0.026s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/sctp/outqueue.c:1317:51 -- sctp_outq_sack() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_h2DOJ0
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sctp/outqueue.c.xml
+    output : /tmp/cwe190_findings_h2DOJ0
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.036s
+user	0m0.024s
+sys	0m0.006s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/sctp/outqueue.c:1317:59 -- sctp_outq_sack() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_h2DOJ0
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sctp/outqueue.c.xml
+    output : /tmp/cwe190_findings_h2DOJ0
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : sctp_outq_tail
+    position : 302:56
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/sctp/outqueue.c:302:56 -- sctp_outq_tail() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_h2DOJ0
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sctp/outqueue.c",
+  "line": 1317,
+  "col": 51,
+  "varname": "sctp_outq_sack",
+  "note": {
+    "line": 1317,
+    "col": 51,
+    "message": "multiplication in sctp_outq_sack() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sctp/outqueue.c",
+  "line": 1317,
+  "col": 59,
+  "varname": "sctp_outq_sack",
+  "note": {
+    "line": 1317,
+    "col": 59,
+    "message": "addition in sctp_outq_sack() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sctp/outqueue.c",
+  "line": 302,
+  "col": 56,
+  "varname": "sctp_outq_tail",
+  "note": {
+    "line": 302,
+    "col": 56,
+    "message": "increment (++) in sctp_outq_tail() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

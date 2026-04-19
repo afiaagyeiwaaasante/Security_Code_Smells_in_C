@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/rfcomm/core.c",
+  "line": 1434,
+  "col": 38,
+  "varname": "rfcomm_recv_pn",
+  "note": {
+    "line": 1434,
+    "col": 38,
+    "message": "multiplication in rfcomm_recv_pn() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/rfcomm/core.c",
+  "line": 947,
+  "col": 41,
+  "varname": "rfcomm_send_nsc",
+  "note": {
+    "line": 947,
+    "col": 41,
+    "message": "increment (++) in rfcomm_send_nsc() -- no upper-bound guard (INT_MAX check)"
+  }
+}

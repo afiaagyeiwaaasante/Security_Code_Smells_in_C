@@ -1,0 +1,123 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/cmtp/core.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/bluetooth__cmtp__core.c/core_report_20260417_173522.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/bluetooth__cmtp__core.c/core_findings_20260417_173522.json
+ Date    : Fri Apr 17 17:35:22 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.021s
+user	0m0.018s
+sys	0m0.003s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/cmtp/core.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/cmtp/core.c.json
+
+real	0m0.179s
+user	0m0.044s
+sys	0m0.003s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.201s
+user	0m0.195s
+sys	0m0.004s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/cmtp/core.c.xml
+    output : /tmp/cwe190_findings_62ak7x
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.015s
+user	0m0.010s
+sys	0m0.003s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/cmtp/core.c:224:46 -- cmtp_process_transmit() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_62ak7x
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/cmtp/core.c.xml
+    output : /tmp/cwe190_findings_62ak7x
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.013s
+user	0m0.009s
+sys	0m0.003s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_62ak7x
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/cmtp/core.c.xml
+    output : /tmp/cwe190_findings_62ak7x
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : cmtp_alloc_block_id
+    position : 93:30
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/cmtp/core.c:93:30 -- cmtp_alloc_block_id() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_62ak7x
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/cmtp/core.c",
+  "line": 224,
+  "col": 46,
+  "varname": "cmtp_process_transmit",
+  "note": {
+    "line": 224,
+    "col": 46,
+    "message": "multiplication in cmtp_process_transmit() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/cmtp/core.c",
+  "line": 93,
+  "col": 30,
+  "varname": "cmtp_alloc_block_id",
+  "note": {
+    "line": 93,
+    "col": 30,
+    "message": "increment (++) in cmtp_alloc_block_id() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

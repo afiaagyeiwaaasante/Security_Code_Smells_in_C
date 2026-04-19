@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/rx.c",
+  "line": 986,
+  "col": 59,
+  "varname": "ieee80211_parse_qos",
+  "note": {
+    "line": 986,
+    "col": 59,
+    "message": "multiplication in ieee80211_parse_qos() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/rx.c",
+  "line": 4426,
+  "col": 53,
+  "varname": "ieee80211_mark_rx_ba_filtered_frames",
+  "note": {
+    "line": 4426,
+    "col": 53,
+    "message": "addition in ieee80211_mark_rx_ba_filtered_frames() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/rx.c",
+  "line": 251,
+  "col": 48,
+  "varname": "__ieee80211_queue_skb_to_iface",
+  "note": {
+    "line": 251,
+    "col": 48,
+    "message": "increment (++) in __ieee80211_queue_skb_to_iface() -- no upper-bound guard (INT_MAX check)"
+  }
+}

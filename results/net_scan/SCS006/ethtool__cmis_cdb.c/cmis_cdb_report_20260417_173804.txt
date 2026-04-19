@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ethtool/cmis_cdb.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ethtool__cmis_cdb.c/cmis_cdb_report_20260417_173804.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ethtool__cmis_cdb.c/cmis_cdb_findings_20260417_173804.json
+ Date    : Fri Apr 17 17:38:04 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.031s
+user	0m0.026s
+sys	0m0.003s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ethtool/cmis_cdb.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ethtool/cmis_cdb.c.json
+
+real	0m0.185s
+user	0m0.064s
+sys	0m0.004s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.740s
+user	0m0.709s
+sys	0m0.016s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ethtool/cmis_cdb.c.xml
+    output : /tmp/cwe190_findings_FYmN6c
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.019s
+user	0m0.013s
+sys	0m0.004s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ethtool/cmis_cdb.c:599:37 -- cmis_cdb_calc_checksum() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_FYmN6c
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ethtool/cmis_cdb.c.xml
+    output : /tmp/cwe190_findings_FYmN6c
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.017s
+user	0m0.012s
+sys	0m0.004s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ethtool/cmis_cdb.c:493:44 -- cmis_cdb_process_reply() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_FYmN6c
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ethtool/cmis_cdb.c.xml
+    output : /tmp/cwe190_findings_FYmN6c
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : ethtool_cmis_cdb_execute_epl_cmd
+    position : 570:76
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ethtool/cmis_cdb.c:570:76 -- ethtool_cmis_cdb_execute_epl_cmd() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_FYmN6c
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ethtool/cmis_cdb.c",
+  "line": 599,
+  "col": 37,
+  "varname": "cmis_cdb_calc_checksum",
+  "note": {
+    "line": 599,
+    "col": 37,
+    "message": "multiplication in cmis_cdb_calc_checksum() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ethtool/cmis_cdb.c",
+  "line": 493,
+  "col": 44,
+  "varname": "cmis_cdb_process_reply",
+  "note": {
+    "line": 493,
+    "col": 44,
+    "message": "addition in cmis_cdb_process_reply() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ethtool/cmis_cdb.c",
+  "line": 570,
+  "col": 76,
+  "varname": "ethtool_cmis_cdb_execute_epl_cmd",
+  "note": {
+    "line": 570,
+    "col": 76,
+    "message": "increment (++) in ethtool_cmis_cdb_execute_epl_cmd() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

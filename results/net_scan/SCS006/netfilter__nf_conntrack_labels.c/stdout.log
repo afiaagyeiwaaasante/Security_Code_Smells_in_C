@@ -1,0 +1,104 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_labels.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/netfilter__nf_conntrack_labels.c/nf_conntrack_labels_report_20260417_174227.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/netfilter__nf_conntrack_labels.c/nf_conntrack_labels_findings_20260417_174227.json
+ Date    : Fri Apr 17 17:42:27 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.016s
+user	0m0.010s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_labels.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_labels.c.json
+
+real	0m0.238s
+user	0m0.028s
+sys	0m0.005s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.037s
+user	0m0.025s
+sys	0m0.004s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_labels.c.xml
+    output : /tmp/cwe190_findings_kpwxcL
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.013s
+user	0m0.007s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_kpwxcL
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_labels.c.xml
+    output : /tmp/cwe190_findings_kpwxcL
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.017s
+user	0m0.007s
+sys	0m0.003s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_kpwxcL
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_labels.c.xml
+    output : /tmp/cwe190_findings_kpwxcL
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : nf_connlabels_replace
+    position : 46:35
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_labels.c:46:35 -- nf_connlabels_replace() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_kpwxcL
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_labels.c",
+  "line": 46,
+  "col": 35,
+  "varname": "nf_connlabels_replace",
+  "note": {
+    "line": 46,
+    "col": 35,
+    "message": "increment (++) in nf_connlabels_replace() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_increment       1
+========================================

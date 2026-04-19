@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/l3mdev/l3mdev.c",
+  "line": 121,
+  "col": 62,
+  "varname": "l3mdev_master_ifindex_rcu",
+  "note": {
+    "line": 121,
+    "col": 62,
+    "message": "multiplication in l3mdev_master_ifindex_rcu() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/input_rack.c",
+  "line": 67,
+  "col": 37,
+  "varname": "rxrpc_rack_update",
+  "note": {
+    "line": 67,
+    "col": 37,
+    "message": "addition in rxrpc_rack_update() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/input_rack.c",
+  "line": 30,
+  "col": 33,
+  "varname": "rxrpc_rack_mark_lost",
+  "note": {
+    "line": 30,
+    "col": 33,
+    "message": "increment (++) in rxrpc_rack_mark_lost() -- no upper-bound guard (INT_MAX check)"
+  }
+}

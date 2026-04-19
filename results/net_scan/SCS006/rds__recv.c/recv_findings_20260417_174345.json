@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rds/recv.c",
+  "line": 144,
+  "col": 61,
+  "varname": "rds_conn_peer_gen_update",
+  "note": {
+    "line": 144,
+    "col": 61,
+    "message": "increment (++) in rds_conn_peer_gen_update() -- no upper-bound guard (INT_MAX check)"
+  }
+}

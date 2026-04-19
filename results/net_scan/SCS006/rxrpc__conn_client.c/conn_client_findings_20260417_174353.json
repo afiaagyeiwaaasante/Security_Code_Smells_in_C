@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/conn_client.c",
+  "line": 342,
+  "col": 35,
+  "varname": "rxrpc_add_conn_to_bundle",
+  "note": {
+    "line": 342,
+    "col": 35,
+    "message": "multiplication in rxrpc_add_conn_to_bundle() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/conn_client.c",
+  "line": 419,
+  "col": 42,
+  "varname": "rxrpc_activate_one_channel",
+  "note": {
+    "line": 419,
+    "col": 42,
+    "message": "addition in rxrpc_activate_one_channel() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/conn_client.c",
+  "line": 363,
+  "col": 42,
+  "varname": "rxrpc_add_conn_to_bundle",
+  "note": {
+    "line": 363,
+    "col": 42,
+    "message": "increment (++) in rxrpc_add_conn_to_bundle() -- no upper-bound guard (INT_MAX check)"
+  }
+}

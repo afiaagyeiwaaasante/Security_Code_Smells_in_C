@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/wireless/tests/scan.c",
+  "line": 816,
+  "col": 9,
+  "varname": "test_cfg80211_parse_colocated_ap",
+  "note": {
+    "line": 816,
+    "col": 9,
+    "message": "memcpy() in test_cfg80211_parse_colocated_ap() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

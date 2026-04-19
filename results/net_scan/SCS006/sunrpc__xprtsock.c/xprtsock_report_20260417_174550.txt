@@ -1,0 +1,123 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/xprtsock.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/sunrpc__xprtsock.c/xprtsock_report_20260417_174550.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/sunrpc__xprtsock.c/xprtsock_findings_20260417_174550.json
+ Date    : Fri Apr 17 17:45:50 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.202s
+user	0m0.190s
+sys	0m0.008s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/xprtsock.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/xprtsock.c.json
+
+real	0m0.478s
+user	0m0.360s
+sys	0m0.009s
+
+=== Stage 3: srcattributor ===
+
+real	0m23.798s
+user	0m22.991s
+sys	0m0.229s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/xprtsock.c.xml
+    output : /tmp/cwe190_findings_QAQPtd
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.064s
+user	0m0.055s
+sys	0m0.008s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/xprtsock.c:207:23 -- xs_pktdump() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_QAQPtd
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/xprtsock.c.xml
+    output : /tmp/cwe190_findings_QAQPtd
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.119s
+user	0m0.054s
+sys	0m0.009s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_QAQPtd
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/xprtsock.c.xml
+    output : /tmp/cwe190_findings_QAQPtd
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : xs_free_peer_addresses
+    position : 329:43
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/xprtsock.c:329:43 -- xs_free_peer_addresses() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_QAQPtd
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/xprtsock.c",
+  "line": 207,
+  "col": 23,
+  "varname": "xs_pktdump",
+  "note": {
+    "line": 207,
+    "col": 23,
+    "message": "multiplication in xs_pktdump() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/xprtsock.c",
+  "line": 329,
+  "col": 43,
+  "varname": "xs_free_peer_addresses",
+  "note": {
+    "line": 329,
+    "col": 43,
+    "message": "increment (++) in xs_free_peer_addresses() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

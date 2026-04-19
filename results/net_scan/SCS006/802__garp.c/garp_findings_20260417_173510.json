@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/802/garp.c",
+  "line": 562,
+  "col": 49,
+  "varname": "garp_release_port",
+  "note": {
+    "line": 562,
+    "col": 49,
+    "message": "increment (++) in garp_release_port() -- no upper-bound guard (INT_MAX check)"
+  }
+}

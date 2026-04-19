@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_ct.c",
+  "line": 929,
+  "col": 46,
+  "varname": "nft_ct_timeout_obj_eval",
+  "note": {
+    "line": 929,
+    "col": 46,
+    "message": "multiplication in nft_ct_timeout_obj_eval() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_ct.c",
+  "line": 594,
+  "col": 44,
+  "varname": "nft_ct_set_init",
+  "note": {
+    "line": 594,
+    "col": 44,
+    "message": "increment (++) in nft_ct_set_init() -- no upper-bound guard (INT_MAX check)"
+  }
+}

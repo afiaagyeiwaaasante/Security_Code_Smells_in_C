@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/net-sysfs.c",
+  "line": 1234,
+  "col": 50,
+  "varname": "rx_queue_add_kobject",
+  "note": {
+    "line": 1234,
+    "col": 50,
+    "message": "addition in rx_queue_add_kobject() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/net-sysfs.c",
+  "line": 971,
+  "col": 44,
+  "varname": "show_rps_map",
+  "note": {
+    "line": 971,
+    "col": 44,
+    "message": "increment (++) in show_rps_map() -- no upper-bound guard (INT_MAX check)"
+  }
+}

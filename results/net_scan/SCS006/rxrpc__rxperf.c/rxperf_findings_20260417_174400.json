@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/rxperf.c",
+  "line": 119,
+  "col": 56,
+  "varname": "rxperf_notify_rx",
+  "note": {
+    "line": 119,
+    "col": 56,
+    "message": "multiplication in rxperf_notify_rx() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/rxperf.c",
+  "line": 450,
+  "col": 32,
+  "varname": "rxperf_deliver_request",
+  "note": {
+    "line": 450,
+    "col": 32,
+    "message": "increment (++) in rxperf_deliver_request() -- no upper-bound guard (INT_MAX check)"
+  }
+}

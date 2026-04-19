@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/scm.c",
+  "line": 205,
+  "col": 25,
+  "varname": "__scm_send",
+  "note": {
+    "line": 205,
+    "col": 25,
+    "message": "memcpy() in __scm_send() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

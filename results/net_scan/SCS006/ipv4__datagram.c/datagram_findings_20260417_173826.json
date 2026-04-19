@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/datagram.c",
+  "line": 22,
+  "col": 56,
+  "varname": "__ip4_datagram_connect",
+  "note": {
+    "line": 22,
+    "col": 56,
+    "message": "multiplication in __ip4_datagram_connect() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}

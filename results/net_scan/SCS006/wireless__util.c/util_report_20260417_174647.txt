@@ -1,0 +1,144 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/wireless/util.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/wireless__util.c/util_report_20260417_174647.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/wireless__util.c/util_findings_20260417_174647.json
+ Date    : Fri Apr 17 17:46:47 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.159s
+user	0m0.148s
+sys	0m0.007s
+
+=== Stage 2: srcslice ===
+HERE: /Users/afiaasante/Security-Code-Smells/tools/srcslice/srcDispatch/src/policy_classes/DeclPolicy.hpp operator() 273
+HERE: /Users/afiaasante/Security-Code-Smells/tools/srcslice/srcDispatch/src/policy_classes/DeclPolicy.hpp operator() 273
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/wireless/util.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/wireless/util.c.json
+
+real	0m0.425s
+user	0m0.296s
+sys	0m0.009s
+
+=== Stage 3: srcattributor ===
+
+real	0m17.482s
+user	0m16.603s
+sys	0m0.169s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/wireless/util.c.xml
+    output : /tmp/cwe190_findings_dG8sAQ
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.058s
+user	0m0.049s
+sys	0m0.007s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/wireless/util.c:479:53 -- ieee80211_get_hdrlen_from_skb() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_dG8sAQ
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/wireless/util.c.xml
+    output : /tmp/cwe190_findings_dG8sAQ
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.057s
+user	0m0.046s
+sys	0m0.007s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/wireless/util.c:514:39 -- ieee80211_get_8023_tunnel_proto() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_dG8sAQ
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/wireless/util.c.xml
+    output : /tmp/cwe190_findings_dG8sAQ
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : ieee80211_get_response_rate
+    position : 34:45
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/wireless/util.c:34:45 -- ieee80211_get_response_rate() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_dG8sAQ
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/wireless/util.c",
+  "line": 479,
+  "col": 53,
+  "varname": "ieee80211_get_hdrlen_from_skb",
+  "note": {
+    "line": 479,
+    "col": 53,
+    "message": "multiplication in ieee80211_get_hdrlen_from_skb() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/wireless/util.c",
+  "line": 514,
+  "col": 39,
+  "varname": "ieee80211_get_8023_tunnel_proto",
+  "note": {
+    "line": 514,
+    "col": 39,
+    "message": "addition in ieee80211_get_8023_tunnel_proto() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/wireless/util.c",
+  "line": 34,
+  "col": 45,
+  "varname": "ieee80211_get_response_rate",
+  "note": {
+    "line": 34,
+    "col": 45,
+    "message": "increment (++) in ieee80211_get_response_rate() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

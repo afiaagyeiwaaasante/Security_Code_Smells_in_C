@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/cls_matchall.c",
+  "line": 272,
+  "col": 19,
+  "varname": "mall_walk",
+  "note": {
+    "line": 272,
+    "col": 19,
+    "message": "increment (++) in mall_walk() -- no upper-bound guard (INT_MAX check)"
+  }
+}

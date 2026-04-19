@@ -1,0 +1,123 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/hci_event.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/bluetooth__hci_event.c/hci_event_report_20260417_173523.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/bluetooth__hci_event.c/hci_event_findings_20260417_173523.json
+ Date    : Fri Apr 17 17:35:23 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.190s
+user	0m0.181s
+sys	0m0.006s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/hci_event.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/hci_event.c.json
+
+real	0m0.652s
+user	0m0.485s
+sys	0m0.012s
+
+=== Stage 3: srcattributor ===
+
+real	1m16.112s
+user	1m9.968s
+sys	0m0.887s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/hci_event.c.xml
+    output : /tmp/cwe190_findings_RML4Qp
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.105s
+user	0m0.088s
+sys	0m0.011s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/hci_event.c:403:30 -- hci_cc_write_auth_enable() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_RML4Qp
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/hci_event.c.xml
+    output : /tmp/cwe190_findings_RML4Qp
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.087s
+user	0m0.075s
+sys	0m0.008s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_RML4Qp
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/hci_event.c.xml
+    output : /tmp/cwe190_findings_RML4Qp
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : hci_inquiry_result_evt
+    position : 3057:35
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/hci_event.c:3057:35 -- hci_inquiry_result_evt() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_RML4Qp
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/hci_event.c",
+  "line": 403,
+  "col": 30,
+  "varname": "hci_cc_write_auth_enable",
+  "note": {
+    "line": 403,
+    "col": 30,
+    "message": "multiplication in hci_cc_write_auth_enable() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/hci_event.c",
+  "line": 3057,
+  "col": 35,
+  "varname": "hci_inquiry_result_evt",
+  "note": {
+    "line": 3057,
+    "col": 35,
+    "message": "increment (++) in hci_inquiry_result_evt() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

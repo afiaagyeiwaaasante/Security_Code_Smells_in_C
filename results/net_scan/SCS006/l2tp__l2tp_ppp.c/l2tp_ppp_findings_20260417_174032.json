@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/l2tp/l2tp_ppp.c",
+  "line": 331,
+  "col": 40,
+  "varname": "pppol2tp_xmit",
+  "note": {
+    "line": 331,
+    "col": 40,
+    "message": "multiplication in pppol2tp_xmit() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/l2tp/l2tp_ppp.c",
+  "line": 1405,
+  "col": 25,
+  "varname": "pppol2tp_next_tunnel",
+  "note": {
+    "line": 1405,
+    "col": 25,
+    "message": "increment (++) in pppol2tp_next_tunnel() -- no upper-bound guard (INT_MAX check)"
+  }
+}

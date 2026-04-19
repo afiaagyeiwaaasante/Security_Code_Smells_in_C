@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/tipc/name_distr.c",
+  "line": 157,
+  "col": 36,
+  "varname": "named_distribute",
+  "note": {
+    "line": 157,
+    "col": 36,
+    "message": "multiplication in named_distribute() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/tipc/name_distr.c",
+  "line": 106,
+  "col": 54,
+  "varname": "tipc_named_publish",
+  "note": {
+    "line": 106,
+    "col": 54,
+    "message": "increment (++) in tipc_named_publish() -- no upper-bound guard (INT_MAX check)"
+  }
+}

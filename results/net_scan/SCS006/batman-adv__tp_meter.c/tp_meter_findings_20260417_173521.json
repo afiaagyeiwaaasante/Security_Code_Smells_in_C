@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/tp_meter.c",
+  "line": 122,
+  "col": 29,
+  "varname": "batadv_tp_cwnd",
+  "note": {
+    "line": 122,
+    "col": 29,
+    "message": "addition in batadv_tp_cwnd() -- no upper-bound guard before adding"
+  }
+}

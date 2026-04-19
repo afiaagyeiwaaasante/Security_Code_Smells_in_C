@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/xfrm/xfrm_iptfs.c",
+  "line": 300,
+  "col": 46,
+  "varname": "iptfs_skb_head_to_frag",
+  "note": {
+    "line": 300,
+    "col": 46,
+    "message": "multiplication in iptfs_skb_head_to_frag() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/xfrm/xfrm_iptfs.c",
+  "line": 1475,
+  "col": 55,
+  "varname": "__reorder_future_shifts",
+  "note": {
+    "line": 1475,
+    "col": 55,
+    "message": "addition in __reorder_future_shifts() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/xfrm/xfrm_iptfs.c",
+  "line": 352,
+  "col": 59,
+  "varname": "iptfs_skb_prepare_frag_walk",
+  "note": {
+    "line": 352,
+    "col": 59,
+    "message": "increment (++) in iptfs_skb_prepare_frag_walk() -- no upper-bound guard (INT_MAX check)"
+  }
+}

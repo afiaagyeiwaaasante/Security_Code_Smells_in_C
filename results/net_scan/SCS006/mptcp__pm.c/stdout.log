@@ -1,0 +1,123 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/mptcp/pm.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/mptcp__pm.c/pm_report_20260417_174147.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/mptcp__pm.c/pm_findings_20260417_174147.json
+ Date    : Fri Apr 17 17:41:47 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.068s
+user	0m0.063s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/mptcp/pm.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/mptcp/pm.c.json
+
+real	0m0.245s
+user	0m0.132s
+sys	0m0.005s
+
+=== Stage 3: srcattributor ===
+
+real	0m2.391s
+user	0m2.297s
+sys	0m0.018s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mptcp/pm.c.xml
+    output : /tmp/cwe190_findings_N9IjLK
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.031s
+user	0m0.025s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/mptcp/pm.c:329:40 -- mptcp_pm_add_timer() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_N9IjLK
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mptcp/pm.c.xml
+    output : /tmp/cwe190_findings_N9IjLK
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.029s
+user	0m0.024s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_N9IjLK
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mptcp/pm.c.xml
+    output : /tmp/cwe190_findings_N9IjLK
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : subflow_in_rm_list
+    position : 220:39
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/mptcp/pm.c:220:39 -- subflow_in_rm_list() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_N9IjLK
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mptcp/pm.c",
+  "line": 329,
+  "col": 40,
+  "varname": "mptcp_pm_add_timer",
+  "note": {
+    "line": 329,
+    "col": 40,
+    "message": "multiplication in mptcp_pm_add_timer() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mptcp/pm.c",
+  "line": 220,
+  "col": 39,
+  "varname": "subflow_in_rm_list",
+  "note": {
+    "line": 220,
+    "col": 39,
+    "message": "increment (++) in subflow_in_rm_list() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

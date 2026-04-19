@@ -1,0 +1,93 @@
+========================================
+ CWE-195 Signed-to-Unsigned Conversion Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/phonet/pep.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS007/phonet__pep.c/pep_report_20260417_180402.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS007/phonet__pep.c/pep_findings_20260417_180402.json
+ Date    : Fri Apr 17 18:04:02 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.171s
+user	0m0.096s
+sys	0m0.009s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/phonet/pep.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/phonet/pep.c.json
+
+real	0m0.323s
+user	0m0.188s
+sys	0m0.009s
+
+=== Stage 3: srcattributor ===
+
+real	0m5.461s
+user	0m4.916s
+sys	0m0.071s
+
+=== Detector 1: signed_malloc ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/phonet/pep.c.xml
+    output : /tmp/cwe195_findings_I1UEjs
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS malloc($A)
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.041s
+user	0m0.029s
+sys	0m0.006s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor malloc found
+
+[ signed_malloc ] 0 finding(s) written to /tmp/cwe195_findings_I1UEjs
+=== Detector 2: signed_memcpy ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/phonet/pep.c.xml
+    output : /tmp/cwe195_findings_I1UEjs
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS memcpy($A, $B, $C)
+
+real	0m0.040s
+user	0m0.030s
+sys	0m0.006s
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS memmove($A, $B, $C)
+
+real	0m0.044s
+user	0m0.029s
+sys	0m0.007s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor memcpy/memmove found
+
+[ signed_memcpy ] 0 finding(s) written to /tmp/cwe195_findings_I1UEjs
+=== Detector 3: signed_strncpy ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/phonet/pep.c.xml
+    output : /tmp/cwe195_findings_I1UEjs
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS strncpy($A, $B, $C)
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.040s
+user	0m0.030s
+sys	0m0.006s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor strncpy found
+
+[ signed_strncpy ] 0 finding(s) written to /tmp/cwe195_findings_I1UEjs
+========================================
+ Findings JSON
+========================================
+
+========================================
+ Summary
+ Total findings : 0
+ Errors         : 0
+ Warnings       : 0
+========================================

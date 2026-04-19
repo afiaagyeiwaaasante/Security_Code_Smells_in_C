@@ -1,0 +1,104 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/bat_v.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/batman-adv__bat_v.c/bat_v_report_20260417_173517.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/batman-adv__bat_v.c/bat_v_findings_20260417_173517.json
+ Date    : Fri Apr 17 17:35:17 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.024s
+user	0m0.020s
+sys	0m0.003s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/bat_v.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/bat_v.c.json
+
+real	0m0.171s
+user	0m0.036s
+sys	0m0.003s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.395s
+user	0m0.364s
+sys	0m0.006s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/bat_v.c.xml
+    output : /tmp/cwe190_findings_hgqAAE
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.019s
+user	0m0.013s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_hgqAAE
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/bat_v.c.xml
+    output : /tmp/cwe190_findings_hgqAAE
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.013s
+user	0m0.009s
+sys	0m0.003s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_hgqAAE
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/bat_v.c.xml
+    output : /tmp/cwe190_findings_hgqAAE
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : batadv_v_neigh_dump_hardif
+    position : 188:24
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/bat_v.c:188:24 -- batadv_v_neigh_dump_hardif() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_hgqAAE
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/bat_v.c",
+  "line": 188,
+  "col": 24,
+  "varname": "batadv_v_neigh_dump_hardif",
+  "note": {
+    "line": 188,
+    "col": 24,
+    "message": "increment (++) in batadv_v_neigh_dump_hardif() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_increment       1
+========================================

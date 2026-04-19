@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ax25/af_ax25.c",
+  "line": 1485,
+  "col": 25,
+  "varname": "ax25_getname",
+  "note": {
+    "line": 1485,
+    "col": 25,
+    "message": "memcpy() in ax25_getname() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

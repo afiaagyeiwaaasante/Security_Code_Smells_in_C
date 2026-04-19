@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_dynset.c",
+  "line": 40,
+  "col": 43,
+  "varname": "nft_dynset_expr_setup",
+  "note": {
+    "line": 40,
+    "col": 43,
+    "message": "increment (++) in nft_dynset_expr_setup() -- no upper-bound guard (INT_MAX check)"
+  }
+}

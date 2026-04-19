@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rds/info.c",
+  "line": 140,
+  "col": 36,
+  "varname": "rds_info_copy",
+  "note": {
+    "line": 140,
+    "col": 36,
+    "message": "increment (++) in rds_info_copy() -- no upper-bound guard (INT_MAX check)"
+  }
+}

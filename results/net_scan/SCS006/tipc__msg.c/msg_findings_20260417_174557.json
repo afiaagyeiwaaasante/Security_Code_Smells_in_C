@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/tipc/msg.c",
+  "line": 377,
+  "col": 24,
+  "varname": "tipc_msg_build",
+  "note": {
+    "line": 377,
+    "col": 24,
+    "message": "addition in tipc_msg_build() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/tipc/msg.c",
+  "line": 329,
+  "col": 51,
+  "varname": "tipc_msg_fragment",
+  "note": {
+    "line": 329,
+    "col": 51,
+    "message": "increment (++) in tipc_msg_fragment() -- no upper-bound guard (INT_MAX check)"
+  }
+}

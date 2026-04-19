@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/act_pedit.c",
+  "line": 97,
+  "col": 18,
+  "varname": "tcf_pedit_keys_ex_parse",
+  "note": {
+    "line": 97,
+    "col": 18,
+    "message": "increment (++) in tcf_pedit_keys_ex_parse() -- no upper-bound guard (INT_MAX check)"
+  }
+}

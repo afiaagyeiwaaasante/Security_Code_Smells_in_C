@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/bat_v_ogm.c",
+  "line": 87,
+  "col": 56,
+  "varname": "batadv_v_ogm_start_queue_timer",
+  "note": {
+    "line": 87,
+    "col": 56,
+    "message": "multiplication in batadv_v_ogm_start_queue_timer() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}

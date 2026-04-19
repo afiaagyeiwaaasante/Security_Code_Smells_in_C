@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/route.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv4__route.c/route_report_20260417_173858.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv4__route.c/route_findings_20260417_173858.json
+ Date    : Fri Apr 17 17:38:58 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.182s
+user	0m0.174s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/route.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/route.c.json
+
+real	0m0.430s
+user	0m0.358s
+sys	0m0.010s
+
+=== Stage 3: srcattributor ===
+
+real	0m24.294s
+user	0m23.848s
+sys	0m0.147s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/route.c.xml
+    output : /tmp/cwe190_findings_xIyT6x
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.062s
+user	0m0.053s
+sys	0m0.007s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/route.c:816:63 -- __ip_do_redirect() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_xIyT6x
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/route.c.xml
+    output : /tmp/cwe190_findings_xIyT6x
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.064s
+user	0m0.055s
+sys	0m0.007s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/route.c:697:52 -- update_or_create_fnhe() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_xIyT6x
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/route.c.xml
+    output : /tmp/cwe190_findings_xIyT6x
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : rt_cache_seq_next
+    position : 209:9
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/route.c:209:9 -- rt_cache_seq_next() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_xIyT6x
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/route.c",
+  "line": 816,
+  "col": 63,
+  "varname": "__ip_do_redirect",
+  "note": {
+    "line": 816,
+    "col": 63,
+    "message": "multiplication in __ip_do_redirect() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/route.c",
+  "line": 697,
+  "col": 52,
+  "varname": "update_or_create_fnhe",
+  "note": {
+    "line": 697,
+    "col": 52,
+    "message": "addition in update_or_create_fnhe() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/route.c",
+  "line": 209,
+  "col": 9,
+  "varname": "rt_cache_seq_next",
+  "note": {
+    "line": 209,
+    "col": 9,
+    "message": "increment (++) in rt_cache_seq_next() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

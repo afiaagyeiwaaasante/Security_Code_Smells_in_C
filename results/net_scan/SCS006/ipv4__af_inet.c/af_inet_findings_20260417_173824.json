@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/af_inet.c",
+  "line": 482,
+  "col": 56,
+  "varname": "__inet_bind",
+  "note": {
+    "line": 482,
+    "col": 56,
+    "message": "multiplication in __inet_bind() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/af_inet.c",
+  "line": 1602,
+  "col": 56,
+  "varname": "inet_gro_complete",
+  "note": {
+    "line": 1602,
+    "col": 56,
+    "message": "addition in inet_gro_complete() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/af_inet.c",
+  "line": 306,
+  "col": 29,
+  "varname": "inet_create",
+  "note": {
+    "line": 306,
+    "col": 29,
+    "message": "increment (++) in inet_create() -- no upper-bound guard (INT_MAX check)"
+  }
+}

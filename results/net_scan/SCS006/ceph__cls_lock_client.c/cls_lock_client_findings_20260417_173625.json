@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ceph/cls_lock_client.c",
+  "line": 245,
+  "col": 39,
+  "varname": "ceph_free_lockers",
+  "note": {
+    "line": 245,
+    "col": 39,
+    "message": "increment (++) in ceph_free_lockers() -- no upper-bound guard (INT_MAX check)"
+  }
+}

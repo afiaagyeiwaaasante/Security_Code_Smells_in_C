@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/gss_rpc_upcall.c",
+  "line": 206,
+  "col": 56,
+  "varname": "gssp_free_receive_pages",
+  "note": {
+    "line": 206,
+    "col": 56,
+    "message": "increment (++) in gssp_free_receive_pages() -- no upper-bound guard (INT_MAX check)"
+  }
+}

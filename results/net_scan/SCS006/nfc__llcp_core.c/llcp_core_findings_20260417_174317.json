@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/nfc/llcp_core.c",
+  "line": 1549,
+  "col": 63,
+  "varname": "nfc_llcp_recv",
+  "note": {
+    "line": 1549,
+    "col": 63,
+    "message": "multiplication in nfc_llcp_recv() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/nfc/llcp_core.c",
+  "line": 351,
+  "col": 41,
+  "varname": "nfc_llcp_wks_sap",
+  "note": {
+    "line": 351,
+    "col": 41,
+    "message": "increment (++) in nfc_llcp_wks_sap() -- no upper-bound guard (INT_MAX check)"
+  }
+}

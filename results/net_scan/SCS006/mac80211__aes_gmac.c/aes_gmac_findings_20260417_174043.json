@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/aes_gmac.c",
+  "line": 23,
+  "col": 41,
+  "varname": "ieee80211_aes_gmac",
+  "note": {
+    "line": 23,
+    "col": 41,
+    "message": "addition in ieee80211_aes_gmac() -- no upper-bound guard before adding"
+  }
+}

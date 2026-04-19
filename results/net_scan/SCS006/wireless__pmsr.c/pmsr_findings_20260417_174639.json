@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/wireless/pmsr.c",
+  "line": 306,
+  "col": 22,
+  "varname": "nl80211_pmsr_start",
+  "note": {
+    "line": 306,
+    "col": 22,
+    "message": "increment (++) in nl80211_pmsr_start() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_multicast.c",
+  "line": 956,
+  "col": 50,
+  "varname": "br_ip4_multicast_alloc_query",
+  "note": {
+    "line": 956,
+    "col": 50,
+    "message": "increment (++) in br_ip4_multicast_alloc_query() -- no upper-bound guard (INT_MAX check)"
+  }
+}

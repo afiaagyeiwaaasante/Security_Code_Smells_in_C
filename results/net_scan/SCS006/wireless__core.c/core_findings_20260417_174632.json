@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/wireless/core.c",
+  "line": 112,
+  "col": 31,
+  "varname": "cfg80211_dev_check_name",
+  "note": {
+    "line": 112,
+    "col": 31,
+    "message": "increment (++) in cfg80211_dev_check_name() -- no upper-bound guard (INT_MAX check)"
+  }
+}

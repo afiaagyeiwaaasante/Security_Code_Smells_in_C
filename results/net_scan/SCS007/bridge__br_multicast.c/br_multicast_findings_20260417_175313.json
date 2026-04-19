@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_multicast.c",
+  "line": 1446,
+  "col": 17,
+  "varname": "br_multicast_new_port_group",
+  "note": {
+    "line": 1446,
+    "col": 17,
+    "message": "memcpy() in br_multicast_new_port_group() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/arp.c",
+  "line": 339,
+  "col": 25,
+  "varname": "arp_solicit",
+  "note": {
+    "line": 339,
+    "col": 25,
+    "message": "multiplication in arp_solicit() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/arp.c",
+  "line": 1392,
+  "col": 38,
+  "varname": "ax2asc2",
+  "note": {
+    "line": 1392,
+    "col": 38,
+    "message": "increment (++) in ax2asc2() -- no upper-bound guard (INT_MAX check)"
+  }
+}

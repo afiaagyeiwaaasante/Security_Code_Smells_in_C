@@ -1,0 +1,123 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/tipc/link.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/tipc__link.c/link_report_20260417_174555.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/tipc__link.c/link_findings_20260417_174555.json
+ Date    : Fri Apr 17 17:45:55 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.171s
+user	0m0.159s
+sys	0m0.006s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/tipc/link.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/tipc/link.c.json
+
+real	0m0.433s
+user	0m0.344s
+sys	0m0.010s
+
+=== Stage 3: srcattributor ===
+
+real	0m22.524s
+user	0m21.746s
+sys	0m0.209s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/tipc/link.c.xml
+    output : /tmp/cwe190_findings_jLmWOF
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.060s
+user	0m0.049s
+sys	0m0.006s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_jLmWOF
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/tipc/link.c.xml
+    output : /tmp/cwe190_findings_jLmWOF
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.058s
+user	0m0.048s
+sys	0m0.007s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/tipc/link.c:2502:26 -- tipc_link_bc_nack_rcv() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_jLmWOF
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/tipc/link.c.xml
+    output : /tmp/cwe190_findings_jLmWOF
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : tipc_link_add_bc_peer
+    position : 369:22
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/tipc/link.c:369:22 -- tipc_link_add_bc_peer() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_jLmWOF
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/tipc/link.c",
+  "line": 2502,
+  "col": 26,
+  "varname": "tipc_link_bc_nack_rcv",
+  "note": {
+    "line": 2502,
+    "col": 26,
+    "message": "addition in tipc_link_bc_nack_rcv() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/tipc/link.c",
+  "line": 369,
+  "col": 22,
+  "varname": "tipc_link_add_bc_peer",
+  "note": {
+    "line": 369,
+    "col": 22,
+    "message": "increment (++) in tipc_link_add_bc_peer() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+========================================

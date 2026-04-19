@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/xfrm6_policy.c",
+  "line": 111,
+  "col": 50,
+  "varname": "xfrm6_update_pmtu",
+  "note": {
+    "line": 111,
+    "col": 50,
+    "message": "multiplication in xfrm6_update_pmtu() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}

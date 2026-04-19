@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_log.c",
+  "line": 33,
+  "col": 43,
+  "varname": "__find_logger",
+  "note": {
+    "line": 33,
+    "col": 43,
+    "message": "increment (++) in __find_logger() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,104 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/link.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/mac80211__link.c/link_report_20260417_174054.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/mac80211__link.c/link_findings_20260417_174054.json
+ Date    : Fri Apr 17 17:40:54 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.038s
+user	0m0.032s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/link.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/link.c.json
+
+real	0m0.195s
+user	0m0.079s
+sys	0m0.005s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.628s
+user	0m0.517s
+sys	0m0.010s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/link.c.xml
+    output : /tmp/cwe190_findings_PvUNqY
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.020s
+user	0m0.014s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_PvUNqY
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/link.c.xml
+    output : /tmp/cwe190_findings_PvUNqY
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.019s
+user	0m0.014s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_PvUNqY
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/link.c.xml
+    output : /tmp/cwe190_findings_PvUNqY
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : ieee80211_tear_down_links
+    position : 181:73
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/link.c:181:73 -- ieee80211_tear_down_links() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_PvUNqY
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/link.c",
+  "line": 181,
+  "col": 73,
+  "varname": "ieee80211_tear_down_links",
+  "note": {
+    "line": 181,
+    "col": 73,
+    "message": "increment (++) in ieee80211_tear_down_links() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_increment       1
+========================================

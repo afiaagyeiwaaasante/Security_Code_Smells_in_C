@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ieee802154/socket.c",
+  "line": 199,
+  "col": 73,
+  "varname": "raw_bind",
+  "note": {
+    "line": 199,
+    "col": 73,
+    "message": "multiplication in raw_bind() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}

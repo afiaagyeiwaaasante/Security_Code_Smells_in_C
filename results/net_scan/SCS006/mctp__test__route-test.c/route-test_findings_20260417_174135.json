@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mctp/test/route-test.c",
+  "line": 53,
+  "col": 23,
+  "varname": "mctp_test_fragment",
+  "note": {
+    "line": 53,
+    "col": 23,
+    "message": "increment (++) in mctp_test_fragment() -- no upper-bound guard (INT_MAX check)"
+  }
+}

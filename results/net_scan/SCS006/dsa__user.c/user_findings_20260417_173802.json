@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/dsa/user.c",
+  "line": 518,
+  "col": 50,
+  "varname": "dsa_user_port_fdb_do_dump",
+  "note": {
+    "line": 518,
+    "col": 50,
+    "message": "multiplication in dsa_user_port_fdb_do_dump() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/dsa/user.c",
+  "line": 550,
+  "col": 18,
+  "varname": "dsa_user_port_fdb_do_dump",
+  "note": {
+    "line": 550,
+    "col": 18,
+    "message": "increment (++) in dsa_user_port_fdb_do_dump() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/gss_krb5_seal.c",
+  "line": 124,
+  "col": 9,
+  "varname": "gss_krb5_get_mic_v2",
+  "note": {
+    "line": 124,
+    "col": 9,
+    "message": "memcpy() in gss_krb5_get_mic_v2() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

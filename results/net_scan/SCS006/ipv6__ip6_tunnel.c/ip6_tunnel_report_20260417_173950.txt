@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6_tunnel.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv6__ip6_tunnel.c/ip6_tunnel_report_20260417_173950.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv6__ip6_tunnel.c/ip6_tunnel_findings_20260417_173950.json
+ Date    : Fri Apr 17 17:39:50 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.133s
+user	0m0.117s
+sys	0m0.006s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6_tunnel.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6_tunnel.c.json
+
+real	0m0.375s
+user	0m0.245s
+sys	0m0.007s
+
+=== Stage 3: srcattributor ===
+
+real	0m10.421s
+user	0m10.206s
+sys	0m0.074s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6_tunnel.c.xml
+    output : /tmp/cwe190_findings_rGwza4
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.047s
+user	0m0.039s
+sys	0m0.006s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6_tunnel.c:399:61 -- ip6_tnl_parse_tlv_enc_lim() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_rGwza4
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6_tunnel.c.xml
+    output : /tmp/cwe190_findings_rGwza4
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.047s
+user	0m0.037s
+sys	0m0.006s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6_tunnel.c:401:34 -- ip6_tnl_parse_tlv_enc_lim() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_rGwza4
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6_tunnel.c.xml
+    output : /tmp/cwe190_findings_rGwza4
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : ip6_tnl_parse_tlv_enc_lim
+    position : 449:42
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6_tunnel.c:449:42 -- ip6_tnl_parse_tlv_enc_lim() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_rGwza4
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6_tunnel.c",
+  "line": 399,
+  "col": 61,
+  "varname": "ip6_tnl_parse_tlv_enc_lim",
+  "note": {
+    "line": 399,
+    "col": 61,
+    "message": "multiplication in ip6_tnl_parse_tlv_enc_lim() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6_tunnel.c",
+  "line": 401,
+  "col": 34,
+  "varname": "ip6_tnl_parse_tlv_enc_lim",
+  "note": {
+    "line": 401,
+    "col": 34,
+    "message": "addition in ip6_tnl_parse_tlv_enc_lim() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6_tunnel.c",
+  "line": 449,
+  "col": 42,
+  "varname": "ip6_tnl_parse_tlv_enc_lim",
+  "note": {
+    "line": 449,
+    "col": 42,
+    "message": "increment (++) in ip6_tnl_parse_tlv_enc_lim() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sctp/socket.c",
+  "line": 276,
+  "col": 51,
+  "varname": "sctp_addr_id2transport",
+  "note": {
+    "line": 276,
+    "col": 51,
+    "message": "multiplication in sctp_addr_id2transport() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sctp/socket.c",
+  "line": 518,
+  "col": 41,
+  "varname": "sctp_bindx_add",
+  "note": {
+    "line": 518,
+    "col": 41,
+    "message": "increment (++) in sctp_bindx_add() -- no upper-bound guard (INT_MAX check)"
+  }
+}

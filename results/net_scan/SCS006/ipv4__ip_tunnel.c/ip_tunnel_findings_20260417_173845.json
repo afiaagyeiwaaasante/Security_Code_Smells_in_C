@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ip_tunnel.c",
+  "line": 287,
+  "col": 35,
+  "varname": "ip_tunnel_bind_dev",
+  "note": {
+    "line": 287,
+    "col": 35,
+    "message": "addition in ip_tunnel_bind_dev() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ip_tunnel.c",
+  "line": 1130,
+  "col": 44,
+  "varname": "ip_tunnel_init_net",
+  "note": {
+    "line": 1130,
+    "col": 44,
+    "message": "increment (++) in ip_tunnel_init_net() -- no upper-bound guard (INT_MAX check)"
+  }
+}

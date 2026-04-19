@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/hci_sync.c",
+  "line": 937,
+  "col": 9,
+  "varname": "hci_update_eir_sync",
+  "note": {
+    "line": 937,
+    "col": 9,
+    "message": "memcpy() in hci_update_eir_sync() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

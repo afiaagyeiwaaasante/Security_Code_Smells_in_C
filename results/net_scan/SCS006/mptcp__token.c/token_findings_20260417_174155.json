@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mptcp/token.c",
+  "line": 195,
+  "col": 40,
+  "varname": "mptcp_token_accept",
+  "note": {
+    "line": 195,
+    "col": 40,
+    "message": "multiplication in mptcp_token_accept() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mptcp/token.c",
+  "line": 130,
+  "col": 26,
+  "varname": "mptcp_token_new_request",
+  "note": {
+    "line": 130,
+    "col": 26,
+    "message": "increment (++) in mptcp_token_new_request() -- no upper-bound guard (INT_MAX check)"
+  }
+}

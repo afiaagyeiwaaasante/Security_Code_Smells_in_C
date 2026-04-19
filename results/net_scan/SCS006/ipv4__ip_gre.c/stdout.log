@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ip_gre.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv4__ip_gre.c/ip_gre_report_20260417_173842.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv4__ip_gre.c/ip_gre_findings_20260417_173842.json
+ Date    : Fri Apr 17 17:38:42 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.119s
+user	0m0.081s
+sys	0m0.008s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ip_gre.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ip_gre.c.json
+
+real	0m0.304s
+user	0m0.168s
+sys	0m0.006s
+
+=== Stage 3: srcattributor ===
+
+real	0m4.559s
+user	0m4.345s
+sys	0m0.036s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ip_gre.c.xml
+    output : /tmp/cwe190_findings_jTwZkZ
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.035s
+user	0m0.028s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ip_gre.c:235:49 -- gre_err() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_jTwZkZ
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ip_gre.c.xml
+    output : /tmp/cwe190_findings_jTwZkZ
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.037s
+user	0m0.030s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ip_gre.c:666:45 -- ipgre_xmit() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_jTwZkZ
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ip_gre.c.xml
+    output : /tmp/cwe190_findings_jTwZkZ
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : ipgre_err
+    position : 211:29
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ip_gre.c:211:29 -- ipgre_err() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_jTwZkZ
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ip_gre.c",
+  "line": 235,
+  "col": 49,
+  "varname": "gre_err",
+  "note": {
+    "line": 235,
+    "col": 49,
+    "message": "multiplication in gre_err() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ip_gre.c",
+  "line": 666,
+  "col": 45,
+  "varname": "ipgre_xmit",
+  "note": {
+    "line": 666,
+    "col": 45,
+    "message": "addition in ipgre_xmit() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ip_gre.c",
+  "line": 211,
+  "col": 29,
+  "varname": "ipgre_err",
+  "note": {
+    "line": 211,
+    "col": 29,
+    "message": "increment (++) in ipgre_err() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

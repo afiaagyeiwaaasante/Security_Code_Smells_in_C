@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_set_rbtree.c",
+  "line": 211,
+  "col": 47,
+  "varname": "nft_rbtree_gc_elem",
+  "note": {
+    "line": 211,
+    "col": 47,
+    "message": "multiplication in nft_rbtree_gc_elem() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_set_rbtree.c",
+  "line": 860,
+  "col": 28,
+  "varname": "nft_rbtree_do_walk",
+  "note": {
+    "line": 860,
+    "col": 28,
+    "message": "increment (++) in nft_rbtree_do_walk() -- no upper-bound guard (INT_MAX check)"
+  }
+}

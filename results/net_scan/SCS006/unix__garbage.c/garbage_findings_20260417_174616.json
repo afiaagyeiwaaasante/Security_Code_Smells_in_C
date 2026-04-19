@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/unix/garbage.c",
+  "line": 249,
+  "col": 53,
+  "varname": "unix_del_edges",
+  "note": {
+    "line": 249,
+    "col": 53,
+    "message": "addition in unix_del_edges() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/unix/garbage.c",
+  "line": 161,
+  "col": 37,
+  "varname": "unix_add_edge",
+  "note": {
+    "line": 161,
+    "col": 37,
+    "message": "increment (++) in unix_add_edge() -- no upper-bound guard (INT_MAX check)"
+  }
+}

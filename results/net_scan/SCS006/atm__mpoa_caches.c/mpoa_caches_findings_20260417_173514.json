@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/atm/mpoa_caches.c",
+  "line": 138,
+  "col": 21,
+  "varname": "cache_hit",
+  "note": {
+    "line": 138,
+    "col": 21,
+    "message": "increment (++) in cache_hit() -- no upper-bound guard (INT_MAX check)"
+  }
+}

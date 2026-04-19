@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/devlink/resource.c",
+  "line": 375,
+  "col": 9,
+  "varname": "devl_resource_register",
+  "note": {
+    "line": 375,
+    "col": 9,
+    "message": "memcpy() in devl_resource_register() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ceph/mon_client.c",
+  "line": 336,
+  "col": 29,
+  "varname": "__send_subscribe",
+  "note": {
+    "line": 336,
+    "col": 29,
+    "message": "addition in __send_subscribe() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ceph/mon_client.c",
+  "line": 130,
+  "col": 35,
+  "varname": "ceph_monmap_decode",
+  "note": {
+    "line": 130,
+    "col": 35,
+    "message": "increment (++) in ceph_monmap_decode() -- no upper-bound guard (INT_MAX check)"
+  }
+}

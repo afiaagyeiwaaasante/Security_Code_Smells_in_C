@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/mcast_snoop.c",
+  "line": 18,
+  "col": 55,
+  "varname": "ipv6_mc_check_ip6hdr",
+  "note": {
+    "line": 18,
+    "col": 55,
+    "message": "addition in ipv6_mc_check_ip6hdr() -- no upper-bound guard before adding"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/dev_addr_lists.c",
+  "line": 111,
+  "col": 51,
+  "varname": "__hw_addr_add_ex",
+  "note": {
+    "line": 111,
+    "col": 51,
+    "message": "increment (++) in __hw_addr_add_ex() -- no upper-bound guard (INT_MAX check)"
+  }
+}

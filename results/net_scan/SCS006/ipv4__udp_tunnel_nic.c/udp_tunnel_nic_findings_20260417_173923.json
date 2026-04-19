@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/udp_tunnel_nic.c",
+  "line": 138,
+  "col": 41,
+  "varname": "udp_tunnel_nic_is_empty",
+  "note": {
+    "line": 138,
+    "col": 41,
+    "message": "increment (++) in udp_tunnel_nic_is_empty() -- no upper-bound guard (INT_MAX check)"
+  }
+}

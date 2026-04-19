@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ax25/ax25_route.c",
+  "line": 101,
+  "col": 69,
+  "varname": "ax25_rt_add",
+  "note": {
+    "line": 101,
+    "col": 69,
+    "message": "increment (++) in ax25_rt_add() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/llc/llc_c_ac.c",
+  "line": 316,
+  "col": 61,
+  "varname": "llc_conn_ac_resend_frmr_rsp_f_set_0",
+  "note": {
+    "line": 316,
+    "col": 61,
+    "message": "multiplication in llc_conn_ac_resend_frmr_rsp_f_set_0() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/llc/llc_c_ac.c",
+  "line": 1007,
+  "col": 17,
+  "varname": "llc_conn_ac_inc_npta_value",
+  "note": {
+    "line": 1007,
+    "col": 17,
+    "message": "increment (++) in llc_conn_ac_inc_npta_value() -- no upper-bound guard (INT_MAX check)"
+  }
+}

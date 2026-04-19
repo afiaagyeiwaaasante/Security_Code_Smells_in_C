@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_sane.c",
+  "line": 188,
+  "col": 30,
+  "varname": "nf_conntrack_sane_init",
+  "note": {
+    "line": 188,
+    "col": 30,
+    "message": "increment (++) in nf_conntrack_sane_init() -- no upper-bound guard (INT_MAX check)"
+  }
+}

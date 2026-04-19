@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/dsa/dsa.c",
+  "line": 68,
+  "col": 45,
+  "varname": "dsa_lag_map",
+  "note": {
+    "line": 68,
+    "col": 45,
+    "message": "increment (++) in dsa_lag_map() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/6lowpan/ndisc.c",
+  "line": 123,
+  "col": 25,
+  "varname": "lowpan_ndisc_opt_addr_space",
+  "note": {
+    "line": 123,
+    "col": 25,
+    "message": "memcpy() in lowpan_ndisc_opt_addr_space() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

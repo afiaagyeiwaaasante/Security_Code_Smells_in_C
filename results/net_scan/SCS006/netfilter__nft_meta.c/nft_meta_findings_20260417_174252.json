@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_meta.c",
+  "line": 786,
+  "col": 41,
+  "varname": "nft_meta_set_reduce",
+  "note": {
+    "line": 786,
+    "col": 41,
+    "message": "increment (++) in nft_meta_set_reduce() -- no upper-bound guard (INT_MAX check)"
+  }
+}

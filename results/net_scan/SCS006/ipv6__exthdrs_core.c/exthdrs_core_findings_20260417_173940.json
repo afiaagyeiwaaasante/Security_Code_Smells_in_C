@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/exthdrs_core.c",
+  "line": 191,
+  "col": 54,
+  "varname": "ipv6_find_hdr",
+  "note": {
+    "line": 191,
+    "col": 54,
+    "message": "addition in ipv6_find_hdr() -- no upper-bound guard before adding"
+  }
+}

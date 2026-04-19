@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/key.c",
+  "line": 100,
+  "col": 50,
+  "varname": "increment_tailroom_need_count",
+  "note": {
+    "line": 100,
+    "col": 50,
+    "message": "increment (++) in increment_tailroom_need_count() -- no upper-bound guard (INT_MAX check)"
+  }
+}

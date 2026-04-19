@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sctp/chunk.c",
+  "line": 320,
+  "col": 72,
+  "varname": "sctp_chunk_abandoned",
+  "note": {
+    "line": 320,
+    "col": 72,
+    "message": "increment (++) in sctp_chunk_abandoned() -- no upper-bound guard (INT_MAX check)"
+  }
+}

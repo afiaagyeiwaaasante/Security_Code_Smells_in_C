@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_socket.c",
+  "line": 54,
+  "col": 9,
+  "varname": "nft_sock_get_eval_cgroupv2",
+  "note": {
+    "line": 54,
+    "col": 9,
+    "message": "memcpy() in nft_sock_get_eval_cgroupv2() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

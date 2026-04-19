@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/cmtp/capi.c",
+  "line": 136,
+  "col": 38,
+  "varname": "cmtp_send_capimsg",
+  "note": {
+    "line": 136,
+    "col": 38,
+    "message": "multiplication in cmtp_send_capimsg() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/cmtp/capi.c",
+  "line": 126,
+  "col": 24,
+  "varname": "cmtp_msgnum_get",
+  "note": {
+    "line": 126,
+    "col": 24,
+    "message": "increment (++) in cmtp_msgnum_get() -- no upper-bound guard (INT_MAX check)"
+  }
+}

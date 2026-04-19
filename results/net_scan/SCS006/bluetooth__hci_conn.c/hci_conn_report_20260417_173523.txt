@@ -1,0 +1,123 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/hci_conn.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/bluetooth__hci_conn.c/hci_conn_report_20260417_173523.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/bluetooth__hci_conn.c/hci_conn_findings_20260417_173523.json
+ Date    : Fri Apr 17 17:35:23 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.089s
+user	0m0.083s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/hci_conn.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/hci_conn.c.json
+
+real	0m0.295s
+user	0m0.178s
+sys	0m0.005s
+
+=== Stage 3: srcattributor ===
+
+real	0m11.927s
+user	0m11.530s
+sys	0m0.110s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/hci_conn.c.xml
+    output : /tmp/cwe190_findings_qXkxrU
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.035s
+user	0m0.028s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_qXkxrU
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/hci_conn.c.xml
+    output : /tmp/cwe190_findings_qXkxrU
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.034s
+user	0m0.029s
+sys	0m0.004s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/hci_conn.c:2735:32 -- hci_get_conn_info() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_qXkxrU
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/hci_conn.c.xml
+    output : /tmp/cwe190_findings_qXkxrU
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : hci_add_sco
+    position : 210:22
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/hci_conn.c:210:22 -- hci_add_sco() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_qXkxrU
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/hci_conn.c",
+  "line": 2735,
+  "col": 32,
+  "varname": "hci_get_conn_info",
+  "note": {
+    "line": 2735,
+    "col": 32,
+    "message": "addition in hci_get_conn_info() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/hci_conn.c",
+  "line": 210,
+  "col": 22,
+  "varname": "hci_add_sco",
+  "note": {
+    "line": 210,
+    "col": 22,
+    "message": "increment (++) in hci_add_sco() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+========================================

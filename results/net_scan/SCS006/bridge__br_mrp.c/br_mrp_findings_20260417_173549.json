@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_mrp.c",
+  "line": 129,
+  "col": 20,
+  "varname": "br_mrp_next_seq",
+  "note": {
+    "line": 129,
+    "col": 20,
+    "message": "increment (++) in br_mrp_next_seq() -- no upper-bound guard (INT_MAX check)"
+  }
+}

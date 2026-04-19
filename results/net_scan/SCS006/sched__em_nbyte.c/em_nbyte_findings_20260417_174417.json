@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/em_nbyte.c",
+  "line": 42,
+  "col": 55,
+  "varname": "em_nbyte_match",
+  "note": {
+    "line": 42,
+    "col": 55,
+    "message": "multiplication in em_nbyte_match() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}

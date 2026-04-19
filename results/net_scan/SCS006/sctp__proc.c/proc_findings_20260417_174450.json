@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sctp/proc.c",
+  "line": 166,
+  "col": 23,
+  "varname": "sctp_eps_seq_show",
+  "note": {
+    "line": 166,
+    "col": 23,
+    "message": "multiplication in sctp_eps_seq_show() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sctp/proc.c",
+  "line": 69,
+  "col": 31,
+  "varname": "sctp_snmp_seq_show",
+  "note": {
+    "line": 69,
+    "col": 31,
+    "message": "increment (++) in sctp_snmp_seq_show() -- no upper-bound guard (INT_MAX check)"
+  }
+}

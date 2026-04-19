@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/of_net.c",
+  "line": 55,
+  "col": 17,
+  "varname": "of_get_mac_addr",
+  "note": {
+    "line": 55,
+    "col": 17,
+    "message": "memcpy() in of_get_mac_addr() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

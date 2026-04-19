@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_drr.c",
+  "line": 63,
+  "col": 50,
+  "varname": "drr_change_class",
+  "note": {
+    "line": 63,
+    "col": 50,
+    "message": "multiplication in drr_change_class() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_drr.c",
+  "line": 292,
+  "col": 46,
+  "varname": "drr_walk",
+  "note": {
+    "line": 292,
+    "col": 46,
+    "message": "increment (++) in drr_walk() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/xdp/xdp_umem.c",
+  "line": 195,
+  "col": 21,
+  "varname": "xdp_umem_reg",
+  "note": {
+    "line": 195,
+    "col": 21,
+    "message": "increment (++) in xdp_umem_reg() -- no upper-bound guard (INT_MAX check)"
+  }
+}

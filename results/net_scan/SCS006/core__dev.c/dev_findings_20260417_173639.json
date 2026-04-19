@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/dev.c",
+  "line": 1362,
+  "col": 37,
+  "varname": "__dev_alloc_name",
+  "note": {
+    "line": 1362,
+    "col": 37,
+    "message": "multiplication in __dev_alloc_name() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/dev.c",
+  "line": 189,
+  "col": 46,
+  "varname": "dev_base_seq_inc",
+  "note": {
+    "line": 189,
+    "col": 46,
+    "message": "addition in dev_base_seq_inc() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/dev.c",
+  "line": 533,
+  "col": 56,
+  "varname": "netdev_lock_pos",
+  "note": {
+    "line": 533,
+    "col": 56,
+    "message": "increment (++) in netdev_lock_pos() -- no upper-bound guard (INT_MAX check)"
+  }
+}

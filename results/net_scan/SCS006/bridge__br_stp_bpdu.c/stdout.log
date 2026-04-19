@@ -1,0 +1,123 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_stp_bpdu.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/bridge__br_stp_bpdu.c/br_stp_bpdu_report_20260417_173558.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/bridge__br_stp_bpdu.c/br_stp_bpdu_findings_20260417_173558.json
+ Date    : Fri Apr 17 17:35:58 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.018s
+user	0m0.013s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_stp_bpdu.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_stp_bpdu.c.json
+
+real	0m0.187s
+user	0m0.031s
+sys	0m0.004s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.172s
+user	0m0.091s
+sys	0m0.006s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_stp_bpdu.c.xml
+    output : /tmp/cwe190_findings_7oIIXL
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.014s
+user	0m0.007s
+sys	0m0.003s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_stp_bpdu.c:66:39 -- br_set_ticks() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_7oIIXL
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_stp_bpdu.c.xml
+    output : /tmp/cwe190_findings_7oIIXL
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.017s
+user	0m0.009s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_7oIIXL
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_stp_bpdu.c.xml
+    output : /tmp/cwe190_findings_7oIIXL
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : br_send_config_bpdu
+    position : 122:30
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_stp_bpdu.c:122:30 -- br_send_config_bpdu() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_7oIIXL
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_stp_bpdu.c",
+  "line": 66,
+  "col": 39,
+  "varname": "br_set_ticks",
+  "note": {
+    "line": 66,
+    "col": 39,
+    "message": "multiplication in br_set_ticks() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_stp_bpdu.c",
+  "line": 122,
+  "col": 30,
+  "varname": "br_send_config_bpdu",
+  "note": {
+    "line": 122,
+    "col": 30,
+    "message": "increment (++) in br_send_config_bpdu() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

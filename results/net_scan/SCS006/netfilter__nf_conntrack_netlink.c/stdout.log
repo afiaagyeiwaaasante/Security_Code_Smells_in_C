@@ -1,0 +1,123 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_netlink.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/netfilter__nf_conntrack_netlink.c/nf_conntrack_netlink_report_20260417_174227.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/netfilter__nf_conntrack_netlink.c/nf_conntrack_netlink_findings_20260417_174227.json
+ Date    : Fri Apr 17 17:42:27 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.212s
+user	0m0.196s
+sys	0m0.008s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_netlink.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_netlink.c.json
+
+real	0m0.480s
+user	0m0.390s
+sys	0m0.010s
+
+=== Stage 3: srcattributor ===
+
+real	0m25.670s
+user	0m24.561s
+sys	0m0.247s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_netlink.c.xml
+    output : /tmp/cwe190_findings_fw2UwD
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.077s
+user	0m0.062s
+sys	0m0.010s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_netlink.c:1737:53 -- ctnetlink_dump_one_entry() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_fw2UwD
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_netlink.c.xml
+    output : /tmp/cwe190_findings_fw2UwD
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.068s
+user	0m0.058s
+sys	0m0.008s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_fw2UwD
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_netlink.c.xml
+    output : /tmp/cwe190_findings_fw2UwD
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : ctnetlink_dump_labels
+    position : 428:18
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_netlink.c:428:18 -- ctnetlink_dump_labels() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_fw2UwD
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_netlink.c",
+  "line": 1737,
+  "col": 53,
+  "varname": "ctnetlink_dump_one_entry",
+  "note": {
+    "line": 1737,
+    "col": 53,
+    "message": "multiplication in ctnetlink_dump_one_entry() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_netlink.c",
+  "line": 428,
+  "col": 18,
+  "varname": "ctnetlink_dump_labels",
+  "note": {
+    "line": 428,
+    "col": 18,
+    "message": "increment (++) in ctnetlink_dump_labels() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

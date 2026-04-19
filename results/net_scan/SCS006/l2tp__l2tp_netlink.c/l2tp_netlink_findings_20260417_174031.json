@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/l2tp/l2tp_netlink.c",
+  "line": 501,
+  "col": 45,
+  "varname": "l2tp_nl_cmd_tunnel_dump",
+  "note": {
+    "line": 501,
+    "col": 45,
+    "message": "multiplication in l2tp_nl_cmd_tunnel_dump() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/l2tp/l2tp_netlink.c",
+  "line": 519,
+  "col": 20,
+  "varname": "l2tp_nl_cmd_tunnel_dump",
+  "note": {
+    "line": 519,
+    "col": 20,
+    "message": "increment (++) in l2tp_nl_cmd_tunnel_dump() -- no upper-bound guard (INT_MAX check)"
+  }
+}

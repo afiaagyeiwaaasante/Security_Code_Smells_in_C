@@ -1,0 +1,104 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/mctp/test/route-test.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/mctp__test__route-test.c/route-test_report_20260417_174135.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/mctp__test__route-test.c/route-test_findings_20260417_174135.json
+ Date    : Fri Apr 17 17:41:35 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.100s
+user	0m0.090s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/mctp/test/route-test.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/mctp/test/route-test.c.json
+
+real	0m0.315s
+user	0m0.202s
+sys	0m0.007s
+
+=== Stage 3: srcattributor ===
+
+real	0m5.796s
+user	0m5.561s
+sys	0m0.061s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mctp/test/route-test.c.xml
+    output : /tmp/cwe190_findings_nC2Kju
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.038s
+user	0m0.031s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_nC2Kju
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mctp/test/route-test.c.xml
+    output : /tmp/cwe190_findings_nC2Kju
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.037s
+user	0m0.030s
+sys	0m0.006s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_nC2Kju
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mctp/test/route-test.c.xml
+    output : /tmp/cwe190_findings_nC2Kju
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : mctp_test_fragment
+    position : 53:23
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/mctp/test/route-test.c:53:23 -- mctp_test_fragment() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_nC2Kju
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mctp/test/route-test.c",
+  "line": 53,
+  "col": 23,
+  "varname": "mctp_test_fragment",
+  "note": {
+    "line": 53,
+    "col": 23,
+    "message": "increment (++) in mctp_test_fragment() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_increment       1
+========================================

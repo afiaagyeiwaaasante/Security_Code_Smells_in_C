@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ethtool/module.c",
+  "line": 494,
+  "col": 58,
+  "varname": "ethnl_module_fw_flash_ntf",
+  "note": {
+    "line": 494,
+    "col": 58,
+    "message": "increment (++) in ethnl_module_fw_flash_ntf() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/netpoll.c",
+  "line": 132,
+  "col": 46,
+  "varname": "netif_local_xmit_active",
+  "note": {
+    "line": 132,
+    "col": 46,
+    "message": "increment (++) in netif_local_xmit_active() -- no upper-bound guard (INT_MAX check)"
+  }
+}

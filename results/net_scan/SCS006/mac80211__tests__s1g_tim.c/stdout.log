@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/tests/s1g_tim.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/mac80211__tests__s1g_tim.c/s1g_tim_report_20260417_174112.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/mac80211__tests__s1g_tim.c/s1g_tim_findings_20260417_174112.json
+ Date    : Fri Apr 17 17:41:12 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.036s
+user	0m0.028s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/tests/s1g_tim.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/tests/s1g_tim.c.json
+
+real	0m0.195s
+user	0m0.060s
+sys	0m0.005s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.406s
+user	0m0.386s
+sys	0m0.006s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/tests/s1g_tim.c.xml
+    output : /tmp/cwe190_findings_0cu2Vy
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.020s
+user	0m0.014s
+sys	0m0.004s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/tests/s1g_tim.c:31:35 -- dump_tim_bits() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_0cu2Vy
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/tests/s1g_tim.c.xml
+    output : /tmp/cwe190_findings_0cu2Vy
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.020s
+user	0m0.013s
+sys	0m0.004s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/tests/s1g_tim.c:31:41 -- dump_tim_bits() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_0cu2Vy
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/tests/s1g_tim.c.xml
+    output : /tmp/cwe190_findings_0cu2Vy
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : byte_to_bitstr
+    position : 23:21
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/tests/s1g_tim.c:23:21 -- byte_to_bitstr() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_0cu2Vy
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/tests/s1g_tim.c",
+  "line": 31,
+  "col": 35,
+  "varname": "dump_tim_bits",
+  "note": {
+    "line": 31,
+    "col": 35,
+    "message": "multiplication in dump_tim_bits() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/tests/s1g_tim.c",
+  "line": 31,
+  "col": 41,
+  "varname": "dump_tim_bits",
+  "note": {
+    "line": 31,
+    "col": 41,
+    "message": "addition in dump_tim_bits() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/tests/s1g_tim.c",
+  "line": 23,
+  "col": 21,
+  "varname": "byte_to_bitstr",
+  "note": {
+    "line": 23,
+    "col": 21,
+    "message": "increment (++) in byte_to_bitstr() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

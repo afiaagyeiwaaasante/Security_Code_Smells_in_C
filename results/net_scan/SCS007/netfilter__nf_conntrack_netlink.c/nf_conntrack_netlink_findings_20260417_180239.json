@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_netlink.c",
+  "line": 2941,
+  "col": 9,
+  "varname": "ctnetlink_exp_dump_mask",
+  "note": {
+    "line": 2941,
+    "col": 9,
+    "message": "memcpy() in ctnetlink_exp_dump_mask() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

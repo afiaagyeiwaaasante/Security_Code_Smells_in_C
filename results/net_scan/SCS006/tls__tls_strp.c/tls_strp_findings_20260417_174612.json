@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/tls/tls_strp.c",
+  "line": 345,
+  "col": 60,
+  "varname": "tls_strp_copyin",
+  "note": {
+    "line": 345,
+    "col": 60,
+    "message": "multiplication in tls_strp_copyin() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/tls/tls_strp.c",
+  "line": 436,
+  "col": 45,
+  "varname": "tls_strp_check_queue_ok",
+  "note": {
+    "line": 436,
+    "col": 45,
+    "message": "addition in tls_strp_check_queue_ok() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/tls/tls_strp.c",
+  "line": 53,
+  "col": 53,
+  "varname": "tls_strp_skb_copy",
+  "note": {
+    "line": 53,
+    "col": 53,
+    "message": "increment (++) in tls_strp_skb_copy() -- no upper-bound guard (INT_MAX check)"
+  }
+}

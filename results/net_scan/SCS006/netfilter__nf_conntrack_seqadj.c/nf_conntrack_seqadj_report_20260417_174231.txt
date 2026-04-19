@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_seqadj.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/netfilter__nf_conntrack_seqadj.c/nf_conntrack_seqadj_report_20260417_174231.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/netfilter__nf_conntrack_seqadj.c/nf_conntrack_seqadj_findings_20260417_174231.json
+ Date    : Fri Apr 17 17:42:31 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.025s
+user	0m0.018s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_seqadj.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_seqadj.c.json
+
+real	0m0.182s
+user	0m0.047s
+sys	0m0.004s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.184s
+user	0m0.174s
+sys	0m0.006s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_seqadj.c.xml
+    output : /tmp/cwe190_findings_2CWGHq
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.017s
+user	0m0.010s
+sys	0m0.004s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_seqadj.c:122:37 -- nf_ct_sack_adjust() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_2CWGHq
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_seqadj.c.xml
+    output : /tmp/cwe190_findings_2CWGHq
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.015s
+user	0m0.010s
+sys	0m0.004s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_seqadj.c:122:49 -- nf_ct_sack_adjust() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_2CWGHq
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_seqadj.c.xml
+    output : /tmp/cwe190_findings_2CWGHq
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : nf_ct_sack_adjust
+    position : 143:31
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_seqadj.c:143:31 -- nf_ct_sack_adjust() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_2CWGHq
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_seqadj.c",
+  "line": 122,
+  "col": 37,
+  "varname": "nf_ct_sack_adjust",
+  "note": {
+    "line": 122,
+    "col": 37,
+    "message": "multiplication in nf_ct_sack_adjust() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_seqadj.c",
+  "line": 122,
+  "col": 49,
+  "varname": "nf_ct_sack_adjust",
+  "note": {
+    "line": 122,
+    "col": 49,
+    "message": "addition in nf_ct_sack_adjust() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_seqadj.c",
+  "line": 143,
+  "col": 31,
+  "varname": "nf_ct_sack_adjust",
+  "note": {
+    "line": 143,
+    "col": 31,
+    "message": "increment (++) in nf_ct_sack_adjust() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/vmw_vsock/vmci_transport.c",
+  "line": 662,
+  "col": 59,
+  "varname": "vmci_transport_stream_allow",
+  "note": {
+    "line": 662,
+    "col": 59,
+    "message": "increment (++) in vmci_transport_stream_allow() -- no upper-bound guard (INT_MAX check)"
+  }
+}

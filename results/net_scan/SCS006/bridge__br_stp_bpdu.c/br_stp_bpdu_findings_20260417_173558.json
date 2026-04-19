@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_stp_bpdu.c",
+  "line": 66,
+  "col": 39,
+  "varname": "br_set_ticks",
+  "note": {
+    "line": 66,
+    "col": 39,
+    "message": "multiplication in br_set_ticks() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_stp_bpdu.c",
+  "line": 122,
+  "col": 30,
+  "varname": "br_send_config_bpdu",
+  "note": {
+    "line": 122,
+    "col": 30,
+    "message": "increment (++) in br_send_config_bpdu() -- no upper-bound guard (INT_MAX check)"
+  }
+}

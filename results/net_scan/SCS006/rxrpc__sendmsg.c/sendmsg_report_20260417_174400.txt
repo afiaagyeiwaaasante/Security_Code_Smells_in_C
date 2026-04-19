@@ -1,0 +1,104 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/sendmsg.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/rxrpc__sendmsg.c/sendmsg_report_20260417_174400.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/rxrpc__sendmsg.c/sendmsg_findings_20260417_174400.json
+ Date    : Fri Apr 17 17:44:00 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.052s
+user	0m0.045s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/sendmsg.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/sendmsg.c.json
+
+real	0m0.245s
+user	0m0.101s
+sys	0m0.005s
+
+=== Stage 3: srcattributor ===
+
+real	0m1.203s
+user	0m1.146s
+sys	0m0.015s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/sendmsg.c.xml
+    output : /tmp/cwe190_findings_8sS2h0
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.022s
+user	0m0.016s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_8sS2h0
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/sendmsg.c.xml
+    output : /tmp/cwe190_findings_8sS2h0
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.026s
+user	0m0.018s
+sys	0m0.006s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_8sS2h0
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/sendmsg.c.xml
+    output : /tmp/cwe190_findings_8sS2h0
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : rxrpc_alloc_txqueue
+    position : 290:48
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/sendmsg.c:290:48 -- rxrpc_alloc_txqueue() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_8sS2h0
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/sendmsg.c",
+  "line": 290,
+  "col": 48,
+  "varname": "rxrpc_alloc_txqueue",
+  "note": {
+    "line": 290,
+    "col": 48,
+    "message": "increment (++) in rxrpc_alloc_txqueue() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_increment       1
+========================================

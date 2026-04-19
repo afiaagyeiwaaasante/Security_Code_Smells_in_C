@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/esp4.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv4__esp4.c/esp4_report_20260417_173828.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv4__esp4.c/esp4_findings_20260417_173828.json
+ Date    : Fri Apr 17 17:38:28 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.069s
+user	0m0.057s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/esp4.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/esp4.c.json
+
+real	0m0.233s
+user	0m0.119s
+sys	0m0.005s
+
+=== Stage 3: srcattributor ===
+
+real	0m2.445s
+user	0m2.346s
+sys	0m0.020s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/esp4.c.xml
+    output : /tmp/cwe190_findings_ZoEeYa
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.025s
+user	0m0.020s
+sys	0m0.004s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/esp4.c:251:41 -- esp_restore_header() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_ZoEeYa
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/esp4.c.xml
+    output : /tmp/cwe190_findings_ZoEeYa
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.028s
+user	0m0.021s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/esp4.c:251:54 -- esp_restore_header() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_ZoEeYa
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/esp4.c.xml
+    output : /tmp/cwe190_findings_ZoEeYa
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : esp_output_head
+    position : 461:53
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/esp4.c:461:53 -- esp_output_head() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_ZoEeYa
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/esp4.c",
+  "line": 251,
+  "col": 41,
+  "varname": "esp_restore_header",
+  "note": {
+    "line": 251,
+    "col": 41,
+    "message": "multiplication in esp_restore_header() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/esp4.c",
+  "line": 251,
+  "col": 54,
+  "varname": "esp_restore_header",
+  "note": {
+    "line": 251,
+    "col": 54,
+    "message": "addition in esp_restore_header() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/esp4.c",
+  "line": 461,
+  "col": 53,
+  "varname": "esp_output_head",
+  "note": {
+    "line": 461,
+    "col": 53,
+    "message": "increment (++) in esp_output_head() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

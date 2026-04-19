@@ -1,0 +1,119 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ila/ila_common.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv6__ila__ila_common.c/ila_common_report_20260417_173943.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv6__ila__ila_common.c/ila_common_findings_20260417_173943.json
+ Date    : Fri Apr 17 17:39:43 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.017s
+user	0m0.011s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ila/ila_common.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ila/ila_common.c.json
+
+real	0m0.187s
+user	0m0.033s
+sys	0m0.004s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.057s
+user	0m0.051s
+sys	0m0.004s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ila/ila_common.c.xml
+    output : /tmp/cwe190_findings_ufb26u
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.015s
+user	0m0.009s
+sys	0m0.004s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ila/ila_common.c:43:44 -- ila_csum_do_neutral_fmt() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_ufb26u
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ila/ila_common.c.xml
+    output : /tmp/cwe190_findings_ufb26u
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.014s
+user	0m0.009s
+sys	0m0.004s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ila/ila_common.c:83:53 -- ila_csum_adjust_transport() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_ufb26u
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ila/ila_common.c.xml
+    output : /tmp/cwe190_findings_ufb26u
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+[ unchecked_increment ] No smell detected.
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ila/ila_common.c",
+  "line": 43,
+  "col": 44,
+  "varname": "ila_csum_do_neutral_fmt",
+  "note": {
+    "line": 43,
+    "col": 44,
+    "message": "multiplication in ila_csum_do_neutral_fmt() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ila/ila_common.c",
+  "line": 83,
+  "col": 53,
+  "varname": "ila_csum_adjust_transport",
+  "note": {
+    "line": 83,
+    "col": 53,
+    "message": "addition in ila_csum_adjust_transport() -- no upper-bound guard before adding"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_multiply        1
+========================================

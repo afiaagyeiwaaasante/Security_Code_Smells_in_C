@@ -1,0 +1,123 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ieee802154/header_ops.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ieee802154__header_ops.c/header_ops_report_20260417_173820.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ieee802154__header_ops.c/header_ops_findings_20260417_173820.json
+ Date    : Fri Apr 17 17:38:20 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.025s
+user	0m0.018s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ieee802154/header_ops.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ieee802154/header_ops.c.json
+
+real	0m0.186s
+user	0m0.046s
+sys	0m0.004s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.432s
+user	0m0.292s
+sys	0m0.009s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ieee802154/header_ops.c.xml
+    output : /tmp/cwe190_findings_eOcF3b
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.014s
+user	0m0.009s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_eOcF3b
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ieee802154/header_ops.c.xml
+    output : /tmp/cwe190_findings_eOcF3b
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.015s
+user	0m0.010s
+sys	0m0.004s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ieee802154/header_ops.c:294:51 -- ieee802154_hdr_pull() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_eOcF3b
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ieee802154/header_ops.c.xml
+    output : /tmp/cwe190_findings_eOcF3b
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : ieee802154_hdr_push_sechdr
+    position : 72:16
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ieee802154/header_ops.c:72:16 -- ieee802154_hdr_push_sechdr() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_eOcF3b
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ieee802154/header_ops.c",
+  "line": 294,
+  "col": 51,
+  "varname": "ieee802154_hdr_pull",
+  "note": {
+    "line": 294,
+    "col": 51,
+    "message": "addition in ieee802154_hdr_pull() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ieee802154/header_ops.c",
+  "line": 72,
+  "col": 16,
+  "varname": "ieee802154_hdr_push_sechdr",
+  "note": {
+    "line": 72,
+    "col": 16,
+    "message": "increment (++) in ieee802154_hdr_push_sechdr() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+========================================

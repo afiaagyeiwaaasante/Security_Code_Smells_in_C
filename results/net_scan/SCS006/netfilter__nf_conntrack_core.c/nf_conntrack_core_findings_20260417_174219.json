@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_core.c",
+  "line": 576,
+  "col": 46,
+  "varname": "nf_ct_destroy",
+  "note": {
+    "line": 576,
+    "col": 46,
+    "message": "multiplication in nf_ct_destroy() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_core.c",
+  "line": 375,
+  "col": 37,
+  "varname": "ipv6_get_l4proto",
+  "note": {
+    "line": 375,
+    "col": 37,
+    "message": "addition in ipv6_get_l4proto() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_core.c",
+  "line": 178,
+  "col": 43,
+  "varname": "nf_conntrack_all_lock",
+  "note": {
+    "line": 178,
+    "col": 43,
+    "message": "increment (++) in nf_conntrack_all_lock() -- no upper-bound guard (INT_MAX check)"
+  }
+}

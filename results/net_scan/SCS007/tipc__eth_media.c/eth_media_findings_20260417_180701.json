@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/tipc/eth_media.c",
+  "line": 56,
+  "col": 9,
+  "varname": "tipc_eth_addr2msg",
+  "note": {
+    "line": 56,
+    "col": 9,
+    "message": "memcpy() in tipc_eth_addr2msg() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

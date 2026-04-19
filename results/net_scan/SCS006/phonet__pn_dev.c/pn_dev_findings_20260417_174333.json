@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/phonet/pn_dev.c",
+  "line": 278,
+  "col": 30,
+  "varname": "phonet_route_autodel",
+  "note": {
+    "line": 278,
+    "col": 30,
+    "message": "increment (++) in phonet_route_autodel() -- no upper-bound guard (INT_MAX check)"
+  }
+}

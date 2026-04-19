@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/smc/smc_clc.c",
+  "line": 1292,
+  "col": 55,
+  "varname": "smc_clc_clnt_v2x_features_validate",
+  "note": {
+    "line": 1292,
+    "col": 55,
+    "message": "multiplication in smc_clc_clnt_v2x_features_validate() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/smc/smc_clc.c",
+  "line": 65,
+  "col": 26,
+  "varname": "smc_clc_ueid_valid",
+  "note": {
+    "line": 65,
+    "col": 26,
+    "message": "addition in smc_clc_ueid_valid() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/smc/smc_clc.c",
+  "line": 77,
+  "col": 21,
+  "varname": "smc_clc_ueid_valid",
+  "note": {
+    "line": 77,
+    "col": 21,
+    "message": "increment (++) in smc_clc_ueid_valid() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,104 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/rose/rose_route.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/rose__rose_route.c/rose_route_report_20260417_174350.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/rose__rose_route.c/rose_route_findings_20260417_174350.json
+ Date    : Fri Apr 17 17:43:50 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.074s
+user	0m0.066s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/rose/rose_route.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/rose/rose_route.c.json
+
+real	0m0.245s
+user	0m0.147s
+sys	0m0.006s
+
+=== Stage 3: srcattributor ===
+
+real	0m2.699s
+user	0m2.631s
+sys	0m0.025s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/rose/rose_route.c.xml
+    output : /tmp/cwe190_findings_nblOSk
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.028s
+user	0m0.022s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_nblOSk
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/rose/rose_route.c.xml
+    output : /tmp/cwe190_findings_nblOSk
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.031s
+user	0m0.022s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_nblOSk
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/rose/rose_route.c.xml
+    output : /tmp/cwe190_findings_nblOSk
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : rose_add_node
+    position : 98:54
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/rose/rose_route.c:98:54 -- rose_add_node() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_nblOSk
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rose/rose_route.c",
+  "line": 98,
+  "col": 54,
+  "varname": "rose_add_node",
+  "note": {
+    "line": 98,
+    "col": 54,
+    "message": "increment (++) in rose_add_node() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_increment       1
+========================================

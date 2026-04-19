@@ -1,0 +1,104 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/psp/psp_sock.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/psp__psp_sock.c/psp_sock_report_20260417_174336.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/psp__psp_sock.c/psp_sock_findings_20260417_174336.json
+ Date    : Fri Apr 17 17:43:36 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.025s
+user	0m0.019s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/psp/psp_sock.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/psp/psp_sock.c.json
+
+real	0m0.189s
+user	0m0.051s
+sys	0m0.004s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.161s
+user	0m0.151s
+sys	0m0.005s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/psp/psp_sock.c.xml
+    output : /tmp/cwe190_findings_bLdeCW
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.017s
+user	0m0.010s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_bLdeCW
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/psp/psp_sock.c.xml
+    output : /tmp/cwe190_findings_bLdeCW
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.017s
+user	0m0.011s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_bLdeCW
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/psp/psp_sock.c.xml
+    output : /tmp/cwe190_findings_bLdeCW
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : psp_assocs_key_rotated
+    position : 258:34
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/psp/psp_sock.c:258:34 -- psp_assocs_key_rotated() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_bLdeCW
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/psp/psp_sock.c",
+  "line": 258,
+  "col": 34,
+  "varname": "psp_assocs_key_rotated",
+  "note": {
+    "line": 258,
+    "col": 34,
+    "message": "increment (++) in psp_assocs_key_rotated() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_increment       1
+========================================

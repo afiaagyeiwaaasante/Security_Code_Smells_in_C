@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sctp/sm_statefuns.c",
+  "line": 1022,
+  "col": 67,
+  "varname": "sctp_sf_heartbeat",
+  "note": {
+    "line": 1022,
+    "col": 67,
+    "message": "multiplication in sctp_sf_heartbeat() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sctp/sm_statefuns.c",
+  "line": 2537,
+  "col": 47,
+  "varname": "sctp_sf_do_5_2_6_stale",
+  "note": {
+    "line": 2537,
+    "col": 47,
+    "message": "addition in sctp_sf_do_5_2_6_stale() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sctp/sm_statefuns.c",
+  "line": 6040,
+  "col": 60,
+  "varname": "sctp_sf_t2_timer_expire",
+  "note": {
+    "line": 6040,
+    "col": 60,
+    "message": "increment (++) in sctp_sf_t2_timer_expire() -- no upper-bound guard (INT_MAX check)"
+  }
+}

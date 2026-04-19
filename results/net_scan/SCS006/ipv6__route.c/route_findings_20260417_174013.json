@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/route.c",
+  "line": 970,
+  "col": 55,
+  "varname": "rt6_route_rcv",
+  "note": {
+    "line": 970,
+    "col": 55,
+    "message": "multiplication in rt6_route_rcv() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/route.c",
+  "line": 5167,
+  "col": 34,
+  "varname": "rtm_to_fib6_config",
+  "note": {
+    "line": 5167,
+    "col": 34,
+    "message": "addition in rtm_to_fib6_config() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/route.c",
+  "line": 1771,
+  "col": 22,
+  "varname": "rt6_insert_exception",
+  "note": {
+    "line": 1771,
+    "col": 22,
+    "message": "increment (++) in rt6_insert_exception() -- no upper-bound guard (INT_MAX check)"
+  }
+}

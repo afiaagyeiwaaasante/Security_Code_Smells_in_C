@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/bat_iv_ogm.c",
+  "line": 446,
+  "col": 65,
+  "varname": "batadv_iv_ogm_can_aggregate",
+  "note": {
+    "line": 446,
+    "col": 65,
+    "message": "addition in batadv_iv_ogm_can_aggregate() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/bat_iv_ogm.c",
+  "line": 115,
+  "col": 30,
+  "varname": "batadv_ring_buffer_avg",
+  "note": {
+    "line": 115,
+    "col": 30,
+    "message": "increment (++) in batadv_ring_buffer_avg() -- no upper-bound guard (INT_MAX check)"
+  }
+}

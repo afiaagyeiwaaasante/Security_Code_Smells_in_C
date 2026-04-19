@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_stp_if.c",
+  "line": 234,
+  "col": 9,
+  "varname": "br_stp_change_bridge_id",
+  "note": {
+    "line": 234,
+    "col": 9,
+    "message": "memcpy() in br_stp_change_bridge_id() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

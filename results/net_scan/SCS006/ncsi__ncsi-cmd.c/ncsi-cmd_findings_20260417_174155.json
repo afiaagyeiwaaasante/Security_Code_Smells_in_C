@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ncsi/ncsi-cmd.c",
+  "line": 285,
+  "col": 24,
+  "varname": "ncsi_alloc_command",
+  "note": {
+    "line": 285,
+    "col": 24,
+    "message": "addition in ncsi_alloc_command() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ncsi/ncsi-cmd.c",
+  "line": 168,
+  "col": 29,
+  "varname": "ncsi_cmd_handler_sma",
+  "note": {
+    "line": 168,
+    "col": 29,
+    "message": "increment (++) in ncsi_cmd_handler_sma() -- no upper-bound guard (INT_MAX check)"
+  }
+}

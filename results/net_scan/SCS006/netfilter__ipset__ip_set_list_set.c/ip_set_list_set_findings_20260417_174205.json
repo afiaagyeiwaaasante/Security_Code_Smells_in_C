@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipset/ip_set_list_set.c",
+  "line": 458,
+  "col": 60,
+  "varname": "list_set_head",
+  "note": {
+    "line": 458,
+    "col": 60,
+    "message": "addition in list_set_head() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipset/ip_set_list_set.c",
+  "line": 312,
+  "col": 22,
+  "varname": "list_set_uadd",
+  "note": {
+    "line": 312,
+    "col": 22,
+    "message": "increment (++) in list_set_uadd() -- no upper-bound guard (INT_MAX check)"
+  }
+}

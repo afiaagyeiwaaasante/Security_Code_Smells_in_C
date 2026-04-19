@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/key/af_key.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/key__af_key.c/af_key_report_20260417_174025.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/key__af_key.c/af_key_findings_20260417_174025.json
+ Date    : Fri Apr 17 17:40:25 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.238s
+user	0m0.216s
+sys	0m0.007s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/key/af_key.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/key/af_key.c.json
+
+real	0m0.552s
+user	0m0.421s
+sys	0m0.011s
+
+=== Stage 3: srcattributor ===
+
+real	0m37.291s
+user	0m33.791s
+sys	0m0.390s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/key/af_key.c.xml
+    output : /tmp/cwe190_findings_Mhm3Rd
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.075s
+user	0m0.061s
+sys	0m0.010s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/key/af_key.c:379:62 -- verify_address_len() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_Mhm3Rd
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/key/af_key.c.xml
+    output : /tmp/cwe190_findings_Mhm3Rd
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.078s
+user	0m0.066s
+sys	0m0.009s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/key/af_key.c:379:68 -- verify_address_len() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_Mhm3Rd
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/key/af_key.c.xml
+    output : /tmp/cwe190_findings_Mhm3Rd
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : compose_sadb_supported
+    position : 1666:32
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/key/af_key.c:1666:32 -- compose_sadb_supported() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_Mhm3Rd
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/key/af_key.c",
+  "line": 379,
+  "col": 62,
+  "varname": "verify_address_len",
+  "note": {
+    "line": 379,
+    "col": 62,
+    "message": "multiplication in verify_address_len() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/key/af_key.c",
+  "line": 379,
+  "col": 68,
+  "varname": "verify_address_len",
+  "note": {
+    "line": 379,
+    "col": 68,
+    "message": "addition in verify_address_len() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/key/af_key.c",
+  "line": 1666,
+  "col": 32,
+  "varname": "compose_sadb_supported",
+  "note": {
+    "line": 1666,
+    "col": 32,
+    "message": "increment (++) in compose_sadb_supported() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

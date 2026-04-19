@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_diag.c",
+  "line": 47,
+  "col": 9,
+  "varname": "tcp_diag_md5sig_fill",
+  "note": {
+    "line": 47,
+    "col": 9,
+    "message": "memcpy() in tcp_diag_md5sig_fill() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

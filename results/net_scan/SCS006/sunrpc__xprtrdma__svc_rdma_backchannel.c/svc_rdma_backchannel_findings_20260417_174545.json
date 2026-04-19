@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/xprtrdma/svc_rdma_backchannel.c",
+  "line": 151,
+  "col": 11,
+  "varname": "rpcrdma_bc_send_request",
+  "note": {
+    "line": 151,
+    "col": 11,
+    "message": "increment (++) in rpcrdma_bc_send_request() -- no upper-bound guard (INT_MAX check)"
+  }
+}

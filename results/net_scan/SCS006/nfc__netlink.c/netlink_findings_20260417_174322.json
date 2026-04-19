@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/nfc/netlink.c",
+  "line": 134,
+  "col": 47,
+  "varname": "nfc_genl_dump_targets",
+  "note": {
+    "line": 134,
+    "col": 47,
+    "message": "multiplication in nfc_genl_dump_targets() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/nfc/netlink.c",
+  "line": 155,
+  "col": 18,
+  "varname": "nfc_genl_dump_targets",
+  "note": {
+    "line": 155,
+    "col": 18,
+    "message": "increment (++) in nfc_genl_dump_targets() -- no upper-bound guard (INT_MAX check)"
+  }
+}

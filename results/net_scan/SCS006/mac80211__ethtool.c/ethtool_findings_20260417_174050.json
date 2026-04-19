@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/ethtool.c",
+  "line": 123,
+  "col": 23,
+  "varname": "ieee80211_get_stats",
+  "note": {
+    "line": 123,
+    "col": 23,
+    "message": "increment (++) in ieee80211_get_stats() -- no upper-bound guard (INT_MAX check)"
+  }
+}

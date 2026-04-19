@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/tso.c",
+  "line": 14,
+  "col": 9,
+  "varname": "tso_build_hdr",
+  "note": {
+    "line": 14,
+    "col": 9,
+    "message": "memcpy() in tso_build_hdr() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/9p/trans_virtio.c",
+  "line": 447,
+  "col": 25,
+  "varname": "p9_virtio_zc_request",
+  "note": {
+    "line": 447,
+    "col": 25,
+    "message": "memcpy() in p9_virtio_zc_request() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

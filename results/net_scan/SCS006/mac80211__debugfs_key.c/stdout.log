@@ -1,0 +1,104 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/debugfs_key.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/mac80211__debugfs_key.c/debugfs_key_report_20260417_174047.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/mac80211__debugfs_key.c/debugfs_key_findings_20260417_174047.json
+ Date    : Fri Apr 17 17:40:47 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.043s
+user	0m0.029s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/debugfs_key.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/debugfs_key.c.json
+
+real	0m0.184s
+user	0m0.064s
+sys	0m0.004s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.399s
+user	0m0.366s
+sys	0m0.008s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/debugfs_key.c.xml
+    output : /tmp/cwe190_findings_Vbra14
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.018s
+user	0m0.012s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_Vbra14
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/debugfs_key.c.xml
+    output : /tmp/cwe190_findings_Vbra14
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.028s
+user	0m0.012s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_Vbra14
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/debugfs_key.c.xml
+    output : /tmp/cwe190_findings_Vbra14
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : key_rx_spec_read
+    position : 168:54
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/debugfs_key.c:168:54 -- key_rx_spec_read() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_Vbra14
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/debugfs_key.c",
+  "line": 168,
+  "col": 54,
+  "varname": "key_rx_spec_read",
+  "note": {
+    "line": 168,
+    "col": 54,
+    "message": "increment (++) in key_rx_spec_read() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_increment       1
+========================================

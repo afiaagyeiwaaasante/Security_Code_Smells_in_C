@@ -1,0 +1,131 @@
+========================================
+ CWE-195 Signed-to-Unsigned Conversion Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/tcp_ipv6.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS007/ipv6__tcp_ipv6.c/tcp_ipv6_report_20260417_175955.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS007/ipv6__tcp_ipv6.c/tcp_ipv6_findings_20260417_175955.json
+ Date    : Fri Apr 17 17:59:55 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.163s
+user	0m0.147s
+sys	0m0.007s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/tcp_ipv6.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/tcp_ipv6.c.json
+
+real	0m0.431s
+user	0m0.290s
+sys	0m0.010s
+
+=== Stage 3: srcattributor ===
+
+real	0m5.832s
+user	0m4.827s
+sys	0m0.072s
+
+=== Detector 1: signed_malloc ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/tcp_ipv6.c.xml
+    output : /tmp/cwe195_findings_Qu28V3
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS malloc($A)
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.067s
+user	0m0.051s
+sys	0m0.008s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor malloc found
+
+[ signed_malloc ] 0 finding(s) written to /tmp/cwe195_findings_Qu28V3
+=== Detector 2: signed_memcpy ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/tcp_ipv6.c.xml
+    output : /tmp/cwe195_findings_Qu28V3
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS memcpy($A, $B, $C)
+
+real	0m0.076s
+user	0m0.064s
+sys	0m0.009s
+
+--- Stage 1 (memcpy): checking srcQL result for positivity guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/tcp_ipv6.c:1322:9 -- tcp_v6_timewait_ack() memcpy without positivity guard
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS memmove($A, $B, $C)
+
+real	0m0.069s
+user	0m0.058s
+sys	0m0.007s
+
+--- Stage 1 (memmove): checking srcQL result for positivity guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/tcp_ipv6.c:1309:9 -- tcp_v6_timewait_ack() memmove without positivity guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+
+[ signed_memcpy ] 2 finding(s) written to /tmp/cwe195_findings_Qu28V3
+=== Detector 3: signed_strncpy ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/tcp_ipv6.c.xml
+    output : /tmp/cwe195_findings_Qu28V3
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS strncpy($A, $B, $C)
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.080s
+user	0m0.052s
+sys	0m0.007s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor strncpy found
+
+[ signed_strncpy ] 0 finding(s) written to /tmp/cwe195_findings_Qu28V3
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/tcp_ipv6.c",
+  "line": 1322,
+  "col": 9,
+  "varname": "tcp_v6_timewait_ack",
+  "note": {
+    "line": 1322,
+    "col": 9,
+    "message": "memcpy() in tcp_v6_timewait_ack() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/tcp_ipv6.c",
+  "line": 1309,
+  "col": 9,
+  "varname": "tcp_v6_timewait_ack",
+  "note": {
+    "line": 1309,
+    "col": 9,
+    "message": "memmove() in tcp_v6_timewait_ack() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   signed_memcpy             2
+========================================

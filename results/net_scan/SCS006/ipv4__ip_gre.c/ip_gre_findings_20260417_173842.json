@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ip_gre.c",
+  "line": 235,
+  "col": 49,
+  "varname": "gre_err",
+  "note": {
+    "line": 235,
+    "col": 49,
+    "message": "multiplication in gre_err() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ip_gre.c",
+  "line": 666,
+  "col": 45,
+  "varname": "ipgre_xmit",
+  "note": {
+    "line": 666,
+    "col": 45,
+    "message": "addition in ipgre_xmit() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ip_gre.c",
+  "line": 211,
+  "col": 29,
+  "varname": "ipgre_err",
+  "note": {
+    "line": 211,
+    "col": 29,
+    "message": "increment (++) in ipgre_err() -- no upper-bound guard (INT_MAX check)"
+  }
+}

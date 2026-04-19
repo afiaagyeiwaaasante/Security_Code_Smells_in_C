@@ -1,0 +1,104 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/sctp/objcnt.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/sctp__objcnt.c/objcnt_report_20260417_174448.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/sctp__objcnt.c/objcnt_findings_20260417_174448.json
+ Date    : Fri Apr 17 17:44:48 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.014s
+user	0m0.009s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/sctp/objcnt.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/sctp/objcnt.c.json
+
+real	0m0.186s
+user	0m0.027s
+sys	0m0.004s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.025s
+user	0m0.020s
+sys	0m0.004s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sctp/objcnt.c.xml
+    output : /tmp/cwe190_findings_OLt9kC
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.014s
+user	0m0.008s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_OLt9kC
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sctp/objcnt.c.xml
+    output : /tmp/cwe190_findings_OLt9kC
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.012s
+user	0m0.008s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_OLt9kC
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sctp/objcnt.c.xml
+    output : /tmp/cwe190_findings_OLt9kC
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : sctp_objcnt_seq_next
+    position : 85:9
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/sctp/objcnt.c:85:9 -- sctp_objcnt_seq_next() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_OLt9kC
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sctp/objcnt.c",
+  "line": 85,
+  "col": 9,
+  "varname": "sctp_objcnt_seq_next",
+  "note": {
+    "line": 85,
+    "col": 9,
+    "message": "increment (++) in sctp_objcnt_seq_next() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_increment       1
+========================================

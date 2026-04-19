@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sctp/protocol.c",
+  "line": 769,
+  "col": 51,
+  "varname": "sctp_inetaddr_event",
+  "note": {
+    "line": 769,
+    "col": 51,
+    "message": "multiplication in sctp_inetaddr_event() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sctp/protocol.c",
+  "line": 1547,
+  "col": 44,
+  "varname": "sctp_init",
+  "note": {
+    "line": 1547,
+    "col": 44,
+    "message": "increment (++) in sctp_init() -- no upper-bound guard (INT_MAX check)"
+  }
+}

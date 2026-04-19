@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ethtool/linkmodes.c",
+  "line": 183,
+  "col": 58,
+  "varname": "ethnl_auto_linkmodes",
+  "note": {
+    "line": 183,
+    "col": 58,
+    "message": "increment (++) in ethnl_auto_linkmodes() -- no upper-bound guard (INT_MAX check)"
+  }
+}

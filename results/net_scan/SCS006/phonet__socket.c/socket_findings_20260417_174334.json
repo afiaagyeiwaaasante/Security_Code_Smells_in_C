@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/phonet/socket.c",
+  "line": 160,
+  "col": 55,
+  "varname": "pn_socket_bind",
+  "note": {
+    "line": 160,
+    "col": 55,
+    "message": "multiplication in pn_socket_bind() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/phonet/socket.c",
+  "line": 52,
+  "col": 39,
+  "varname": "pn_sock_init",
+  "note": {
+    "line": 52,
+    "col": 39,
+    "message": "increment (++) in pn_sock_init() -- no upper-bound guard (INT_MAX check)"
+  }
+}

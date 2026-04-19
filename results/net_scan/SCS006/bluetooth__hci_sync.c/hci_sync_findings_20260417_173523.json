@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/hci_sync.c",
+  "line": 541,
+  "col": 23,
+  "varname": "adv_timeout_expire_sync",
+  "note": {
+    "line": 541,
+    "col": 23,
+    "message": "multiplication in adv_timeout_expire_sync() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/hci_sync.c",
+  "line": 54,
+  "col": 40,
+  "varname": "hci_cmd_sync_alloc",
+  "note": {
+    "line": 54,
+    "col": 40,
+    "message": "addition in hci_cmd_sync_alloc() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/hci_sync.c",
+  "line": 2690,
+  "col": 17,
+  "varname": "conn_params_copy",
+  "note": {
+    "line": 2690,
+    "col": 17,
+    "message": "increment (++) in conn_params_copy() -- no upper-bound guard (INT_MAX check)"
+  }
+}

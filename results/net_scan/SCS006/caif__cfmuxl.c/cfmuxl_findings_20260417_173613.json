@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/caif/cfmuxl.c",
+  "line": 67,
+  "col": 46,
+  "varname": "cfmuxl_set_dnlayer",
+  "note": {
+    "line": 67,
+    "col": 46,
+    "message": "multiplication in cfmuxl_set_dnlayer() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/gss_krb5_keys.c",
+  "line": 411,
+  "col": 54,
+  "varname": "krb5_kdf_feedback_cmac",
+  "note": {
+    "line": 411,
+    "col": 54,
+    "message": "increment (++) in krb5_kdf_feedback_cmac() -- no upper-bound guard (INT_MAX check)"
+  }
+}

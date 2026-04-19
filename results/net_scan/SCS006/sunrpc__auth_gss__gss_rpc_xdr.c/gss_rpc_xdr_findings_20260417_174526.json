@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/gss_rpc_xdr.c",
+  "line": 145,
+  "col": 31,
+  "varname": "dummy_dec_opt_array",
+  "note": {
+    "line": 145,
+    "col": 31,
+    "message": "increment (++) in dummy_dec_opt_array() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ethtool/mse.c",
+  "line": 52,
+  "col": 23,
+  "varname": "get_snapshot_if_supported",
+  "note": {
+    "line": 52,
+    "col": 23,
+    "message": "increment (++) in get_snapshot_if_supported() -- no upper-bound guard (INT_MAX check)"
+  }
+}

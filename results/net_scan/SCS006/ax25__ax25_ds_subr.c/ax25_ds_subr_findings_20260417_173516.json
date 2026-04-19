@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ax25/ax25_ds_subr.c",
+  "line": 138,
+  "col": 11,
+  "varname": "ax25_kiss_cmd",
+  "note": {
+    "line": 138,
+    "col": 11,
+    "message": "increment (++) in ax25_kiss_cmd() -- no upper-bound guard (INT_MAX check)"
+  }
+}

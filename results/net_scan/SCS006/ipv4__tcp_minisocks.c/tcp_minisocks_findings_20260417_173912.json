@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_minisocks.c",
+  "line": 142,
+  "col": 44,
+  "varname": "tcp_timewait_state_process",
+  "note": {
+    "line": 142,
+    "col": 44,
+    "message": "addition in tcp_timewait_state_process() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_minisocks.c",
+  "line": 259,
+  "col": 28,
+  "varname": "tcp_timewait_state_process",
+  "note": {
+    "line": 259,
+    "col": 28,
+    "message": "increment (++) in tcp_timewait_state_process() -- no upper-bound guard (INT_MAX check)"
+  }
+}

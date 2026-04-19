@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/xfrm/xfrm_policy.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/xfrm__xfrm_policy.c/xfrm_policy_report_20260417_174709.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/xfrm__xfrm_policy.c/xfrm_policy_findings_20260417_174709.json
+ Date    : Fri Apr 17 17:47:09 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.289s
+user	0m0.275s
+sys	0m0.008s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/xfrm/xfrm_policy.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/xfrm/xfrm_policy.c.json
+
+real	0m0.664s
+user	0m0.547s
+sys	0m0.012s
+
+=== Stage 3: srcattributor ===
+
+real	0m38.206s
+user	0m37.874s
+sys	0m0.161s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/xfrm/xfrm_policy.c.xml
+    output : /tmp/cwe190_findings_vHOzEl
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.045s
+user	0m0.039s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/xfrm/xfrm_policy.c:633:46 -- xfrm_bydst_resize() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_vHOzEl
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/xfrm/xfrm_policy.c.xml
+    output : /tmp/cwe190_findings_vHOzEl
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.044s
+user	0m0.039s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/xfrm/xfrm_policy.c:370:65 -- xfrm_policy_timer() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_vHOzEl
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/xfrm/xfrm_policy.c.xml
+    output : /tmp/cwe190_findings_vHOzEl
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : xfrm_hash_resize
+    position : 734:49
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/xfrm/xfrm_policy.c:734:49 -- xfrm_hash_resize() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_vHOzEl
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/xfrm/xfrm_policy.c",
+  "line": 633,
+  "col": 46,
+  "varname": "xfrm_bydst_resize",
+  "note": {
+    "line": 633,
+    "col": 46,
+    "message": "multiplication in xfrm_bydst_resize() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/xfrm/xfrm_policy.c",
+  "line": 370,
+  "col": 65,
+  "varname": "xfrm_policy_timer",
+  "note": {
+    "line": 370,
+    "col": 65,
+    "message": "addition in xfrm_policy_timer() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/xfrm/xfrm_policy.c",
+  "line": 734,
+  "col": 49,
+  "varname": "xfrm_hash_resize",
+  "note": {
+    "line": 734,
+    "col": 49,
+    "message": "increment (++) in xfrm_hash_resize() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

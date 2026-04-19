@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/xfrm/xfrm_iptfs.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/xfrm__xfrm_iptfs.c/xfrm_iptfs_report_20260417_174708.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/xfrm__xfrm_iptfs.c/xfrm_iptfs_findings_20260417_174708.json
+ Date    : Fri Apr 17 17:47:08 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.128s
+user	0m0.120s
+sys	0m0.006s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/xfrm/xfrm_iptfs.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/xfrm/xfrm_iptfs.c.json
+
+real	0m0.368s
+user	0m0.250s
+sys	0m0.008s
+
+=== Stage 3: srcattributor ===
+
+real	0m9.023s
+user	0m8.806s
+sys	0m0.066s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/xfrm/xfrm_iptfs.c.xml
+    output : /tmp/cwe190_findings_bodr7d
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.044s
+user	0m0.034s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/xfrm/xfrm_iptfs.c:300:46 -- iptfs_skb_head_to_frag() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_bodr7d
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/xfrm/xfrm_iptfs.c.xml
+    output : /tmp/cwe190_findings_bodr7d
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.039s
+user	0m0.032s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/xfrm/xfrm_iptfs.c:1475:55 -- __reorder_future_shifts() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_bodr7d
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/xfrm/xfrm_iptfs.c.xml
+    output : /tmp/cwe190_findings_bodr7d
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : iptfs_skb_prepare_frag_walk
+    position : 352:59
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/xfrm/xfrm_iptfs.c:352:59 -- iptfs_skb_prepare_frag_walk() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_bodr7d
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/xfrm/xfrm_iptfs.c",
+  "line": 300,
+  "col": 46,
+  "varname": "iptfs_skb_head_to_frag",
+  "note": {
+    "line": 300,
+    "col": 46,
+    "message": "multiplication in iptfs_skb_head_to_frag() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/xfrm/xfrm_iptfs.c",
+  "line": 1475,
+  "col": 55,
+  "varname": "__reorder_future_shifts",
+  "note": {
+    "line": 1475,
+    "col": 55,
+    "message": "addition in __reorder_future_shifts() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/xfrm/xfrm_iptfs.c",
+  "line": 352,
+  "col": 59,
+  "varname": "iptfs_skb_prepare_frag_walk",
+  "note": {
+    "line": 352,
+    "col": 59,
+    "message": "increment (++) in iptfs_skb_prepare_frag_walk() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

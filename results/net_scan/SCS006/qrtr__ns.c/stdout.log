@@ -1,0 +1,79 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/qrtr/ns.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/qrtr__ns.c/ns_report_20260417_174338.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/qrtr__ns.c/ns_findings_20260417_174338.json
+ Date    : Fri Apr 17 17:43:38 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.049s
+user	0m0.043s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/qrtr/ns.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/qrtr/ns.c.json
+
+real	0m0.246s
+user	0m0.092s
+sys	0m0.004s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.847s
+user	0m0.778s
+sys	0m0.009s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/qrtr/ns.c.xml
+    output : /tmp/cwe190_findings_Gig4tF
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.023s
+user	0m0.016s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_Gig4tF
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/qrtr/ns.c.xml
+    output : /tmp/cwe190_findings_Gig4tF
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.022s
+user	0m0.016s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_Gig4tF
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/qrtr/ns.c.xml
+    output : /tmp/cwe190_findings_Gig4tF
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+[ unchecked_increment ] No smell detected.
+========================================
+ Findings JSON
+========================================
+
+========================================
+ Summary
+ Total findings : 0
+ Errors         : 0
+ Warnings       : 0
+========================================

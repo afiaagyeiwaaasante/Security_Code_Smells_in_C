@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netlabel/netlabel_kapi.c",
+  "line": 632,
+  "col": 36,
+  "varname": "netlbl_catmap_walk",
+  "note": {
+    "line": 632,
+    "col": 36,
+    "message": "increment (++) in netlbl_catmap_walk() -- no upper-bound guard (INT_MAX check)"
+  }
+}

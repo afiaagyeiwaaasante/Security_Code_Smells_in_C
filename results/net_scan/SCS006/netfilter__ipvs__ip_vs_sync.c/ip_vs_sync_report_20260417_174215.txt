@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipvs/ip_vs_sync.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/netfilter__ipvs__ip_vs_sync.c/ip_vs_sync_report_20260417_174215.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/netfilter__ipvs__ip_vs_sync.c/ip_vs_sync_findings_20260417_174215.json
+ Date    : Fri Apr 17 17:42:15 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.112s
+user	0m0.101s
+sys	0m0.007s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipvs/ip_vs_sync.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipvs/ip_vs_sync.c.json
+
+real	0m0.309s
+user	0m0.205s
+sys	0m0.011s
+
+=== Stage 3: srcattributor ===
+
+real	0m7.511s
+user	0m7.031s
+sys	0m0.095s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipvs/ip_vs_sync.c.xml
+    output : /tmp/cwe190_findings_MV0SkV
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.042s
+user	0m0.033s
+sys	0m0.006s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipvs/ip_vs_sync.c:570:48 -- ip_vs_sync_conn_v0() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_MV0SkV
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipvs/ip_vs_sync.c.xml
+    output : /tmp/cwe190_findings_MV0SkV
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.045s
+user	0m0.032s
+sys	0m0.007s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipvs/ip_vs_sync.c:464:32 -- ip_vs_sync_conn_needed() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_MV0SkV
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipvs/ip_vs_sync.c.xml
+    output : /tmp/cwe190_findings_MV0SkV
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : sb_queue_tail
+    position : 372:35
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipvs/ip_vs_sync.c:372:35 -- sb_queue_tail() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_MV0SkV
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipvs/ip_vs_sync.c",
+  "line": 570,
+  "col": 48,
+  "varname": "ip_vs_sync_conn_v0",
+  "note": {
+    "line": 570,
+    "col": 48,
+    "message": "multiplication in ip_vs_sync_conn_v0() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipvs/ip_vs_sync.c",
+  "line": 464,
+  "col": 32,
+  "varname": "ip_vs_sync_conn_needed",
+  "note": {
+    "line": 464,
+    "col": 32,
+    "message": "addition in ip_vs_sync_conn_needed() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipvs/ip_vs_sync.c",
+  "line": 372,
+  "col": 35,
+  "varname": "sb_queue_tail",
+  "note": {
+    "line": 372,
+    "col": 35,
+    "message": "increment (++) in sb_queue_tail() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

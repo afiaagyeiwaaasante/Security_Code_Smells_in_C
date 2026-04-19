@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/netfilter/arp_tables.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv4__netfilter__arp_tables.c/arp_tables_report_20260417_173850.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv4__netfilter__arp_tables.c/arp_tables_findings_20260417_173850.json
+ Date    : Fri Apr 17 17:38:50 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.094s
+user	0m0.085s
+sys	0m0.006s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/netfilter/arp_tables.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/netfilter/arp_tables.c.json
+
+real	0m0.305s
+user	0m0.163s
+sys	0m0.005s
+
+=== Stage 3: srcattributor ===
+
+real	0m4.966s
+user	0m4.829s
+sys	0m0.039s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/netfilter/arp_tables.c.xml
+    output : /tmp/cwe190_findings_Bo5Qfz
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.036s
+user	0m0.029s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/netfilter/arp_tables.c:70:35 -- ifname_compare() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_Bo5Qfz
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/netfilter/arp_tables.c.xml
+    output : /tmp/cwe190_findings_Bo5Qfz
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.033s
+user	0m0.026s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/netfilter/arp_tables.c:88:46 -- arp_packet_match() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_Bo5Qfz
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/netfilter/arp_tables.c.xml
+    output : /tmp/cwe190_findings_Bo5Qfz
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : arp_devaddr_compare
+    position : 53:31
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/netfilter/arp_tables.c:53:31 -- arp_devaddr_compare() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_Bo5Qfz
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/netfilter/arp_tables.c",
+  "line": 70,
+  "col": 35,
+  "varname": "ifname_compare",
+  "note": {
+    "line": 70,
+    "col": 35,
+    "message": "multiplication in ifname_compare() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/netfilter/arp_tables.c",
+  "line": 88,
+  "col": 46,
+  "varname": "arp_packet_match",
+  "note": {
+    "line": 88,
+    "col": 46,
+    "message": "addition in arp_packet_match() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/netfilter/arp_tables.c",
+  "line": 53,
+  "col": 31,
+  "varname": "arp_devaddr_compare",
+  "note": {
+    "line": 53,
+    "col": 31,
+    "message": "increment (++) in arp_devaddr_compare() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

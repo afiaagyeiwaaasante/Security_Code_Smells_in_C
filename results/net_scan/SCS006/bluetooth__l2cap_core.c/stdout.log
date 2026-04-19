@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/l2cap_core.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/bluetooth__l2cap_core.c/l2cap_core_report_20260417_173526.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/bluetooth__l2cap_core.c/l2cap_core_findings_20260417_173526.json
+ Date    : Fri Apr 17 17:35:26 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.245s
+user	0m0.233s
+sys	0m0.007s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/l2cap_core.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/l2cap_core.c.json
+
+real	0m0.599s
+user	0m0.456s
+sys	0m0.012s
+
+=== Stage 3: srcattributor ===
+
+real	1m19.065s
+user	1m12.697s
+sys	0m0.923s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/l2cap_core.c.xml
+    output : /tmp/cwe190_findings_JSTM7K
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.102s
+user	0m0.085s
+sys	0m0.010s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/l2cap_core.c:3987:67 -- l2cap_command_rej() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_JSTM7K
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/l2cap_core.c.xml
+    output : /tmp/cwe190_findings_JSTM7K
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.106s
+user	0m0.084s
+sys	0m0.011s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/l2cap_core.c:3300:29 -- l2cap_build_conf_req() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_JSTM7K
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/l2cap_core.c.xml
+    output : /tmp/cwe190_findings_JSTM7K
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : l2cap_alloc_cid
+    position : 251:60
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/l2cap_core.c:251:60 -- l2cap_alloc_cid() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_JSTM7K
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/l2cap_core.c",
+  "line": 3987,
+  "col": 67,
+  "varname": "l2cap_command_rej",
+  "note": {
+    "line": 3987,
+    "col": 67,
+    "message": "multiplication in l2cap_command_rej() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/l2cap_core.c",
+  "line": 3300,
+  "col": 29,
+  "varname": "l2cap_build_conf_req",
+  "note": {
+    "line": 3300,
+    "col": 29,
+    "message": "addition in l2cap_build_conf_req() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/l2cap_core.c",
+  "line": 251,
+  "col": 60,
+  "varname": "l2cap_alloc_cid",
+  "note": {
+    "line": 251,
+    "col": 60,
+    "message": "increment (++) in l2cap_alloc_cid() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

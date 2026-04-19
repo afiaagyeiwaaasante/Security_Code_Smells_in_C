@@ -1,0 +1,123 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/sctp/socket.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/sctp__socket.c/socket_report_20260417_174451.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/sctp__socket.c/socket_findings_20260417_174451.json
+ Date    : Fri Apr 17 17:44:51 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.469s
+user	0m0.449s
+sys	0m0.010s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/sctp/socket.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/sctp/socket.c.json
+
+real	0m0.966s
+user	0m0.840s
+sys	0m0.017s
+
+=== Stage 3: srcattributor ===
+
+real	2m16.583s
+user	2m11.774s
+sys	0m1.149s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sctp/socket.c.xml
+    output : /tmp/cwe190_findings_excGPO
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.141s
+user	0m0.123s
+sys	0m0.013s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/sctp/socket.c:276:51 -- sctp_addr_id2transport() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_excGPO
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sctp/socket.c.xml
+    output : /tmp/cwe190_findings_excGPO
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.138s
+user	0m0.121s
+sys	0m0.013s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_excGPO
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sctp/socket.c.xml
+    output : /tmp/cwe190_findings_excGPO
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : sctp_bindx_add
+    position : 518:41
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/sctp/socket.c:518:41 -- sctp_bindx_add() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_excGPO
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sctp/socket.c",
+  "line": 276,
+  "col": 51,
+  "varname": "sctp_addr_id2transport",
+  "note": {
+    "line": 276,
+    "col": 51,
+    "message": "multiplication in sctp_addr_id2transport() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sctp/socket.c",
+  "line": 518,
+  "col": 41,
+  "varname": "sctp_bindx_add",
+  "note": {
+    "line": 518,
+    "col": 41,
+    "message": "increment (++) in sctp_bindx_add() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

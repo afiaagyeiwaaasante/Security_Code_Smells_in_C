@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_mdb.c",
+  "line": 366,
+  "col": 29,
+  "varname": "br_mdb_fill_info",
+  "note": {
+    "line": 366,
+    "col": 29,
+    "message": "increment (++) in br_mdb_fill_info() -- no upper-bound guard (INT_MAX check)"
+  }
+}

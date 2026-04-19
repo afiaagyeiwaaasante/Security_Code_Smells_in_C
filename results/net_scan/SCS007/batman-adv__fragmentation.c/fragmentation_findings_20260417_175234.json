@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/fragmentation.c",
+  "line": 279,
+  "col": 9,
+  "varname": "batadv_frag_merge_packets",
+  "note": {
+    "line": 279,
+    "col": 9,
+    "message": "memmove() in batadv_frag_merge_packets() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

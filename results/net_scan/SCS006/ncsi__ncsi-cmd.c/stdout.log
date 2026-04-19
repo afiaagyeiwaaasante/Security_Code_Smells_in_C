@@ -1,0 +1,123 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ncsi/ncsi-cmd.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ncsi__ncsi-cmd.c/ncsi-cmd_report_20260417_174155.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ncsi__ncsi-cmd.c/ncsi-cmd_findings_20260417_174155.json
+ Date    : Fri Apr 17 17:41:55 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.032s
+user	0m0.024s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ncsi/ncsi-cmd.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ncsi/ncsi-cmd.c.json
+
+real	0m0.186s
+user	0m0.056s
+sys	0m0.004s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.268s
+user	0m0.254s
+sys	0m0.006s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ncsi/ncsi-cmd.c.xml
+    output : /tmp/cwe190_findings_bVtnjj
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.018s
+user	0m0.012s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_bVtnjj
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ncsi/ncsi-cmd.c.xml
+    output : /tmp/cwe190_findings_bVtnjj
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.017s
+user	0m0.012s
+sys	0m0.004s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ncsi/ncsi-cmd.c:285:24 -- ncsi_alloc_command() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_bVtnjj
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ncsi/ncsi-cmd.c.xml
+    output : /tmp/cwe190_findings_bVtnjj
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : ncsi_cmd_handler_sma
+    position : 168:29
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ncsi/ncsi-cmd.c:168:29 -- ncsi_cmd_handler_sma() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_bVtnjj
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ncsi/ncsi-cmd.c",
+  "line": 285,
+  "col": 24,
+  "varname": "ncsi_alloc_command",
+  "note": {
+    "line": 285,
+    "col": 24,
+    "message": "addition in ncsi_alloc_command() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ncsi/ncsi-cmd.c",
+  "line": 168,
+  "col": 29,
+  "varname": "ncsi_cmd_handler_sma",
+  "note": {
+    "line": 168,
+    "col": 29,
+    "message": "increment (++) in ncsi_cmd_handler_sma() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+========================================

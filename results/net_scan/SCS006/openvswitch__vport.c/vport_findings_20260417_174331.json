@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/openvswitch/vport.c",
+  "line": 566,
+  "col": 44,
+  "varname": "ovs_vport_send",
+  "note": {
+    "line": 566,
+    "col": 44,
+    "message": "increment (++) in ovs_vport_send() -- no upper-bound guard (INT_MAX check)"
+  }
+}

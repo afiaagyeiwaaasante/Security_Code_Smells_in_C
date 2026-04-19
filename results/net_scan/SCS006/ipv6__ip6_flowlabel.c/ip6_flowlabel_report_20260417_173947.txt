@@ -1,0 +1,123 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6_flowlabel.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv6__ip6_flowlabel.c/ip6_flowlabel_report_20260417_173947.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv6__ip6_flowlabel.c/ip6_flowlabel_findings_20260417_173947.json
+ Date    : Fri Apr 17 17:39:47 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.050s
+user	0m0.044s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6_flowlabel.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6_flowlabel.c.json
+
+real	0m0.245s
+user	0m0.102s
+sys	0m0.004s
+
+=== Stage 3: srcattributor ===
+
+real	0m1.239s
+user	0m1.217s
+sys	0m0.011s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6_flowlabel.c.xml
+    output : /tmp/cwe190_findings_TnJTGJ
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.023s
+user	0m0.017s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_TnJTGJ
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6_flowlabel.c.xml
+    output : /tmp/cwe190_findings_TnJTGJ
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.025s
+user	0m0.018s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6_flowlabel.c:132:49 -- fl_release() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_TnJTGJ
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6_flowlabel.c.xml
+    output : /tmp/cwe190_findings_TnJTGJ
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : ip6_fl_gc
+    position : 151:41
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6_flowlabel.c:151:41 -- ip6_fl_gc() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_TnJTGJ
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6_flowlabel.c",
+  "line": 132,
+  "col": 49,
+  "varname": "fl_release",
+  "note": {
+    "line": 132,
+    "col": 49,
+    "message": "addition in fl_release() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6_flowlabel.c",
+  "line": 151,
+  "col": 41,
+  "varname": "ip6_fl_gc",
+  "note": {
+    "line": 151,
+    "col": 41,
+    "message": "increment (++) in ip6_fl_gc() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+========================================

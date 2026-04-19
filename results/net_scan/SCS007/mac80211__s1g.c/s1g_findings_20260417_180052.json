@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/s1g.c",
+  "line": 50,
+  "col": 9,
+  "varname": "ieee80211_s1g_send_twt_setup",
+  "note": {
+    "line": 50,
+    "col": 9,
+    "message": "memcpy() in ieee80211_s1g_send_twt_setup() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

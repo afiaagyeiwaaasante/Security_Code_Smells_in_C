@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_flow_table_core.c",
+  "line": 507,
+  "col": 42,
+  "varname": "nf_flow_table_extend_ct_timeout",
+  "note": {
+    "line": 507,
+    "col": 42,
+    "message": "multiplication in nf_flow_table_extend_ct_timeout() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_flow_table_core.c",
+  "line": 120,
+  "col": 18,
+  "varname": "flow_offload_fill_route",
+  "note": {
+    "line": 120,
+    "col": 18,
+    "message": "increment (++) in flow_offload_fill_route() -- no upper-bound guard (INT_MAX check)"
+  }
+}

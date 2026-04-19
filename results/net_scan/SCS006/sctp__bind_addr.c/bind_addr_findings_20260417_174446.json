@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sctp/bind_addr.c",
+  "line": 355,
+  "col": 20,
+  "varname": "sctp_bind_addrs_check",
+  "note": {
+    "line": 355,
+    "col": 20,
+    "message": "increment (++) in sctp_bind_addrs_check() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_ipv4.c",
+  "line": 224,
+  "col": 56,
+  "varname": "tcp_v4_connect",
+  "note": {
+    "line": 224,
+    "col": 56,
+    "message": "multiplication in tcp_v4_connect() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_ipv4.c",
+  "line": 168,
+  "col": 54,
+  "varname": "tcp_twsk_unique",
+  "note": {
+    "line": 168,
+    "col": 54,
+    "message": "addition in tcp_twsk_unique() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_ipv4.c",
+  "line": 975,
+  "col": 31,
+  "varname": "tcp_v4_send_ack",
+  "note": {
+    "line": 975,
+    "col": 31,
+    "message": "increment (++) in tcp_v4_send_ack() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/dsa/devlink.c",
+  "line": 326,
+  "col": 9,
+  "varname": "dsa_port_devlink_setup",
+  "note": {
+    "line": 326,
+    "col": 9,
+    "message": "memcpy() in dsa_port_devlink_setup() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

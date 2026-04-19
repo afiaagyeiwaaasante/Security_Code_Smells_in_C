@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ceph/decode.c",
+  "line": 130,
+  "col": 25,
+  "varname": "ceph_decode_entity_addrvec",
+  "note": {
+    "line": 130,
+    "col": 25,
+    "message": "memcpy() in ceph_decode_entity_addrvec() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

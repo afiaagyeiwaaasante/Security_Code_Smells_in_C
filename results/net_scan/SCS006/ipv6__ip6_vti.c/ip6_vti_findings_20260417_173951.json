@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6_vti.c",
+  "line": 415,
+  "col": 49,
+  "varname": "vti6_state_check",
+  "note": {
+    "line": 415,
+    "col": 49,
+    "message": "multiplication in vti6_state_check() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6_vti.c",
+  "line": 1121,
+  "col": 45,
+  "varname": "vti6_exit_rtnl_net",
+  "note": {
+    "line": 1121,
+    "col": 45,
+    "message": "increment (++) in vti6_exit_rtnl_net() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/vht.c",
+  "line": 561,
+  "col": 46,
+  "varname": "ieee80211_sta_init_nss",
+  "note": {
+    "line": 561,
+    "col": 46,
+    "message": "multiplication in ieee80211_sta_init_nss() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/vht.c",
+  "line": 88,
+  "col": 29,
+  "varname": "ieee80211_apply_vhtcap_overrides",
+  "note": {
+    "line": 88,
+    "col": 29,
+    "message": "increment (++) in ieee80211_apply_vhtcap_overrides() -- no upper-bound guard (INT_MAX check)"
+  }
+}

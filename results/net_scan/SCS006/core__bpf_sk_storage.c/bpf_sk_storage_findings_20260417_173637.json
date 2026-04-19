@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/bpf_sk_storage.c",
+  "line": 285,
+  "col": 40,
+  "varname": "bpf_sk_storage_charge",
+  "note": {
+    "line": 285,
+    "col": 40,
+    "message": "multiplication in bpf_sk_storage_charge() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/bpf_sk_storage.c",
+  "line": 462,
+  "col": 41,
+  "varname": "bpf_sk_storage_diag_free",
+  "note": {
+    "line": 462,
+    "col": 41,
+    "message": "increment (++) in bpf_sk_storage_diag_free() -- no upper-bound guard (INT_MAX check)"
+  }
+}

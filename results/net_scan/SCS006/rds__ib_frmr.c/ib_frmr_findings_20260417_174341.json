@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rds/ib_frmr.c",
+  "line": 328,
+  "col": 40,
+  "varname": "rds_ib_mr_cqe_handler",
+  "note": {
+    "line": 328,
+    "col": 40,
+    "message": "multiplication in rds_ib_mr_cqe_handler() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rds/ib_frmr.c",
+  "line": 153,
+  "col": 59,
+  "varname": "rds_ib_post_reg_frmr",
+  "note": {
+    "line": 153,
+    "col": 59,
+    "message": "increment (++) in rds_ib_post_reg_frmr() -- no upper-bound guard (INT_MAX check)"
+  }
+}

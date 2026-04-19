@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/bnep/netdev.c",
+  "line": 124,
+  "col": 35,
+  "varname": "bnep_net_mc_filter",
+  "note": {
+    "line": 124,
+    "col": 35,
+    "message": "multiplication in bnep_net_mc_filter() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/bnep/netdev.c",
+  "line": 99,
+  "col": 26,
+  "varname": "bnep_net_set_mc_list",
+  "note": {
+    "line": 99,
+    "col": 26,
+    "message": "increment (++) in bnep_net_set_mc_list() -- no upper-bound guard (INT_MAX check)"
+  }
+}

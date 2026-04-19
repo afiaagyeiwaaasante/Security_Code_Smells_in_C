@@ -1,0 +1,104 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/sysctl_net_ipv4.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv4__sysctl_net_ipv4.c/sysctl_net_ipv4_report_20260417_173859.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv4__sysctl_net_ipv4.c/sysctl_net_ipv4_findings_20260417_173859.json
+ Date    : Fri Apr 17 17:38:59 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.065s
+user	0m0.059s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/sysctl_net_ipv4.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/sysctl_net_ipv4.c.json
+
+real	0m0.246s
+user	0m0.146s
+sys	0m0.006s
+
+=== Stage 3: srcattributor ===
+
+real	0m1.014s
+user	0m0.971s
+sys	0m0.019s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/sysctl_net_ipv4.c.xml
+    output : /tmp/cwe190_findings_yeWBwD
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.029s
+user	0m0.023s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_yeWBwD
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/sysctl_net_ipv4.c.xml
+    output : /tmp/cwe190_findings_yeWBwD
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.028s
+user	0m0.021s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_yeWBwD
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/sysctl_net_ipv4.c.xml
+    output : /tmp/cwe190_findings_yeWBwD
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : sscanf_key
+    position : 282:56
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/sysctl_net_ipv4.c:282:56 -- sscanf_key() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_yeWBwD
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/sysctl_net_ipv4.c",
+  "line": 282,
+  "col": 56,
+  "varname": "sscanf_key",
+  "note": {
+    "line": 282,
+    "col": 56,
+    "message": "increment (++) in sscanf_key() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_increment       1
+========================================

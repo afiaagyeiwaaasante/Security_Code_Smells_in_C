@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/sock.c",
+  "line": 444,
+  "col": 31,
+  "varname": "sock_set_timeout",
+  "note": {
+    "line": 444,
+    "col": 31,
+    "message": "increment (++) in sock_set_timeout() -- no upper-bound guard (INT_MAX check)"
+  }
+}

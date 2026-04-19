@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ipcomp.c",
+  "line": 26,
+  "col": 55,
+  "varname": "ipcomp4_err",
+  "note": {
+    "line": 26,
+    "col": 55,
+    "message": "multiplication in ipcomp4_err() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ipcomp.c",
+  "line": 27,
+  "col": 68,
+  "varname": "ipcomp4_err",
+  "note": {
+    "line": 27,
+    "col": 68,
+    "message": "addition in ipcomp4_err() -- no upper-bound guard before adding"
+  }
+}

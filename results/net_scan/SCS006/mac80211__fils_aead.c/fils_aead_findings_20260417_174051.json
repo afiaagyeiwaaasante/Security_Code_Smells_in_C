@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/fils_aead.c",
+  "line": 206,
+  "col": 45,
+  "varname": "fils_encrypt_assoc_req",
+  "note": {
+    "line": 206,
+    "col": 45,
+    "message": "multiplication in fils_encrypt_assoc_req() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/fils_aead.c",
+  "line": 39,
+  "col": 40,
+  "varname": "aes_s2v",
+  "note": {
+    "line": 39,
+    "col": 40,
+    "message": "increment (++) in aes_s2v() -- no upper-bound guard (INT_MAX check)"
+  }
+}

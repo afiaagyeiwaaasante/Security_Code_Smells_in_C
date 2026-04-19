@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/raw.c",
+  "line": 719,
+  "col": 25,
+  "varname": "raw6_getfrag",
+  "note": {
+    "line": 719,
+    "col": 25,
+    "message": "memcpy() in raw6_getfrag() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

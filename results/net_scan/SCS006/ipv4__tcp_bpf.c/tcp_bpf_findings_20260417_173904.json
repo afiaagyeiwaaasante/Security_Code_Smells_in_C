@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_bpf.c",
+  "line": 278,
+  "col": 28,
+  "varname": "tcp_bpf_recvmsg_parser",
+  "note": {
+    "line": 278,
+    "col": 28,
+    "message": "increment (++) in tcp_bpf_recvmsg_parser() -- no upper-bound guard (INT_MAX check)"
+  }
+}

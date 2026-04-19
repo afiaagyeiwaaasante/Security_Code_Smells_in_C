@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/handshake/tlshd.c",
+  "line": 72,
+  "col": 26,
+  "varname": "tls_handshake_remote_peerids",
+  "note": {
+    "line": 72,
+    "col": 26,
+    "message": "increment (++) in tls_handshake_remote_peerids() -- no upper-bound guard (INT_MAX check)"
+  }
+}

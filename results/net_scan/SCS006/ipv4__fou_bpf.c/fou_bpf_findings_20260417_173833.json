@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/fou_bpf.c",
+  "line": 47,
+  "col": 47,
+  "varname": "bpf_skb_set_fou_encap",
+  "note": {
+    "line": 47,
+    "col": 47,
+    "message": "multiplication in bpf_skb_set_fou_encap() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/translation-table.c",
+  "line": 3330,
+  "col": 28,
+  "varname": "batadv_handle_tt_response",
+  "note": {
+    "line": 3330,
+    "col": 28,
+    "message": "multiplication in batadv_handle_tt_response() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/translation-table.c",
+  "line": 475,
+  "col": 16,
+  "varname": "batadv_tt_local_event",
+  "note": {
+    "line": 475,
+    "col": 16,
+    "message": "increment (++) in batadv_tt_local_event() -- no upper-bound guard (INT_MAX check)"
+  }
+}

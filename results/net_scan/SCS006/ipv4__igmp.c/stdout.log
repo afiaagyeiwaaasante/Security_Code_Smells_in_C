@@ -1,0 +1,123 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/igmp.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv4__igmp.c/igmp_report_20260417_173837.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv4__igmp.c/igmp_findings_20260417_173837.json
+ Date    : Fri Apr 17 17:38:37 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.145s
+user	0m0.133s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/igmp.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/igmp.c.json
+
+real	0m0.365s
+user	0m0.280s
+sys	0m0.007s
+
+=== Stage 3: srcattributor ===
+
+real	0m16.794s
+user	0m16.215s
+sys	0m0.120s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/igmp.c.xml
+    output : /tmp/cwe190_findings_jzvC30
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.051s
+user	0m0.044s
+sys	0m0.006s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_jzvC30
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/igmp.c.xml
+    output : /tmp/cwe190_findings_jzvC30
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.053s
+user	0m0.044s
+sys	0m0.006s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/igmp.c:231:37 -- igmp_gq_start_timer() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_jzvC30
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/igmp.c.xml
+    output : /tmp/cwe190_findings_jzvC30
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : igmp_scount
+    position : 328:23
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/igmp.c:328:23 -- igmp_scount() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_jzvC30
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/igmp.c",
+  "line": 231,
+  "col": 37,
+  "varname": "igmp_gq_start_timer",
+  "note": {
+    "line": 231,
+    "col": 37,
+    "message": "addition in igmp_gq_start_timer() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/igmp.c",
+  "line": 328,
+  "col": 23,
+  "varname": "igmp_scount",
+  "note": {
+    "line": 328,
+    "col": 23,
+    "message": "increment (++) in igmp_scount() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+========================================

@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_log_syslog.c",
+  "line": 241,
+  "col": 52,
+  "varname": "nf_log_dump_tcp_header",
+  "note": {
+    "line": 241,
+    "col": 52,
+    "message": "multiplication in nf_log_dump_tcp_header() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_log_syslog.c",
+  "line": 256,
+  "col": 43,
+  "varname": "nf_log_dump_tcp_header",
+  "note": {
+    "line": 256,
+    "col": 43,
+    "message": "increment (++) in nf_log_dump_tcp_header() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/tipc/link.c",
+  "line": 2502,
+  "col": 26,
+  "varname": "tipc_link_bc_nack_rcv",
+  "note": {
+    "line": 2502,
+    "col": 26,
+    "message": "addition in tipc_link_bc_nack_rcv() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/tipc/link.c",
+  "line": 369,
+  "col": 22,
+  "varname": "tipc_link_add_bc_peer",
+  "note": {
+    "line": 369,
+    "col": 22,
+    "message": "increment (++) in tipc_link_add_bc_peer() -- no upper-bound guard (INT_MAX check)"
+  }
+}

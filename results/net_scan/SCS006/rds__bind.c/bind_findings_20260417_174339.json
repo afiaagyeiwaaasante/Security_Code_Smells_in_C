@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rds/bind.c",
+  "line": 179,
+  "col": 63,
+  "varname": "rds_bind",
+  "note": {
+    "line": 179,
+    "col": 63,
+    "message": "multiplication in rds_bind() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rds/bind.c",
+  "line": 113,
+  "col": 30,
+  "varname": "rds_add_bound",
+  "note": {
+    "line": 113,
+    "col": 30,
+    "message": "increment (++) in rds_add_bound() -- no upper-bound guard (INT_MAX check)"
+  }
+}

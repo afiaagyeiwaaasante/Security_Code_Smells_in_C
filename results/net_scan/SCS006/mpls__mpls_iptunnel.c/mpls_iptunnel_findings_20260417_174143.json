@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mpls/mpls_iptunnel.c",
+  "line": 273,
+  "col": 41,
+  "varname": "mpls_encap_cmp",
+  "note": {
+    "line": 273,
+    "col": 41,
+    "message": "increment (++) in mpls_encap_cmp() -- no upper-bound guard (INT_MAX check)"
+  }
+}

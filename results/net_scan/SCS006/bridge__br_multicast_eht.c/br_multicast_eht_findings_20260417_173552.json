@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_multicast_eht.c",
+  "line": 335,
+  "col": 38,
+  "varname": "__eht_lookup_create_set_entry",
+  "note": {
+    "line": 335,
+    "col": 38,
+    "message": "increment (++) in __eht_lookup_create_set_entry() -- no upper-bound guard (INT_MAX check)"
+  }
+}

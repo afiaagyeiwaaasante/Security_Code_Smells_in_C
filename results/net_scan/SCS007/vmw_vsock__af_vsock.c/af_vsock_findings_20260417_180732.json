@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/vmw_vsock/af_vsock.c",
+  "line": 1138,
+  "col": 9,
+  "varname": "vsock_getname",
+  "note": {
+    "line": 1138,
+    "col": 9,
+    "message": "memcpy() in vsock_getname() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

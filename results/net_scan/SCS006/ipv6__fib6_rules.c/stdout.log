@@ -1,0 +1,123 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/fib6_rules.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv6__fib6_rules.c/fib6_rules_report_20260417_173941.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv6__fib6_rules.c/fib6_rules_findings_20260417_173941.json
+ Date    : Fri Apr 17 17:39:41 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.040s
+user	0m0.034s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/fib6_rules.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/fib6_rules.c.json
+
+real	0m0.236s
+user	0m0.081s
+sys	0m0.004s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.702s
+user	0m0.672s
+sys	0m0.010s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/fib6_rules.c.xml
+    output : /tmp/cwe190_findings_nbNaZY
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.022s
+user	0m0.016s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/fib6_rules.c:140:49 -- fib6_rule_saddr() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_nbNaZY
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/fib6_rules.c.xml
+    output : /tmp/cwe190_findings_nbNaZY
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.021s
+user	0m0.014s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_nbNaZY
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/fib6_rules.c.xml
+    output : /tmp/cwe190_findings_nbNaZY
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : fib6_rule_configure
+    position : 472:55
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/fib6_rules.c:472:55 -- fib6_rule_configure() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_nbNaZY
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/fib6_rules.c",
+  "line": 140,
+  "col": 49,
+  "varname": "fib6_rule_saddr",
+  "note": {
+    "line": 140,
+    "col": 49,
+    "message": "multiplication in fib6_rule_saddr() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/fib6_rules.c",
+  "line": 472,
+  "col": 55,
+  "varname": "fib6_rule_configure",
+  "note": {
+    "line": 472,
+    "col": 55,
+    "message": "increment (++) in fib6_rule_configure() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

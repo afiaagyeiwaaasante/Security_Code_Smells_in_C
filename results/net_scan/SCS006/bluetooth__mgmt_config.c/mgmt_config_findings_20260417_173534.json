@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/mgmt_config.c",
+  "line": 159,
+  "col": 61,
+  "varname": "set_def_system_config",
+  "note": {
+    "line": 159,
+    "col": 61,
+    "message": "addition in set_def_system_config() -- no upper-bound guard before adding"
+  }
+}

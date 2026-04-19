@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/wireless/scan.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/wireless__scan.c/scan_report_20260417_174640.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/wireless__scan.c/scan_findings_20260417_174640.json
+ Date    : Fri Apr 17 17:46:40 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.225s
+user	0m0.206s
+sys	0m0.007s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/wireless/scan.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/wireless/scan.c.json
+
+real	0m0.537s
+user	0m0.407s
+sys	0m0.010s
+
+=== Stage 3: srcattributor ===
+
+real	0m32.001s
+user	0m30.662s
+sys	0m0.283s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/wireless/scan.c.xml
+    output : /tmp/cwe190_findings_g11MJG
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.067s
+user	0m0.057s
+sys	0m0.008s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/wireless/scan.c:578:69 -- cfg80211_parse_ap_info() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_g11MJG
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/wireless/scan.c.xml
+    output : /tmp/cwe190_findings_g11MJG
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.072s
+user	0m0.060s
+sys	0m0.008s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/wireless/scan.c:940:54 -- cfg80211_scan_6ghz() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_g11MJG
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/wireless/scan.c.xml
+    output : /tmp/cwe190_findings_g11MJG
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : bss_ref_get
+    position : 109:22
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/wireless/scan.c:109:22 -- bss_ref_get() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_g11MJG
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/wireless/scan.c",
+  "line": 578,
+  "col": 69,
+  "varname": "cfg80211_parse_ap_info",
+  "note": {
+    "line": 578,
+    "col": 69,
+    "message": "multiplication in cfg80211_parse_ap_info() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/wireless/scan.c",
+  "line": 940,
+  "col": 54,
+  "varname": "cfg80211_scan_6ghz",
+  "note": {
+    "line": 940,
+    "col": 54,
+    "message": "addition in cfg80211_scan_6ghz() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/wireless/scan.c",
+  "line": 109,
+  "col": 22,
+  "varname": "bss_ref_get",
+  "note": {
+    "line": 109,
+    "col": 22,
+    "message": "increment (++) in bss_ref_get() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

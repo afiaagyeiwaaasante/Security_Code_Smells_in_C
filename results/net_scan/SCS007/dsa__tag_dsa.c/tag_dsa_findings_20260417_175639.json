@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/dsa/tag_dsa.c",
+  "line": 317,
+  "col": 17,
+  "varname": "dsa_rcv_ll",
+  "note": {
+    "line": 317,
+    "col": 17,
+    "message": "memcpy() in dsa_rcv_ll() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

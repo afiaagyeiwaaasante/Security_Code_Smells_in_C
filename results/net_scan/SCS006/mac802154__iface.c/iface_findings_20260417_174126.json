@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac802154/iface.c",
+  "line": 54,
+  "col": 45,
+  "varname": "mac802154_wpan_ioctl",
+  "note": {
+    "line": 54,
+    "col": 45,
+    "message": "multiplication in mac802154_wpan_ioctl() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac802154/iface.c",
+  "line": 202,
+  "col": 26,
+  "varname": "mac802154_slave_open",
+  "note": {
+    "line": 202,
+    "col": 26,
+    "message": "increment (++) in mac802154_slave_open() -- no upper-bound guard (INT_MAX check)"
+  }
+}

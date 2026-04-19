@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/mptcp/options.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/mptcp__options.c/options_report_20260417_174147.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/mptcp__options.c/options_findings_20260417_174147.json
+ Date    : Fri Apr 17 17:41:47 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.097s
+user	0m0.087s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/mptcp/options.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/mptcp/options.c.json
+
+real	0m0.316s
+user	0m0.195s
+sys	0m0.006s
+
+=== Stage 3: srcattributor ===
+
+real	0m6.295s
+user	0m6.003s
+sys	0m0.055s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mptcp/options.c.xml
+    output : /tmp/cwe190_findings_JPD1gE
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.037s
+user	0m0.029s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/mptcp/options.c:1087:40 -- ack_update_msk() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_JPD1gE
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mptcp/options.c.xml
+    output : /tmp/cwe190_findings_JPD1gE
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.036s
+user	0m0.028s
+sys	0m0.006s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/mptcp/options.c:579:64 -- mptcp_established_options_dss() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_JPD1gE
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mptcp/options.c.xml
+    output : /tmp/cwe190_findings_JPD1gE
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : mptcp_parse_option
+    position : 69:31
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/mptcp/options.c:69:31 -- mptcp_parse_option() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_JPD1gE
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mptcp/options.c",
+  "line": 1087,
+  "col": 40,
+  "varname": "ack_update_msk",
+  "note": {
+    "line": 1087,
+    "col": 40,
+    "message": "multiplication in ack_update_msk() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mptcp/options.c",
+  "line": 579,
+  "col": 64,
+  "varname": "mptcp_established_options_dss",
+  "note": {
+    "line": 579,
+    "col": 64,
+    "message": "addition in mptcp_established_options_dss() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mptcp/options.c",
+  "line": 69,
+  "col": 31,
+  "varname": "mptcp_parse_option",
+  "note": {
+    "line": 69,
+    "col": 31,
+    "message": "increment (++) in mptcp_parse_option() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netlink/af_netlink.c",
+  "line": 975,
+  "col": 58,
+  "varname": "netlink_bind",
+  "note": {
+    "line": 975,
+    "col": 58,
+    "message": "multiplication in netlink_bind() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netlink/af_netlink.c",
+  "line": 540,
+  "col": 51,
+  "varname": "netlink_update_listeners",
+  "note": {
+    "line": 540,
+    "col": 51,
+    "message": "increment (++) in netlink_update_listeners() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/xt_IDLETIMER.c",
+  "line": 327,
+  "col": 36,
+  "varname": "idletimer_tg_checkentry",
+  "note": {
+    "line": 327,
+    "col": 36,
+    "message": "increment (++) in idletimer_tg_checkentry() -- no upper-bound guard (INT_MAX check)"
+  }
+}

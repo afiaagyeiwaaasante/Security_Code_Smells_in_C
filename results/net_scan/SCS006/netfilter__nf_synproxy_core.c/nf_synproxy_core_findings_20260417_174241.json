@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_synproxy_core.c",
+  "line": 32,
+  "col": 32,
+  "varname": "synproxy_parse_options",
+  "note": {
+    "line": 32,
+    "col": 32,
+    "message": "multiplication in synproxy_parse_options() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_synproxy_core.c",
+  "line": 118,
+  "col": 37,
+  "varname": "synproxy_build_options",
+  "note": {
+    "line": 118,
+    "col": 37,
+    "message": "addition in synproxy_build_options() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_synproxy_core.c",
+  "line": 44,
+  "col": 34,
+  "varname": "synproxy_parse_options",
+  "note": {
+    "line": 44,
+    "col": 34,
+    "message": "increment (++) in synproxy_parse_options() -- no upper-bound guard (INT_MAX check)"
+  }
+}

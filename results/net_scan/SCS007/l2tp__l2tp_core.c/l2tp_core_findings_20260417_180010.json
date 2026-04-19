@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/l2tp/l2tp_core.c",
+  "line": 1187,
+  "col": 17,
+  "varname": "l2tp_build_l2tpv3_header",
+  "note": {
+    "line": 1187,
+    "col": 17,
+    "message": "memcpy() in l2tp_build_l2tpv3_header() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_bitwise.c",
+  "line": 34,
+  "col": 64,
+  "varname": "nft_bitwise_eval_mask_xor",
+  "note": {
+    "line": 34,
+    "col": 64,
+    "message": "increment (++) in nft_bitwise_eval_mask_xor() -- no upper-bound guard (INT_MAX check)"
+  }
+}

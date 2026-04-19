@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/parse.c",
+  "line": 83,
+  "col": 35,
+  "varname": "ieee80211_parse_extension_element",
+  "note": {
+    "line": 83,
+    "col": 35,
+    "message": "multiplication in ieee80211_parse_extension_element() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/parse.c",
+  "line": 69,
+  "col": 39,
+  "varname": "ieee80211_parse_extension_element",
+  "note": {
+    "line": 69,
+    "col": 39,
+    "message": "addition in ieee80211_parse_extension_element() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/parse.c",
+  "line": 189,
+  "col": 40,
+  "varname": "ieee80211_parse_extension_element",
+  "note": {
+    "line": 189,
+    "col": 40,
+    "message": "increment (++) in ieee80211_parse_extension_element() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_netlink.c",
+  "line": 762,
+  "col": 17,
+  "varname": "br_process_vlan_info",
+  "note": {
+    "line": 762,
+    "col": 17,
+    "message": "memcpy() in br_process_vlan_info() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

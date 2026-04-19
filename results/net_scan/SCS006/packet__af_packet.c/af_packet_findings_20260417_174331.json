@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/packet/af_packet.c",
+  "line": 3287,
+  "col": 48,
+  "varname": "packet_bind_spkt",
+  "note": {
+    "line": 3287,
+    "col": 48,
+    "message": "multiplication in packet_bind_spkt() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/packet/af_packet.c",
+  "line": 852,
+  "col": 46,
+  "varname": "prb_open_block",
+  "note": {
+    "line": 852,
+    "col": 46,
+    "message": "increment (++) in prb_open_block() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ncsi/ncsi-manage.c",
+  "line": 778,
+  "col": 9,
+  "varname": "ncsi_oem_smaf_mlx",
+  "note": {
+    "line": 778,
+    "col": 9,
+    "message": "memcpy() in ncsi_oem_smaf_mlx() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

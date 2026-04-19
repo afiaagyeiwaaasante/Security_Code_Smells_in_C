@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/peer_event.c",
+  "line": 51,
+  "col": 25,
+  "varname": "rxrpc_lookup_peer_local_rcu",
+  "note": {
+    "line": 51,
+    "col": 25,
+    "message": "memcpy() in rxrpc_lookup_peer_local_rcu() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

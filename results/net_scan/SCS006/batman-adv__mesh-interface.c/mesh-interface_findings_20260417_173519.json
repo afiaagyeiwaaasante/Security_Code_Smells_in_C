@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/mesh-interface.c",
+  "line": 741,
+  "col": 38,
+  "varname": "batadv_meshif_init_late",
+  "note": {
+    "line": 741,
+    "col": 38,
+    "message": "multiplication in batadv_meshif_init_late() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/mesh-interface.c",
+  "line": 963,
+  "col": 42,
+  "varname": "batadv_get_ethtool_stats",
+  "note": {
+    "line": 963,
+    "col": 42,
+    "message": "increment (++) in batadv_get_ethtool_stats() -- no upper-bound guard (INT_MAX check)"
+  }
+}

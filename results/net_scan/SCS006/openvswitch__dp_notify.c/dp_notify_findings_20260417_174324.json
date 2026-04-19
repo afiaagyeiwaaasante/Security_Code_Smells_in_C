@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/openvswitch/dp_notify.c",
+  "line": 43,
+  "col": 57,
+  "varname": "ovs_dp_notify_wq",
+  "note": {
+    "line": 43,
+    "col": 57,
+    "message": "increment (++) in ovs_dp_notify_wq() -- no upper-bound guard (INT_MAX check)"
+  }
+}

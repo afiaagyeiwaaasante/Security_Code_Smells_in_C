@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/wireless/nl80211.c",
+  "line": 231,
+  "col": 51,
+  "varname": "validate_beacon_head",
+  "note": {
+    "line": 231,
+    "col": 51,
+    "message": "multiplication in validate_beacon_head() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/wireless/nl80211.c",
+  "line": 307,
+  "col": 55,
+  "varname": "validate_supported_selectors",
+  "note": {
+    "line": 307,
+    "col": 55,
+    "message": "increment (++) in validate_supported_selectors() -- no upper-bound guard (INT_MAX check)"
+  }
+}

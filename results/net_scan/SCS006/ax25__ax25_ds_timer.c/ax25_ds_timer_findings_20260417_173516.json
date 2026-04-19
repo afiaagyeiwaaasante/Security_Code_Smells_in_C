@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ax25/ax25_ds_timer.c",
+  "line": 203,
+  "col": 38,
+  "varname": "ax25_ds_t1_timeout",
+  "note": {
+    "line": 203,
+    "col": 38,
+    "message": "increment (++) in ax25_ds_t1_timeout() -- no upper-bound guard (INT_MAX check)"
+  }
+}

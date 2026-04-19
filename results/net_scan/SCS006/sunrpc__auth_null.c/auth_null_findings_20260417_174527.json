@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_null.c",
+  "line": 71,
+  "col": 11,
+  "varname": "nul_marshal",
+  "note": {
+    "line": 71,
+    "col": 11,
+    "message": "increment (++) in nul_marshal() -- no upper-bound guard (INT_MAX check)"
+  }
+}

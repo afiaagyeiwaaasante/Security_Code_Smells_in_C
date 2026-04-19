@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ndisc.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv6__ndisc.c/ndisc_report_20260417_174002.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv6__ndisc.c/ndisc_findings_20260417_174002.json
+ Date    : Fri Apr 17 17:40:02 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.109s
+user	0m0.101s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ndisc.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ndisc.c.json
+
+real	0m0.313s
+user	0m0.216s
+sys	0m0.006s
+
+=== Stage 3: srcattributor ===
+
+real	0m7.022s
+user	0m6.901s
+sys	0m0.052s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ndisc.c.xml
+    output : /tmp/cwe190_findings_LOhVkX
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.043s
+user	0m0.034s
+sys	0m0.006s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ndisc.c:224:56 -- ndisc_parse_options() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_LOhVkX
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ndisc.c.xml
+    output : /tmp/cwe190_findings_LOhVkX
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.041s
+user	0m0.033s
+sys	0m0.006s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ndisc.c:793:75 -- ndisc_recv_ns() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_LOhVkX
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ndisc.c.xml
+    output : /tmp/cwe190_findings_LOhVkX
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : ndisc_fill_redirect_hdr_option
+    position : 1648:14
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ndisc.c:1648:14 -- ndisc_fill_redirect_hdr_option() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_LOhVkX
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ndisc.c",
+  "line": 224,
+  "col": 56,
+  "varname": "ndisc_parse_options",
+  "note": {
+    "line": 224,
+    "col": 56,
+    "message": "multiplication in ndisc_parse_options() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ndisc.c",
+  "line": 793,
+  "col": 75,
+  "varname": "ndisc_recv_ns",
+  "note": {
+    "line": 793,
+    "col": 75,
+    "message": "addition in ndisc_recv_ns() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ndisc.c",
+  "line": 1648,
+  "col": 14,
+  "varname": "ndisc_fill_redirect_hdr_option",
+  "note": {
+    "line": 1648,
+    "col": 14,
+    "message": "increment (++) in ndisc_fill_redirect_hdr_option() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

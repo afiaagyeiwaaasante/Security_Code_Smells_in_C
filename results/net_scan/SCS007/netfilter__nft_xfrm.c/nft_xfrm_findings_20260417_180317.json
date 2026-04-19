@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_xfrm.c",
+  "line": 141,
+  "col": 17,
+  "varname": "nft_xfrm_state_get_key",
+  "note": {
+    "line": 141,
+    "col": 17,
+    "message": "memcpy() in nft_xfrm_state_get_key() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

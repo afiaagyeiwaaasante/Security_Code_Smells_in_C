@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/oob.c",
+  "line": 134,
+  "col": 25,
+  "varname": "rxrpc_sendmsg_oob_cmsg",
+  "note": {
+    "line": 134,
+    "col": 25,
+    "message": "memcpy() in rxrpc_sendmsg_oob_cmsg() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

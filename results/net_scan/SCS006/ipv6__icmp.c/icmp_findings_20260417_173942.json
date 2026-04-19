@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/icmp.c",
+  "line": 78,
+  "col": 51,
+  "varname": "icmpv6_err",
+  "note": {
+    "line": 78,
+    "col": 51,
+    "message": "multiplication in icmpv6_err() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/icmp.c",
+  "line": 78,
+  "col": 65,
+  "varname": "icmpv6_err",
+  "note": {
+    "line": 78,
+    "col": 65,
+    "message": "addition in icmpv6_err() -- no upper-bound guard before adding"
+  }
+}

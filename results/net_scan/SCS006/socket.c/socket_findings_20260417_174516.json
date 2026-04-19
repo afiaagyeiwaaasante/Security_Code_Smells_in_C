@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/socket.c",
+  "line": 373,
+  "col": 56,
+  "varname": "init_once",
+  "note": {
+    "line": 373,
+    "col": 56,
+    "message": "multiplication in init_once() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/socket.c",
+  "line": 2798,
+  "col": 25,
+  "varname": "__sys_sendmmsg",
+  "note": {
+    "line": 2798,
+    "col": 25,
+    "message": "increment (++) in __sys_sendmmsg() -- no upper-bound guard (INT_MAX check)"
+  }
+}

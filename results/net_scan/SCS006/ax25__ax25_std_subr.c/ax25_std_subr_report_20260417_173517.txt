@@ -1,0 +1,79 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ax25/ax25_std_subr.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ax25__ax25_std_subr.c/ax25_std_subr_report_20260417_173517.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ax25__ax25_std_subr.c/ax25_std_subr_findings_20260417_173517.json
+ Date    : Fri Apr 17 17:35:17 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.011s
+user	0m0.005s
+sys	0m0.003s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ax25/ax25_std_subr.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ax25/ax25_std_subr.c.json
+
+real	0m0.179s
+user	0m0.016s
+sys	0m0.003s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.012s
+user	0m0.008s
+sys	0m0.002s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ax25/ax25_std_subr.c.xml
+    output : /tmp/cwe190_findings_YjEOdX
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.008s
+user	0m0.004s
+sys	0m0.003s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_YjEOdX
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ax25/ax25_std_subr.c.xml
+    output : /tmp/cwe190_findings_YjEOdX
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.010s
+user	0m0.004s
+sys	0m0.003s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_YjEOdX
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ax25/ax25_std_subr.c.xml
+    output : /tmp/cwe190_findings_YjEOdX
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+[ unchecked_increment ] No smell detected.
+========================================
+ Findings JSON
+========================================
+
+========================================
+ Summary
+ Total findings : 0
+ Errors         : 0
+ Warnings       : 0
+========================================

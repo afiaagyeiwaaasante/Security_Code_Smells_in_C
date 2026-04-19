@@ -1,0 +1,123 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/seg6_local.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv6__seg6_local.c/seg6_local_report_20260417_174015.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv6__seg6_local.c/seg6_local_findings_20260417_174015.json
+ Date    : Fri Apr 17 17:40:15 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.132s
+user	0m0.119s
+sys	0m0.006s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/seg6_local.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/seg6_local.c.json
+
+real	0m0.370s
+user	0m0.230s
+sys	0m0.007s
+
+=== Stage 3: srcattributor ===
+
+real	0m8.370s
+user	0m7.968s
+sys	0m0.071s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/seg6_local.c.xml
+    output : /tmp/cwe190_findings_DLXnhR
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.049s
+user	0m0.037s
+sys	0m0.006s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_DLXnhR
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/seg6_local.c.xml
+    output : /tmp/cwe190_findings_DLXnhR
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.065s
+user	0m0.038s
+sys	0m0.006s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/seg6_local.c:1705:35 -- cmp_nla_srh() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_DLXnhR
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/seg6_local.c.xml
+    output : /tmp/cwe190_findings_DLXnhR
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : seg6_next_csid_is_arg_zero
+    position : 358:38
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/seg6_local.c:358:38 -- seg6_next_csid_is_arg_zero() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_DLXnhR
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/seg6_local.c",
+  "line": 1705,
+  "col": 35,
+  "varname": "cmp_nla_srh",
+  "note": {
+    "line": 1705,
+    "col": 35,
+    "message": "addition in cmp_nla_srh() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/seg6_local.c",
+  "line": 358,
+  "col": 38,
+  "varname": "seg6_next_csid_is_arg_zero",
+  "note": {
+    "line": 358,
+    "col": 38,
+    "message": "increment (++) in seg6_next_csid_is_arg_zero() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+========================================

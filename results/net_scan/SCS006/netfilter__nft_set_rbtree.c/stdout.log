@@ -1,0 +1,123 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_set_rbtree.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/netfilter__nft_set_rbtree.c/nft_set_rbtree_report_20260417_174255.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/netfilter__nft_set_rbtree.c/nft_set_rbtree_findings_20260417_174255.json
+ Date    : Fri Apr 17 17:42:55 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.066s
+user	0m0.059s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_set_rbtree.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_set_rbtree.c.json
+
+real	0m0.254s
+user	0m0.134s
+sys	0m0.006s
+
+=== Stage 3: srcattributor ===
+
+real	0m2.550s
+user	0m2.471s
+sys	0m0.022s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_set_rbtree.c.xml
+    output : /tmp/cwe190_findings_YGBj48
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.033s
+user	0m0.024s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_set_rbtree.c:211:47 -- nft_rbtree_gc_elem() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_YGBj48
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_set_rbtree.c.xml
+    output : /tmp/cwe190_findings_YGBj48
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.028s
+user	0m0.021s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_YGBj48
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_set_rbtree.c.xml
+    output : /tmp/cwe190_findings_YGBj48
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : nft_rbtree_do_walk
+    position : 860:28
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_set_rbtree.c:860:28 -- nft_rbtree_do_walk() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_YGBj48
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_set_rbtree.c",
+  "line": 211,
+  "col": 47,
+  "varname": "nft_rbtree_gc_elem",
+  "note": {
+    "line": 211,
+    "col": 47,
+    "message": "multiplication in nft_rbtree_gc_elem() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_set_rbtree.c",
+  "line": 860,
+  "col": 28,
+  "varname": "nft_rbtree_do_walk",
+  "note": {
+    "line": 860,
+    "col": 28,
+    "message": "increment (++) in nft_rbtree_do_walk() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/svcsock.c",
+  "line": 1100,
+  "col": 9,
+  "varname": "receive_cb_reply",
+  "note": {
+    "line": 1100,
+    "col": 9,
+    "message": "memcpy() in receive_cb_reply() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

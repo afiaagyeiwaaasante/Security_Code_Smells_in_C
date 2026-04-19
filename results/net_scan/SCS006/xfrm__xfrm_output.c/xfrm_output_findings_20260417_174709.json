@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/xfrm/xfrm_output.c",
+  "line": 68,
+  "col": 28,
+  "varname": "xfrm4_transport_output",
+  "note": {
+    "line": 68,
+    "col": 28,
+    "message": "multiplication in xfrm4_transport_output() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/xfrm/xfrm_output.c",
+  "line": 34,
+  "col": 37,
+  "varname": "xfrm_skb_check_space",
+  "note": {
+    "line": 34,
+    "col": 37,
+    "message": "addition in xfrm_skb_check_space() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/xfrm/xfrm_output.c",
+  "line": 537,
+  "col": 34,
+  "varname": "xfrm_output_one",
+  "note": {
+    "line": 537,
+    "col": 34,
+    "message": "increment (++) in xfrm_output_one() -- no upper-bound guard (INT_MAX check)"
+  }
+}

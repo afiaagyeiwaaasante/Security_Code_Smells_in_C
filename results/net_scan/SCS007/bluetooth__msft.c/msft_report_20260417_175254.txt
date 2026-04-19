@@ -1,0 +1,113 @@
+========================================
+ CWE-195 Signed-to-Unsigned Conversion Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/msft.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS007/bluetooth__msft.c/msft_report_20260417_175254.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS007/bluetooth__msft.c/msft_findings_20260417_175254.json
+ Date    : Fri Apr 17 17:52:54 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.051s
+user	0m0.042s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/msft.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/msft.c.json
+
+real	0m0.239s
+user	0m0.093s
+sys	0m0.005s
+
+=== Stage 3: srcattributor ===
+
+real	0m1.871s
+user	0m1.650s
+sys	0m0.041s
+
+=== Detector 1: signed_malloc ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/msft.c.xml
+    output : /tmp/cwe195_findings_0E4a6X
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS malloc($A)
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.025s
+user	0m0.017s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor malloc found
+
+[ signed_malloc ] 0 finding(s) written to /tmp/cwe195_findings_0E4a6X
+=== Detector 2: signed_memcpy ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/msft.c.xml
+    output : /tmp/cwe195_findings_0E4a6X
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS memcpy($A, $B, $C)
+
+real	0m0.017s
+user	0m0.012s
+sys	0m0.003s
+
+--- Stage 1 (memcpy): checking srcQL result for positivity guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/msft.c:548:17 -- msft_add_monitor_sync() memcpy without positivity guard
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS memmove($A, $B, $C)
+
+real	0m0.030s
+user	0m0.016s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+
+[ signed_memcpy ] 1 finding(s) written to /tmp/cwe195_findings_0E4a6X
+=== Detector 3: signed_strncpy ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/msft.c.xml
+    output : /tmp/cwe195_findings_0E4a6X
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS strncpy($A, $B, $C)
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.024s
+user	0m0.017s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor strncpy found
+
+[ signed_strncpy ] 0 finding(s) written to /tmp/cwe195_findings_0E4a6X
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/msft.c",
+  "line": 548,
+  "col": 17,
+  "varname": "msft_add_monitor_sync",
+  "note": {
+    "line": 548,
+    "col": 17,
+    "message": "memcpy() in msft_add_monitor_sync() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   signed_memcpy             1
+========================================

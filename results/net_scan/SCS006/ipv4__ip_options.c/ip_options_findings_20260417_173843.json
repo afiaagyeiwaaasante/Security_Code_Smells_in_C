@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ip_options.c",
+  "line": 93,
+  "col": 40,
+  "varname": "__ip_options_echo",
+  "note": {
+    "line": 93,
+    "col": 40,
+    "message": "addition in __ip_options_echo() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ip_options.c",
+  "line": 183,
+  "col": 22,
+  "varname": "__ip_options_echo",
+  "note": {
+    "line": 183,
+    "col": 22,
+    "message": "increment (++) in __ip_options_echo() -- no upper-bound guard (INT_MAX check)"
+  }
+}

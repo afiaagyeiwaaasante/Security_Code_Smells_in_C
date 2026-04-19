@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/gss_krb5_mech.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/sunrpc__auth_gss__gss_krb5_mech.c/gss_krb5_mech_report_20260417_174524.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/sunrpc__auth_gss__gss_krb5_mech.c/gss_krb5_mech_findings_20260417_174524.json
+ Date    : Fri Apr 17 17:45:24 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.039s
+user	0m0.031s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/gss_krb5_mech.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/gss_krb5_mech.c.json
+
+real	0m0.195s
+user	0m0.075s
+sys	0m0.005s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.369s
+user	0m0.354s
+sys	0m0.008s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/gss_krb5_mech.c.xml
+    output : /tmp/cwe190_findings_28HD0t
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.020s
+user	0m0.014s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/gss_krb5_mech.c:472:39 -- gss_krb5_import_sec_context() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_28HD0t
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/gss_krb5_mech.c.xml
+    output : /tmp/cwe190_findings_28HD0t
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.021s
+user	0m0.014s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/gss_krb5_mech.c:472:58 -- gss_krb5_import_sec_context() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_28HD0t
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/gss_krb5_mech.c.xml
+    output : /tmp/cwe190_findings_28HD0t
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : gss_krb5_prepare_enctype_priority_list
+    position : 235:68
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/gss_krb5_mech.c:235:68 -- gss_krb5_prepare_enctype_priority_list() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_28HD0t
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/gss_krb5_mech.c",
+  "line": 472,
+  "col": 39,
+  "varname": "gss_krb5_import_sec_context",
+  "note": {
+    "line": 472,
+    "col": 39,
+    "message": "multiplication in gss_krb5_import_sec_context() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/gss_krb5_mech.c",
+  "line": 472,
+  "col": 58,
+  "varname": "gss_krb5_import_sec_context",
+  "note": {
+    "line": 472,
+    "col": 58,
+    "message": "addition in gss_krb5_import_sec_context() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/gss_krb5_mech.c",
+  "line": 235,
+  "col": 68,
+  "varname": "gss_krb5_prepare_enctype_priority_list",
+  "note": {
+    "line": 235,
+    "col": 68,
+    "message": "increment (++) in gss_krb5_prepare_enctype_priority_list() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

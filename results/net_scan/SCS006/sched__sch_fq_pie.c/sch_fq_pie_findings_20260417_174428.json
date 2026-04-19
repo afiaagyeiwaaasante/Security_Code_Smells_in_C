@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_fq_pie.c",
+  "line": 457,
+  "col": 53,
+  "varname": "fq_pie_init",
+  "note": {
+    "line": 457,
+    "col": 53,
+    "message": "addition in fq_pie_init() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_fq_pie.c",
+  "line": 159,
+  "col": 35,
+  "varname": "fq_pie_qdisc_enqueue",
+  "note": {
+    "line": 159,
+    "col": 35,
+    "message": "increment (++) in fq_pie_qdisc_enqueue() -- no upper-bound guard (INT_MAX check)"
+  }
+}

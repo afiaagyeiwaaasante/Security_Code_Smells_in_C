@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_ao.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv4__tcp_ao.c/tcp_ao_report_20260417_173900.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv4__tcp_ao.c/tcp_ao_findings_20260417_173900.json
+ Date    : Fri Apr 17 17:39:00 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.138s
+user	0m0.127s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_ao.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_ao.c.json
+
+real	0m0.363s
+user	0m0.244s
+sys	0m0.007s
+
+=== Stage 3: srcattributor ===
+
+real	0m10.939s
+user	0m10.763s
+sys	0m0.063s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_ao.c.xml
+    output : /tmp/cwe190_findings_DI3Z2V
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.052s
+user	0m0.043s
+sys	0m0.006s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_ao.c:567:43 -- tcp_ao_hash_hdr() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_DI3Z2V
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_ao.c.xml
+    output : /tmp/cwe190_findings_DI3Z2V
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.048s
+user	0m0.041s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_ao.c:949:32 -- tcp_inbound_ao_hash() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_DI3Z2V
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_ao.c.xml
+    output : /tmp/cwe190_findings_DI3Z2V
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : tcp_ao_compute_sne
+    position : 503:28
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_ao.c:503:28 -- tcp_ao_compute_sne() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_DI3Z2V
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_ao.c",
+  "line": 567,
+  "col": 43,
+  "varname": "tcp_ao_hash_hdr",
+  "note": {
+    "line": 567,
+    "col": 43,
+    "message": "multiplication in tcp_ao_hash_hdr() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_ao.c",
+  "line": 949,
+  "col": 32,
+  "varname": "tcp_inbound_ao_hash",
+  "note": {
+    "line": 949,
+    "col": 32,
+    "message": "addition in tcp_inbound_ao_hash() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_ao.c",
+  "line": 503,
+  "col": 28,
+  "varname": "tcp_ao_compute_sne",
+  "note": {
+    "line": 503,
+    "col": 28,
+    "message": "increment (++) in tcp_ao_compute_sne() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

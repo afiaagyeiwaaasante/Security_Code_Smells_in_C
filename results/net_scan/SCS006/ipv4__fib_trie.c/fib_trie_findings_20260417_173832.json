@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/fib_trie.c",
+  "line": 1197,
+  "col": 39,
+  "varname": "fib_table_insert",
+  "note": {
+    "line": 1197,
+    "col": 39,
+    "message": "multiplication in fib_table_insert() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/fib_trie.c",
+  "line": 373,
+  "col": 34,
+  "varname": "tnode_new",
+  "note": {
+    "line": 373,
+    "col": 34,
+    "message": "addition in tnode_new() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/fib_trie.c",
+  "line": 334,
+  "col": 35,
+  "varname": "empty_child_inc",
+  "note": {
+    "line": 334,
+    "col": 35,
+    "message": "increment (++) in empty_child_inc() -- no upper-bound guard (INT_MAX check)"
+  }
+}

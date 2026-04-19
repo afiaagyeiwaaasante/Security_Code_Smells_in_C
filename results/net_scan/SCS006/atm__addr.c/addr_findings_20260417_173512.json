@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/atm/addr.c",
+  "line": 22,
+  "col": 44,
+  "varname": "check_addr",
+  "note": {
+    "line": 22,
+    "col": 44,
+    "message": "increment (++) in check_addr() -- no upper-bound guard (INT_MAX check)"
+  }
+}

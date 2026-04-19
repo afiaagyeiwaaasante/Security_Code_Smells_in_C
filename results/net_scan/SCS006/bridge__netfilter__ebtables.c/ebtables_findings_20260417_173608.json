@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bridge/netfilter/ebtables.c",
+  "line": 62,
+  "col": 17,
+  "varname": "ebt_standard_compat_from_user",
+  "note": {
+    "line": 62,
+    "col": 17,
+    "message": "multiplication in ebt_standard_compat_from_user() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bridge/netfilter/ebtables.c",
+  "line": 398,
+  "col": 34,
+  "varname": "ebt_check_match",
+  "note": {
+    "line": 398,
+    "col": 34,
+    "message": "addition in ebt_check_match() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bridge/netfilter/ebtables.c",
+  "line": 125,
+  "col": 18,
+  "varname": "ebt_dev_check",
+  "note": {
+    "line": 125,
+    "col": 18,
+    "message": "increment (++) in ebt_dev_check() -- no upper-bound guard (INT_MAX check)"
+  }
+}

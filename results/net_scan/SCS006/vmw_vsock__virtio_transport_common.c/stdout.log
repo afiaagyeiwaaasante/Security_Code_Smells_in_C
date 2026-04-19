@@ -1,0 +1,104 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/vmw_vsock/virtio_transport_common.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/vmw_vsock__virtio_transport_common.c/virtio_transport_common_report_20260417_174624.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/vmw_vsock__virtio_transport_common.c/virtio_transport_common_findings_20260417_174624.json
+ Date    : Fri Apr 17 17:46:24 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.104s
+user	0m0.095s
+sys	0m0.006s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/vmw_vsock/virtio_transport_common.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/vmw_vsock/virtio_transport_common.c.json
+
+real	0m0.313s
+user	0m0.186s
+sys	0m0.006s
+
+=== Stage 3: srcattributor ===
+
+real	0m6.422s
+user	0m6.243s
+sys	0m0.056s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/vmw_vsock/virtio_transport_common.c.xml
+    output : /tmp/cwe190_findings_2G5wE4
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.038s
+user	0m0.029s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_2G5wE4
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/vmw_vsock/virtio_transport_common.c.xml
+    output : /tmp/cwe190_findings_2G5wE4
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.039s
+user	0m0.030s
+sys	0m0.006s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_2G5wE4
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/vmw_vsock/virtio_transport_common.c.xml
+    output : /tmp/cwe190_findings_2G5wE4
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : virtio_transport_recv_enqueue
+    position : 1385:31
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/vmw_vsock/virtio_transport_common.c:1385:31 -- virtio_transport_recv_enqueue() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_2G5wE4
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/vmw_vsock/virtio_transport_common.c",
+  "line": 1385,
+  "col": 31,
+  "varname": "virtio_transport_recv_enqueue",
+  "note": {
+    "line": 1385,
+    "col": 31,
+    "message": "increment (++) in virtio_transport_recv_enqueue() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_increment       1
+========================================

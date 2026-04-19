@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/tcp_ipv6.c",
+  "line": 136,
+  "col": 58,
+  "varname": "tcp_v6_connect",
+  "note": {
+    "line": 136,
+    "col": 58,
+    "message": "multiplication in tcp_v6_connect() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/tcp_ipv6.c",
+  "line": 382,
+  "col": 62,
+  "varname": "tcp_v6_err",
+  "note": {
+    "line": 382,
+    "col": 62,
+    "message": "addition in tcp_v6_err() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/tcp_ipv6.c",
+  "line": 877,
+  "col": 22,
+  "varname": "tcp_v6_send_response",
+  "note": {
+    "line": 877,
+    "col": 22,
+    "message": "increment (++) in tcp_v6_send_response() -- no upper-bound guard (INT_MAX check)"
+  }
+}

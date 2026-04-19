@@ -1,0 +1,123 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/l2tp/l2tp_core.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/l2tp__l2tp_core.c/l2tp_core_report_20260417_174028.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/l2tp__l2tp_core.c/l2tp_core_findings_20260417_174028.json
+ Date    : Fri Apr 17 17:40:28 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.094s
+user	0m0.086s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/l2tp/l2tp_core.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/l2tp/l2tp_core.c.json
+
+real	0m0.310s
+user	0m0.177s
+sys	0m0.006s
+
+=== Stage 3: srcattributor ===
+
+real	0m5.486s
+user	0m5.150s
+sys	0m0.068s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/l2tp/l2tp_core.c.xml
+    output : /tmp/cwe190_findings_EAfNL1
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.034s
+user	0m0.027s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_EAfNL1
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/l2tp/l2tp_core.c.xml
+    output : /tmp/cwe190_findings_EAfNL1
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.038s
+user	0m0.028s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/l2tp/l2tp_core.c:779:48 -- l2tp_recv_data_seq() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_EAfNL1
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/l2tp/l2tp_core.c.xml
+    output : /tmp/cwe190_findings_EAfNL1
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : l2tp_tunnel_get_next
+    position : 245:23
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/l2tp/l2tp_core.c:245:23 -- l2tp_tunnel_get_next() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_EAfNL1
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/l2tp/l2tp_core.c",
+  "line": 779,
+  "col": 48,
+  "varname": "l2tp_recv_data_seq",
+  "note": {
+    "line": 779,
+    "col": 48,
+    "message": "addition in l2tp_recv_data_seq() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/l2tp/l2tp_core.c",
+  "line": 245,
+  "col": 23,
+  "varname": "l2tp_tunnel_get_next",
+  "note": {
+    "line": 245,
+    "col": 23,
+    "message": "increment (++) in l2tp_tunnel_get_next() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+========================================

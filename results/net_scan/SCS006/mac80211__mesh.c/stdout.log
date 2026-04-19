@@ -1,0 +1,123 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/mesh.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/mac80211__mesh.c/mesh_report_20260417_174055.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/mac80211__mesh.c/mesh_findings_20260417_174055.json
+ Date    : Fri Apr 17 17:40:55 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.099s
+user	0m0.088s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/mesh.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/mesh.c.json
+
+real	0m0.303s
+user	0m0.194s
+sys	0m0.006s
+
+=== Stage 3: srcattributor ===
+
+real	0m6.134s
+user	0m5.811s
+sys	0m0.052s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/mesh.c.xml
+    output : /tmp/cwe190_findings_shrrEN
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.048s
+user	0m0.032s
+sys	0m0.006s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_shrrEN
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/mesh.c.xml
+    output : /tmp/cwe190_findings_shrrEN
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.040s
+user	0m0.030s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/mesh.c:973:28 -- ieee80211_mesh_build_beacon() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_shrrEN
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/mesh.c.xml
+    output : /tmp/cwe190_findings_shrrEN
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : mesh_rmc_init
+    position : 188:39
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/mesh.c:188:39 -- mesh_rmc_init() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_shrrEN
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/mesh.c",
+  "line": 973,
+  "col": 28,
+  "varname": "ieee80211_mesh_build_beacon",
+  "note": {
+    "line": 973,
+    "col": 28,
+    "message": "addition in ieee80211_mesh_build_beacon() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/mesh.c",
+  "line": 188,
+  "col": 39,
+  "varname": "mesh_rmc_init",
+  "note": {
+    "line": 188,
+    "col": 39,
+    "message": "increment (++) in mesh_rmc_init() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+========================================

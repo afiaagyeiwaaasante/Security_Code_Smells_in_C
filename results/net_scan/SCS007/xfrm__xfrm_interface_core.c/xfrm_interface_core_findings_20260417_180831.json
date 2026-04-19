@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/xfrm/xfrm_interface_core.c",
+  "line": 782,
+  "col": 25,
+  "varname": "xfrmi_dev_init",
+  "note": {
+    "line": 782,
+    "col": 25,
+    "message": "memcpy() in xfrmi_dev_init() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

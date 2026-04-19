@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/6lowpan/iphc.c",
+  "line": 254,
+  "col": 9,
+  "varname": "lowpan_iphc_ctx_get_by_mcast_addr",
+  "note": {
+    "line": 254,
+    "col": 9,
+    "message": "memcpy() in lowpan_iphc_ctx_get_by_mcast_addr() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

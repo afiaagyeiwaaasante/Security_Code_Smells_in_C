@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/act_csum.c",
+  "line": 452,
+  "col": 35,
+  "varname": "tcf_csum_ipv6_hopopts",
+  "note": {
+    "line": 452,
+    "col": 35,
+    "message": "multiplication in tcf_csum_ipv6_hopopts() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/act_csum.c",
+  "line": 139,
+  "col": 22,
+  "varname": "tcf_csum_skb_nextlayer",
+  "note": {
+    "line": 139,
+    "col": 22,
+    "message": "addition in tcf_csum_skb_nextlayer() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/act_csum.c",
+  "line": 616,
+  "col": 39,
+  "varname": "tcf_csum_act",
+  "note": {
+    "line": 616,
+    "col": 39,
+    "message": "increment (++) in tcf_csum_act() -- no upper-bound guard (INT_MAX check)"
+  }
+}

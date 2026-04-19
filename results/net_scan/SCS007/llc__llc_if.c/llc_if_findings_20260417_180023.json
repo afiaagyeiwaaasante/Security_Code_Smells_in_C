@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/llc/llc_if.c",
+  "line": 93,
+  "col": 9,
+  "varname": "llc_establish_connection",
+  "note": {
+    "line": 93,
+    "col": 9,
+    "message": "memcpy() in llc_establish_connection() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

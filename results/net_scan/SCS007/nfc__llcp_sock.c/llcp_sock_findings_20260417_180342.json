@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/nfc/llcp_sock.c",
+  "line": 76,
+  "col": 9,
+  "varname": "llcp_sock_bind",
+  "note": {
+    "line": 76,
+    "col": 9,
+    "message": "memcpy() in llcp_sock_bind() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

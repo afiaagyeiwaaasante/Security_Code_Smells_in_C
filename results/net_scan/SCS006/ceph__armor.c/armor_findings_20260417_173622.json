@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ceph/armor.c",
+  "line": 45,
+  "col": 25,
+  "varname": "ceph_armor",
+  "note": {
+    "line": 45,
+    "col": 25,
+    "message": "increment (++) in ceph_armor() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rds/message.c",
+  "line": 353,
+  "col": 60,
+  "varname": "rds_message_alloc_sgs",
+  "note": {
+    "line": 353,
+    "col": 60,
+    "message": "multiplication in rds_message_alloc_sgs() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rds/message.c",
+  "line": 68,
+  "col": 20,
+  "varname": "rds_zcookie_add",
+  "note": {
+    "line": 68,
+    "col": 20,
+    "message": "increment (++) in rds_zcookie_add() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/smc/smc_core.c",
+  "line": 1887,
+  "col": 51,
+  "varname": "smc_vlan_by_tcpsk_walk",
+  "note": {
+    "line": 1887,
+    "col": 51,
+    "message": "multiplication in smc_vlan_by_tcpsk_walk() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/smc/smc_core.c",
+  "line": 131,
+  "col": 49,
+  "varname": "smcr_lgr_conn_assign_link",
+  "note": {
+    "line": 131,
+    "col": 49,
+    "message": "increment (++) in smcr_lgr_conn_assign_link() -- no upper-bound guard (INT_MAX check)"
+  }
+}

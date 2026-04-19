@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/x25/x25_facilities.c",
+  "line": 192,
+  "col": 35,
+  "varname": "x25_create_facilities",
+  "note": {
+    "line": 192,
+    "col": 35,
+    "message": "addition in x25_create_facilities() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/x25/x25_facilities.c",
+  "line": 206,
+  "col": 19,
+  "varname": "x25_create_facilities",
+  "note": {
+    "line": 206,
+    "col": 19,
+    "message": "increment (++) in x25_create_facilities() -- no upper-bound guard (INT_MAX check)"
+  }
+}

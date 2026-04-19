@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/scan.c",
+  "line": 70,
+  "col": 43,
+  "varname": "ieee80211_inform_bss",
+  "note": {
+    "line": 70,
+    "col": 43,
+    "message": "multiplication in ieee80211_inform_bss() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/scan.c",
+  "line": 265,
+  "col": 73,
+  "varname": "ieee80211_scan_accept_presp",
+  "note": {
+    "line": 265,
+    "col": 73,
+    "message": "increment (++) in ieee80211_scan_accept_presp() -- no upper-bound guard (INT_MAX check)"
+  }
+}

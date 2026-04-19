@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ceph/ceph_common.c",
+  "line": 184,
+  "col": 41,
+  "varname": "ceph_compare_options",
+  "note": {
+    "line": 184,
+    "col": 41,
+    "message": "increment (++) in ceph_compare_options() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/nfc/hci/hcp.c",
+  "line": 77,
+  "col": 54,
+  "varname": "nfc_hci_hcp_message_tx",
+  "note": {
+    "line": 77,
+    "col": 54,
+    "message": "increment (++) in nfc_hci_hcp_message_tx() -- no upper-bound guard (INT_MAX check)"
+  }
+}

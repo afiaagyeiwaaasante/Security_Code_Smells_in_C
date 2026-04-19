@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_mqprio.c",
+  "line": 556,
+  "col": 45,
+  "varname": "mqprio_dump",
+  "note": {
+    "line": 556,
+    "col": 45,
+    "message": "multiplication in mqprio_dump() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_mqprio.c",
+  "line": 246,
+  "col": 51,
+  "varname": "mqprio_parse_nlattr",
+  "note": {
+    "line": 246,
+    "col": 51,
+    "message": "addition in mqprio_parse_nlattr() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_mqprio.c",
+  "line": 58,
+  "col": 62,
+  "varname": "mqprio_enable_offload",
+  "note": {
+    "line": 58,
+    "col": 62,
+    "message": "increment (++) in mqprio_enable_offload() -- no upper-bound guard (INT_MAX check)"
+  }
+}

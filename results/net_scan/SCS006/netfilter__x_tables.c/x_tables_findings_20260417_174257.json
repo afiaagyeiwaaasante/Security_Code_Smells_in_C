@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/x_tables.c",
+  "line": 766,
+  "col": 74,
+  "varname": "xt_compat_match_from_user",
+  "note": {
+    "line": 766,
+    "col": 74,
+    "message": "multiplication in xt_compat_match_from_user() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/x_tables.c",
+  "line": 1211,
+  "col": 35,
+  "varname": "xt_alloc_table_info",
+  "note": {
+    "line": 1211,
+    "col": 35,
+    "message": "addition in xt_alloc_table_info() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/x_tables.c",
+  "line": 117,
+  "col": 29,
+  "varname": "xt_register_targets",
+  "note": {
+    "line": 117,
+    "col": 29,
+    "message": "increment (++) in xt_register_targets() -- no upper-bound guard (INT_MAX check)"
+  }
+}

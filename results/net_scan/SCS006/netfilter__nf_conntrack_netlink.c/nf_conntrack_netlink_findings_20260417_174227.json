@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_netlink.c",
+  "line": 1737,
+  "col": 53,
+  "varname": "ctnetlink_dump_one_entry",
+  "note": {
+    "line": 1737,
+    "col": 53,
+    "message": "multiplication in ctnetlink_dump_one_entry() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_netlink.c",
+  "line": 428,
+  "col": 18,
+  "varname": "ctnetlink_dump_labels",
+  "note": {
+    "line": 428,
+    "col": 18,
+    "message": "increment (++) in ctnetlink_dump_labels() -- no upper-bound guard (INT_MAX check)"
+  }
+}

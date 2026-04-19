@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/wireless/wext-priv.c",
+  "line": 39,
+  "col": 9,
+  "varname": "iw_handler_get_private",
+  "note": {
+    "line": 39,
+    "col": 9,
+    "message": "memcpy() in iw_handler_get_private() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

@@ -1,0 +1,93 @@
+========================================
+ CWE-195 Signed-to-Unsigned Conversion Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/dsa/user.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS007/dsa__user.c/user_report_20260417_175644.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS007/dsa__user.c/user_findings_20260417_175644.json
+ Date    : Fri Apr 17 17:56:44 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.236s
+user	0m0.210s
+sys	0m0.009s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/dsa/user.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/dsa/user.c.json
+
+real	0m0.598s
+user	0m0.434s
+sys	0m0.012s
+
+=== Stage 3: srcattributor ===
+
+real	0m30.570s
+user	0m28.786s
+sys	0m0.276s
+
+=== Detector 1: signed_malloc ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/dsa/user.c.xml
+    output : /tmp/cwe195_findings_KSB6Qt
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS malloc($A)
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.077s
+user	0m0.062s
+sys	0m0.009s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor malloc found
+
+[ signed_malloc ] 0 finding(s) written to /tmp/cwe195_findings_KSB6Qt
+=== Detector 2: signed_memcpy ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/dsa/user.c.xml
+    output : /tmp/cwe195_findings_KSB6Qt
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS memcpy($A, $B, $C)
+
+real	0m0.086s
+user	0m0.067s
+sys	0m0.010s
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS memmove($A, $B, $C)
+
+real	0m0.088s
+user	0m0.069s
+sys	0m0.011s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor memcpy/memmove found
+
+[ signed_memcpy ] 0 finding(s) written to /tmp/cwe195_findings_KSB6Qt
+=== Detector 3: signed_strncpy ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/dsa/user.c.xml
+    output : /tmp/cwe195_findings_KSB6Qt
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS strncpy($A, $B, $C)
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.081s
+user	0m0.064s
+sys	0m0.009s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor strncpy found
+
+[ signed_strncpy ] 0 finding(s) written to /tmp/cwe195_findings_KSB6Qt
+========================================
+ Findings JSON
+========================================
+
+========================================
+ Summary
+ Total findings : 0
+ Errors         : 0
+ Warnings       : 0
+========================================

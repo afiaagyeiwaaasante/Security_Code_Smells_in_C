@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/sta_info.c",
+  "line": 659,
+  "col": 9,
+  "varname": "__sta_info_alloc",
+  "note": {
+    "line": 659,
+    "col": 9,
+    "message": "memcpy() in __sta_info_alloc() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

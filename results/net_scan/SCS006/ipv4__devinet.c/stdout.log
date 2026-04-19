@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/devinet.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv4__devinet.c/devinet_report_20260417_173826.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv4__devinet.c/devinet_findings_20260417_173826.json
+ Date    : Fri Apr 17 17:38:26 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.140s
+user	0m0.126s
+sys	0m0.007s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/devinet.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/devinet.c.json
+
+real	0m0.424s
+user	0m0.258s
+sys	0m0.008s
+
+=== Stage 3: srcattributor ===
+
+real	0m11.571s
+user	0m11.223s
+sys	0m0.094s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/devinet.c.xml
+    output : /tmp/cwe190_findings_kTxybl
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.044s
+user	0m0.037s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/devinet.c:1065:55 -- devinet_ioctl() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_kTxybl
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/devinet.c.xml
+    output : /tmp/cwe190_findings_kTxybl
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.045s
+user	0m0.037s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/devinet.c:1917:58 -- inet_base_seq() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_kTxybl
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/devinet.c.xml
+    output : /tmp/cwe190_findings_kTxybl
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : check_lifetime
+    position : 721:42
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/devinet.c:721:42 -- check_lifetime() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_kTxybl
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/devinet.c",
+  "line": 1065,
+  "col": 55,
+  "varname": "devinet_ioctl",
+  "note": {
+    "line": 1065,
+    "col": 55,
+    "message": "multiplication in devinet_ioctl() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/devinet.c",
+  "line": 1917,
+  "col": 58,
+  "varname": "inet_base_seq",
+  "note": {
+    "line": 1917,
+    "col": 58,
+    "message": "addition in inet_base_seq() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/devinet.c",
+  "line": 721,
+  "col": 42,
+  "varname": "check_lifetime",
+  "note": {
+    "line": 721,
+    "col": 42,
+    "message": "increment (++) in check_lifetime() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

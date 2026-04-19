@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rose/af_rose.c",
+  "line": 700,
+  "col": 60,
+  "varname": "rose_bind",
+  "note": {
+    "line": 700,
+    "col": 60,
+    "message": "multiplication in rose_bind() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rose/af_rose.c",
+  "line": 116,
+  "col": 29,
+  "varname": "rosecmp",
+  "note": {
+    "line": 116,
+    "col": 29,
+    "message": "increment (++) in rosecmp() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/mip6.c",
+  "line": 122,
+  "col": 69,
+  "varname": "mip6_destopt_input",
+  "note": {
+    "line": 122,
+    "col": 69,
+    "message": "multiplication in mip6_destopt_input() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}

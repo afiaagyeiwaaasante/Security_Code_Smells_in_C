@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/vmw_vsock/virtio_transport_common.c",
+  "line": 1408,
+  "col": 25,
+  "varname": "virtio_transport_recv_enqueue",
+  "note": {
+    "line": 1408,
+    "col": 25,
+    "message": "memcpy() in virtio_transport_recv_enqueue() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

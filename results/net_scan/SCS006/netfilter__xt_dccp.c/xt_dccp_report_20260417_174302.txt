@@ -1,0 +1,123 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/xt_dccp.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/netfilter__xt_dccp.c/xt_dccp_report_20260417_174302.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/netfilter__xt_dccp.c/xt_dccp_findings_20260417_174302.json
+ Date    : Fri Apr 17 17:43:02 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.018s
+user	0m0.012s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/xt_dccp.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/xt_dccp.c.json
+
+real	0m0.237s
+user	0m0.030s
+sys	0m0.003s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.067s
+user	0m0.047s
+sys	0m0.003s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/xt_dccp.c.xml
+    output : /tmp/cwe190_findings_fLV3gd
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.015s
+user	0m0.008s
+sys	0m0.004s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/xt_dccp.c:43:45 -- dccp_find_option() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_fLV3gd
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/xt_dccp.c.xml
+    output : /tmp/cwe190_findings_fLV3gd
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.017s
+user	0m0.008s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_fLV3gd
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/xt_dccp.c.xml
+    output : /tmp/cwe190_findings_fLV3gd
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : dccp_find_option
+    position : 66:26
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/xt_dccp.c:66:26 -- dccp_find_option() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_fLV3gd
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/xt_dccp.c",
+  "line": 43,
+  "col": 45,
+  "varname": "dccp_find_option",
+  "note": {
+    "line": 43,
+    "col": 45,
+    "message": "multiplication in dccp_find_option() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/xt_dccp.c",
+  "line": 66,
+  "col": 26,
+  "varname": "dccp_find_option",
+  "note": {
+    "line": 66,
+    "col": 26,
+    "message": "increment (++) in dccp_find_option() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

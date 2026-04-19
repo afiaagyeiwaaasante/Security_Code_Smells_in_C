@@ -1,0 +1,79 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/sched/act_vlan.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/sched__act_vlan.c/act_vlan_report_20260417_174410.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/sched__act_vlan.c/act_vlan_findings_20260417_174410.json
+ Date    : Fri Apr 17 17:44:10 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.033s
+user	0m0.027s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/sched/act_vlan.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/sched/act_vlan.c.json
+
+real	0m0.184s
+user	0m0.069s
+sys	0m0.004s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.428s
+user	0m0.393s
+sys	0m0.012s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sched/act_vlan.c.xml
+    output : /tmp/cwe190_findings_pst4Ls
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.020s
+user	0m0.013s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_pst4Ls
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sched/act_vlan.c.xml
+    output : /tmp/cwe190_findings_pst4Ls
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.019s
+user	0m0.012s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_pst4Ls
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sched/act_vlan.c.xml
+    output : /tmp/cwe190_findings_pst4Ls
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+[ unchecked_increment ] No smell detected.
+========================================
+ Findings JSON
+========================================
+
+========================================
+ Summary
+ Total findings : 0
+ Errors         : 0
+ Warnings       : 0
+========================================

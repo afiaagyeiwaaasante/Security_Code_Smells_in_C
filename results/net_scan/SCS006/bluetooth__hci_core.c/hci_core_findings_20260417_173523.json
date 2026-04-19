@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/hci_core.c",
+  "line": 301,
+  "col": 58,
+  "varname": "inquiry_cache_dump",
+  "note": {
+    "line": 301,
+    "col": 58,
+    "message": "multiplication in inquiry_cache_dump() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/hci_core.c",
+  "line": 318,
+  "col": 21,
+  "varname": "inquiry_cache_dump",
+  "note": {
+    "line": 318,
+    "col": 21,
+    "message": "increment (++) in inquiry_cache_dump() -- no upper-bound guard (INT_MAX check)"
+  }
+}

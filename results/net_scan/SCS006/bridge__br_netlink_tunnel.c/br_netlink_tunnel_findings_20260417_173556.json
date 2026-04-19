@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_netlink_tunnel.c",
+  "line": 308,
+  "col": 66,
+  "varname": "br_process_vlan_tunnel_info",
+  "note": {
+    "line": 308,
+    "col": 66,
+    "message": "increment (++) in br_process_vlan_tunnel_info() -- no upper-bound guard (INT_MAX check)"
+  }
+}

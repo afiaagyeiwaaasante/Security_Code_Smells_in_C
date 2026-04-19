@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/flow_dissector.c",
+  "line": 360,
+  "col": 17,
+  "varname": "skb_flow_dissect_ct",
+  "note": {
+    "line": 360,
+    "col": 17,
+    "message": "memcpy() in skb_flow_dissect_ct() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

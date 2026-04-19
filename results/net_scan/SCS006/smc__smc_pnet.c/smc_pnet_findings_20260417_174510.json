@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/smc/smc_pnet.c",
+  "line": 289,
+  "col": 24,
+  "varname": "smc_pnetid_valid",
+  "note": {
+    "line": 289,
+    "col": 24,
+    "message": "addition in smc_pnetid_valid() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/smc/smc_pnet.c",
+  "line": 89,
+  "col": 46,
+  "varname": "smc_pnet_match",
+  "note": {
+    "line": 89,
+    "col": 46,
+    "message": "increment (++) in smc_pnet_match() -- no upper-bound guard (INT_MAX check)"
+  }
+}

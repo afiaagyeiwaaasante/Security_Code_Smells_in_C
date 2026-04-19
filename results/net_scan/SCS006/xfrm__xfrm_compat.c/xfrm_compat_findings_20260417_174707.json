@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/xfrm/xfrm_compat.c",
+  "line": 644,
+  "col": 55,
+  "varname": "xfrm_user_policy_compat",
+  "note": {
+    "line": 644,
+    "col": 55,
+    "message": "multiplication in xfrm_user_policy_compat() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/xfrm/xfrm_compat.c",
+  "line": 564,
+  "col": 44,
+  "varname": "xfrm_xlate32",
+  "note": {
+    "line": 564,
+    "col": 44,
+    "message": "increment (++) in xfrm_xlate32() -- no upper-bound guard (INT_MAX check)"
+  }
+}

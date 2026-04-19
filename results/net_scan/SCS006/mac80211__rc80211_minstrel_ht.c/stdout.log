@@ -1,0 +1,104 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/rc80211_minstrel_ht.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/mac80211__rc80211_minstrel_ht.c/rc80211_minstrel_ht_report_20260417_174103.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/mac80211__rc80211_minstrel_ht.c/rc80211_minstrel_ht_findings_20260417_174103.json
+ Date    : Fri Apr 17 17:41:03 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.110s
+user	0m0.099s
+sys	0m0.006s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/rc80211_minstrel_ht.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/rc80211_minstrel_ht.c.json
+
+real	0m0.309s
+user	0m0.212s
+sys	0m0.007s
+
+=== Stage 3: srcattributor ===
+
+real	0m8.337s
+user	0m8.070s
+sys	0m0.059s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/rc80211_minstrel_ht.c.xml
+    output : /tmp/cwe190_findings_UU8HwB
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.040s
+user	0m0.031s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_UU8HwB
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/rc80211_minstrel_ht.c.xml
+    output : /tmp/cwe190_findings_UU8HwB
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.045s
+user	0m0.035s
+sys	0m0.006s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_UU8HwB
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/rc80211_minstrel_ht.c.xml
+    output : /tmp/cwe190_findings_UU8HwB
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : minstrel_ht_get_stats
+    position : 388:59
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/rc80211_minstrel_ht.c:388:59 -- minstrel_ht_get_stats() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_UU8HwB
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/rc80211_minstrel_ht.c",
+  "line": 388,
+  "col": 59,
+  "varname": "minstrel_ht_get_stats",
+  "note": {
+    "line": 388,
+    "col": 59,
+    "message": "increment (++) in minstrel_ht_get_stats() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_increment       1
+========================================

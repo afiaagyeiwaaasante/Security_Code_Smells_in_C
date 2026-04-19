@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_htb.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/sched__sch_htb.c/sch_htb_report_20260417_174434.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/sched__sch_htb.c/sch_htb_findings_20260417_174434.json
+ Date    : Fri Apr 17 17:44:34 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.121s
+user	0m0.109s
+sys	0m0.008s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_htb.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_htb.c.json
+
+real	0m0.420s
+user	0m0.237s
+sys	0m0.011s
+
+=== Stage 3: srcattributor ===
+
+real	0m8.789s
+user	0m8.501s
+sys	0m0.080s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_htb.c.xml
+    output : /tmp/cwe190_findings_qZBXk7
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.047s
+user	0m0.039s
+sys	0m0.006s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_htb.c:1245:50 -- htb_dump_class() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_qZBXk7
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_htb.c.xml
+    output : /tmp/cwe190_findings_qZBXk7
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.048s
+user	0m0.038s
+sys	0m0.006s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_htb.c:660:25 -- htb_accnt_tokens() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_qZBXk7
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_htb.c.xml
+    output : /tmp/cwe190_findings_qZBXk7
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : htb_add_to_wait_tree
+    position : 323:27
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_htb.c:323:27 -- htb_add_to_wait_tree() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_qZBXk7
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_htb.c",
+  "line": 1245,
+  "col": 50,
+  "varname": "htb_dump_class",
+  "note": {
+    "line": 1245,
+    "col": 50,
+    "message": "multiplication in htb_dump_class() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_htb.c",
+  "line": 660,
+  "col": 25,
+  "varname": "htb_accnt_tokens",
+  "note": {
+    "line": 660,
+    "col": 25,
+    "message": "addition in htb_accnt_tokens() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_htb.c",
+  "line": 323,
+  "col": 27,
+  "varname": "htb_add_to_wait_tree",
+  "note": {
+    "line": 323,
+    "col": 27,
+    "message": "increment (++) in htb_add_to_wait_tree() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

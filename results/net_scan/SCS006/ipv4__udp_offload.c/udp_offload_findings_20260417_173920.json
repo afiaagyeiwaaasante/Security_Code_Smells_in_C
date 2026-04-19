@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/udp_offload.c",
+  "line": 929,
+  "col": 44,
+  "varname": "udp_gro_complete",
+  "note": {
+    "line": 929,
+    "col": 44,
+    "message": "multiplication in udp_gro_complete() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/udp_offload.c",
+  "line": 929,
+  "col": 57,
+  "varname": "udp_gro_complete",
+  "note": {
+    "line": 929,
+    "col": 57,
+    "message": "addition in udp_gro_complete() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/udp_offload.c",
+  "line": 94,
+  "col": 50,
+  "varname": "udp_tunnel_update_gro_rcv",
+  "note": {
+    "line": 94,
+    "col": 50,
+    "message": "increment (++) in udp_tunnel_update_gro_rcv() -- no upper-bound guard (INT_MAX check)"
+  }
+}

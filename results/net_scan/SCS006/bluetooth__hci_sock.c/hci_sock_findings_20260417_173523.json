@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/hci_sock.c",
+  "line": 1046,
+  "col": 42,
+  "varname": "hci_sock_ioctl",
+  "note": {
+    "line": 1046,
+    "col": 42,
+    "message": "multiplication in hci_sock_ioctl() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}

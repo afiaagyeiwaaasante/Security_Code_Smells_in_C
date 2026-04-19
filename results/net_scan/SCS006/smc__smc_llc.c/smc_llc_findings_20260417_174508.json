@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/smc/smc_llc.c",
+  "line": 2096,
+  "col": 50,
+  "varname": "smc_llc_rx_handler",
+  "note": {
+    "line": 2096,
+    "col": 50,
+    "message": "multiplication in smc_llc_rx_handler() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/smc/smc_llc.c",
+  "line": 507,
+  "col": 49,
+  "varname": "smc_llc_send_confirm_rkey",
+  "note": {
+    "line": 507,
+    "col": 49,
+    "message": "increment (++) in smc_llc_send_confirm_rkey() -- no upper-bound guard (INT_MAX check)"
+  }
+}

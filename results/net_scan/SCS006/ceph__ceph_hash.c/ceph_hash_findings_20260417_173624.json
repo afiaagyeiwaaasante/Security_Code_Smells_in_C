@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ceph/ceph_hash.c",
+  "line": 25,
+  "col": 55,
+  "varname": "ceph_str_hash_rjenkins",
+  "note": {
+    "line": 25,
+    "col": 55,
+    "message": "multiplication in ceph_str_hash_rjenkins() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ceph/ceph_hash.c",
+  "line": 100,
+  "col": 25,
+  "varname": "ceph_str_hash_linux",
+  "note": {
+    "line": 100,
+    "col": 25,
+    "message": "increment (++) in ceph_str_hash_linux() -- no upper-bound guard (INT_MAX check)"
+  }
+}

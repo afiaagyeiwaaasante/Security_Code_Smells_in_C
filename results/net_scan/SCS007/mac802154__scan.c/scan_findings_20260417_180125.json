@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac802154/scan.c",
+  "line": 328,
+  "col": 9,
+  "varname": "mac802154_process_beacon",
+  "note": {
+    "line": 328,
+    "col": 9,
+    "message": "memcpy() in mac802154_process_beacon() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/xfrm6_tunnel.c",
+  "line": 151,
+  "col": 9,
+  "varname": "__xfrm6_tunnel_alloc_spi",
+  "note": {
+    "line": 151,
+    "col": 9,
+    "message": "memcpy() in __xfrm6_tunnel_alloc_spi() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

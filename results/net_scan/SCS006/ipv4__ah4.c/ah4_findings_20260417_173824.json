@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ah4.c",
+  "line": 79,
+  "col": 48,
+  "varname": "ip_clear_mutable_options",
+  "note": {
+    "line": 79,
+    "col": 48,
+    "message": "multiplication in ip_clear_mutable_options() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ah4.c",
+  "line": 79,
+  "col": 54,
+  "varname": "ip_clear_mutable_options",
+  "note": {
+    "line": 79,
+    "col": 54,
+    "message": "addition in ip_clear_mutable_options() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ah4.c",
+  "line": 89,
+  "col": 31,
+  "varname": "ip_clear_mutable_options",
+  "note": {
+    "line": 89,
+    "col": 31,
+    "message": "increment (++) in ip_clear_mutable_options() -- no upper-bound guard (INT_MAX check)"
+  }
+}

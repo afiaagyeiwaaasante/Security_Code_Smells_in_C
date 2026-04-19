@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/xt_dccp.c",
+  "line": 43,
+  "col": 45,
+  "varname": "dccp_find_option",
+  "note": {
+    "line": 43,
+    "col": 45,
+    "message": "multiplication in dccp_find_option() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/xt_dccp.c",
+  "line": 66,
+  "col": 26,
+  "varname": "dccp_find_option",
+  "note": {
+    "line": 66,
+    "col": 26,
+    "message": "increment (++) in dccp_find_option() -- no upper-bound guard (INT_MAX check)"
+  }
+}

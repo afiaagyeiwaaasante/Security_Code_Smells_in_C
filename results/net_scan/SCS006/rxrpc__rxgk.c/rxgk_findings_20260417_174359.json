@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/rxgk.c",
+  "line": 23,
+  "col": 48,
+  "varname": "rxgk_preparse_server_key",
+  "note": {
+    "line": 23,
+    "col": 48,
+    "message": "multiplication in rxgk_preparse_server_key() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/rxgk.c",
+  "line": 638,
+  "col": 36,
+  "varname": "rxgk_issue_challenge",
+  "note": {
+    "line": 638,
+    "col": 36,
+    "message": "addition in rxgk_issue_challenge() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/rxgk.c",
+  "line": 1335,
+  "col": 55,
+  "varname": "rxgk_clear",
+  "note": {
+    "line": 1335,
+    "col": 55,
+    "message": "increment (++) in rxgk_clear() -- no upper-bound guard (INT_MAX check)"
+  }
+}

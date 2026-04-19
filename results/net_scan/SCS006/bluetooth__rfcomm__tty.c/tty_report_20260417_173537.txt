@@ -1,0 +1,123 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/rfcomm/tty.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/bluetooth__rfcomm__tty.c/tty_report_20260417_173537.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/bluetooth__rfcomm__tty.c/tty_findings_20260417_173537.json
+ Date    : Fri Apr 17 17:35:37 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.039s
+user	0m0.034s
+sys	0m0.003s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/rfcomm/tty.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/rfcomm/tty.c.json
+
+real	0m0.190s
+user	0m0.077s
+sys	0m0.004s
+
+=== Stage 3: srcattributor ===
+
+real	0m1.530s
+user	0m1.450s
+sys	0m0.017s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/rfcomm/tty.c.xml
+    output : /tmp/cwe190_findings_GaXLRf
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.017s
+user	0m0.012s
+sys	0m0.003s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/rfcomm/tty.c:364:40 -- rfcomm_wfree() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_GaXLRf
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/rfcomm/tty.c.xml
+    output : /tmp/cwe190_findings_GaXLRf
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.018s
+user	0m0.013s
+sys	0m0.003s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_GaXLRf
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/rfcomm/tty.c.xml
+    output : /tmp/cwe190_findings_GaXLRf
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : __rfcomm_dev_add
+    position : 237:32
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/rfcomm/tty.c:237:32 -- __rfcomm_dev_add() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_GaXLRf
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/rfcomm/tty.c",
+  "line": 364,
+  "col": 40,
+  "varname": "rfcomm_wfree",
+  "note": {
+    "line": 364,
+    "col": 40,
+    "message": "multiplication in rfcomm_wfree() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/rfcomm/tty.c",
+  "line": 237,
+  "col": 32,
+  "varname": "__rfcomm_dev_add",
+  "note": {
+    "line": 237,
+    "col": 32,
+    "message": "increment (++) in __rfcomm_dev_add() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

@@ -1,0 +1,104 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/netlabel/netlabel_mgmt.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/netlabel__netlabel_mgmt.c/netlabel_mgmt_report_20260417_174307.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/netlabel__netlabel_mgmt.c/netlabel_mgmt_findings_20260417_174307.json
+ Date    : Fri Apr 17 17:43:07 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.044s
+user	0m0.036s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/netlabel/netlabel_mgmt.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/netlabel/netlabel_mgmt.c.json
+
+real	0m0.195s
+user	0m0.079s
+sys	0m0.004s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.575s
+user	0m0.524s
+sys	0m0.009s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netlabel/netlabel_mgmt.c.xml
+    output : /tmp/cwe190_findings_1Wt4KC
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.020s
+user	0m0.014s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_1Wt4KC
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netlabel/netlabel_mgmt.c.xml
+    output : /tmp/cwe190_findings_1Wt4KC
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.020s
+user	0m0.014s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_1Wt4KC
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netlabel/netlabel_mgmt.c.xml
+    output : /tmp/cwe190_findings_1Wt4KC
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : netlbl_mgmt_listall_cb
+    position : 493:20
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/netlabel/netlabel_mgmt.c:493:20 -- netlbl_mgmt_listall_cb() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_1Wt4KC
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netlabel/netlabel_mgmt.c",
+  "line": 493,
+  "col": 20,
+  "varname": "netlbl_mgmt_listall_cb",
+  "note": {
+    "line": 493,
+    "col": 20,
+    "message": "increment (++) in netlbl_mgmt_listall_cb() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_increment       1
+========================================

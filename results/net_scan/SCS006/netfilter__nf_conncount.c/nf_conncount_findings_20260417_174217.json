@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conncount.c",
+  "line": 317,
+  "col": 42,
+  "varname": "__nf_conncount_gc_list",
+  "note": {
+    "line": 317,
+    "col": 42,
+    "message": "increment (++) in __nf_conncount_gc_list() -- no upper-bound guard (INT_MAX check)"
+  }
+}

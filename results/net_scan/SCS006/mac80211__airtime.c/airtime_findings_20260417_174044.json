@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/airtime.c",
+  "line": 666,
+  "col": 45,
+  "varname": "ieee80211_fill_rate_info",
+  "note": {
+    "line": 666,
+    "col": 45,
+    "message": "increment (++) in ieee80211_fill_rate_info() -- no upper-bound guard (INT_MAX check)"
+  }
+}

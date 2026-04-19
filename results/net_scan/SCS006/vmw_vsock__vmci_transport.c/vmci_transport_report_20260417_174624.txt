@@ -1,0 +1,104 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/vmw_vsock/vmci_transport.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/vmw_vsock__vmci_transport.c/vmci_transport_report_20260417_174624.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/vmw_vsock__vmci_transport.c/vmci_transport_findings_20260417_174624.json
+ Date    : Fri Apr 17 17:46:24 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.109s
+user	0m0.100s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/vmw_vsock/vmci_transport.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/vmw_vsock/vmci_transport.c.json
+
+real	0m0.315s
+user	0m0.197s
+sys	0m0.006s
+
+=== Stage 3: srcattributor ===
+
+real	0m6.013s
+user	0m5.842s
+sys	0m0.050s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/vmw_vsock/vmci_transport.c.xml
+    output : /tmp/cwe190_findings_guZh9o
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.044s
+user	0m0.032s
+sys	0m0.008s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_guZh9o
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/vmw_vsock/vmci_transport.c.xml
+    output : /tmp/cwe190_findings_guZh9o
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.042s
+user	0m0.032s
+sys	0m0.006s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_guZh9o
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/vmw_vsock/vmci_transport.c.xml
+    output : /tmp/cwe190_findings_guZh9o
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : vmci_transport_stream_allow
+    position : 662:59
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/vmw_vsock/vmci_transport.c:662:59 -- vmci_transport_stream_allow() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_guZh9o
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/vmw_vsock/vmci_transport.c",
+  "line": 662,
+  "col": 59,
+  "varname": "vmci_transport_stream_allow",
+  "note": {
+    "line": 662,
+    "col": 59,
+    "message": "increment (++) in vmci_transport_stream_allow() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_increment       1
+========================================

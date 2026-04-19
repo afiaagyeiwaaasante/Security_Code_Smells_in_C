@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_arp_nd_proxy.c",
+  "line": 151,
+  "col": 9,
+  "varname": "br_do_proxy_suppress_arp",
+  "note": {
+    "line": 151,
+    "col": 9,
+    "message": "memcpy() in br_do_proxy_suppress_arp() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

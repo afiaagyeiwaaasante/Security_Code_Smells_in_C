@@ -1,0 +1,123 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/rxkad.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/rxrpc__rxkad.c/rxkad_report_20260417_174359.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/rxrpc__rxkad.c/rxkad_findings_20260417_174359.json
+ Date    : Fri Apr 17 17:43:59 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.079s
+user	0m0.069s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/rxkad.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/rxkad.c.json
+
+real	0m0.300s
+user	0m0.155s
+sys	0m0.006s
+
+=== Stage 3: srcattributor ===
+
+real	0m3.708s
+user	0m3.561s
+sys	0m0.043s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/rxkad.c.xml
+    output : /tmp/cwe190_findings_ltqfUH
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.034s
+user	0m0.027s
+sys	0m0.007s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/rxkad.c:199:28 -- rxkad_prime_packet_security() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_ltqfUH
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/rxkad.c.xml
+    output : /tmp/cwe190_findings_ltqfUH
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.032s
+user	0m0.024s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_ltqfUH
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/rxkad.c.xml
+    output : /tmp/cwe190_findings_ltqfUH
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : rxkad_calc_response_checksum
+    position : 727:46
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/rxkad.c:727:46 -- rxkad_calc_response_checksum() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_ltqfUH
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/rxkad.c",
+  "line": 199,
+  "col": 28,
+  "varname": "rxkad_prime_packet_security",
+  "note": {
+    "line": 199,
+    "col": 28,
+    "message": "multiplication in rxkad_prime_packet_security() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/rxkad.c",
+  "line": 727,
+  "col": 46,
+  "varname": "rxkad_calc_response_checksum",
+  "note": {
+    "line": 727,
+    "col": 46,
+    "message": "increment (++) in rxkad_calc_response_checksum() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ip_gre.c",
+  "line": 348,
+  "col": 25,
+  "varname": "erspan_rcv",
+  "note": {
+    "line": 348,
+    "col": 25,
+    "message": "memcpy() in erspan_rcv() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

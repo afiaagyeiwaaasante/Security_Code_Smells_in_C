@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/raw.c",
+  "line": 222,
+  "col": 58,
+  "varname": "rawv6_bind",
+  "note": {
+    "line": 222,
+    "col": 58,
+    "message": "multiplication in rawv6_bind() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}

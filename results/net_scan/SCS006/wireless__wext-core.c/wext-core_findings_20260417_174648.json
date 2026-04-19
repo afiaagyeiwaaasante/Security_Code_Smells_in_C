@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/wireless/wext-core.c",
+  "line": 748,
+  "col": 40,
+  "varname": "ioctl_standard_iw_point",
+  "note": {
+    "line": 748,
+    "col": 40,
+    "message": "multiplication in ioctl_standard_iw_point() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/wireless/wext-core.c",
+  "line": 1178,
+  "col": 52,
+  "varname": "iwe_stream_add_point",
+  "note": {
+    "line": 1178,
+    "col": 52,
+    "message": "addition in iwe_stream_add_point() -- no upper-bound guard before adding"
+  }
+}

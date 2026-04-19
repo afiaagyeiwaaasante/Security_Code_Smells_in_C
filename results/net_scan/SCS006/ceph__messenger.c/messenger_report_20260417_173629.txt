@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ceph/messenger.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ceph__messenger.c/messenger_report_20260417_173629.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ceph__messenger.c/messenger_findings_20260417_173629.json
+ Date    : Fri Apr 17 17:36:29 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.103s
+user	0m0.090s
+sys	0m0.006s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ceph/messenger.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ceph/messenger.c.json
+
+real	0m0.313s
+user	0m0.158s
+sys	0m0.006s
+
+=== Stage 3: srcattributor ===
+
+real	0m5.887s
+user	0m5.458s
+sys	0m0.070s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ceph/messenger.c.xml
+    output : /tmp/cwe190_findings_vGFtDV
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.029s
+user	0m0.022s
+sys	0m0.004s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ceph/messenger.c:169:55 -- ceph_pr_addr() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_vGFtDV
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ceph/messenger.c.xml
+    output : /tmp/cwe190_findings_vGFtDV
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.034s
+user	0m0.026s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ceph/messenger.c:1662:56 -- ceph_messenger_reset_nonce() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_vGFtDV
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ceph/messenger.c.xml
+    output : /tmp/cwe190_findings_vGFtDV
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : ceph_get_global_seq
+    position : 664:15
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ceph/messenger.c:664:15 -- ceph_get_global_seq() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_vGFtDV
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ceph/messenger.c",
+  "line": 169,
+  "col": 55,
+  "varname": "ceph_pr_addr",
+  "note": {
+    "line": 169,
+    "col": 55,
+    "message": "multiplication in ceph_pr_addr() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ceph/messenger.c",
+  "line": 1662,
+  "col": 56,
+  "varname": "ceph_messenger_reset_nonce",
+  "note": {
+    "line": 1662,
+    "col": 56,
+    "message": "addition in ceph_messenger_reset_nonce() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ceph/messenger.c",
+  "line": 664,
+  "col": 15,
+  "varname": "ceph_get_global_seq",
+  "note": {
+    "line": 664,
+    "col": 15,
+    "message": "increment (++) in ceph_get_global_seq() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

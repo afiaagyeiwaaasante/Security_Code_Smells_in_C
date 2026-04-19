@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/xprtrdma/svc_rdma_transport.c",
+  "line": 294,
+  "col": 49,
+  "varname": "svc_rdma_listen_handler",
+  "note": {
+    "line": 294,
+    "col": 49,
+    "message": "multiplication in svc_rdma_listen_handler() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}

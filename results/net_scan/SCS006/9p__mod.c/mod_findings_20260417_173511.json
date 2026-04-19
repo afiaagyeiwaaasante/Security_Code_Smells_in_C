@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/9p/mod.c",
+  "line": 156,
+  "col": 73,
+  "varname": "v9fs_get_default_trans",
+  "note": {
+    "line": 156,
+    "col": 73,
+    "message": "increment (++) in v9fs_get_default_trans() -- no upper-bound guard (INT_MAX check)"
+  }
+}

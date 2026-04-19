@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_output.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv4__tcp_output.c/tcp_output_report_20260417_173914.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv4__tcp_output.c/tcp_output_findings_20260417_173914.json
+ Date    : Fri Apr 17 17:39:14 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.225s
+user	0m0.215s
+sys	0m0.007s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_output.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_output.c.json
+
+real	0m0.556s
+user	0m0.409s
+sys	0m0.011s
+
+=== Stage 3: srcattributor ===
+
+real	0m33.541s
+user	0m32.489s
+sys	0m0.252s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_output.c.xml
+    output : /tmp/cwe190_findings_6d4SZR
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.072s
+user	0m0.062s
+sys	0m0.008s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_output.c:660:31 -- tcp_options_write() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_6d4SZR
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_output.c.xml
+    output : /tmp/cwe190_findings_6d4SZR
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.075s
+user	0m0.062s
+sys	0m0.009s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_output.c:606:35 -- process_tcp_ao_options() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_6d4SZR
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_output.c.xml
+    output : /tmp/cwe190_findings_6d4SZR
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : tcp_init_nondata_skb
+    position : 397:20
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_output.c:397:20 -- tcp_init_nondata_skb() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_6d4SZR
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_output.c",
+  "line": 660,
+  "col": 31,
+  "varname": "tcp_options_write",
+  "note": {
+    "line": 660,
+    "col": 31,
+    "message": "multiplication in tcp_options_write() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_output.c",
+  "line": 606,
+  "col": 35,
+  "varname": "process_tcp_ao_options",
+  "note": {
+    "line": 606,
+    "col": 35,
+    "message": "addition in process_tcp_ao_options() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_output.c",
+  "line": 397,
+  "col": 20,
+  "varname": "tcp_init_nondata_skb",
+  "note": {
+    "line": 397,
+    "col": 20,
+    "message": "increment (++) in tcp_init_nondata_skb() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

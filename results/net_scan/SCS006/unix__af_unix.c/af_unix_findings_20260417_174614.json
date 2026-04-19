@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/unix/af_unix.c",
+  "line": 349,
+  "col": 66,
+  "varname": "unix_mkname_bsd",
+  "note": {
+    "line": 349,
+    "col": 66,
+    "message": "multiplication in unix_mkname_bsd() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/unix/af_unix.c",
+  "line": 2495,
+  "col": 21,
+  "varname": "unix_stream_sendmsg",
+  "note": {
+    "line": 2495,
+    "col": 21,
+    "message": "increment (++) in unix_stream_sendmsg() -- no upper-bound guard (INT_MAX check)"
+  }
+}

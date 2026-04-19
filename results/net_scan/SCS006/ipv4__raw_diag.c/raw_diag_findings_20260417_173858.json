@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/raw_diag.c",
+  "line": 40,
+  "col": 45,
+  "varname": "raw_lookup",
+  "note": {
+    "line": 40,
+    "col": 45,
+    "message": "multiplication in raw_lookup() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/raw_diag.c",
+  "line": 68,
+  "col": 52,
+  "varname": "raw_sock_get",
+  "note": {
+    "line": 68,
+    "col": 52,
+    "message": "increment (++) in raw_sock_get() -- no upper-bound guard (INT_MAX check)"
+  }
+}

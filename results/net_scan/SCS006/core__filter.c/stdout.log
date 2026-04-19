@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/core/filter.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/core__filter.c/filter_report_20260417_173647.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/core__filter.c/filter_findings_20260417_173647.json
+ Date    : Fri Apr 17 17:36:47 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.433s
+user	0m0.392s
+sys	0m0.011s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/core/filter.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/core/filter.c.json
+
+real	0m0.877s
+user	0m0.714s
+sys	0m0.016s
+
+=== Stage 3: srcattributor ===
+
+real	2m14.861s
+user	2m9.286s
+sys	0m1.097s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/core/filter.c.xml
+    output : /tmp/cwe190_findings_fqCIEQ
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.165s
+user	0m0.138s
+sys	0m0.016s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/core/filter.c:5093:49 -- bpf_xdp_copy() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_fqCIEQ
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/core/filter.c.xml
+    output : /tmp/cwe190_findings_fqCIEQ
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.162s
+user	0m0.140s
+sys	0m0.016s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/core/filter.c:3895:32 -- __bpf_skb_change_head() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_fqCIEQ
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/core/filter.c.xml
+    output : /tmp/cwe190_findings_fqCIEQ
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : convert_skb_access
+    position : 328:22
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/core/filter.c:328:22 -- convert_skb_access() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_fqCIEQ
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/filter.c",
+  "line": 5093,
+  "col": 49,
+  "varname": "bpf_xdp_copy",
+  "note": {
+    "line": 5093,
+    "col": 49,
+    "message": "multiplication in bpf_xdp_copy() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/filter.c",
+  "line": 3895,
+  "col": 32,
+  "varname": "__bpf_skb_change_head",
+  "note": {
+    "line": 3895,
+    "col": 32,
+    "message": "addition in __bpf_skb_change_head() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/filter.c",
+  "line": 328,
+  "col": 22,
+  "varname": "convert_skb_access",
+  "note": {
+    "line": 328,
+    "col": 22,
+    "message": "increment (++) in convert_skb_access() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

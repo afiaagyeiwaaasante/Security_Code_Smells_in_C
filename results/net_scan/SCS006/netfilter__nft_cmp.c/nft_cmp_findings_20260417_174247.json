@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_cmp.c",
+  "line": 145,
+  "col": 24,
+  "varname": "__nft_cmp_offload",
+  "note": {
+    "line": 145,
+    "col": 24,
+    "message": "multiplication in __nft_cmp_offload() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_cmp.c",
+  "line": 299,
+  "col": 33,
+  "varname": "nft_cmp16_fast_mask",
+  "note": {
+    "line": 299,
+    "col": 33,
+    "message": "increment (++) in nft_cmp16_fast_mask() -- no upper-bound guard (INT_MAX check)"
+  }
+}

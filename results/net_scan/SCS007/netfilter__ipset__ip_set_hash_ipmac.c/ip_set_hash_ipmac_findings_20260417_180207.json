@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipset/ip_set_hash_ipmac.c",
+  "line": 136,
+  "col": 9,
+  "varname": "hash_ipmac4_uadt",
+  "note": {
+    "line": 136,
+    "col": 9,
+    "message": "memcpy() in hash_ipmac4_uadt() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

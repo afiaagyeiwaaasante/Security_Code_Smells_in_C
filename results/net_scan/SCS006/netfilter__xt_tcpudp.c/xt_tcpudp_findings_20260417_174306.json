@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/xt_tcpudp.c",
+  "line": 63,
+  "col": 26,
+  "varname": "tcp_find_option",
+  "note": {
+    "line": 63,
+    "col": 26,
+    "message": "increment (++) in tcp_find_option() -- no upper-bound guard (INT_MAX check)"
+  }
+}

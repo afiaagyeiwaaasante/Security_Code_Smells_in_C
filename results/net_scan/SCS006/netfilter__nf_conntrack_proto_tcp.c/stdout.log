@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_proto_tcp.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/netfilter__nf_conntrack_proto_tcp.c/nf_conntrack_proto_tcp_report_20260417_174230.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/netfilter__nf_conntrack_proto_tcp.c/nf_conntrack_proto_tcp_findings_20260417_174230.json
+ Date    : Fri Apr 17 17:42:30 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.081s
+user	0m0.072s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_proto_tcp.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_proto_tcp.c.json
+
+real	0m0.253s
+user	0m0.151s
+sys	0m0.006s
+
+=== Stage 3: srcattributor ===
+
+real	0m2.873s
+user	0m2.775s
+sys	0m0.029s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_proto_tcp.c.xml
+    output : /tmp/cwe190_findings_9zZSnW
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.035s
+user	0m0.027s
+sys	0m0.006s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_proto_tcp.c:338:32 -- tcp_options() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_9zZSnW
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_proto_tcp.c.xml
+    output : /tmp/cwe190_findings_9zZSnW
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.033s
+user	0m0.026s
+sys	0m0.006s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_proto_tcp.c:560:49 -- tcp_in_window() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_9zZSnW
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_proto_tcp.c.xml
+    output : /tmp/cwe190_findings_9zZSnW
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : tcp_options
+    position : 354:32
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_proto_tcp.c:354:32 -- tcp_options() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_9zZSnW
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_proto_tcp.c",
+  "line": 338,
+  "col": 32,
+  "varname": "tcp_options",
+  "note": {
+    "line": 338,
+    "col": 32,
+    "message": "multiplication in tcp_options() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_proto_tcp.c",
+  "line": 560,
+  "col": 49,
+  "varname": "tcp_in_window",
+  "note": {
+    "line": 560,
+    "col": 49,
+    "message": "addition in tcp_in_window() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_proto_tcp.c",
+  "line": 354,
+  "col": 32,
+  "varname": "tcp_options",
+  "note": {
+    "line": 354,
+    "col": 32,
+    "message": "increment (++) in tcp_options() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

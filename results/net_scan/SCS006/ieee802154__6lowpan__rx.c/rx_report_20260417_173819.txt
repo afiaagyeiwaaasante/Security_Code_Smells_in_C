@@ -1,0 +1,104 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ieee802154/6lowpan/rx.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ieee802154__6lowpan__rx.c/rx_report_20260417_173819.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ieee802154__6lowpan__rx.c/rx_findings_20260417_173819.json
+ Date    : Fri Apr 17 17:38:20 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.018s
+user	0m0.014s
+sys	0m0.003s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ieee802154/6lowpan/rx.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ieee802154/6lowpan/rx.c.json
+
+real	0m0.180s
+user	0m0.032s
+sys	0m0.003s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.070s
+user	0m0.064s
+sys	0m0.003s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ieee802154/6lowpan/rx.c.xml
+    output : /tmp/cwe190_findings_S5No6W
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.012s
+user	0m0.008s
+sys	0m0.003s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_S5No6W
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ieee802154/6lowpan/rx.c.xml
+    output : /tmp/cwe190_findings_S5No6W
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.014s
+user	0m0.008s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_S5No6W
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ieee802154/6lowpan/rx.c.xml
+    output : /tmp/cwe190_findings_S5No6W
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : lowpan_give_skb_to_device
+    position : 24:35
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ieee802154/6lowpan/rx.c:24:35 -- lowpan_give_skb_to_device() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_S5No6W
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ieee802154/6lowpan/rx.c",
+  "line": 24,
+  "col": 35,
+  "varname": "lowpan_give_skb_to_device",
+  "note": {
+    "line": 24,
+    "col": 35,
+    "message": "increment (++) in lowpan_give_skb_to_device() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_increment       1
+========================================

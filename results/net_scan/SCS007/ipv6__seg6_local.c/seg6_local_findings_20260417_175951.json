@@ -1,0 +1,30 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/seg6_local.c",
+  "line": 1698,
+  "col": 9,
+  "varname": "put_nla_srh",
+  "note": {
+    "line": 1698,
+    "col": 9,
+    "message": "memcpy() in put_nla_srh() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/seg6_local.c",
+  "line": 374,
+  "col": 9,
+  "varname": "seg6_next_csid_advance_arg",
+  "note": {
+    "line": 374,
+    "col": 9,
+    "message": "memmove() in seg6_next_csid_advance_arg() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

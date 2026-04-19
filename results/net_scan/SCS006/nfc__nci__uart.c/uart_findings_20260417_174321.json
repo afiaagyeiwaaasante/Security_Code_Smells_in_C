@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/nfc/nci/uart.c",
+  "line": 253,
+  "col": 53,
+  "varname": "nci_uart_default_recv_buf",
+  "note": {
+    "line": 253,
+    "col": 53,
+    "message": "increment (++) in nci_uart_default_recv_buf() -- no upper-bound guard (INT_MAX check)"
+  }
+}

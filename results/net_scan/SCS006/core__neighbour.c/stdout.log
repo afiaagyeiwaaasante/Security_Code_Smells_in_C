@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/core/neighbour.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/core__neighbour.c/neighbour_report_20260417_173654.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/core__neighbour.c/neighbour_findings_20260417_173654.json
+ Date    : Fri Apr 17 17:36:54 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.170s
+user	0m0.161s
+sys	0m0.006s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/core/neighbour.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/core/neighbour.c.json
+
+real	0m0.415s
+user	0m0.312s
+sys	0m0.008s
+
+=== Stage 3: srcattributor ===
+
+real	0m22.516s
+user	0m21.263s
+sys	0m0.224s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/core/neighbour.c.xml
+    output : /tmp/cwe190_findings_qUygkW
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.072s
+user	0m0.055s
+sys	0m0.010s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/core/neighbour.c:258:42 -- neigh_forced_gc() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_qUygkW
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/core/neighbour.c.xml
+    output : /tmp/cwe190_findings_qUygkW
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.064s
+user	0m0.048s
+sys	0m0.008s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/core/neighbour.c:257:35 -- neigh_forced_gc() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_qUygkW
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/core/neighbour.c.xml
+    output : /tmp/cwe190_findings_qUygkW
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : neigh_forced_gc
+    position : 281:39
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/core/neighbour.c:281:39 -- neigh_forced_gc() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_qUygkW
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/neighbour.c",
+  "line": 258,
+  "col": 42,
+  "varname": "neigh_forced_gc",
+  "note": {
+    "line": 258,
+    "col": 42,
+    "message": "multiplication in neigh_forced_gc() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/neighbour.c",
+  "line": 257,
+  "col": 35,
+  "varname": "neigh_forced_gc",
+  "note": {
+    "line": 257,
+    "col": 35,
+    "message": "addition in neigh_forced_gc() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/neighbour.c",
+  "line": 281,
+  "col": 39,
+  "varname": "neigh_forced_gc",
+  "note": {
+    "line": 281,
+    "col": 39,
+    "message": "increment (++) in neigh_forced_gc() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

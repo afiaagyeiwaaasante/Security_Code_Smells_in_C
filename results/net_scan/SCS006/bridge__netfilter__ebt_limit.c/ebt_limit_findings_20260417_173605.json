@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bridge/netfilter/ebt_limit.c",
+  "line": 38,
+  "col": 45,
+  "varname": "ebt_limit_mt",
+  "note": {
+    "line": 38,
+    "col": 45,
+    "message": "multiplication in ebt_limit_mt() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}

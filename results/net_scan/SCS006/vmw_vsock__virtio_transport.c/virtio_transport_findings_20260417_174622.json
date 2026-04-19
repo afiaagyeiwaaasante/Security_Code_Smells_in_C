@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/vmw_vsock/virtio_transport.c",
+  "line": 110,
+  "col": 15,
+  "varname": "virtio_transport_send_skb",
+  "note": {
+    "line": 110,
+    "col": 15,
+    "message": "increment (++) in virtio_transport_send_skb() -- no upper-bound guard (INT_MAX check)"
+  }
+}

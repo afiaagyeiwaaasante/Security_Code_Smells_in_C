@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/tls/tls_strp.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/tls__tls_strp.c/tls_strp_report_20260417_174612.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/tls__tls_strp.c/tls_strp_findings_20260417_174612.json
+ Date    : Fri Apr 17 17:46:12 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.041s
+user	0m0.033s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/tls/tls_strp.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/tls/tls_strp.c.json
+
+real	0m0.197s
+user	0m0.081s
+sys	0m0.006s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.862s
+user	0m0.831s
+sys	0m0.014s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/tls/tls_strp.c.xml
+    output : /tmp/cwe190_findings_GmlPzl
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.023s
+user	0m0.016s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/tls/tls_strp.c:345:60 -- tls_strp_copyin() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_GmlPzl
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/tls/tls_strp.c.xml
+    output : /tmp/cwe190_findings_GmlPzl
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.021s
+user	0m0.015s
+sys	0m0.004s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/tls/tls_strp.c:436:45 -- tls_strp_check_queue_ok() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_GmlPzl
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/tls/tls_strp.c.xml
+    output : /tmp/cwe190_findings_GmlPzl
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : tls_strp_skb_copy
+    position : 53:53
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/tls/tls_strp.c:53:53 -- tls_strp_skb_copy() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_GmlPzl
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/tls/tls_strp.c",
+  "line": 345,
+  "col": 60,
+  "varname": "tls_strp_copyin",
+  "note": {
+    "line": 345,
+    "col": 60,
+    "message": "multiplication in tls_strp_copyin() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/tls/tls_strp.c",
+  "line": 436,
+  "col": 45,
+  "varname": "tls_strp_check_queue_ok",
+  "note": {
+    "line": 436,
+    "col": 45,
+    "message": "addition in tls_strp_check_queue_ok() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/tls/tls_strp.c",
+  "line": 53,
+  "col": 53,
+  "varname": "tls_strp_skb_copy",
+  "note": {
+    "line": 53,
+    "col": 53,
+    "message": "increment (++) in tls_strp_skb_copy() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

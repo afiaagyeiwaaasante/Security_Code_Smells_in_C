@@ -1,0 +1,104 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ethtool/channels.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ethtool__channels.c/channels_report_20260417_173804.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ethtool__channels.c/channels_findings_20260417_173804.json
+ Date    : Fri Apr 17 17:38:04 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.015s
+user	0m0.010s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ethtool/channels.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ethtool/channels.c.json
+
+real	0m0.184s
+user	0m0.031s
+sys	0m0.003s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.056s
+user	0m0.052s
+sys	0m0.003s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ethtool/channels.c.xml
+    output : /tmp/cwe190_findings_Q2mcjp
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.012s
+user	0m0.008s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_Q2mcjp
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ethtool/channels.c.xml
+    output : /tmp/cwe190_findings_Q2mcjp
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.012s
+user	0m0.007s
+sys	0m0.003s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_Q2mcjp
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ethtool/channels.c.xml
+    output : /tmp/cwe190_findings_Q2mcjp
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : ethnl_set_channels
+    position : 175:48
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ethtool/channels.c:175:48 -- ethnl_set_channels() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_Q2mcjp
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ethtool/channels.c",
+  "line": 175,
+  "col": 48,
+  "varname": "ethnl_set_channels",
+  "note": {
+    "line": 175,
+    "col": 48,
+    "message": "increment (++) in ethnl_set_channels() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_increment       1
+========================================

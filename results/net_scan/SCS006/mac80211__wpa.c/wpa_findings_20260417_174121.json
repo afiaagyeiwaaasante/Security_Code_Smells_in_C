@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/wpa.c",
+  "line": 103,
+  "col": 59,
+  "varname": "ieee80211_rx_h_michael_mic_verify",
+  "note": {
+    "line": 103,
+    "col": 59,
+    "message": "multiplication in ieee80211_rx_h_michael_mic_verify() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/wpa.c",
+  "line": 88,
+  "col": 23,
+  "varname": "ieee80211_tx_h_michael_mic_add",
+  "note": {
+    "line": 88,
+    "col": 23,
+    "message": "increment (++) in ieee80211_tx_h_michael_mic_add() -- no upper-bound guard (INT_MAX check)"
+  }
+}

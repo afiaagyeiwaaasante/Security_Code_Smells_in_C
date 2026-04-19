@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bpf/test_run.c",
+  "line": 877,
+  "col": 56,
+  "varname": "convert___skb_to_skb",
+  "note": {
+    "line": 877,
+    "col": 56,
+    "message": "multiplication in convert___skb_to_skb() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bpf/test_run.c",
+  "line": 992,
+  "col": 36,
+  "varname": "bpf_prog_test_run_skb",
+  "note": {
+    "line": 992,
+    "col": 36,
+    "message": "addition in bpf_prog_test_run_skb() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bpf/test_run.c",
+  "line": 252,
+  "col": 43,
+  "varname": "xdp_recv_frames",
+  "note": {
+    "line": 252,
+    "col": 43,
+    "message": "increment (++) in xdp_recv_frames() -- no upper-bound guard (INT_MAX check)"
+  }
+}

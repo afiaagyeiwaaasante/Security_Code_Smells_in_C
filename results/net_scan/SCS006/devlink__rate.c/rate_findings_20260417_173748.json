@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/devlink/rate.c",
+  "line": 87,
+  "col": 48,
+  "varname": "devlink_rate_put_tc_bws",
+  "note": {
+    "line": 87,
+    "col": 48,
+    "message": "increment (++) in devlink_rate_put_tc_bws() -- no upper-bound guard (INT_MAX check)"
+  }
+}

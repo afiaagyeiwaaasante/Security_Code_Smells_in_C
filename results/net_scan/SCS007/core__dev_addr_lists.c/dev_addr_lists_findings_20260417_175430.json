@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/dev_addr_lists.c",
+  "line": 63,
+  "col": 9,
+  "varname": "__hw_addr_create",
+  "note": {
+    "line": 63,
+    "col": 9,
+    "message": "memcpy() in __hw_addr_create() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

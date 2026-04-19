@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/vmw_vsock/diag.c",
+  "line": 91,
+  "col": 34,
+  "varname": "vsock_diag_dump",
+  "note": {
+    "line": 91,
+    "col": 34,
+    "message": "increment (++) in vsock_diag_dump() -- no upper-bound guard (INT_MAX check)"
+  }
+}

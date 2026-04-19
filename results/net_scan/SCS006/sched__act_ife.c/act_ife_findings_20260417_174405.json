@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/act_ife.c",
+  "line": 798,
+  "col": 28,
+  "varname": "tcf_ife_encode",
+  "note": {
+    "line": 798,
+    "col": 28,
+    "message": "addition in tcf_ife_encode() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/act_ife.c",
+  "line": 441,
+  "col": 39,
+  "varname": "load_metalist",
+  "note": {
+    "line": 441,
+    "col": 39,
+    "message": "increment (++) in load_metalist() -- no upper-bound guard (INT_MAX check)"
+  }
+}

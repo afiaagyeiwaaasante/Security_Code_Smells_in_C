@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/xprtrdma/svc_rdma.c",
+  "line": 80,
+  "col": 62,
+  "varname": "svcrdma_counter_handler",
+  "note": {
+    "line": 80,
+    "col": 62,
+    "message": "multiplication in svcrdma_counter_handler() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}

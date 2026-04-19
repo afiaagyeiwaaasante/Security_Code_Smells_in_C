@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_fdb.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/bridge__br_fdb.c/br_fdb_report_20260417_173546.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/bridge__br_fdb.c/br_fdb_findings_20260417_173546.json
+ Date    : Fri Apr 17 17:35:46 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.120s
+user	0m0.067s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_fdb.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_fdb.c.json
+
+real	0m0.250s
+user	0m0.130s
+sys	0m0.005s
+
+=== Stage 3: srcattributor ===
+
+real	0m3.315s
+user	0m3.126s
+sys	0m0.031s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_fdb.c.xml
+    output : /tmp/cwe190_findings_Bug1qV
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.029s
+user	0m0.022s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_fdb.c:1070:50 -- br_fdb_dump() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_Bug1qV
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_fdb.c.xml
+    output : /tmp/cwe190_findings_Bug1qV
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.034s
+user	0m0.022s
+sys	0m0.004s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_fdb.c:554:66 -- br_fdb_cleanup() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_Bug1qV
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_fdb.c.xml
+    output : /tmp/cwe190_findings_Bug1qV
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : br_fdb_fillbuf
+    position : 968:17
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_fdb.c:968:17 -- br_fdb_fillbuf() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_Bug1qV
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_fdb.c",
+  "line": 1070,
+  "col": 50,
+  "varname": "br_fdb_dump",
+  "note": {
+    "line": 1070,
+    "col": 50,
+    "message": "multiplication in br_fdb_dump() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_fdb.c",
+  "line": 554,
+  "col": 66,
+  "varname": "br_fdb_cleanup",
+  "note": {
+    "line": 554,
+    "col": 66,
+    "message": "addition in br_fdb_cleanup() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_fdb.c",
+  "line": 968,
+  "col": 17,
+  "varname": "br_fdb_fillbuf",
+  "note": {
+    "line": 968,
+    "col": 17,
+    "message": "increment (++) in br_fdb_fillbuf() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

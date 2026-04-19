@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_device.c",
+  "line": 420,
+  "col": 31,
+  "varname": "br_fill_forward_path",
+  "note": {
+    "line": 420,
+    "col": 31,
+    "message": "increment (++) in br_fill_forward_path() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/tipc/udp_media.c",
+  "line": 132,
+  "col": 60,
+  "varname": "tipc_udp_addr2str",
+  "note": {
+    "line": 132,
+    "col": 60,
+    "message": "multiplication in tipc_udp_addr2str() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/tipc/udp_media.c",
+  "line": 534,
+  "col": 18,
+  "varname": "tipc_udp_nl_dump_remoteip",
+  "note": {
+    "line": 534,
+    "col": 18,
+    "message": "increment (++) in tipc_udp_nl_dump_remoteip() -- no upper-bound guard (INT_MAX check)"
+  }
+}

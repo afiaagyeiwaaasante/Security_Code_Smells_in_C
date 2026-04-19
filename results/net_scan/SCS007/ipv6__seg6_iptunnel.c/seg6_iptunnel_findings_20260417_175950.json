@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/seg6_iptunnel.c",
+  "line": 355,
+  "col": 9,
+  "varname": "__seg6_do_srh_inline",
+  "note": {
+    "line": 355,
+    "col": 9,
+    "message": "memmove() in __seg6_do_srh_inline() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

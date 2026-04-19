@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/auth_gss.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/sunrpc__auth_gss__auth_gss.c/auth_gss_report_20260417_174520.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/sunrpc__auth_gss__auth_gss.c/auth_gss_findings_20260417_174520.json
+ Date    : Fri Apr 17 17:45:20 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.143s
+user	0m0.125s
+sys	0m0.007s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/auth_gss.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/auth_gss.c.json
+
+real	0m0.476s
+user	0m0.251s
+sys	0m0.011s
+
+=== Stage 3: srcattributor ===
+
+real	0m11.558s
+user	0m11.221s
+sys	0m0.103s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/auth_gss.c.xml
+    output : /tmp/cwe190_findings_sf4559
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.048s
+user	0m0.039s
+sys	0m0.006s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/auth_gss.c:1478:65 -- gss_key_timeout() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_sf4559
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/auth_gss.c.xml
+    output : /tmp/cwe190_findings_sf4559
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.050s
+user	0m0.042s
+sys	0m0.006s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/auth_gss.c:1478:41 -- gss_key_timeout() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_sf4559
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/auth_gss.c.xml
+    output : /tmp/cwe190_findings_sf4559
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : gss_marshal
+    position : 1550:11
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/auth_gss.c:1550:11 -- gss_marshal() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_sf4559
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/auth_gss.c",
+  "line": 1478,
+  "col": 65,
+  "varname": "gss_key_timeout",
+  "note": {
+    "line": 1478,
+    "col": 65,
+    "message": "multiplication in gss_key_timeout() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/auth_gss.c",
+  "line": 1478,
+  "col": 41,
+  "varname": "gss_key_timeout",
+  "note": {
+    "line": 1478,
+    "col": 41,
+    "message": "addition in gss_key_timeout() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/auth_gss.c",
+  "line": 1550,
+  "col": 11,
+  "varname": "gss_marshal",
+  "note": {
+    "line": 1550,
+    "col": 11,
+    "message": "increment (++) in gss_marshal() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

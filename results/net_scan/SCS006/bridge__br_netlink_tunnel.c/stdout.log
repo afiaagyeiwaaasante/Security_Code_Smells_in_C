@@ -1,0 +1,104 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_netlink_tunnel.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/bridge__br_netlink_tunnel.c/br_netlink_tunnel_report_20260417_173556.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/bridge__br_netlink_tunnel.c/br_netlink_tunnel_findings_20260417_173556.json
+ Date    : Fri Apr 17 17:35:56 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.016s
+user	0m0.012s
+sys	0m0.003s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_netlink_tunnel.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_netlink_tunnel.c.json
+
+real	0m0.196s
+user	0m0.041s
+sys	0m0.004s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.185s
+user	0m0.173s
+sys	0m0.006s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_netlink_tunnel.c.xml
+    output : /tmp/cwe190_findings_q3wOIq
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.012s
+user	0m0.008s
+sys	0m0.003s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_q3wOIq
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_netlink_tunnel.c.xml
+    output : /tmp/cwe190_findings_q3wOIq
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.013s
+user	0m0.007s
+sys	0m0.003s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_q3wOIq
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_netlink_tunnel.c.xml
+    output : /tmp/cwe190_findings_q3wOIq
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : br_process_vlan_tunnel_info
+    position : 308:66
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_netlink_tunnel.c:308:66 -- br_process_vlan_tunnel_info() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_q3wOIq
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_netlink_tunnel.c",
+  "line": 308,
+  "col": 66,
+  "varname": "br_process_vlan_tunnel_info",
+  "note": {
+    "line": 308,
+    "col": 66,
+    "message": "increment (++) in br_process_vlan_tunnel_info() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_increment       1
+========================================

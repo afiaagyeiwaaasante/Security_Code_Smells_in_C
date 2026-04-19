@@ -1,0 +1,119 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/wireless/wext-core.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/wireless__wext-core.c/wext-core_report_20260417_174648.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/wireless__wext-core.c/wext-core_findings_20260417_174648.json
+ Date    : Fri Apr 17 17:46:48 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.065s
+user	0m0.055s
+sys	0m0.006s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/wireless/wext-core.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/wireless/wext-core.c.json
+
+real	0m0.253s
+user	0m0.114s
+sys	0m0.005s
+
+=== Stage 3: srcattributor ===
+
+real	0m1.285s
+user	0m1.257s
+sys	0m0.012s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/wireless/wext-core.c.xml
+    output : /tmp/cwe190_findings_KIEqgs
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.029s
+user	0m0.020s
+sys	0m0.006s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/wireless/wext-core.c:748:40 -- ioctl_standard_iw_point() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_KIEqgs
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/wireless/wext-core.c.xml
+    output : /tmp/cwe190_findings_KIEqgs
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.028s
+user	0m0.021s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/wireless/wext-core.c:1178:52 -- iwe_stream_add_point() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_KIEqgs
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/wireless/wext-core.c.xml
+    output : /tmp/cwe190_findings_KIEqgs
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+[ unchecked_increment ] No smell detected.
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/wireless/wext-core.c",
+  "line": 748,
+  "col": 40,
+  "varname": "ioctl_standard_iw_point",
+  "note": {
+    "line": 748,
+    "col": 40,
+    "message": "multiplication in ioctl_standard_iw_point() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/wireless/wext-core.c",
+  "line": 1178,
+  "col": 52,
+  "varname": "iwe_stream_add_point",
+  "note": {
+    "line": 1178,
+    "col": 52,
+    "message": "addition in iwe_stream_add_point() -- no upper-bound guard before adding"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_multiply        1
+========================================

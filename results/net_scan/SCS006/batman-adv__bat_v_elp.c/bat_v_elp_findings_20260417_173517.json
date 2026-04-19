@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/bat_v_elp.c",
+  "line": 260,
+  "col": 54,
+  "varname": "batadv_v_elp_wifi_neigh_probe",
+  "note": {
+    "line": 260,
+    "col": 54,
+    "message": "increment (++) in batadv_v_elp_wifi_neigh_probe() -- no upper-bound guard (INT_MAX check)"
+  }
+}

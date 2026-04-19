@@ -1,0 +1,125 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/mptcp/protocol.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/mptcp__protocol.c/protocol_report_20260417_174152.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/mptcp__protocol.c/protocol_findings_20260417_174152.json
+ Date    : Fri Apr 17 17:41:52 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.245s
+user	0m0.229s
+sys	0m0.007s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/mptcp/protocol.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/mptcp/protocol.c.json
+
+real	0m0.605s
+user	0m0.452s
+sys	0m0.011s
+
+=== Stage 3: srcattributor ===
+
+real	0m34.264s
+user	0m32.698s
+sys	0m0.341s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mptcp/protocol.c.xml
+    output : /tmp/cwe190_findings_WUSDA2
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.091s
+user	0m0.075s
+sys	0m0.010s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    guarded -- MAX constant found in condition, no finding
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_WUSDA2
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mptcp/protocol.c.xml
+    output : /tmp/cwe190_findings_WUSDA2
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.082s
+user	0m0.068s
+sys	0m0.010s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/mptcp/protocol.c:1022:35 -- dfrag_clear() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_WUSDA2
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mptcp/protocol.c.xml
+    output : /tmp/cwe190_findings_WUSDA2
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : __mptcp_socket_create
+    position : 120:46
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/mptcp/protocol.c:120:46 -- __mptcp_socket_create() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_WUSDA2
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mptcp/protocol.c",
+  "line": 1022,
+  "col": 35,
+  "varname": "dfrag_clear",
+  "note": {
+    "line": 1022,
+    "col": 35,
+    "message": "addition in dfrag_clear() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mptcp/protocol.c",
+  "line": 120,
+  "col": 46,
+  "varname": "__mptcp_socket_create",
+  "note": {
+    "line": 120,
+    "col": 46,
+    "message": "increment (++) in __mptcp_socket_create() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+========================================

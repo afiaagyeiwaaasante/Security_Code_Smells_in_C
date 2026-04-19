@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/wireless/sme.c",
+  "line": 342,
+  "col": 62,
+  "varname": "cfg80211_sme_rx_auth",
+  "note": {
+    "line": 342,
+    "col": 62,
+    "message": "multiplication in cfg80211_sme_rx_auth() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/wireless/sme.c",
+  "line": 103,
+  "col": 62,
+  "varname": "cfg80211_conn_scan",
+  "note": {
+    "line": 103,
+    "col": 62,
+    "message": "increment (++) in cfg80211_conn_scan() -- no upper-bound guard (INT_MAX check)"
+  }
+}

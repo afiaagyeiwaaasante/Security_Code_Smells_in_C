@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/debugfs.c",
+  "line": 496,
+  "col": 27,
+  "varname": "hwflags_read",
+  "note": {
+    "line": 496,
+    "col": 27,
+    "message": "multiplication in hwflags_read() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/debugfs.c",
+  "line": 566,
+  "col": 50,
+  "varname": "misc_read",
+  "note": {
+    "line": 566,
+    "col": 50,
+    "message": "addition in misc_read() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/debugfs.c",
+  "line": 510,
+  "col": 50,
+  "varname": "hwflags_read",
+  "note": {
+    "line": 510,
+    "col": 50,
+    "message": "increment (++) in hwflags_read() -- no upper-bound guard (INT_MAX check)"
+  }
+}

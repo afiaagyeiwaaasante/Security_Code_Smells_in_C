@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/udp.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv6__udp.c/udp_report_20260417_174019.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv6__udp.c/udp_findings_20260417_174019.json
+ Date    : Fri Apr 17 17:40:19 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.111s
+user	0m0.100s
+sys	0m0.006s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/udp.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/udp.c.json
+
+real	0m0.314s
+user	0m0.213s
+sys	0m0.007s
+
+=== Stage 3: srcattributor ===
+
+real	0m9.156s
+user	0m8.780s
+sys	0m0.072s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/udp.c.xml
+    output : /tmp/cwe190_findings_B9L82F
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.041s
+user	0m0.032s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/udp.c:424:53 -- udp6_lib_lookup_skb() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_B9L82F
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/udp.c.xml
+    output : /tmp/cwe190_findings_B9L82F
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.042s
+user	0m0.034s
+sys	0m0.006s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/udp.c:424:66 -- udp6_lib_lookup_skb() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_B9L82F
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/udp.c.xml
+    output : /tmp/cwe190_findings_B9L82F
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : compute_score
+    position : 153:22
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/udp.c:153:22 -- compute_score() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_B9L82F
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/udp.c",
+  "line": 424,
+  "col": 53,
+  "varname": "udp6_lib_lookup_skb",
+  "note": {
+    "line": 424,
+    "col": 53,
+    "message": "multiplication in udp6_lib_lookup_skb() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/udp.c",
+  "line": 424,
+  "col": 66,
+  "varname": "udp6_lib_lookup_skb",
+  "note": {
+    "line": 424,
+    "col": 66,
+    "message": "addition in udp6_lib_lookup_skb() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/udp.c",
+  "line": 153,
+  "col": 22,
+  "varname": "compute_score",
+  "note": {
+    "line": 153,
+    "col": 22,
+    "message": "increment (++) in compute_score() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

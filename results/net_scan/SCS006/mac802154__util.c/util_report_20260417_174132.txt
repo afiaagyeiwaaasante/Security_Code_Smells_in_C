@@ -1,0 +1,79 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/mac802154/util.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/mac802154__util.c/util_report_20260417_174132.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/mac802154__util.c/util_findings_20260417_174132.json
+ Date    : Fri Apr 17 17:41:32 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.021s
+user	0m0.012s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/mac802154/util.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/mac802154/util.c.json
+
+real	0m0.188s
+user	0m0.033s
+sys	0m0.004s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.044s
+user	0m0.037s
+sys	0m0.004s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mac802154/util.c.xml
+    output : /tmp/cwe190_findings_f3L4Sw
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.017s
+user	0m0.008s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_f3L4Sw
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mac802154/util.c.xml
+    output : /tmp/cwe190_findings_f3L4Sw
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.014s
+user	0m0.008s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_f3L4Sw
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mac802154/util.c.xml
+    output : /tmp/cwe190_findings_f3L4Sw
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+[ unchecked_increment ] No smell detected.
+========================================
+ Findings JSON
+========================================
+
+========================================
+ Summary
+ Total findings : 0
+ Errors         : 0
+ Warnings       : 0
+========================================

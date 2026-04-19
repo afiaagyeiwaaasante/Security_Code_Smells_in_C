@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_immediate.c",
+  "line": 250,
+  "col": 48,
+  "varname": "nft_immediate_validate",
+  "note": {
+    "line": 250,
+    "col": 48,
+    "message": "multiplication in nft_immediate_validate() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_immediate.c",
+  "line": 262,
+  "col": 28,
+  "varname": "nft_immediate_validate",
+  "note": {
+    "line": 262,
+    "col": 28,
+    "message": "increment (++) in nft_immediate_validate() -- no upper-bound guard (INT_MAX check)"
+  }
+}

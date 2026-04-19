@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sctp/sysctl.c",
+  "line": 426,
+  "col": 28,
+  "varname": "proc_sctp_do_rto_min",
+  "note": {
+    "line": 426,
+    "col": 28,
+    "message": "multiplication in proc_sctp_do_rto_min() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sctp/sysctl.c",
+  "line": 599,
+  "col": 38,
+  "varname": "sctp_sysctl_net_register",
+  "note": {
+    "line": 599,
+    "col": 38,
+    "message": "increment (++) in sctp_sysctl_net_register() -- no upper-bound guard (INT_MAX check)"
+  }
+}

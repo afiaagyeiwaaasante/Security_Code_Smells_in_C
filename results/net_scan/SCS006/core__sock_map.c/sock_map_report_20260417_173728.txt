@@ -1,0 +1,123 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/core/sock_map.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/core__sock_map.c/sock_map_report_20260417_173728.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/core__sock_map.c/sock_map_findings_20260417_173728.json
+ Date    : Fri Apr 17 17:37:28 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.083s
+user	0m0.072s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/core/sock_map.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/core/sock_map.c.json
+
+real	0m0.248s
+user	0m0.140s
+sys	0m0.006s
+
+=== Stage 3: srcattributor ===
+
+real	0m5.025s
+user	0m4.806s
+sys	0m0.037s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/core/sock_map.c.xml
+    output : /tmp/cwe190_findings_XQhnpF
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.037s
+user	0m0.030s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/core/sock_map.c:445:17 -- sock_map_delete_elem() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_XQhnpF
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/core/sock_map.c.xml
+    output : /tmp/cwe190_findings_XQhnpF
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.035s
+user	0m0.028s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_XQhnpF
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/core/sock_map.c.xml
+    output : /tmp/cwe190_findings_XQhnpF
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : sock_map_free
+    position : 349:49
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/core/sock_map.c:349:49 -- sock_map_free() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_XQhnpF
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/sock_map.c",
+  "line": 445,
+  "col": 17,
+  "varname": "sock_map_delete_elem",
+  "note": {
+    "line": 445,
+    "col": 17,
+    "message": "multiplication in sock_map_delete_elem() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/sock_map.c",
+  "line": 349,
+  "col": 49,
+  "varname": "sock_map_free",
+  "note": {
+    "line": 349,
+    "col": 49,
+    "message": "increment (++) in sock_map_free() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

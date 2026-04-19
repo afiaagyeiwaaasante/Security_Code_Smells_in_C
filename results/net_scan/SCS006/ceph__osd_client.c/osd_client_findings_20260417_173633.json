@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ceph/osd_client.c",
+  "line": 2587,
+  "col": 19,
+  "varname": "abort_fn",
+  "note": {
+    "line": 2587,
+    "col": 19,
+    "message": "multiplication in abort_fn() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ceph/osd_client.c",
+  "line": 2148,
+  "col": 29,
+  "varname": "encode_request_partial",
+  "note": {
+    "line": 2148,
+    "col": 29,
+    "message": "addition in encode_request_partial() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ceph/osd_client.c",
+  "line": 498,
+  "col": 54,
+  "varname": "ceph_osdc_release_request",
+  "note": {
+    "line": 498,
+    "col": 54,
+    "message": "increment (++) in ceph_osdc_release_request() -- no upper-bound guard (INT_MAX check)"
+  }
+}

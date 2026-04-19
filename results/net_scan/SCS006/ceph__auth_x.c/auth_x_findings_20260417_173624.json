@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ceph/auth_x.c",
+  "line": 554,
+  "col": 58,
+  "varname": "ceph_x_build_request",
+  "note": {
+    "line": 554,
+    "col": 58,
+    "message": "multiplication in ceph_x_build_request() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ceph/auth_x.c",
+  "line": 81,
+  "col": 64,
+  "varname": "ceph_x_encrypt_buflen",
+  "note": {
+    "line": 81,
+    "col": 64,
+    "message": "addition in ceph_x_encrypt_buflen() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ceph/auth_x.c",
+  "line": 592,
+  "col": 76,
+  "varname": "ceph_x_build_request",
+  "note": {
+    "line": 592,
+    "col": 76,
+    "message": "increment (++) in ceph_x_build_request() -- no upper-bound guard (INT_MAX check)"
+  }
+}

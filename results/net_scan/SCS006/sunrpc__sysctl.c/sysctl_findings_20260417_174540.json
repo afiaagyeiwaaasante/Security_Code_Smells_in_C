@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/sysctl.c",
+  "line": 84,
+  "col": 26,
+  "varname": "proc_dodebug",
+  "note": {
+    "line": 84,
+    "col": 26,
+    "message": "increment (++) in proc_dodebug() -- no upper-bound guard (INT_MAX check)"
+  }
+}

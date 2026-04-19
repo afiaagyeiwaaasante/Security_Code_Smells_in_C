@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/ematch.c",
+  "line": 175,
+  "col": 46,
+  "varname": "tcf_em_validate",
+  "note": {
+    "line": 175,
+    "col": 46,
+    "message": "multiplication in tcf_em_validate() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/ematch.c",
+  "line": 176,
+  "col": 38,
+  "varname": "tcf_em_validate",
+  "note": {
+    "line": 176,
+    "col": 38,
+    "message": "addition in tcf_em_validate() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/ematch.c",
+  "line": 350,
+  "col": 54,
+  "varname": "tcf_em_tree_validate",
+  "note": {
+    "line": 350,
+    "col": 54,
+    "message": "increment (++) in tcf_em_tree_validate() -- no upper-bound guard (INT_MAX check)"
+  }
+}

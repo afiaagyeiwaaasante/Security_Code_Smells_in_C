@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_set_pipapo.c",
+  "line": 375,
+  "col": 51,
+  "varname": "pipapo_refill",
+  "note": {
+    "line": 375,
+    "col": 51,
+    "message": "addition in pipapo_refill() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_set_pipapo.c",
+  "line": 370,
+  "col": 31,
+  "varname": "pipapo_refill",
+  "note": {
+    "line": 370,
+    "col": 31,
+    "message": "increment (++) in pipapo_refill() -- no upper-bound guard (INT_MAX check)"
+  }
+}

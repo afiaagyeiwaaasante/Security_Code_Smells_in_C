@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/can/af_can.c",
+  "line": 213,
+  "col": 63,
+  "varname": "can_send",
+  "note": {
+    "line": 213,
+    "col": 63,
+    "message": "multiplication in can_send() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/can/af_can.c",
+  "line": 479,
+  "col": 31,
+  "varname": "can_rx_register",
+  "note": {
+    "line": 479,
+    "col": 31,
+    "message": "increment (++) in can_rx_register() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,93 @@
+========================================
+ CWE-195 Signed-to-Unsigned Conversion Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/call_event.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS007/rxrpc__call_event.c/call_event_report_20260417_180428.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS007/rxrpc__call_event.c/call_event_findings_20260417_180428.json
+ Date    : Fri Apr 17 18:04:28 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.038s
+user	0m0.032s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/call_event.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/call_event.c.json
+
+real	0m0.204s
+user	0m0.086s
+sys	0m0.005s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.613s
+user	0m0.509s
+sys	0m0.011s
+
+=== Detector 1: signed_malloc ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/call_event.c.xml
+    output : /tmp/cwe195_findings_w4mbXi
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS malloc($A)
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.024s
+user	0m0.015s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor malloc found
+
+[ signed_malloc ] 0 finding(s) written to /tmp/cwe195_findings_w4mbXi
+=== Detector 2: signed_memcpy ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/call_event.c.xml
+    output : /tmp/cwe195_findings_w4mbXi
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS memcpy($A, $B, $C)
+
+real	0m0.022s
+user	0m0.015s
+sys	0m0.005s
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS memmove($A, $B, $C)
+
+real	0m0.021s
+user	0m0.015s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor memcpy/memmove found
+
+[ signed_memcpy ] 0 finding(s) written to /tmp/cwe195_findings_w4mbXi
+=== Detector 3: signed_strncpy ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/call_event.c.xml
+    output : /tmp/cwe195_findings_w4mbXi
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS strncpy($A, $B, $C)
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.033s
+user	0m0.015s
+sys	0m0.006s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor strncpy found
+
+[ signed_strncpy ] 0 finding(s) written to /tmp/cwe195_findings_w4mbXi
+========================================
+ Findings JSON
+========================================
+
+========================================
+ Summary
+ Total findings : 0
+ Errors         : 0
+ Warnings       : 0
+========================================

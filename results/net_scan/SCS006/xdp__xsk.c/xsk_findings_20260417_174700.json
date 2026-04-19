@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/xdp/xsk.c",
+  "line": 1283,
+  "col": 58,
+  "varname": "xsk_bind",
+  "note": {
+    "line": 1283,
+    "col": 58,
+    "message": "multiplication in xsk_bind() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/xdp/xsk.c",
+  "line": 251,
+  "col": 19,
+  "varname": "__xsk_rcv",
+  "note": {
+    "line": 251,
+    "col": 19,
+    "message": "addition in __xsk_rcv() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/xdp/xsk.c",
+  "line": 155,
+  "col": 34,
+  "varname": "__xsk_rcv_zc",
+  "note": {
+    "line": 155,
+    "col": 34,
+    "message": "increment (++) in __xsk_rcv_zc() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_exthdr.c",
+  "line": 86,
+  "col": 53,
+  "varname": "ipv4_find_option",
+  "note": {
+    "line": 86,
+    "col": 53,
+    "message": "multiplication in ipv4_find_option() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_exthdr.c",
+  "line": 373,
+  "col": 46,
+  "varname": "nft_exthdr_sctp_eval",
+  "note": {
+    "line": 373,
+    "col": 46,
+    "message": "addition in nft_exthdr_sctp_eval() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_exthdr.c",
+  "line": 342,
+  "col": 39,
+  "varname": "nft_exthdr_tcp_strip_eval",
+  "note": {
+    "line": 342,
+    "col": 39,
+    "message": "increment (++) in nft_exthdr_tcp_strip_eval() -- no upper-bound guard (INT_MAX check)"
+  }
+}

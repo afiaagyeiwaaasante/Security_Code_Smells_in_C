@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/flow_offload.c",
+  "line": 227,
+  "col": 9,
+  "varname": "flow_action_cookie_create",
+  "note": {
+    "line": 227,
+    "col": 9,
+    "message": "memcpy() in flow_action_cookie_create() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

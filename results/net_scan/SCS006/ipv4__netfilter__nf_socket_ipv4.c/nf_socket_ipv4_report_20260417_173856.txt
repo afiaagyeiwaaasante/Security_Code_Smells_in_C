@@ -1,0 +1,79 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/netfilter/nf_socket_ipv4.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv4__netfilter__nf_socket_ipv4.c/nf_socket_ipv4_report_20260417_173856.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv4__netfilter__nf_socket_ipv4.c/nf_socket_ipv4_findings_20260417_173856.json
+ Date    : Fri Apr 17 17:38:56 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.017s
+user	0m0.011s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/netfilter/nf_socket_ipv4.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/netfilter/nf_socket_ipv4.c.json
+
+real	0m0.184s
+user	0m0.033s
+sys	0m0.003s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.085s
+user	0m0.078s
+sys	0m0.004s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/netfilter/nf_socket_ipv4.c.xml
+    output : /tmp/cwe190_findings_aIGw8c
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.013s
+user	0m0.008s
+sys	0m0.003s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_aIGw8c
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/netfilter/nf_socket_ipv4.c.xml
+    output : /tmp/cwe190_findings_aIGw8c
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.014s
+user	0m0.008s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_aIGw8c
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/netfilter/nf_socket_ipv4.c.xml
+    output : /tmp/cwe190_findings_aIGw8c
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+[ unchecked_increment ] No smell detected.
+========================================
+ Findings JSON
+========================================
+
+========================================
+ Summary
+ Total findings : 0
+ Errors         : 0
+ Warnings       : 0
+========================================

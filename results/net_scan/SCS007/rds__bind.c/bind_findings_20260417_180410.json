@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rds/bind.c",
+  "line": 59,
+  "col": 9,
+  "varname": "__rds_create_bind_key",
+  "note": {
+    "line": 59,
+    "col": 9,
+    "message": "memcpy() in __rds_create_bind_key() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

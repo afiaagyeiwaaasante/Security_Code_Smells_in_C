@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/cls_u32.c",
+  "line": 161,
+  "col": 40,
+  "varname": "u32_classify",
+  "note": {
+    "line": 161,
+    "col": 40,
+    "message": "addition in u32_classify() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/cls_u32.c",
+  "line": 160,
+  "col": 55,
+  "varname": "u32_classify",
+  "note": {
+    "line": 160,
+    "col": 55,
+    "message": "increment (++) in u32_classify() -- no upper-bound guard (INT_MAX check)"
+  }
+}

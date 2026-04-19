@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nfnetlink_acct.c",
+  "line": 120,
+  "col": 35,
+  "varname": "nfnl_acct_new",
+  "note": {
+    "line": 120,
+    "col": 35,
+    "message": "multiplication in nfnl_acct_new() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/ematch.c",
+  "line": 331,
+  "col": 9,
+  "varname": "tcf_em_tree_validate",
+  "note": {
+    "line": 331,
+    "col": 9,
+    "message": "memcpy() in tcf_em_tree_validate() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

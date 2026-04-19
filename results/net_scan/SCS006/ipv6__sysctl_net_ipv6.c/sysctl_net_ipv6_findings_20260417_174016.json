@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/sysctl_net_ipv6.c",
+  "line": 266,
+  "col": 38,
+  "varname": "ipv6_sysctl_net_init",
+  "note": {
+    "line": 266,
+    "col": 38,
+    "message": "increment (++) in ipv6_sysctl_net_init() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/nfc/nci/rsp.c",
+  "line": 31,
+  "col": 54,
+  "varname": "nci_core_reset_rsp_packet",
+  "note": {
+    "line": 31,
+    "col": 54,
+    "message": "multiplication in nci_core_reset_rsp_packet() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/nfc/nci/rsp.c",
+  "line": 107,
+  "col": 63,
+  "varname": "nci_core_init_rsp_packet_v2",
+  "note": {
+    "line": 107,
+    "col": 63,
+    "message": "increment (++) in nci_core_init_rsp_packet_v2() -- no upper-bound guard (INT_MAX check)"
+  }
+}

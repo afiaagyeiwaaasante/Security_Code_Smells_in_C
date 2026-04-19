@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/svc.c",
+  "line": 246,
+  "col": 21,
+  "varname": "svc_pool_map_init_percpu",
+  "note": {
+    "line": 246,
+    "col": 21,
+    "message": "increment (++) in svc_pool_map_init_percpu() -- no upper-bound guard (INT_MAX check)"
+  }
+}

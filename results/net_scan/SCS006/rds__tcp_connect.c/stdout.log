@@ -1,0 +1,104 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/rds/tcp_connect.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/rds__tcp_connect.c/tcp_connect_report_20260417_174347.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/rds__tcp_connect.c/tcp_connect_findings_20260417_174347.json
+ Date    : Fri Apr 17 17:43:47 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.024s
+user	0m0.017s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/rds/tcp_connect.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/rds/tcp_connect.c.json
+
+real	0m0.188s
+user	0m0.044s
+sys	0m0.004s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.127s
+user	0m0.119s
+sys	0m0.005s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/rds/tcp_connect.c.xml
+    output : /tmp/cwe190_findings_WyYXQ9
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.015s
+user	0m0.009s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_WyYXQ9
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/rds/tcp_connect.c.xml
+    output : /tmp/cwe190_findings_WyYXQ9
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.018s
+user	0m0.009s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_WyYXQ9
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/rds/tcp_connect.c.xml
+    output : /tmp/cwe190_findings_WyYXQ9
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : rds_tcp_conn_path_connect
+    position : 165:21
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/rds/tcp_connect.c:165:21 -- rds_tcp_conn_path_connect() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_WyYXQ9
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rds/tcp_connect.c",
+  "line": 165,
+  "col": 21,
+  "varname": "rds_tcp_conn_path_connect",
+  "note": {
+    "line": 165,
+    "col": 21,
+    "message": "increment (++) in rds_tcp_conn_path_connect() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_increment       1
+========================================

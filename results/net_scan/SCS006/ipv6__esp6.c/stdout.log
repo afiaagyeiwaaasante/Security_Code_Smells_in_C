@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/esp6.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv6__esp6.c/esp6_report_20260417_173936.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv6__esp6.c/esp6_findings_20260417_173936.json
+ Date    : Fri Apr 17 17:39:36 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.084s
+user	0m0.064s
+sys	0m0.006s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/esp6.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/esp6.c.json
+
+real	0m0.313s
+user	0m0.142s
+sys	0m0.006s
+
+=== Stage 3: srcattributor ===
+
+real	0m3.012s
+user	0m2.904s
+sys	0m0.030s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/esp6.c.xml
+    output : /tmp/cwe190_findings_y3uNcv
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.033s
+user	0m0.025s
+sys	0m0.006s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/esp6.c:287:41 -- esp_restore_header() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_y3uNcv
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/esp6.c.xml
+    output : /tmp/cwe190_findings_y3uNcv
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.029s
+user	0m0.022s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/esp6.c:287:54 -- esp_restore_header() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_y3uNcv
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/esp6.c.xml
+    output : /tmp/cwe190_findings_y3uNcv
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : esp6_output_head
+    position : 490:53
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/esp6.c:490:53 -- esp6_output_head() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_y3uNcv
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/esp6.c",
+  "line": 287,
+  "col": 41,
+  "varname": "esp_restore_header",
+  "note": {
+    "line": 287,
+    "col": 41,
+    "message": "multiplication in esp_restore_header() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/esp6.c",
+  "line": 287,
+  "col": 54,
+  "varname": "esp_restore_header",
+  "note": {
+    "line": 287,
+    "col": 54,
+    "message": "addition in esp_restore_header() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/esp6.c",
+  "line": 490,
+  "col": 53,
+  "varname": "esp6_output_head",
+  "note": {
+    "line": 490,
+    "col": 53,
+    "message": "increment (++) in esp6_output_head() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

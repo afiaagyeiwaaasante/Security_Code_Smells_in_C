@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/xfrm/espintcp.c",
+  "line": 34,
+  "col": 56,
+  "varname": "handle_esp",
+  "note": {
+    "line": 34,
+    "col": 56,
+    "message": "multiplication in handle_esp() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/xfrm/espintcp.c",
+  "line": 225,
+  "col": 41,
+  "varname": "espintcp_sendskmsg_locked",
+  "note": {
+    "line": 225,
+    "col": 41,
+    "message": "addition in espintcp_sendskmsg_locked() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/xfrm/espintcp.c",
+  "line": 250,
+  "col": 21,
+  "varname": "espintcp_sendskmsg_locked",
+  "note": {
+    "line": 250,
+    "col": 21,
+    "message": "increment (++) in espintcp_sendskmsg_locked() -- no upper-bound guard (INT_MAX check)"
+  }
+}

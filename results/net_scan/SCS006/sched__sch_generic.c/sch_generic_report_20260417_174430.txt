@@ -1,0 +1,123 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_generic.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/sched__sch_generic.c/sch_generic_report_20260417_174430.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/sched__sch_generic.c/sch_generic_findings_20260417_174430.json
+ Date    : Fri Apr 17 17:44:30 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.093s
+user	0m0.081s
+sys	0m0.007s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_generic.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_generic.c.json
+
+real	0m0.317s
+user	0m0.170s
+sys	0m0.010s
+
+=== Stage 3: srcattributor ===
+
+real	0m4.077s
+user	0m3.931s
+sys	0m0.042s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_generic.c.xml
+    output : /tmp/cwe190_findings_YXXNKG
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.033s
+user	0m0.025s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_YXXNKG
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_generic.c.xml
+    output : /tmp/cwe190_findings_YXXNKG
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.035s
+user	0m0.026s
+sys	0m0.007s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_generic.c:940:42 -- qdisc_alloc() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_YXXNKG
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_generic.c.xml
+    output : /tmp/cwe190_findings_YXXNKG
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : qdisc_enqueue_skb_bad_txq
+    position : 137:26
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_generic.c:137:26 -- qdisc_enqueue_skb_bad_txq() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_YXXNKG
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_generic.c",
+  "line": 940,
+  "col": 42,
+  "varname": "qdisc_alloc",
+  "note": {
+    "line": 940,
+    "col": 42,
+    "message": "addition in qdisc_alloc() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_generic.c",
+  "line": 137,
+  "col": 26,
+  "varname": "qdisc_enqueue_skb_bad_txq",
+  "note": {
+    "line": 137,
+    "col": 26,
+    "message": "increment (++) in qdisc_enqueue_skb_bad_txq() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+========================================

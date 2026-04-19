@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/tests/elems.c",
+  "line": 53,
+  "col": 30,
+  "varname": "mle_defrag",
+  "note": {
+    "line": 53,
+    "col": 30,
+    "message": "increment (++) in mle_defrag() -- no upper-bound guard (INT_MAX check)"
+  }
+}

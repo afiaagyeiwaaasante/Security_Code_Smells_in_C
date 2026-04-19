@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_cfm.c",
+  "line": 223,
+  "col": 9,
+  "varname": "ccm_frame_build",
+  "note": {
+    "line": 223,
+    "col": 9,
+    "message": "memcpy() in ccm_frame_build() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

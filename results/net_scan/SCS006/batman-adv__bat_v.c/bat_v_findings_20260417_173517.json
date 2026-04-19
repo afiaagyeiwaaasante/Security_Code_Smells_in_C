@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/bat_v.c",
+  "line": 188,
+  "col": 24,
+  "varname": "batadv_v_neigh_dump_hardif",
+  "note": {
+    "line": 188,
+    "col": 24,
+    "message": "increment (++) in batadv_v_neigh_dump_hardif() -- no upper-bound guard (INT_MAX check)"
+  }
+}

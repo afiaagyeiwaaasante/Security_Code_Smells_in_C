@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipset/ip_set_core.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/netfilter__ipset__ip_set_core.c/ip_set_core_report_20260417_174202.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/netfilter__ipset__ip_set_core.c/ip_set_core_findings_20260417_174202.json
+ Date    : Fri Apr 17 17:42:02 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.141s
+user	0m0.131s
+sys	0m0.006s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipset/ip_set_core.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipset/ip_set_core.c.json
+
+real	0m0.368s
+user	0m0.258s
+sys	0m0.007s
+
+=== Stage 3: srcattributor ===
+
+real	0m9.019s
+user	0m8.676s
+sys	0m0.075s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipset/ip_set_core.c.xml
+    output : /tmp/cwe190_findings_6O45wy
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.046s
+user	0m0.039s
+sys	0m0.006s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipset/ip_set_core.c:1481:44 -- ip_set_dump_done() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_6O45wy
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipset/ip_set_core.c.xml
+    output : /tmp/cwe190_findings_6O45wy
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.048s
+user	0m0.039s
+sys	0m0.007s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipset/ip_set_core.c:1055:49 -- ip_set_create() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_6O45wy
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipset/ip_set_core.c.xml
+    output : /tmp/cwe190_findings_6O45wy
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : ip_set_elem_len
+    position : 452:47
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipset/ip_set_core.c:452:47 -- ip_set_elem_len() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_6O45wy
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipset/ip_set_core.c",
+  "line": 1481,
+  "col": 44,
+  "varname": "ip_set_dump_done",
+  "note": {
+    "line": 1481,
+    "col": 44,
+    "message": "multiplication in ip_set_dump_done() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipset/ip_set_core.c",
+  "line": 1055,
+  "col": 49,
+  "varname": "ip_set_create",
+  "note": {
+    "line": 1055,
+    "col": 49,
+    "message": "addition in ip_set_create() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipset/ip_set_core.c",
+  "line": 452,
+  "col": 47,
+  "varname": "ip_set_elem_len",
+  "note": {
+    "line": 452,
+    "col": 47,
+    "message": "increment (++) in ip_set_elem_len() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

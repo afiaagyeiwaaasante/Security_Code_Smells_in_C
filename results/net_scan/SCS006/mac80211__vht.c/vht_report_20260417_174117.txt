@@ -1,0 +1,123 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/vht.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/mac80211__vht.c/vht_report_20260417_174117.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/mac80211__vht.c/vht_findings_20260417_174117.json
+ Date    : Fri Apr 17 17:41:17 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.047s
+user	0m0.040s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/vht.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/vht.c.json
+
+real	0m0.241s
+user	0m0.088s
+sys	0m0.005s
+
+=== Stage 3: srcattributor ===
+
+real	0m1.013s
+user	0m0.976s
+sys	0m0.011s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/vht.c.xml
+    output : /tmp/cwe190_findings_ygz956
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.027s
+user	0m0.016s
+sys	0m0.004s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/vht.c:561:46 -- ieee80211_sta_init_nss() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_ygz956
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/vht.c.xml
+    output : /tmp/cwe190_findings_ygz956
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.022s
+user	0m0.016s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_ygz956
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/vht.c.xml
+    output : /tmp/cwe190_findings_ygz956
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : ieee80211_apply_vhtcap_overrides
+    position : 88:29
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/vht.c:88:29 -- ieee80211_apply_vhtcap_overrides() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_ygz956
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/vht.c",
+  "line": 561,
+  "col": 46,
+  "varname": "ieee80211_sta_init_nss",
+  "note": {
+    "line": 561,
+    "col": 46,
+    "message": "multiplication in ieee80211_sta_init_nss() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/vht.c",
+  "line": 88,
+  "col": 29,
+  "varname": "ieee80211_apply_vhtcap_overrides",
+  "note": {
+    "line": 88,
+    "col": 29,
+    "message": "increment (++) in ieee80211_apply_vhtcap_overrides() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

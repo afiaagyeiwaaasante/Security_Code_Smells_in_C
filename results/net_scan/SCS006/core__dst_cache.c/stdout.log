@@ -1,0 +1,79 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/core/dst_cache.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/core__dst_cache.c/dst_cache_report_20260417_173644.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/core__dst_cache.c/dst_cache_findings_20260417_173644.json
+ Date    : Fri Apr 17 17:36:44 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.014s
+user	0m0.009s
+sys	0m0.003s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/core/dst_cache.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/core/dst_cache.c.json
+
+real	0m0.180s
+user	0m0.031s
+sys	0m0.003s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.058s
+user	0m0.050s
+sys	0m0.004s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/core/dst_cache.c.xml
+    output : /tmp/cwe190_findings_WF0zTW
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.015s
+user	0m0.008s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_WF0zTW
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/core/dst_cache.c.xml
+    output : /tmp/cwe190_findings_WF0zTW
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.013s
+user	0m0.007s
+sys	0m0.003s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_WF0zTW
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/core/dst_cache.c.xml
+    output : /tmp/cwe190_findings_WF0zTW
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+[ unchecked_increment ] No smell detected.
+========================================
+ Findings JSON
+========================================
+
+========================================
+ Summary
+ Total findings : 0
+ Errors         : 0
+ Warnings       : 0
+========================================

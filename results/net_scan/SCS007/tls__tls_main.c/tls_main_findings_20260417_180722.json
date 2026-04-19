@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/tls/tls_main.c",
+  "line": 484,
+  "col": 9,
+  "varname": "do_tls_getsockopt_conf",
+  "note": {
+    "line": 484,
+    "col": 9,
+    "message": "memcpy() in do_tls_getsockopt_conf() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

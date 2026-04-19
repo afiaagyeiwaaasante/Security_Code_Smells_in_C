@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ax25/sysctl_net_ax25.c",
+  "line": 157,
+  "col": 43,
+  "varname": "ax25_register_dev_sysctl",
+  "note": {
+    "line": 157,
+    "col": 43,
+    "message": "increment (++) in ax25_register_dev_sysctl() -- no upper-bound guard (INT_MAX check)"
+  }
+}

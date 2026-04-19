@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/input.c",
+  "line": 224,
+  "col": 43,
+  "varname": "rxrpc_rotate_tx_window",
+  "note": {
+    "line": 224,
+    "col": 43,
+    "message": "addition in rxrpc_rotate_tx_window() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/input.c",
+  "line": 83,
+  "col": 40,
+  "varname": "rxrpc_congestion_management",
+  "note": {
+    "line": 83,
+    "col": 40,
+    "message": "increment (++) in rxrpc_congestion_management() -- no upper-bound guard (INT_MAX check)"
+  }
+}

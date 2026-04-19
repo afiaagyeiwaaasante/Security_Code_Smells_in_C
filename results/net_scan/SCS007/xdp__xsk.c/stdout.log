@@ -1,0 +1,113 @@
+========================================
+ CWE-195 Signed-to-Unsigned Conversion Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/xdp/xsk.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS007/xdp__xsk.c/xsk_report_20260417_180823.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS007/xdp__xsk.c/xsk_findings_20260417_180823.json
+ Date    : Fri Apr 17 18:08:23 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.134s
+user	0m0.120s
+sys	0m0.007s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/xdp/xsk.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/xdp/xsk.c.json
+
+real	0m0.363s
+user	0m0.243s
+sys	0m0.009s
+
+=== Stage 3: srcattributor ===
+
+real	0m7.775s
+user	0m7.098s
+sys	0m0.077s
+
+=== Detector 1: signed_malloc ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/xdp/xsk.c.xml
+    output : /tmp/cwe195_findings_oeJSqK
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS malloc($A)
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.049s
+user	0m0.038s
+sys	0m0.007s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor malloc found
+
+[ signed_malloc ] 0 finding(s) written to /tmp/cwe195_findings_oeJSqK
+=== Detector 2: signed_memcpy ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/xdp/xsk.c.xml
+    output : /tmp/cwe195_findings_oeJSqK
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS memcpy($A, $B, $C)
+
+real	0m0.046s
+user	0m0.037s
+sys	0m0.007s
+
+--- Stage 1 (memcpy): checking srcQL result for positivity guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/xdp/xsk.c:220:17 -- xsk_copy_xdp() memcpy without positivity guard
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS memmove($A, $B, $C)
+
+real	0m0.045s
+user	0m0.037s
+sys	0m0.006s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+
+[ signed_memcpy ] 1 finding(s) written to /tmp/cwe195_findings_oeJSqK
+=== Detector 3: signed_strncpy ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/xdp/xsk.c.xml
+    output : /tmp/cwe195_findings_oeJSqK
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS strncpy($A, $B, $C)
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.047s
+user	0m0.037s
+sys	0m0.006s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor strncpy found
+
+[ signed_strncpy ] 0 finding(s) written to /tmp/cwe195_findings_oeJSqK
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/xdp/xsk.c",
+  "line": 220,
+  "col": 17,
+  "varname": "xsk_copy_xdp",
+  "note": {
+    "line": 220,
+    "col": 17,
+    "message": "memcpy() in xsk_copy_xdp() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   signed_memcpy             1
+========================================

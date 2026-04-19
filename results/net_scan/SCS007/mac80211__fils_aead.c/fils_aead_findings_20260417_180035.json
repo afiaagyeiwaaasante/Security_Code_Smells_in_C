@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/fils_aead.c",
+  "line": 101,
+  "col": 9,
+  "varname": "aes_siv_encrypt",
+  "note": {
+    "line": 101,
+    "col": 9,
+    "message": "memcpy() in aes_siv_encrypt() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

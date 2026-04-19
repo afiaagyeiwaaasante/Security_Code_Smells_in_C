@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ethernet/eth.c",
+  "line": 128,
+  "col": 57,
+  "varname": "eth_get_headlen",
+  "note": {
+    "line": 128,
+    "col": 57,
+    "message": "multiplication in eth_get_headlen() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ethernet/eth.c",
+  "line": 443,
+  "col": 57,
+  "varname": "eth_gro_complete",
+  "note": {
+    "line": 443,
+    "col": 57,
+    "message": "addition in eth_gro_complete() -- no upper-bound guard before adding"
+  }
+}

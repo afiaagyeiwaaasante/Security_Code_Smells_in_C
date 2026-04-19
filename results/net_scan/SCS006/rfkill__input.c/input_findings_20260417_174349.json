@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rfkill/input.c",
+  "line": 70,
+  "col": 52,
+  "varname": "__rfkill_handle_global_op",
+  "note": {
+    "line": 70,
+    "col": 52,
+    "message": "increment (++) in __rfkill_handle_global_op() -- no upper-bound guard (INT_MAX check)"
+  }
+}

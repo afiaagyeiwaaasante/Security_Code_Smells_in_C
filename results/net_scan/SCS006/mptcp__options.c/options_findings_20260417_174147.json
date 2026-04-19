@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mptcp/options.c",
+  "line": 1087,
+  "col": 40,
+  "varname": "ack_update_msk",
+  "note": {
+    "line": 1087,
+    "col": 40,
+    "message": "multiplication in ack_update_msk() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mptcp/options.c",
+  "line": 579,
+  "col": 64,
+  "varname": "mptcp_established_options_dss",
+  "note": {
+    "line": 579,
+    "col": 64,
+    "message": "addition in mptcp_established_options_dss() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mptcp/options.c",
+  "line": 69,
+  "col": 31,
+  "varname": "mptcp_parse_option",
+  "note": {
+    "line": 69,
+    "col": 31,
+    "message": "increment (++) in mptcp_parse_option() -- no upper-bound guard (INT_MAX check)"
+  }
+}

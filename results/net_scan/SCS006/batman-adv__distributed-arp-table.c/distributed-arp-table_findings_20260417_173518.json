@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/distributed-arp-table.c",
+  "line": 273,
+  "col": 63,
+  "varname": "batadv_arp_ip_dst",
+  "note": {
+    "line": 273,
+    "col": 63,
+    "message": "multiplication in batadv_arp_ip_dst() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/distributed-arp-table.c",
+  "line": 273,
+  "col": 52,
+  "varname": "batadv_arp_ip_dst",
+  "note": {
+    "line": 273,
+    "col": 52,
+    "message": "addition in batadv_arp_ip_dst() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/distributed-arp-table.c",
+  "line": 169,
+  "col": 52,
+  "varname": "__batadv_dat_purge",
+  "note": {
+    "line": 169,
+    "col": 52,
+    "message": "increment (++) in __batadv_dat_purge() -- no upper-bound guard (INT_MAX check)"
+  }
+}

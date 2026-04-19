@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/tipc/monitor.c",
+  "line": 151,
+  "col": 18,
+  "varname": "dom_size",
+  "note": {
+    "line": 151,
+    "col": 18,
+    "message": "increment (++) in dom_size() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/anycast.c",
+  "line": 606,
+  "col": 50,
+  "varname": "ac6_seq_show",
+  "note": {
+    "line": 606,
+    "col": 50,
+    "message": "multiplication in ac6_seq_show() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/anycast.c",
+  "line": 348,
+  "col": 39,
+  "varname": "__ipv6_dev_ac_inc",
+  "note": {
+    "line": 348,
+    "col": 39,
+    "message": "increment (++) in __ipv6_dev_ac_inc() -- no upper-bound guard (INT_MAX check)"
+  }
+}

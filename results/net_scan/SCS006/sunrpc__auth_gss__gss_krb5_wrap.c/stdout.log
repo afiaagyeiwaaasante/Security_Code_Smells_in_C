@@ -1,0 +1,104 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/gss_krb5_wrap.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/sunrpc__auth_gss__gss_krb5_wrap.c/gss_krb5_wrap_report_20260417_174525.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/sunrpc__auth_gss__gss_krb5_wrap.c/gss_krb5_wrap_findings_20260417_174525.json
+ Date    : Fri Apr 17 17:45:25 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.022s
+user	0m0.016s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/gss_krb5_wrap.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/gss_krb5_wrap.c.json
+
+real	0m0.186s
+user	0m0.039s
+sys	0m0.004s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.116s
+user	0m0.109s
+sys	0m0.005s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/gss_krb5_wrap.c.xml
+    output : /tmp/cwe190_findings_QhidOL
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.016s
+user	0m0.010s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_QhidOL
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/gss_krb5_wrap.c.xml
+    output : /tmp/cwe190_findings_QhidOL
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.014s
+user	0m0.009s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_QhidOL
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/gss_krb5_wrap.c.xml
+    output : /tmp/cwe190_findings_QhidOL
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : gss_krb5_wrap_v2
+    position : 112:13
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/gss_krb5_wrap.c:112:13 -- gss_krb5_wrap_v2() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_QhidOL
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/gss_krb5_wrap.c",
+  "line": 112,
+  "col": 13,
+  "varname": "gss_krb5_wrap_v2",
+  "note": {
+    "line": 112,
+    "col": 13,
+    "message": "increment (++) in gss_krb5_wrap_v2() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_increment       1
+========================================

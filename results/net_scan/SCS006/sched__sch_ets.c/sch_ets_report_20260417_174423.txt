@@ -1,0 +1,104 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_ets.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/sched__sch_ets.c/sch_ets_report_20260417_174423.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/sched__sch_ets.c/sch_ets_findings_20260417_174423.json
+ Date    : Fri Apr 17 17:44:23 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.060s
+user	0m0.053s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_ets.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_ets.c.json
+
+real	0m0.255s
+user	0m0.118s
+sys	0m0.006s
+
+=== Stage 3: srcattributor ===
+
+real	0m1.904s
+user	0m1.860s
+sys	0m0.020s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_ets.c.xml
+    output : /tmp/cwe190_findings_5UJXnH
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.026s
+user	0m0.019s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_5UJXnH
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_ets.c.xml
+    output : /tmp/cwe190_findings_5UJXnH
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.025s
+user	0m0.019s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_5UJXnH
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_ets.c.xml
+    output : /tmp/cwe190_findings_5UJXnH
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : ets_offload_change
+    position : 136:37
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_ets.c:136:37 -- ets_offload_change() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_5UJXnH
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_ets.c",
+  "line": 136,
+  "col": 37,
+  "varname": "ets_offload_change",
+  "note": {
+    "line": 136,
+    "col": 37,
+    "message": "increment (++) in ets_offload_change() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_increment       1
+========================================

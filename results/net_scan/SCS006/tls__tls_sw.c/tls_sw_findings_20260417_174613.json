@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/tls/tls_sw.c",
+  "line": 95,
+  "col": 20,
+  "varname": "__skb_nsg",
+  "note": {
+    "line": 95,
+    "col": 20,
+    "message": "increment (++) in __skb_nsg() -- no upper-bound guard (INT_MAX check)"
+  }
+}

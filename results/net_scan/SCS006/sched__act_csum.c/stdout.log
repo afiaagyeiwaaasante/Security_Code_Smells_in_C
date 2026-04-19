@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/sched/act_csum.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/sched__act_csum.c/act_csum_report_20260417_174403.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/sched__act_csum.c/act_csum_findings_20260417_174403.json
+ Date    : Fri Apr 17 17:44:03 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.054s
+user	0m0.046s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/sched/act_csum.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/sched/act_csum.c.json
+
+real	0m0.251s
+user	0m0.097s
+sys	0m0.005s
+
+=== Stage 3: srcattributor ===
+
+real	0m1.182s
+user	0m1.104s
+sys	0m0.021s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sched/act_csum.c.xml
+    output : /tmp/cwe190_findings_sncNMK
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.021s
+user	0m0.015s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/sched/act_csum.c:452:35 -- tcf_csum_ipv6_hopopts() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_sncNMK
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sched/act_csum.c.xml
+    output : /tmp/cwe190_findings_sncNMK
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.021s
+user	0m0.015s
+sys	0m0.004s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/sched/act_csum.c:139:22 -- tcf_csum_skb_nextlayer() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_sncNMK
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sched/act_csum.c.xml
+    output : /tmp/cwe190_findings_sncNMK
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : tcf_csum_act
+    position : 616:39
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/sched/act_csum.c:616:39 -- tcf_csum_act() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_sncNMK
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/act_csum.c",
+  "line": 452,
+  "col": 35,
+  "varname": "tcf_csum_ipv6_hopopts",
+  "note": {
+    "line": 452,
+    "col": 35,
+    "message": "multiplication in tcf_csum_ipv6_hopopts() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/act_csum.c",
+  "line": 139,
+  "col": 22,
+  "varname": "tcf_csum_skb_nextlayer",
+  "note": {
+    "line": 139,
+    "col": 22,
+    "message": "addition in tcf_csum_skb_nextlayer() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/act_csum.c",
+  "line": 616,
+  "col": 39,
+  "varname": "tcf_csum_act",
+  "note": {
+    "line": 616,
+    "col": 39,
+    "message": "increment (++) in tcf_csum_act() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

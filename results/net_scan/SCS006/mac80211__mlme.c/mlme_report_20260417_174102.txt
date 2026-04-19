@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/mlme.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/mac80211__mlme.c/mlme_report_20260417_174102.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/mac80211__mlme.c/mlme_findings_20260417_174102.json
+ Date    : Fri Apr 17 17:41:02 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.499s
+user	0m0.476s
+sys	0m0.012s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/mlme.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/mlme.c.json
+
+real	0m1.267s
+user	0m1.068s
+sys	0m0.021s
+
+=== Stage 3: srcattributor ===
+
+real	3m38.616s
+user	3m28.844s
+sys	0m2.114s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/mlme.c.xml
+    output : /tmp/cwe190_findings_PoRDa3
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.179s
+user	0m0.157s
+sys	0m0.017s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/mlme.c:491:54 -- ieee80211_verify_sta_vht_mcs_support() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_PoRDa3
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/mlme.c.xml
+    output : /tmp/cwe190_findings_PoRDa3
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.212s
+user	0m0.154s
+sys	0m0.018s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/mlme.c:5362:55 -- ieee80211_assoc_config_link() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_PoRDa3
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/mlme.c.xml
+    output : /tmp/cwe190_findings_PoRDa3
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : ieee80211_verify_sta_ht_mcs_support
+    position : 434:53
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/mlme.c:434:53 -- ieee80211_verify_sta_ht_mcs_support() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_PoRDa3
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/mlme.c",
+  "line": 491,
+  "col": 54,
+  "varname": "ieee80211_verify_sta_vht_mcs_support",
+  "note": {
+    "line": 491,
+    "col": 54,
+    "message": "multiplication in ieee80211_verify_sta_vht_mcs_support() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/mlme.c",
+  "line": 5362,
+  "col": 55,
+  "varname": "ieee80211_assoc_config_link",
+  "note": {
+    "line": 5362,
+    "col": 55,
+    "message": "addition in ieee80211_assoc_config_link() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/mlme.c",
+  "line": 434,
+  "col": 53,
+  "varname": "ieee80211_verify_sta_ht_mcs_support",
+  "note": {
+    "line": 434,
+    "col": 53,
+    "message": "increment (++) in ieee80211_verify_sta_ht_mcs_support() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac802154/scan.c",
+  "line": 98,
+  "col": 62,
+  "varname": "mac802154_scan_get_channel_time",
+  "note": {
+    "line": 98,
+    "col": 62,
+    "message": "multiplication in mac802154_scan_get_channel_time() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac802154/scan.c",
+  "line": 121,
+  "col": 19,
+  "varname": "mac802154_scan_get_next_channel",
+  "note": {
+    "line": 121,
+    "col": 19,
+    "message": "increment (++) in mac802154_scan_get_next_channel() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/xprtrdma/rpc_rdma.c",
+  "line": 670,
+  "col": 9,
+  "varname": "rpcrdma_pullup_tail_iov",
+  "note": {
+    "line": 670,
+    "col": 9,
+    "message": "memmove() in rpcrdma_pullup_tail_iov() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

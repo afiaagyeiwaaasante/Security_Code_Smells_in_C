@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mctp/test/utils.c",
+  "line": 226,
+  "col": 36,
+  "varname": "mctp_test_create_skb",
+  "note": {
+    "line": 226,
+    "col": 36,
+    "message": "increment (++) in mctp_test_create_skb() -- no upper-bound guard (INT_MAX check)"
+  }
+}

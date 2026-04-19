@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_hfsc.c",
+  "line": 917,
+  "col": 52,
+  "varname": "hfsc_change_class",
+  "note": {
+    "line": 917,
+    "col": 52,
+    "message": "multiplication in hfsc_change_class() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_hfsc.c",
+  "line": 682,
+  "col": 48,
+  "varname": "init_vf",
+  "note": {
+    "line": 682,
+    "col": 48,
+    "message": "increment (++) in init_vf() -- no upper-bound guard (INT_MAX check)"
+  }
+}

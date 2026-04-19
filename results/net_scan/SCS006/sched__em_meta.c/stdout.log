@@ -1,0 +1,119 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/sched/em_meta.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/sched__em_meta.c/em_meta_report_20260417_174416.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/sched__em_meta.c/em_meta_findings_20260417_174416.json
+ Date    : Fri Apr 17 17:44:16 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.051s
+user	0m0.044s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/sched/em_meta.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/sched/em_meta.c.json
+
+real	0m0.243s
+user	0m0.085s
+sys	0m0.004s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.631s
+user	0m0.578s
+sys	0m0.008s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sched/em_meta.c.xml
+    output : /tmp/cwe190_findings_90I2Ad
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.026s
+user	0m0.019s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/sched/em_meta.c:115:50 -- fixed_loadavg() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_90I2Ad
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sched/em_meta.c.xml
+    output : /tmp/cwe190_findings_90I2Ad
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.022s
+user	0m0.016s
+sys	0m0.004s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/sched/em_meta.c:114:29 -- fixed_loadavg() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_90I2Ad
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sched/em_meta.c.xml
+    output : /tmp/cwe190_findings_90I2Ad
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+[ unchecked_increment ] No smell detected.
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/em_meta.c",
+  "line": 115,
+  "col": 50,
+  "varname": "fixed_loadavg",
+  "note": {
+    "line": 115,
+    "col": 50,
+    "message": "multiplication in fixed_loadavg() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/em_meta.c",
+  "line": 114,
+  "col": 29,
+  "varname": "fixed_loadavg",
+  "note": {
+    "line": 114,
+    "col": 29,
+    "message": "addition in fixed_loadavg() -- no upper-bound guard before adding"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_multiply        1
+========================================

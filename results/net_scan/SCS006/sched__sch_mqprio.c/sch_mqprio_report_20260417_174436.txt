@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_mqprio.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/sched__sch_mqprio.c/sch_mqprio_report_20260417_174436.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/sched__sch_mqprio.c/sch_mqprio_findings_20260417_174436.json
+ Date    : Fri Apr 17 17:44:36 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.052s
+user	0m0.046s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_mqprio.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_mqprio.c.json
+
+real	0m0.249s
+user	0m0.108s
+sys	0m0.006s
+
+=== Stage 3: srcattributor ===
+
+real	0m1.322s
+user	0m1.285s
+sys	0m0.016s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_mqprio.c.xml
+    output : /tmp/cwe190_findings_7LHReG
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.024s
+user	0m0.018s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_mqprio.c:556:45 -- mqprio_dump() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_7LHReG
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_mqprio.c.xml
+    output : /tmp/cwe190_findings_7LHReG
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.027s
+user	0m0.019s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_mqprio.c:246:51 -- mqprio_parse_nlattr() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_7LHReG
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_mqprio.c.xml
+    output : /tmp/cwe190_findings_7LHReG
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : mqprio_enable_offload
+    position : 58:62
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_mqprio.c:58:62 -- mqprio_enable_offload() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_7LHReG
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_mqprio.c",
+  "line": 556,
+  "col": 45,
+  "varname": "mqprio_dump",
+  "note": {
+    "line": 556,
+    "col": 45,
+    "message": "multiplication in mqprio_dump() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_mqprio.c",
+  "line": 246,
+  "col": 51,
+  "varname": "mqprio_parse_nlattr",
+  "note": {
+    "line": 246,
+    "col": 51,
+    "message": "addition in mqprio_parse_nlattr() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_mqprio.c",
+  "line": 58,
+  "col": 62,
+  "varname": "mqprio_enable_offload",
+  "note": {
+    "line": 58,
+    "col": 62,
+    "message": "increment (++) in mqprio_enable_offload() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

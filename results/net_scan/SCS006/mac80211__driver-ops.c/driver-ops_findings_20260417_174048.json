@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/driver-ops.c",
+  "line": 396,
+  "col": 34,
+  "varname": "drv_switch_vif_chanctx",
+  "note": {
+    "line": 396,
+    "col": 34,
+    "message": "increment (++) in drv_switch_vif_chanctx() -- no upper-bound guard (INT_MAX check)"
+  }
+}

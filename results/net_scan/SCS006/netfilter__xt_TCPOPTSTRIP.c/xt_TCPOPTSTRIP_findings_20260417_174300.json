@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/xt_TCPOPTSTRIP.c",
+  "line": 72,
+  "col": 39,
+  "varname": "tcpoptstrip_mangle_packet",
+  "note": {
+    "line": 72,
+    "col": 39,
+    "message": "increment (++) in tcpoptstrip_mangle_packet() -- no upper-bound guard (INT_MAX check)"
+  }
+}

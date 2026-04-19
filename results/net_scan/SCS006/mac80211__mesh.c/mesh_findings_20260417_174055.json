@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/mesh.c",
+  "line": 973,
+  "col": 28,
+  "varname": "ieee80211_mesh_build_beacon",
+  "note": {
+    "line": 973,
+    "col": 28,
+    "message": "addition in ieee80211_mesh_build_beacon() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/mesh.c",
+  "line": 188,
+  "col": 39,
+  "varname": "mesh_rmc_init",
+  "note": {
+    "line": 188,
+    "col": 39,
+    "message": "increment (++) in mesh_rmc_init() -- no upper-bound guard (INT_MAX check)"
+  }
+}

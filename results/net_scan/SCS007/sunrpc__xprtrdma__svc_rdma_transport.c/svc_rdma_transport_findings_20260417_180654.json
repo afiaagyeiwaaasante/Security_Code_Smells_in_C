@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/xprtrdma/svc_rdma_transport.c",
+  "line": 254,
+  "col": 9,
+  "varname": "handle_connect_req",
+  "note": {
+    "line": 254,
+    "col": 9,
+    "message": "memcpy() in handle_connect_req() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

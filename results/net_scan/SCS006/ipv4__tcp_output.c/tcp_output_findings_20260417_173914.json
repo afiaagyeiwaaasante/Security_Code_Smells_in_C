@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_output.c",
+  "line": 660,
+  "col": 31,
+  "varname": "tcp_options_write",
+  "note": {
+    "line": 660,
+    "col": 31,
+    "message": "multiplication in tcp_options_write() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_output.c",
+  "line": 606,
+  "col": 35,
+  "varname": "process_tcp_ao_options",
+  "note": {
+    "line": 606,
+    "col": 35,
+    "message": "addition in process_tcp_ao_options() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_output.c",
+  "line": 397,
+  "col": 20,
+  "varname": "tcp_init_nondata_skb",
+  "note": {
+    "line": 397,
+    "col": 20,
+    "message": "increment (++) in tcp_init_nondata_skb() -- no upper-bound guard (INT_MAX check)"
+  }
+}

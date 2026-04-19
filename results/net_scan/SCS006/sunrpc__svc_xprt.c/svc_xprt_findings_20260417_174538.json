@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/svc_xprt.c",
+  "line": 1448,
+  "col": 43,
+  "varname": "svc_pool_stats_start",
+  "note": {
+    "line": 1448,
+    "col": 43,
+    "message": "multiplication in svc_pool_stats_start() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/svc_xprt.c",
+  "line": 759,
+  "col": 24,
+  "varname": "svc_add_new_temp_xprt",
+  "note": {
+    "line": 759,
+    "col": 24,
+    "message": "increment (++) in svc_add_new_temp_xprt() -- no upper-bound guard (INT_MAX check)"
+  }
+}

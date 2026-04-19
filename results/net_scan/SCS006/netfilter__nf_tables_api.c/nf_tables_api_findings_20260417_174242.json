@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_tables_api.c",
+  "line": 3811,
+  "col": 47,
+  "varname": "__nf_tables_dump_rules",
+  "note": {
+    "line": 3811,
+    "col": 47,
+    "message": "multiplication in __nf_tables_dump_rules() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_tables_api.c",
+  "line": 332,
+  "col": 26,
+  "varname": "nft_netdev_register_hooks",
+  "note": {
+    "line": 332,
+    "col": 26,
+    "message": "increment (++) in nft_netdev_register_hooks() -- no upper-bound guard (INT_MAX check)"
+  }
+}

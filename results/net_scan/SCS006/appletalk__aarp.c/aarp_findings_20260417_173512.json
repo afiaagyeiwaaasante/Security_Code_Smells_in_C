@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/appletalk/aarp.c",
+  "line": 542,
+  "col": 55,
+  "varname": "aarp_send_ddp",
+  "note": {
+    "line": 542,
+    "col": 55,
+    "message": "multiplication in aarp_send_ddp() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/appletalk/aarp.c",
+  "line": 118,
+  "col": 40,
+  "varname": "__aarp_send_query",
+  "note": {
+    "line": 118,
+    "col": 40,
+    "message": "addition in __aarp_send_query() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/appletalk/aarp.c",
+  "line": 161,
+  "col": 22,
+  "varname": "__aarp_send_query",
+  "note": {
+    "line": 161,
+    "col": 22,
+    "message": "increment (++) in __aarp_send_query() -- no upper-bound guard (INT_MAX check)"
+  }
+}

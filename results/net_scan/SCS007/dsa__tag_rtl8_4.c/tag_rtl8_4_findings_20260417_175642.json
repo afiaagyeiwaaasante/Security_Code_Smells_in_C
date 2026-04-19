@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/dsa/tag_rtl8_4.c",
+  "line": 120,
+  "col": 9,
+  "varname": "rtl8_4_write_tag",
+  "note": {
+    "line": 120,
+    "col": 9,
+    "message": "memcpy() in rtl8_4_write_tag() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

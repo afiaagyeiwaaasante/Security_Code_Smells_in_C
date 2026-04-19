@@ -1,0 +1,113 @@
+========================================
+ CWE-195 Signed-to-Unsigned Conversion Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/agg-tx.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS007/mac80211__agg-tx.c/agg-tx_report_20260417_180027.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS007/mac80211__agg-tx.c/agg-tx_findings_20260417_180027.json
+ Date    : Fri Apr 17 18:00:27 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.067s
+user	0m0.059s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/agg-tx.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/agg-tx.c.json
+
+real	0m0.245s
+user	0m0.123s
+sys	0m0.006s
+
+=== Stage 3: srcattributor ===
+
+real	0m1.604s
+user	0m1.550s
+sys	0m0.018s
+
+=== Detector 1: signed_malloc ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/agg-tx.c.xml
+    output : /tmp/cwe195_findings_KGMkLZ
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS malloc($A)
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.031s
+user	0m0.022s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor malloc found
+
+[ signed_malloc ] 0 finding(s) written to /tmp/cwe195_findings_KGMkLZ
+=== Detector 2: signed_memcpy ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/agg-tx.c.xml
+    output : /tmp/cwe195_findings_KGMkLZ
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS memcpy($A, $B, $C)
+
+real	0m0.031s
+user	0m0.023s
+sys	0m0.006s
+
+--- Stage 1 (memcpy): checking srcQL result for positivity guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/agg-tx.c:119:9 -- ieee80211_send_bar() memcpy without positivity guard
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS memmove($A, $B, $C)
+
+real	0m0.034s
+user	0m0.023s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+
+[ signed_memcpy ] 1 finding(s) written to /tmp/cwe195_findings_KGMkLZ
+=== Detector 3: signed_strncpy ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/agg-tx.c.xml
+    output : /tmp/cwe195_findings_KGMkLZ
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS strncpy($A, $B, $C)
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.040s
+user	0m0.022s
+sys	0m0.007s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor strncpy found
+
+[ signed_strncpy ] 0 finding(s) written to /tmp/cwe195_findings_KGMkLZ
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/agg-tx.c",
+  "line": 119,
+  "col": 9,
+  "varname": "ieee80211_send_bar",
+  "note": {
+    "line": 119,
+    "col": 9,
+    "message": "memcpy() in ieee80211_send_bar() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   signed_memcpy             1
+========================================

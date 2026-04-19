@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/8021q/vlanproc.c",
+  "line": 229,
+  "col": 57,
+  "varname": "vlandev_seq_show",
+  "note": {
+    "line": 229,
+    "col": 57,
+    "message": "multiplication in vlandev_seq_show() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/8021q/vlanproc.c",
+  "line": 192,
+  "col": 9,
+  "varname": "vlan_seq_next",
+  "note": {
+    "line": 192,
+    "col": 9,
+    "message": "increment (++) in vlan_seq_next() -- no upper-bound guard (INT_MAX check)"
+  }
+}

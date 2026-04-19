@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/devlink/param.c",
+  "line": 142,
+  "col": 57,
+  "varname": "devlink_param_driver_verify",
+  "note": {
+    "line": 142,
+    "col": 57,
+    "message": "increment (++) in devlink_param_driver_verify() -- no upper-bound guard (INT_MAX check)"
+  }
+}

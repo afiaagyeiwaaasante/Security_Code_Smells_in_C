@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_prio.c",
+  "line": 89,
+  "col": 28,
+  "varname": "prio_enqueue",
+  "note": {
+    "line": 89,
+    "col": 28,
+    "message": "increment (++) in prio_enqueue() -- no upper-bound guard (INT_MAX check)"
+  }
+}

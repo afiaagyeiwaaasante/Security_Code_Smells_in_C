@@ -1,0 +1,100 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nfnetlink_acct.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/netfilter__nfnetlink_acct.c/nfnetlink_acct_report_20260417_174244.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/netfilter__nfnetlink_acct.c/nfnetlink_acct_findings_20260417_174244.json
+ Date    : Fri Apr 17 17:42:44 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.037s
+user	0m0.031s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nfnetlink_acct.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nfnetlink_acct.c.json
+
+real	0m0.187s
+user	0m0.070s
+sys	0m0.004s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.361s
+user	0m0.343s
+sys	0m0.007s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nfnetlink_acct.c.xml
+    output : /tmp/cwe190_findings_tqIpVr
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.020s
+user	0m0.014s
+sys	0m0.004s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nfnetlink_acct.c:120:35 -- nfnl_acct_new() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_tqIpVr
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nfnetlink_acct.c.xml
+    output : /tmp/cwe190_findings_tqIpVr
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.019s
+user	0m0.013s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_tqIpVr
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nfnetlink_acct.c.xml
+    output : /tmp/cwe190_findings_tqIpVr
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+[ unchecked_increment ] No smell detected.
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nfnetlink_acct.c",
+  "line": 120,
+  "col": 35,
+  "varname": "nfnl_acct_new",
+  "note": {
+    "line": 120,
+    "col": 35,
+    "message": "multiplication in nfnl_acct_new() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_multiply        1
+========================================

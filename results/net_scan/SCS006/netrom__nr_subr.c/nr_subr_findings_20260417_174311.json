@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netrom/nr_subr.c",
+  "line": 105,
+  "col": 37,
+  "varname": "nr_in_rx_window",
+  "note": {
+    "line": 105,
+    "col": 37,
+    "message": "addition in nr_in_rx_window() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netrom/nr_subr.c",
+  "line": 158,
+  "col": 22,
+  "varname": "nr_write_internal",
+  "note": {
+    "line": 158,
+    "col": 22,
+    "message": "increment (++) in nr_write_internal() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/peer_event.c",
+  "line": 347,
+  "col": 21,
+  "varname": "rxrpc_peer_keepalive_worker",
+  "note": {
+    "line": 347,
+    "col": 21,
+    "message": "increment (++) in rxrpc_peer_keepalive_worker() -- no upper-bound guard (INT_MAX check)"
+  }
+}

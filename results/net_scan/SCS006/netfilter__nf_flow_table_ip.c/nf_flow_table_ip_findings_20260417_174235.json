@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_flow_table_ip.c",
+  "line": 589,
+  "col": 43,
+  "varname": "nf_flow_tunnel_ipip_push",
+  "note": {
+    "line": 589,
+    "col": 43,
+    "message": "multiplication in nf_flow_tunnel_ipip_push() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_flow_table_ip.c",
+  "line": 549,
+  "col": 33,
+  "varname": "nf_flow_pppoe_push",
+  "note": {
+    "line": 549,
+    "col": 33,
+    "message": "addition in nf_flow_pppoe_push() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_flow_table_ip.c",
+  "line": 175,
+  "col": 18,
+  "varname": "nf_flow_tuple_encap",
+  "note": {
+    "line": 175,
+    "col": 18,
+    "message": "increment (++) in nf_flow_tuple_encap() -- no upper-bound guard (INT_MAX check)"
+  }
+}

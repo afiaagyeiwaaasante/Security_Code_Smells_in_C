@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/hci_sync.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/bluetooth__hci_sync.c/hci_sync_report_20260417_173523.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/bluetooth__hci_sync.c/hci_sync_findings_20260417_173523.json
+ Date    : Fri Apr 17 17:35:23 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.206s
+user	0m0.193s
+sys	0m0.007s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/hci_sync.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/hci_sync.c.json
+
+real	0m0.602s
+user	0m0.422s
+sys	0m0.010s
+
+=== Stage 3: srcattributor ===
+
+real	0m50.613s
+user	0m46.072s
+sys	0m0.609s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/hci_sync.c.xml
+    output : /tmp/cwe190_findings_CYgJAP
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.082s
+user	0m0.067s
+sys	0m0.012s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/hci_sync.c:541:23 -- adv_timeout_expire_sync() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_CYgJAP
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/hci_sync.c.xml
+    output : /tmp/cwe190_findings_CYgJAP
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.079s
+user	0m0.067s
+sys	0m0.009s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/hci_sync.c:54:40 -- hci_cmd_sync_alloc() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_CYgJAP
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/hci_sync.c.xml
+    output : /tmp/cwe190_findings_CYgJAP
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : conn_params_copy
+    position : 2690:17
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/hci_sync.c:2690:17 -- conn_params_copy() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_CYgJAP
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/hci_sync.c",
+  "line": 541,
+  "col": 23,
+  "varname": "adv_timeout_expire_sync",
+  "note": {
+    "line": 541,
+    "col": 23,
+    "message": "multiplication in adv_timeout_expire_sync() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/hci_sync.c",
+  "line": 54,
+  "col": 40,
+  "varname": "hci_cmd_sync_alloc",
+  "note": {
+    "line": 54,
+    "col": 40,
+    "message": "addition in hci_cmd_sync_alloc() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/hci_sync.c",
+  "line": 2690,
+  "col": 17,
+  "varname": "conn_params_copy",
+  "note": {
+    "line": 2690,
+    "col": 17,
+    "message": "increment (++) in conn_params_copy() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

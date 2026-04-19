@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/lwtunnel.c",
+  "line": 185,
+  "col": 52,
+  "varname": "lwtunnel_valid_encap_type_attr",
+  "note": {
+    "line": 185,
+    "col": 52,
+    "message": "multiplication in lwtunnel_valid_encap_type_attr() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}

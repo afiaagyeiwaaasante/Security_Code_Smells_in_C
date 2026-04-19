@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rds/tcp_send.c",
+  "line": 136,
+  "col": 27,
+  "varname": "rds_tcp_xmit",
+  "note": {
+    "line": 136,
+    "col": 27,
+    "message": "increment (++) in rds_tcp_xmit() -- no upper-bound guard (INT_MAX check)"
+  }
+}

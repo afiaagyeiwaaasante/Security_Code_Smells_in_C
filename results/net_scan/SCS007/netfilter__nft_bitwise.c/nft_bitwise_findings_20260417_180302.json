@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_bitwise.c",
+  "line": 389,
+  "col": 9,
+  "varname": "nft_bitwise_offload",
+  "note": {
+    "line": 389,
+    "col": 9,
+    "message": "memcpy() in nft_bitwise_offload() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

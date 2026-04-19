@@ -1,0 +1,113 @@
+========================================
+ CWE-195 Signed-to-Unsigned Conversion Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/iface.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS007/mac80211__iface.c/iface_report_20260417_180038.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS007/mac80211__iface.c/iface_findings_20260417_180038.json
+ Date    : Fri Apr 17 18:00:38 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.148s
+user	0m0.134s
+sys	0m0.007s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/iface.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/iface.c.json
+
+real	0m0.429s
+user	0m0.293s
+sys	0m0.010s
+
+=== Stage 3: srcattributor ===
+
+real	0m9.981s
+user	0m9.453s
+sys	0m0.073s
+
+=== Detector 1: signed_malloc ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/iface.c.xml
+    output : /tmp/cwe195_findings_D9gx6u
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS malloc($A)
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.055s
+user	0m0.044s
+sys	0m0.007s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor malloc found
+
+[ signed_malloc ] 0 finding(s) written to /tmp/cwe195_findings_D9gx6u
+=== Detector 2: signed_memcpy ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/iface.c.xml
+    output : /tmp/cwe195_findings_D9gx6u
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS memcpy($A, $B, $C)
+
+real	0m0.057s
+user	0m0.045s
+sys	0m0.007s
+
+--- Stage 1 (memcpy): checking srcQL result for positivity guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/iface.c:298:17 -- _ieee80211_change_mac() memcpy without positivity guard
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS memmove($A, $B, $C)
+
+real	0m0.057s
+user	0m0.045s
+sys	0m0.007s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+
+[ signed_memcpy ] 1 finding(s) written to /tmp/cwe195_findings_D9gx6u
+=== Detector 3: signed_strncpy ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/iface.c.xml
+    output : /tmp/cwe195_findings_D9gx6u
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS strncpy($A, $B, $C)
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.054s
+user	0m0.044s
+sys	0m0.006s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor strncpy found
+
+[ signed_strncpy ] 0 finding(s) written to /tmp/cwe195_findings_D9gx6u
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/iface.c",
+  "line": 298,
+  "col": 17,
+  "varname": "_ieee80211_change_mac",
+  "note": {
+    "line": 298,
+    "col": 17,
+    "message": "memcpy() in _ieee80211_change_mac() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   signed_memcpy             1
+========================================

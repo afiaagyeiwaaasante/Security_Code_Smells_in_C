@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/xprt.c",
+  "line": 83,
+  "col": 41,
+  "varname": "xprt_request_timeout",
+  "note": {
+    "line": 83,
+    "col": 41,
+    "message": "addition in xprt_request_timeout() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/xprt.c",
+  "line": 197,
+  "col": 54,
+  "varname": "xprt_class_find_by_netid_locked",
+  "note": {
+    "line": 197,
+    "col": 54,
+    "message": "increment (++) in xprt_class_find_by_netid_locked() -- no upper-bound guard (INT_MAX check)"
+  }
+}

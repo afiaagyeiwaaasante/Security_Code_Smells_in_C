@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/can/isotp.c",
+  "line": 285,
+  "col": 58,
+  "varname": "isotp_rcv_skb",
+  "note": {
+    "line": 285,
+    "col": 58,
+    "message": "multiplication in isotp_rcv_skb() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/can/isotp.c",
+  "line": 739,
+  "col": 31,
+  "varname": "isotp_fill_dataframe",
+  "note": {
+    "line": 739,
+    "col": 31,
+    "message": "addition in isotp_fill_dataframe() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/can/isotp.c",
+  "line": 359,
+  "col": 53,
+  "varname": "check_pad",
+  "note": {
+    "line": 359,
+    "col": 53,
+    "message": "increment (++) in check_pad() -- no upper-bound guard (INT_MAX check)"
+  }
+}

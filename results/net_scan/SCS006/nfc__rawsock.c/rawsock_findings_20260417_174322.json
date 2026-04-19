@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/nfc/rawsock.c",
+  "line": 91,
+  "col": 58,
+  "varname": "rawsock_connect",
+  "note": {
+    "line": 91,
+    "col": 58,
+    "message": "multiplication in rawsock_connect() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/tipc/socket.c",
+  "line": 676,
+  "col": 52,
+  "varname": "__tipc_bind",
+  "note": {
+    "line": 676,
+    "col": 52,
+    "message": "multiplication in __tipc_bind() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/tipc/socket.c",
+  "line": 2429,
+  "col": 44,
+  "varname": "tipc_sk_enqueue",
+  "note": {
+    "line": 2429,
+    "col": 44,
+    "message": "addition in tipc_sk_enqueue() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/tipc/socket.c",
+  "line": 933,
+  "col": 35,
+  "varname": "tipc_send_group_msg",
+  "note": {
+    "line": 933,
+    "col": 35,
+    "message": "increment (++) in tipc_send_group_msg() -- no upper-bound guard (INT_MAX check)"
+  }
+}

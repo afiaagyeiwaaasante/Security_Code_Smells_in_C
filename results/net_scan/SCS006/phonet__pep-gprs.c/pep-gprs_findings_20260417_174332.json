@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/phonet/pep-gprs.c",
+  "line": 123,
+  "col": 38,
+  "varname": "gprs_recv",
+  "note": {
+    "line": 123,
+    "col": 38,
+    "message": "increment (++) in gprs_recv() -- no upper-bound guard (INT_MAX check)"
+  }
+}

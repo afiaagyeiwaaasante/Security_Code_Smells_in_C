@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/nfc/nci/hci.c",
+  "line": 430,
+  "col": 48,
+  "varname": "nci_hci_data_received_cb",
+  "note": {
+    "line": 430,
+    "col": 48,
+    "message": "multiplication in nci_hci_data_received_cb() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/nfc/nci/hci.c",
+  "line": 115,
+  "col": 45,
+  "varname": "nci_hci_reset_pipes",
+  "note": {
+    "line": 115,
+    "col": 45,
+    "message": "increment (++) in nci_hci_reset_pipes() -- no upper-bound guard (INT_MAX check)"
+  }
+}

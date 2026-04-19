@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/af_inet.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv4__af_inet.c/af_inet_report_20260417_173824.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv4__af_inet.c/af_inet_findings_20260417_173824.json
+ Date    : Fri Apr 17 17:38:24 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.116s
+user	0m0.085s
+sys	0m0.006s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/af_inet.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/af_inet.c.json
+
+real	0m0.310s
+user	0m0.156s
+sys	0m0.007s
+
+=== Stage 3: srcattributor ===
+
+real	0m4.275s
+user	0m3.736s
+sys	0m0.038s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/af_inet.c.xml
+    output : /tmp/cwe190_findings_WI0Nub
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.033s
+user	0m0.026s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/af_inet.c:482:56 -- __inet_bind() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_WI0Nub
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/af_inet.c.xml
+    output : /tmp/cwe190_findings_WI0Nub
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.035s
+user	0m0.027s
+sys	0m0.006s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/af_inet.c:1602:56 -- inet_gro_complete() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_WI0Nub
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/af_inet.c.xml
+    output : /tmp/cwe190_findings_WI0Nub
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : inet_create
+    position : 306:29
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/af_inet.c:306:29 -- inet_create() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_WI0Nub
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/af_inet.c",
+  "line": 482,
+  "col": 56,
+  "varname": "__inet_bind",
+  "note": {
+    "line": 482,
+    "col": 56,
+    "message": "multiplication in __inet_bind() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/af_inet.c",
+  "line": 1602,
+  "col": 56,
+  "varname": "inet_gro_complete",
+  "note": {
+    "line": 1602,
+    "col": 56,
+    "message": "addition in inet_gro_complete() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/af_inet.c",
+  "line": 306,
+  "col": 29,
+  "varname": "inet_create",
+  "note": {
+    "line": 306,
+    "col": 29,
+    "message": "increment (++) in inet_create() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

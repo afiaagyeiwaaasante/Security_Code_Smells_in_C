@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/tcpv6_offload.c",
+  "line": 73,
+  "col": 53,
+  "varname": "tcp6_gro_complete",
+  "note": {
+    "line": 73,
+    "col": 53,
+    "message": "multiplication in tcp6_gro_complete() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/tcpv6_offload.c",
+  "line": 73,
+  "col": 66,
+  "varname": "tcp6_gro_complete",
+  "note": {
+    "line": 73,
+    "col": 66,
+    "message": "addition in tcp6_gro_complete() -- no upper-bound guard before adding"
+  }
+}

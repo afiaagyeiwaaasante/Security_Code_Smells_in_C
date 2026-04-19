@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipvs/ip_vs_dh.c",
+  "line": 108,
+  "col": 41,
+  "varname": "ip_vs_dh_reassign",
+  "note": {
+    "line": 108,
+    "col": 41,
+    "message": "increment (++) in ip_vs_dh_reassign() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/cls_cgroup.c",
+  "line": 169,
+  "col": 19,
+  "varname": "cls_cgroup_walk",
+  "note": {
+    "line": 169,
+    "col": 19,
+    "message": "increment (++) in cls_cgroup_walk() -- no upper-bound guard (INT_MAX check)"
+  }
+}

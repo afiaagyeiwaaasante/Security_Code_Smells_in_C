@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/smc/smc_rx.c",
+  "line": 117,
+  "col": 58,
+  "varname": "smc_rx_pipe_buf_release",
+  "note": {
+    "line": 117,
+    "col": 58,
+    "message": "multiplication in smc_rx_pipe_buf_release() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/smc/smc_rx.c",
+  "line": 180,
+  "col": 36,
+  "varname": "smc_rx_splice",
+  "note": {
+    "line": 180,
+    "col": 36,
+    "message": "increment (++) in smc_rx_splice() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_nat_core.c",
+  "line": 542,
+  "col": 32,
+  "varname": "find_best_ips_proto",
+  "note": {
+    "line": 542,
+    "col": 32,
+    "message": "increment (++) in find_best_ips_proto() -- no upper-bound guard (INT_MAX check)"
+  }
+}

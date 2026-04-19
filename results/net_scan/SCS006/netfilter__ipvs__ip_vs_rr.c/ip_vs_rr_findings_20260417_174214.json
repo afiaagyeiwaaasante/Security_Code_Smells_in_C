@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipvs/ip_vs_rr.c",
+  "line": 76,
+  "col": 21,
+  "varname": "ip_vs_rr_schedule",
+  "note": {
+    "line": 76,
+    "col": 21,
+    "message": "increment (++) in ip_vs_rr_schedule() -- no upper-bound guard (INT_MAX check)"
+  }
+}

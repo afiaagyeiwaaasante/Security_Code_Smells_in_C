@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/svcauth_gss.c",
+  "line": 532,
+  "col": 33,
+  "varname": "rsc_parse",
+  "note": {
+    "line": 532,
+    "col": 33,
+    "message": "increment (++) in rsc_parse() -- no upper-bound guard (INT_MAX check)"
+  }
+}

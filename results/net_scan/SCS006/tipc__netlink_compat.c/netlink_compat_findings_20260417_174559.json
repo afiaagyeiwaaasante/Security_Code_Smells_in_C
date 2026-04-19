@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/tipc/netlink_compat.c",
+  "line": 99,
+  "col": 49,
+  "varname": "tipc_add_tlv",
+  "note": {
+    "line": 99,
+    "col": 49,
+    "message": "multiplication in tipc_add_tlv() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/tipc/netlink_compat.c",
+  "line": 168,
+  "col": 35,
+  "varname": "tipc_get_err_tlv",
+  "note": {
+    "line": 168,
+    "col": 35,
+    "message": "addition in tipc_get_err_tlv() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/tipc/netlink_compat.c",
+  "line": 884,
+  "col": 33,
+  "varname": "tipc_nl_compat_name_table_dump_header",
+  "note": {
+    "line": 884,
+    "col": 33,
+    "message": "increment (++) in tipc_nl_compat_name_table_dump_header() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/fib_notifier.c",
+  "line": 113,
+  "col": 18,
+  "varname": "register_fib_notifier",
+  "note": {
+    "line": 113,
+    "col": 18,
+    "message": "increment (++) in register_fib_notifier() -- no upper-bound guard (INT_MAX check)"
+  }
+}

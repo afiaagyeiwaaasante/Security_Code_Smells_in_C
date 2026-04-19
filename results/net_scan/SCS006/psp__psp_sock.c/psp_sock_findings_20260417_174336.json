@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/psp/psp_sock.c",
+  "line": 258,
+  "col": 34,
+  "varname": "psp_assocs_key_rotated",
+  "note": {
+    "line": 258,
+    "col": 34,
+    "message": "increment (++) in psp_assocs_key_rotated() -- no upper-bound guard (INT_MAX check)"
+  }
+}

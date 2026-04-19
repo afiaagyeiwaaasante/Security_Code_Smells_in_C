@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ieee802154/6lowpan/rx.c",
+  "line": 24,
+  "col": 35,
+  "varname": "lowpan_give_skb_to_device",
+  "note": {
+    "line": 24,
+    "col": 35,
+    "message": "increment (++) in lowpan_give_skb_to_device() -- no upper-bound guard (INT_MAX check)"
+  }
+}

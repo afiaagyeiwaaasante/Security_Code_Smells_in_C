@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/vmw_vsock/vmci_transport_notify.c",
+  "line": 286,
+  "col": 32,
+  "varname": "vmci_transport_send_read_notification",
+  "note": {
+    "line": 286,
+    "col": 32,
+    "message": "increment (++) in vmci_transport_send_read_notification() -- no upper-bound guard (INT_MAX check)"
+  }
+}

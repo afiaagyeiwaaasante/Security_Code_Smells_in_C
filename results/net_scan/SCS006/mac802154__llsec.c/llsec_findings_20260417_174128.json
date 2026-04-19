@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac802154/llsec.c",
+  "line": 129,
+  "col": 48,
+  "varname": "llsec_key_alloc",
+  "note": {
+    "line": 129,
+    "col": 48,
+    "message": "increment (++) in llsec_key_alloc() -- no upper-bound guard (INT_MAX check)"
+  }
+}

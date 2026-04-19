@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/wep.c",
+  "line": 69,
+  "col": 59,
+  "varname": "ieee80211_wep_add_iv",
+  "note": {
+    "line": 69,
+    "col": 59,
+    "message": "multiplication in ieee80211_wep_add_iv() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/wep.c",
+  "line": 51,
+  "col": 22,
+  "varname": "ieee80211_wep_get_iv",
+  "note": {
+    "line": 51,
+    "col": 22,
+    "message": "increment (++) in ieee80211_wep_get_iv() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,79 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/netfilter/nf_defrag_ipv6_hooks.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv6__netfilter__nf_defrag_ipv6_hooks.c/nf_defrag_ipv6_hooks_report_20260417_174011.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv6__netfilter__nf_defrag_ipv6_hooks.c/nf_defrag_ipv6_hooks_findings_20260417_174011.json
+ Date    : Fri Apr 17 17:40:11 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.020s
+user	0m0.011s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/netfilter/nf_defrag_ipv6_hooks.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/netfilter/nf_defrag_ipv6_hooks.c.json
+
+real	0m0.210s
+user	0m0.031s
+sys	0m0.004s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.061s
+user	0m0.035s
+sys	0m0.004s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/netfilter/nf_defrag_ipv6_hooks.c.xml
+    output : /tmp/cwe190_findings_ohtwq7
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.012s
+user	0m0.007s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_ohtwq7
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/netfilter/nf_defrag_ipv6_hooks.c.xml
+    output : /tmp/cwe190_findings_ohtwq7
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.012s
+user	0m0.007s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_ohtwq7
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/netfilter/nf_defrag_ipv6_hooks.c.xml
+    output : /tmp/cwe190_findings_ohtwq7
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+[ unchecked_increment ] No smell detected.
+========================================
+ Findings JSON
+========================================
+
+========================================
+ Summary
+ Total findings : 0
+ Errors         : 0
+ Warnings       : 0
+========================================

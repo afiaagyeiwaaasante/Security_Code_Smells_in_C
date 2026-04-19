@@ -1,0 +1,104 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/llc/llc_sap.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/llc__llc_sap.c/llc_sap_report_20260417_174041.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/llc__llc_sap.c/llc_sap_findings_20260417_174041.json
+ Date    : Fri Apr 17 17:40:41 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.028s
+user	0m0.022s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/llc/llc_sap.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/llc/llc_sap.c.json
+
+real	0m0.194s
+user	0m0.047s
+sys	0m0.004s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.525s
+user	0m0.247s
+sys	0m0.010s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/llc/llc_sap.c.xml
+    output : /tmp/cwe190_findings_pUnhNr
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.033s
+user	0m0.012s
+sys	0m0.006s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_pUnhNr
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/llc/llc_sap.c.xml
+    output : /tmp/cwe190_findings_pUnhNr
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.020s
+user	0m0.011s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_pUnhNr
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/llc/llc_sap.c.xml
+    output : /tmp/cwe190_findings_pUnhNr
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : llc_find_sap_trans
+    position : 128:72
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/llc/llc_sap.c:128:72 -- llc_find_sap_trans() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_pUnhNr
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/llc/llc_sap.c",
+  "line": 128,
+  "col": 72,
+  "varname": "llc_find_sap_trans",
+  "note": {
+    "line": 128,
+    "col": 72,
+    "message": "increment (++) in llc_find_sap_trans() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_increment       1
+========================================

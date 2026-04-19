@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/atm/lec.c",
+  "line": 356,
+  "col": 53,
+  "varname": "lec_atm_send",
+  "note": {
+    "line": 356,
+    "col": 53,
+    "message": "multiplication in lec_atm_send() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/atm/lec.c",
+  "line": 141,
+  "col": 18,
+  "varname": "lec_handle_bridge",
+  "note": {
+    "line": 141,
+    "col": 18,
+    "message": "increment (++) in lec_handle_bridge() -- no upper-bound guard (INT_MAX check)"
+  }
+}

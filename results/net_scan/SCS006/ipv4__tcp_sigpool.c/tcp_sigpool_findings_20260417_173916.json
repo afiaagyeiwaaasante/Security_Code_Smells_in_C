@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_sigpool.c",
+  "line": 88,
+  "col": 40,
+  "varname": "sigpool_reserve_scratch",
+  "note": {
+    "line": 88,
+    "col": 40,
+    "message": "increment (++) in sigpool_reserve_scratch() -- no upper-bound guard (INT_MAX check)"
+  }
+}

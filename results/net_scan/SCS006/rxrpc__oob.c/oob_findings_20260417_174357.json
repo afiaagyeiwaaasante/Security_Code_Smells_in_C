@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/oob.c",
+  "line": 49,
+  "col": 64,
+  "varname": "rxrpc_notify_socket_oob",
+  "note": {
+    "line": 49,
+    "col": 64,
+    "message": "increment (++) in rxrpc_notify_socket_oob() -- no upper-bound guard (INT_MAX check)"
+  }
+}

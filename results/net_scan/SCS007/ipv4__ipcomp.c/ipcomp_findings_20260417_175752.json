@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/ipcomp.c",
+  "line": 71,
+  "col": 9,
+  "varname": "ipcomp_tunnel_create",
+  "note": {
+    "line": 71,
+    "col": 9,
+    "message": "memcpy() in ipcomp_tunnel_create() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

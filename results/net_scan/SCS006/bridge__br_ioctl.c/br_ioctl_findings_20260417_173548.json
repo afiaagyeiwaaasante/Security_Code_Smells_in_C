@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_ioctl.c",
+  "line": 31,
+  "col": 34,
+  "varname": "get_bridge_ifindices",
+  "note": {
+    "line": 31,
+    "col": 34,
+    "message": "increment (++) in get_bridge_ifindices() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6_tunnel.c",
+  "line": 399,
+  "col": 61,
+  "varname": "ip6_tnl_parse_tlv_enc_lim",
+  "note": {
+    "line": 399,
+    "col": 61,
+    "message": "multiplication in ip6_tnl_parse_tlv_enc_lim() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6_tunnel.c",
+  "line": 401,
+  "col": 34,
+  "varname": "ip6_tnl_parse_tlv_enc_lim",
+  "note": {
+    "line": 401,
+    "col": 34,
+    "message": "addition in ip6_tnl_parse_tlv_enc_lim() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6_tunnel.c",
+  "line": 449,
+  "col": 42,
+  "varname": "ip6_tnl_parse_tlv_enc_lim",
+  "note": {
+    "line": 449,
+    "col": 42,
+    "message": "increment (++) in ip6_tnl_parse_tlv_enc_lim() -- no upper-bound guard (INT_MAX check)"
+  }
+}

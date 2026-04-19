@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netlink/genetlink.c",
+  "line": 409,
+  "col": 66,
+  "varname": "genl_allocate_reserve_groups",
+  "note": {
+    "line": 409,
+    "col": 66,
+    "message": "multiplication in genl_allocate_reserve_groups() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netlink/genetlink.c",
+  "line": 418,
+  "col": 40,
+  "varname": "genl_allocate_reserve_groups",
+  "note": {
+    "line": 418,
+    "col": 40,
+    "message": "addition in genl_allocate_reserve_groups() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netlink/genetlink.c",
+  "line": 174,
+  "col": 41,
+  "varname": "genl_get_cmd_full",
+  "note": {
+    "line": 174,
+    "col": 41,
+    "message": "increment (++) in genl_get_cmd_full() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/strparser/strparser.c",
+  "line": 93,
+  "col": 52,
+  "varname": "__strp_recv",
+  "note": {
+    "line": 93,
+    "col": 52,
+    "message": "multiplication in __strp_recv() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}

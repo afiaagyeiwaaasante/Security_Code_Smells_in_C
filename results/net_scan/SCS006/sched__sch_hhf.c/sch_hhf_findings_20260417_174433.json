@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_hhf.c",
+  "line": 191,
+  "col": 48,
+  "varname": "seek_list",
+  "note": {
+    "line": 191,
+    "col": 48,
+    "message": "addition in seek_list() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_hhf.c",
+  "line": 229,
+  "col": 38,
+  "varname": "alloc_new_hh",
+  "note": {
+    "line": 229,
+    "col": 38,
+    "message": "increment (++) in alloc_new_hh() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/wireless/wext-sme.c",
+  "line": 346,
+  "col": 48,
+  "varname": "cfg80211_wext_siwmlme",
+  "note": {
+    "line": 346,
+    "col": 48,
+    "message": "multiplication in cfg80211_wext_siwmlme() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/wireless/wext-sme.c",
+  "line": 50,
+  "col": 37,
+  "varname": "cfg80211_mgd_wext_connect",
+  "note": {
+    "line": 50,
+    "col": 37,
+    "message": "increment (++) in cfg80211_mgd_wext_connect() -- no upper-bound guard (INT_MAX check)"
+  }
+}

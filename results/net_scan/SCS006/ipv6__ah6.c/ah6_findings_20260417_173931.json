@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ah6.c",
+  "line": 132,
+  "col": 23,
+  "varname": "zero_out_mutable_opts",
+  "note": {
+    "line": 132,
+    "col": 23,
+    "message": "multiplication in zero_out_mutable_opts() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ah6.c",
+  "line": 274,
+  "col": 32,
+  "varname": "ipv6_clear_mutable_options",
+  "note": {
+    "line": 274,
+    "col": 32,
+    "message": "addition in ipv6_clear_mutable_options() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ah6.c",
+  "line": 277,
+  "col": 19,
+  "varname": "ipv6_clear_mutable_options",
+  "note": {
+    "line": 277,
+    "col": 19,
+    "message": "increment (++) in ipv6_clear_mutable_options() -- no upper-bound guard (INT_MAX check)"
+  }
+}

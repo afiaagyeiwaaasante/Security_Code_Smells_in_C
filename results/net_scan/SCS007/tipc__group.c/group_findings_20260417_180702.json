@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/tipc/group.c",
+  "line": 698,
+  "col": 9,
+  "varname": "tipc_group_create_event",
+  "note": {
+    "line": 698,
+    "col": 9,
+    "message": "memcpy() in tipc_group_create_event() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

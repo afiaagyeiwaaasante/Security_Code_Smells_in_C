@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_plug.c",
+  "line": 94,
+  "col": 46,
+  "varname": "plug_enqueue",
+  "note": {
+    "line": 94,
+    "col": 46,
+    "message": "increment (++) in plug_enqueue() -- no upper-bound guard (INT_MAX check)"
+  }
+}

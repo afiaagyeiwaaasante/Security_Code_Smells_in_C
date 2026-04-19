@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mptcp/subflow.c",
+  "line": 1292,
+  "col": 40,
+  "varname": "subflow_sched_work_if_closed",
+  "note": {
+    "line": 1292,
+    "col": 40,
+    "message": "multiplication in subflow_sched_work_if_closed() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mptcp/subflow.c",
+  "line": 490,
+  "col": 22,
+  "varname": "subflow_set_remote_key",
+  "note": {
+    "line": 490,
+    "col": 22,
+    "message": "increment (++) in subflow_set_remote_key() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rds/tcp_listen.c",
+  "line": 97,
+  "col": 38,
+  "varname": "rds_tcp_accept_one_path",
+  "note": {
+    "line": 97,
+    "col": 38,
+    "message": "increment (++) in rds_tcp_accept_one_path() -- no upper-bound guard (INT_MAX check)"
+  }
+}

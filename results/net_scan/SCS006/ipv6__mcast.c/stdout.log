@@ -1,0 +1,123 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/mcast.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv6__mcast.c/mcast_report_20260417_174001.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv6__mcast.c/mcast_findings_20260417_174001.json
+ Date    : Fri Apr 17 17:40:01 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.166s
+user	0m0.156s
+sys	0m0.006s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/mcast.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/mcast.c.json
+
+real	0m0.423s
+user	0m0.320s
+sys	0m0.009s
+
+=== Stage 3: srcattributor ===
+
+real	0m17.934s
+user	0m17.006s
+sys	0m0.152s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/mcast.c.xml
+    output : /tmp/cwe190_findings_EeM50d
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.055s
+user	0m0.047s
+sys	0m0.007s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/mcast.c:1819:51 -- mld_sendpack() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_EeM50d
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/mcast.c.xml
+    output : /tmp/cwe190_findings_EeM50d
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.061s
+user	0m0.050s
+sys	0m0.007s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_EeM50d
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/mcast.c.xml
+    output : /tmp/cwe190_findings_EeM50d
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : ip6_mc_source
+    position : 413:49
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/mcast.c:413:49 -- ip6_mc_source() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_EeM50d
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/mcast.c",
+  "line": 1819,
+  "col": 51,
+  "varname": "mld_sendpack",
+  "note": {
+    "line": 1819,
+    "col": 51,
+    "message": "multiplication in mld_sendpack() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/mcast.c",
+  "line": 413,
+  "col": 49,
+  "varname": "ip6_mc_source",
+  "note": {
+    "line": 413,
+    "col": 49,
+    "message": "increment (++) in ip6_mc_source() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

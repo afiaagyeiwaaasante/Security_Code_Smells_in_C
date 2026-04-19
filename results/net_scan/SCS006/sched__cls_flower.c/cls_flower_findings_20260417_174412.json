@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/cls_flower.c",
+  "line": 162,
+  "col": 37,
+  "varname": "fl_mask_update_range",
+  "note": {
+    "line": 162,
+    "col": 37,
+    "message": "multiplication in fl_mask_update_range() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/cls_flower.c",
+  "line": 166,
+  "col": 32,
+  "varname": "fl_mask_update_range",
+  "note": {
+    "line": 166,
+    "col": 32,
+    "message": "increment (++) in fl_mask_update_range() -- no upper-bound guard (INT_MAX check)"
+  }
+}

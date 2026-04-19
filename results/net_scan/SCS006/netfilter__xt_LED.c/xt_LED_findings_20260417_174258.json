@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/xt_LED.c",
+  "line": 109,
+  "col": 36,
+  "varname": "led_tg_check",
+  "note": {
+    "line": 109,
+    "col": 36,
+    "message": "increment (++) in led_tg_check() -- no upper-bound guard (INT_MAX check)"
+  }
+}

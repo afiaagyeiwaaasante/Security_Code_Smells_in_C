@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ax25/ax25_addr.c",
+  "line": 51,
+  "col": 38,
+  "varname": "ax2asc",
+  "note": {
+    "line": 51,
+    "col": 38,
+    "message": "increment (++) in ax2asc() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/originator.c",
+  "line": 913,
+  "col": 38,
+  "varname": "batadv_originator_free",
+  "note": {
+    "line": 913,
+    "col": 38,
+    "message": "increment (++) in batadv_originator_free() -- no upper-bound guard (INT_MAX check)"
+  }
+}

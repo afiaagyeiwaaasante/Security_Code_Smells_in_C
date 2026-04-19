@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/hwbm.c",
+  "line": 71,
+  "col": 35,
+  "varname": "hwbm_pool_add",
+  "note": {
+    "line": 71,
+    "col": 35,
+    "message": "increment (++) in hwbm_pool_add() -- no upper-bound guard (INT_MAX check)"
+  }
+}

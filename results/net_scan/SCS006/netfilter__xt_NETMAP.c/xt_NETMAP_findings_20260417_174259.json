@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/xt_NETMAP.c",
+  "line": 29,
+  "col": 59,
+  "varname": "netmap_tg6",
+  "note": {
+    "line": 29,
+    "col": 59,
+    "message": "increment (++) in netmap_tg6() -- no upper-bound guard (INT_MAX check)"
+  }
+}

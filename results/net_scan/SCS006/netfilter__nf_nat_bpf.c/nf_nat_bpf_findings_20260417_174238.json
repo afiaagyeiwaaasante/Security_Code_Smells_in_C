@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_nat_bpf.c",
+  "line": 35,
+  "col": 46,
+  "varname": "bpf_ct_set_nat_info",
+  "note": {
+    "line": 35,
+    "col": 46,
+    "message": "multiplication in bpf_ct_set_nat_info() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}

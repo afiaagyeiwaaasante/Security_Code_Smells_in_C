@@ -1,0 +1,104 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/svcauth_gss.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/sunrpc__auth_gss__svcauth_gss.c/svcauth_gss_report_20260417_174527.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/sunrpc__auth_gss__svcauth_gss.c/svcauth_gss_findings_20260417_174527.json
+ Date    : Fri Apr 17 17:45:27 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.111s
+user	0m0.102s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/svcauth_gss.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/svcauth_gss.c.json
+
+real	0m0.313s
+user	0m0.221s
+sys	0m0.008s
+
+=== Stage 3: srcattributor ===
+
+real	0m9.260s
+user	0m8.965s
+sys	0m0.077s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/svcauth_gss.c.xml
+    output : /tmp/cwe190_findings_2g9FvV
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.044s
+user	0m0.036s
+sys	0m0.006s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_2g9FvV
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/svcauth_gss.c.xml
+    output : /tmp/cwe190_findings_2g9FvV
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.042s
+user	0m0.033s
+sys	0m0.006s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_2g9FvV
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/svcauth_gss.c.xml
+    output : /tmp/cwe190_findings_2g9FvV
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : rsc_parse
+    position : 532:33
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/svcauth_gss.c:532:33 -- rsc_parse() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_2g9FvV
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/svcauth_gss.c",
+  "line": 532,
+  "col": 33,
+  "varname": "rsc_parse",
+  "note": {
+    "line": 532,
+    "col": 33,
+    "message": "increment (++) in rsc_parse() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_increment       1
+========================================

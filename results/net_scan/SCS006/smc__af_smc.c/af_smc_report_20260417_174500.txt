@@ -1,0 +1,123 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/smc/af_smc.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/smc__af_smc.c/af_smc_report_20260417_174500.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/smc__af_smc.c/af_smc_findings_20260417_174500.json
+ Date    : Fri Apr 17 17:45:00 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.205s
+user	0m0.191s
+sys	0m0.007s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/smc/af_smc.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/smc/af_smc.c.json
+
+real	0m0.477s
+user	0m0.388s
+sys	0m0.009s
+
+=== Stage 3: srcattributor ===
+
+real	0m23.820s
+user	0m22.853s
+sys	0m0.177s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/smc/af_smc.c.xml
+    output : /tmp/cwe190_findings_WwrvAb
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.067s
+user	0m0.056s
+sys	0m0.009s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/smc/af_smc.c:439:56 -- smc_bind() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_WwrvAb
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/smc/af_smc.c.xml
+    output : /tmp/cwe190_findings_WwrvAb
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.066s
+user	0m0.055s
+sys	0m0.009s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_WwrvAb
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/smc/af_smc.c.xml
+    output : /tmp/cwe190_findings_WwrvAb
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : smcr_lgr_reg_sndbufs
+    position : 555:49
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/smc/af_smc.c:555:49 -- smcr_lgr_reg_sndbufs() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_WwrvAb
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/smc/af_smc.c",
+  "line": 439,
+  "col": 56,
+  "varname": "smc_bind",
+  "note": {
+    "line": 439,
+    "col": 56,
+    "message": "multiplication in smc_bind() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/smc/af_smc.c",
+  "line": 555,
+  "col": 49,
+  "varname": "smcr_lgr_reg_sndbufs",
+  "note": {
+    "line": 555,
+    "col": 49,
+    "message": "increment (++) in smcr_lgr_reg_sndbufs() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/udp_diag.c",
+  "line": 100,
+  "col": 65,
+  "varname": "udp_dump",
+  "note": {
+    "line": 100,
+    "col": 65,
+    "message": "increment (++) in udp_dump() -- no upper-bound guard (INT_MAX check)"
+  }
+}

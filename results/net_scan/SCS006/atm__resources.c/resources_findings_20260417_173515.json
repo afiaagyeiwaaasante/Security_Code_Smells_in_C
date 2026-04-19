@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/atm/resources.c",
+  "line": 101,
+  "col": 36,
+  "varname": "atm_dev_register",
+  "note": {
+    "line": 101,
+    "col": 36,
+    "message": "increment (++) in atm_dev_register() -- no upper-bound guard (INT_MAX check)"
+  }
+}

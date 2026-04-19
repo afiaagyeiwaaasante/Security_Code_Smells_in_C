@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_sip.c",
+  "line": 543,
+  "col": 34,
+  "varname": "ct_sip_parse_param",
+  "note": {
+    "line": 543,
+    "col": 34,
+    "message": "addition in ct_sip_parse_param() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_sip.c",
+  "line": 72,
+  "col": 21,
+  "varname": "string_len",
+  "note": {
+    "line": 72,
+    "col": 21,
+    "message": "increment (++) in string_len() -- no upper-bound guard (INT_MAX check)"
+  }
+}

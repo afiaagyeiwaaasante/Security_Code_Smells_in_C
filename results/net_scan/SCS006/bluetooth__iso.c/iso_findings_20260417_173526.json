@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/iso.c",
+  "line": 969,
+  "col": 56,
+  "varname": "iso_sock_bind_bc",
+  "note": {
+    "line": 969,
+    "col": 56,
+    "message": "multiplication in iso_sock_bind_bc() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/iso.c",
+  "line": 556,
+  "col": 42,
+  "varname": "iso_send_frame",
+  "note": {
+    "line": 556,
+    "col": 42,
+    "message": "increment (++) in iso_send_frame() -- no upper-bound guard (INT_MAX check)"
+  }
+}

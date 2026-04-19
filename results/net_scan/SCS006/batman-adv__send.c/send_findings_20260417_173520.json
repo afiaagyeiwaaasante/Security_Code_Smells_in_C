@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/send.c",
+  "line": 395,
+  "col": 48,
+  "varname": "batadv_send_skb_via_tt_generic",
+  "note": {
+    "line": 395,
+    "col": 48,
+    "message": "multiplication in batadv_send_skb_via_tt_generic() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/send.c",
+  "line": 1038,
+  "col": 43,
+  "varname": "batadv_send_outstanding_bcast_packet",
+  "note": {
+    "line": 1038,
+    "col": 43,
+    "message": "addition in batadv_send_outstanding_bcast_packet() -- no upper-bound guard before adding"
+  }
+}

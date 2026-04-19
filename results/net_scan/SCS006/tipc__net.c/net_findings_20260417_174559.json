@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/tipc/net.c",
+  "line": 169,
+  "col": 24,
+  "varname": "__tipc_nl_add_net",
+  "note": {
+    "line": 169,
+    "col": 24,
+    "message": "multiplication in __tipc_nl_add_net() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}

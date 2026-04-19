@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/tipc/discover.c",
+  "line": 266,
+  "col": 21,
+  "varname": "tipc_disc_add_dest",
+  "note": {
+    "line": 266,
+    "col": 21,
+    "message": "increment (++) in tipc_disc_add_dest() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/sysfs.c",
+  "line": 728,
+  "col": 47,
+  "varname": "rpc_sysfs_client_setup",
+  "note": {
+    "line": 728,
+    "col": 47,
+    "message": "multiplication in rpc_sysfs_client_setup() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/sysfs.c",
+  "line": 177,
+  "col": 36,
+  "varname": "rpc_sysfs_xprt_srcaddr_show",
+  "note": {
+    "line": 177,
+    "col": 36,
+    "message": "increment (++) in rpc_sysfs_xprt_srcaddr_show() -- no upper-bound guard (INT_MAX check)"
+  }
+}

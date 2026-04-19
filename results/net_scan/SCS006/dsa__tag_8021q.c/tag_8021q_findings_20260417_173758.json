@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/dsa/tag_8021q.c",
+  "line": 395,
+  "col": 50,
+  "varname": "dsa_tag_8021q_setup",
+  "note": {
+    "line": 395,
+    "col": 50,
+    "message": "increment (++) in dsa_tag_8021q_setup() -- no upper-bound guard (INT_MAX check)"
+  }
+}

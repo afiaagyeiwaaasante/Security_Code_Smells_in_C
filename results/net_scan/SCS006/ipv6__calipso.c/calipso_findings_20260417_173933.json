@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/calipso.c",
+  "line": 614,
+  "col": 41,
+  "varname": "calipso_map_cat_hton",
+  "note": {
+    "line": 614,
+    "col": 41,
+    "message": "multiplication in calipso_map_cat_hton() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/calipso.c",
+  "line": 141,
+  "col": 58,
+  "varname": "calipso_cache_init",
+  "note": {
+    "line": 141,
+    "col": 58,
+    "message": "increment (++) in calipso_cache_init() -- no upper-bound guard (INT_MAX check)"
+  }
+}

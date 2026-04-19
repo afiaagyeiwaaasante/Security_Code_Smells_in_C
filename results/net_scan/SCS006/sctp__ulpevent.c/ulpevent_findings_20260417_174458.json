@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sctp/ulpevent.c",
+  "line": 911,
+  "col": 38,
+  "varname": "sctp_ulpevent_make_stream_reset_event",
+  "note": {
+    "line": 911,
+    "col": 38,
+    "message": "increment (++) in sctp_ulpevent_make_stream_reset_event() -- no upper-bound guard (INT_MAX check)"
+  }
+}

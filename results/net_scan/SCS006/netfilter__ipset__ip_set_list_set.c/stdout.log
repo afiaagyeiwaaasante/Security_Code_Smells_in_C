@@ -1,0 +1,123 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipset/ip_set_list_set.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/netfilter__ipset__ip_set_list_set.c/ip_set_list_set_report_20260417_174205.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/netfilter__ipset__ip_set_list_set.c/ip_set_list_set_findings_20260417_174205.json
+ Date    : Fri Apr 17 17:42:05 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.051s
+user	0m0.043s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipset/ip_set_list_set.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipset/ip_set_list_set.c.json
+
+real	0m0.241s
+user	0m0.092s
+sys	0m0.005s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.893s
+user	0m0.845s
+sys	0m0.013s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipset/ip_set_list_set.c.xml
+    output : /tmp/cwe190_findings_a9uDsZ
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.021s
+user	0m0.016s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_a9uDsZ
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipset/ip_set_list_set.c.xml
+    output : /tmp/cwe190_findings_a9uDsZ
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.022s
+user	0m0.016s
+sys	0m0.004s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipset/ip_set_list_set.c:458:60 -- list_set_head() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_a9uDsZ
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipset/ip_set_list_set.c.xml
+    output : /tmp/cwe190_findings_a9uDsZ
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : list_set_uadd
+    position : 312:22
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipset/ip_set_list_set.c:312:22 -- list_set_uadd() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_a9uDsZ
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipset/ip_set_list_set.c",
+  "line": 458,
+  "col": 60,
+  "varname": "list_set_head",
+  "note": {
+    "line": 458,
+    "col": 60,
+    "message": "addition in list_set_head() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/ipset/ip_set_list_set.c",
+  "line": 312,
+  "col": 22,
+  "varname": "list_set_uadd",
+  "note": {
+    "line": 312,
+    "col": 22,
+    "message": "increment (++) in list_set_uadd() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+========================================

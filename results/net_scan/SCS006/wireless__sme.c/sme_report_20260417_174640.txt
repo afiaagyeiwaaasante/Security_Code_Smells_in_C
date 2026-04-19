@@ -1,0 +1,123 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/wireless/sme.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/wireless__sme.c/sme_report_20260417_174640.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/wireless__sme.c/sme_findings_20260417_174640.json
+ Date    : Fri Apr 17 17:46:40 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.094s
+user	0m0.087s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/wireless/sme.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/wireless/sme.c.json
+
+real	0m0.308s
+user	0m0.192s
+sys	0m0.006s
+
+=== Stage 3: srcattributor ===
+
+real	0m4.473s
+user	0m4.341s
+sys	0m0.040s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/wireless/sme.c.xml
+    output : /tmp/cwe190_findings_w2bpA1
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.039s
+user	0m0.032s
+sys	0m0.006s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/wireless/sme.c:342:62 -- cfg80211_sme_rx_auth() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_w2bpA1
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/wireless/sme.c.xml
+    output : /tmp/cwe190_findings_w2bpA1
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.035s
+user	0m0.028s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_w2bpA1
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/wireless/sme.c.xml
+    output : /tmp/cwe190_findings_w2bpA1
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : cfg80211_conn_scan
+    position : 103:62
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/wireless/sme.c:103:62 -- cfg80211_conn_scan() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_w2bpA1
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/wireless/sme.c",
+  "line": 342,
+  "col": 62,
+  "varname": "cfg80211_sme_rx_auth",
+  "note": {
+    "line": 342,
+    "col": 62,
+    "message": "multiplication in cfg80211_sme_rx_auth() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/wireless/sme.c",
+  "line": 103,
+  "col": 62,
+  "varname": "cfg80211_conn_scan",
+  "note": {
+    "line": 103,
+    "col": 62,
+    "message": "increment (++) in cfg80211_conn_scan() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

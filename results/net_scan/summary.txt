@@ -1,0 +1,65 @@
+════════════════════════════════════════════════════════════
+ SmellDetect — Scan Summary
+ Target       : /Users/afiaasante/Security-Code-Smells/linux/net
+ SCS detectors: SCS006 SCS007
+════════════════════════════════════════════════════════════
+
+ Files scanned       : 1533
+ Files with findings : 1030  (67%)
+ Files clean         : 503  (32%)
+
+ Total findings      : 1864
+   error/vulnerability: 0  (0%)
+   warning/smell      : 1864  (100%)
+
+ ── By rule ─────────────────────────────────────────────────
+   integerOverflow                      1529
+   signedUnsignedConversion              335
+
+ ── By detector ─────────────────────────────────────────────
+   unchecked_increment                   865
+   unchecked_multiply                    418
+   signed_memcpy                         335
+   unchecked_add                         246
+
+ ── Top 20 files by finding count ─────────────────────────
+      5  xfrm/xfrm_output.c
+      5  ipv6/ah6.c
+      5  mac80211/rx.c
+      5  xfrm/espintcp.c
+      5  ipv6/tcp_ipv6.c
+      4  core/tso.c
+      4  tipc/netlink_compat.c
+      4  ipv4/devinet.c
+      4  ipv4/esp4.c
+      4  mac80211/tdls.c
+      4  bluetooth/l2cap_sock.c
+      4  ipv4/ip_gre.c
+      4  hsr/hsr_forward.c
+      4  rxrpc/output.c
+      4  netfilter/ipset/ip_set_core.c
+      4  mac80211/wep.c
+      4  ipv6/seg6_local.c
+      4  netfilter/nf_conntrack_core.c
+      4  mac80211/tx.c
+      4  ipv4/ping.c
+
+ ── Timing & Memory ─────────────────────────────────────────
+   Wall time  total : 14172.110s
+              avg   : 4.622s   min: 0.300s   max: 389.320s
+   Peak RSS   avg   : 48.6 MB   max: 4287.4 MB
+
+   Slowest 10 files:
+       389.320s  wireless/nl80211.c
+       347.770s  wireless/nl80211.c
+       329.580s  netfilter/nf_tables_api.c
+       318.060s  core/dev.c
+       278.160s  mac80211/mlme.c
+       265.150s  netfilter/nf_tables_api.c
+       244.340s  bluetooth/mgmt.c
+       222.430s  mac80211/mlme.c
+       218.730s  core/filter.c
+       210.040s  core/dev.c
+
+ Findings JSON : /Users/afiaasante/Security-Code-Smells/results/net_scan/findings_all.json
+════════════════════════════════════════════════════════════

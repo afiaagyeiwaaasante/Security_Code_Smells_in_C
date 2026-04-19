@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_arp_nd_proxy.c",
+  "line": 94,
+  "col": 21,
+  "varname": "br_chk_addr_ip",
+  "note": {
+    "line": 94,
+    "col": 21,
+    "message": "multiplication in br_chk_addr_ip() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}

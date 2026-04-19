@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_ao.c",
+  "line": 567,
+  "col": 43,
+  "varname": "tcp_ao_hash_hdr",
+  "note": {
+    "line": 567,
+    "col": 43,
+    "message": "multiplication in tcp_ao_hash_hdr() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_ao.c",
+  "line": 949,
+  "col": 32,
+  "varname": "tcp_inbound_ao_hash",
+  "note": {
+    "line": 949,
+    "col": 32,
+    "message": "addition in tcp_inbound_ao_hash() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_ao.c",
+  "line": 503,
+  "col": 28,
+  "varname": "tcp_ao_compute_sne",
+  "note": {
+    "line": 503,
+    "col": 28,
+    "message": "increment (++) in tcp_ao_compute_sne() -- no upper-bound guard (INT_MAX check)"
+  }
+}

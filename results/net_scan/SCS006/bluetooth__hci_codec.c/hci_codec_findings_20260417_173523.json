@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/hci_codec.c",
+  "line": 54,
+  "col": 46,
+  "varname": "hci_read_codec_capabilities",
+  "note": {
+    "line": 54,
+    "col": 46,
+    "message": "increment (++) in hci_read_codec_capabilities() -- no upper-bound guard (INT_MAX check)"
+  }
+}

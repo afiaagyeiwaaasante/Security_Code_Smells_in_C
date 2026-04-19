@@ -1,0 +1,30 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/xfrm/xfrm_output.c",
+  "line": 336,
+  "col": 9,
+  "varname": "xfrm6_tunnel_encap_add",
+  "note": {
+    "line": 336,
+    "col": 9,
+    "message": "memcpy() in xfrm6_tunnel_encap_add() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/xfrm/xfrm_output.c",
+  "line": 77,
+  "col": 9,
+  "varname": "xfrm4_transport_output",
+  "note": {
+    "line": 77,
+    "col": 9,
+    "message": "memmove() in xfrm4_transport_output() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

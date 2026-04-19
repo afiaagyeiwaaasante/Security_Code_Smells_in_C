@@ -1,0 +1,95 @@
+========================================
+ CWE-195 Signed-to-Unsigned Conversion Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6_tunnel.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS007/ipv6__ip6_tunnel.c/ip6_tunnel_report_20260417_175919.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS007/ipv6__ip6_tunnel.c/ip6_tunnel_findings_20260417_175919.json
+ Date    : Fri Apr 17 17:59:19 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.167s
+user	0m0.146s
+sys	0m0.008s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6_tunnel.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6_tunnel.c.json
+
+real	0m0.427s
+user	0m0.307s
+sys	0m0.010s
+
+=== Stage 3: srcattributor ===
+
+real	0m13.515s
+user	0m12.755s
+sys	0m0.127s
+
+=== Detector 1: signed_malloc ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6_tunnel.c.xml
+    output : /tmp/cwe195_findings_Y0X2I6
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS malloc($A)
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.054s
+user	0m0.045s
+sys	0m0.007s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor malloc found
+
+[ signed_malloc ] 0 finding(s) written to /tmp/cwe195_findings_Y0X2I6
+=== Detector 2: signed_memcpy ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6_tunnel.c.xml
+    output : /tmp/cwe195_findings_Y0X2I6
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS memcpy($A, $B, $C)
+
+real	0m0.059s
+user	0m0.049s
+sys	0m0.007s
+
+--- Stage 1 (memcpy): checking srcQL result for positivity guard in <condition> ---
+    guarded -- > operator found in condition, no finding
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS memmove($A, $B, $C)
+
+real	0m0.052s
+user	0m0.044s
+sys	0m0.006s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor memcpy/memmove found
+
+[ signed_memcpy ] 0 finding(s) written to /tmp/cwe195_findings_Y0X2I6
+=== Detector 3: signed_strncpy ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6_tunnel.c.xml
+    output : /tmp/cwe195_findings_Y0X2I6
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS strncpy($A, $B, $C)
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.057s
+user	0m0.046s
+sys	0m0.007s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor strncpy found
+
+[ signed_strncpy ] 0 finding(s) written to /tmp/cwe195_findings_Y0X2I6
+========================================
+ Findings JSON
+========================================
+
+========================================
+ Summary
+ Total findings : 0
+ Errors         : 0
+ Warnings       : 0
+========================================

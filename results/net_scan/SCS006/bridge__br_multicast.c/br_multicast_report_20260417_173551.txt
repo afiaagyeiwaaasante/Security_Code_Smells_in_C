@@ -1,0 +1,104 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_multicast.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/bridge__br_multicast.c/br_multicast_report_20260417_173551.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/bridge__br_multicast.c/br_multicast_findings_20260417_173551.json
+ Date    : Fri Apr 17 17:35:51 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.212s
+user	0m0.188s
+sys	0m0.008s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_multicast.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_multicast.c.json
+
+real	0m0.510s
+user	0m0.391s
+sys	0m0.012s
+
+=== Stage 3: srcattributor ===
+
+real	0m43.859s
+user	0m39.455s
+sys	0m0.573s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_multicast.c.xml
+    output : /tmp/cwe190_findings_IApUvm
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.072s
+user	0m0.062s
+sys	0m0.008s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_IApUvm
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_multicast.c.xml
+    output : /tmp/cwe190_findings_IApUvm
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.074s
+user	0m0.062s
+sys	0m0.009s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_IApUvm
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_multicast.c.xml
+    output : /tmp/cwe190_findings_IApUvm
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : br_ip4_multicast_alloc_query
+    position : 956:50
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_multicast.c:956:50 -- br_ip4_multicast_alloc_query() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_IApUvm
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_multicast.c",
+  "line": 956,
+  "col": 50,
+  "varname": "br_ip4_multicast_alloc_query",
+  "note": {
+    "line": 956,
+    "col": 50,
+    "message": "increment (++) in br_ip4_multicast_alloc_query() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_increment       1
+========================================

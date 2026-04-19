@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/tcp_ao.c",
+  "line": 37,
+  "col": 9,
+  "varname": "tcp_v6_ao_calc_key",
+  "note": {
+    "line": 37,
+    "col": 9,
+    "message": "memcpy() in tcp_v6_ao_calc_key() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

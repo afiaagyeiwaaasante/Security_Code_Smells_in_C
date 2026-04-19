@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/netclassid_cgroup.c",
+  "line": 73,
+  "col": 52,
+  "varname": "update_classid_sock",
+  "note": {
+    "line": 73,
+    "col": 52,
+    "message": "multiplication in update_classid_sock() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}

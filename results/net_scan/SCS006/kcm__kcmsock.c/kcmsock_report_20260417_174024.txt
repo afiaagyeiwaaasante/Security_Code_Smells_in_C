@@ -1,0 +1,104 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/kcm/kcmsock.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/kcm__kcmsock.c/kcmsock_report_20260417_174024.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/kcm__kcmsock.c/kcmsock_findings_20260417_174024.json
+ Date    : Fri Apr 17 17:40:24 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.097s
+user	0m0.087s
+sys	0m0.006s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/kcm/kcmsock.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/kcm/kcmsock.c.json
+
+real	0m0.300s
+user	0m0.186s
+sys	0m0.006s
+
+=== Stage 3: srcattributor ===
+
+real	0m4.960s
+user	0m4.811s
+sys	0m0.046s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/kcm/kcmsock.c.xml
+    output : /tmp/cwe190_findings_QsgYAK
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.037s
+user	0m0.027s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_QsgYAK
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/kcm/kcmsock.c.xml
+    output : /tmp/cwe190_findings_QsgYAK
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.035s
+user	0m0.027s
+sys	0m0.006s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_QsgYAK
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/kcm/kcmsock.c.xml
+    output : /tmp/cwe190_findings_QsgYAK
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : kcm_write_msgs
+    position : 638:61
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/kcm/kcmsock.c:638:61 -- kcm_write_msgs() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_QsgYAK
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/kcm/kcmsock.c",
+  "line": 638,
+  "col": 61,
+  "varname": "kcm_write_msgs",
+  "note": {
+    "line": 638,
+    "col": 61,
+    "message": "increment (++) in kcm_write_msgs() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_increment       1
+========================================

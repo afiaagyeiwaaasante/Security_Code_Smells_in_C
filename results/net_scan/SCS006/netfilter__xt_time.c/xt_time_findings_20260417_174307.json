@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/xt_time.c",
+  "line": 117,
+  "col": 13,
+  "varname": "localtime_3",
+  "note": {
+    "line": 117,
+    "col": 13,
+    "message": "increment (++) in localtime_3() -- no upper-bound guard (INT_MAX check)"
+  }
+}

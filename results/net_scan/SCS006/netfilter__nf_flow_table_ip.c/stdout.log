@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_flow_table_ip.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/netfilter__nf_flow_table_ip.c/nf_flow_table_ip_report_20260417_174235.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/netfilter__nf_flow_table_ip.c/nf_flow_table_ip_findings_20260417_174235.json
+ Date    : Fri Apr 17 17:42:35 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.081s
+user	0m0.074s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_flow_table_ip.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_flow_table_ip.c.json
+
+real	0m0.248s
+user	0m0.146s
+sys	0m0.005s
+
+=== Stage 3: srcattributor ===
+
+real	0m3.805s
+user	0m3.640s
+sys	0m0.035s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_flow_table_ip.c.xml
+    output : /tmp/cwe190_findings_K0jN2z
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.031s
+user	0m0.023s
+sys	0m0.004s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_flow_table_ip.c:589:43 -- nf_flow_tunnel_ipip_push() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_K0jN2z
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_flow_table_ip.c.xml
+    output : /tmp/cwe190_findings_K0jN2z
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.029s
+user	0m0.023s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_flow_table_ip.c:549:33 -- nf_flow_pppoe_push() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_K0jN2z
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_flow_table_ip.c.xml
+    output : /tmp/cwe190_findings_K0jN2z
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : nf_flow_tuple_encap
+    position : 175:18
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_flow_table_ip.c:175:18 -- nf_flow_tuple_encap() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_K0jN2z
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_flow_table_ip.c",
+  "line": 589,
+  "col": 43,
+  "varname": "nf_flow_tunnel_ipip_push",
+  "note": {
+    "line": 589,
+    "col": 43,
+    "message": "multiplication in nf_flow_tunnel_ipip_push() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_flow_table_ip.c",
+  "line": 549,
+  "col": 33,
+  "varname": "nf_flow_pppoe_push",
+  "note": {
+    "line": 549,
+    "col": 33,
+    "message": "addition in nf_flow_pppoe_push() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_flow_table_ip.c",
+  "line": 175,
+  "col": 18,
+  "varname": "nf_flow_tuple_encap",
+  "note": {
+    "line": 175,
+    "col": 18,
+    "message": "increment (++) in nf_flow_tuple_encap() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

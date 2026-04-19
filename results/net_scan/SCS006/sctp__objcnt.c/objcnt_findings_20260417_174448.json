@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sctp/objcnt.c",
+  "line": 85,
+  "col": 9,
+  "varname": "sctp_objcnt_seq_next",
+  "note": {
+    "line": 85,
+    "col": 9,
+    "message": "increment (++) in sctp_objcnt_seq_next() -- no upper-bound guard (INT_MAX check)"
+  }
+}

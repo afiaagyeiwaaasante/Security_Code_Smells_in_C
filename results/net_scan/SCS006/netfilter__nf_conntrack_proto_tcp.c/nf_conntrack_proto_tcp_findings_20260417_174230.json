@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_proto_tcp.c",
+  "line": 338,
+  "col": 32,
+  "varname": "tcp_options",
+  "note": {
+    "line": 338,
+    "col": 32,
+    "message": "multiplication in tcp_options() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_proto_tcp.c",
+  "line": 560,
+  "col": 49,
+  "varname": "tcp_in_window",
+  "note": {
+    "line": 560,
+    "col": 49,
+    "message": "addition in tcp_in_window() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_conntrack_proto_tcp.c",
+  "line": 354,
+  "col": 32,
+  "varname": "tcp_options",
+  "note": {
+    "line": 354,
+    "col": 32,
+    "message": "increment (++) in tcp_options() -- no upper-bound guard (INT_MAX check)"
+  }
+}

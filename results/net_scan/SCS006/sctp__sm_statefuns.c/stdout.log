@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/sctp/sm_statefuns.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/sctp__sm_statefuns.c/sm_statefuns_report_20260417_174451.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/sctp__sm_statefuns.c/sm_statefuns_findings_20260417_174451.json
+ Date    : Fri Apr 17 17:44:51 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.273s
+user	0m0.254s
+sys	0m0.008s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/sctp/sm_statefuns.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/sctp/sm_statefuns.c.json
+
+real	0m0.692s
+user	0m0.563s
+sys	0m0.011s
+
+=== Stage 3: srcattributor ===
+
+real	0m39.193s
+user	0m37.801s
+sys	0m0.312s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sctp/sm_statefuns.c.xml
+    output : /tmp/cwe190_findings_3LBMw0
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.091s
+user	0m0.077s
+sys	0m0.011s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/sctp/sm_statefuns.c:1022:67 -- sctp_sf_heartbeat() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_3LBMw0
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sctp/sm_statefuns.c.xml
+    output : /tmp/cwe190_findings_3LBMw0
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.089s
+user	0m0.076s
+sys	0m0.009s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/sctp/sm_statefuns.c:2537:47 -- sctp_sf_do_5_2_6_stale() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_3LBMw0
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sctp/sm_statefuns.c.xml
+    output : /tmp/cwe190_findings_3LBMw0
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : sctp_sf_t2_timer_expire
+    position : 6040:60
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/sctp/sm_statefuns.c:6040:60 -- sctp_sf_t2_timer_expire() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_3LBMw0
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sctp/sm_statefuns.c",
+  "line": 1022,
+  "col": 67,
+  "varname": "sctp_sf_heartbeat",
+  "note": {
+    "line": 1022,
+    "col": 67,
+    "message": "multiplication in sctp_sf_heartbeat() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sctp/sm_statefuns.c",
+  "line": 2537,
+  "col": 47,
+  "varname": "sctp_sf_do_5_2_6_stale",
+  "note": {
+    "line": 2537,
+    "col": 47,
+    "message": "addition in sctp_sf_do_5_2_6_stale() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sctp/sm_statefuns.c",
+  "line": 6040,
+  "col": 60,
+  "varname": "sctp_sf_t2_timer_expire",
+  "note": {
+    "line": 6040,
+    "col": 60,
+    "message": "increment (++) in sctp_sf_t2_timer_expire() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

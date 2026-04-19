@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ceph/messenger.c",
+  "line": 169,
+  "col": 55,
+  "varname": "ceph_pr_addr",
+  "note": {
+    "line": 169,
+    "col": 55,
+    "message": "multiplication in ceph_pr_addr() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ceph/messenger.c",
+  "line": 1662,
+  "col": 56,
+  "varname": "ceph_messenger_reset_nonce",
+  "note": {
+    "line": 1662,
+    "col": 56,
+    "message": "addition in ceph_messenger_reset_nonce() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ceph/messenger.c",
+  "line": 664,
+  "col": 15,
+  "varname": "ceph_get_global_seq",
+  "note": {
+    "line": 664,
+    "col": 15,
+    "message": "increment (++) in ceph_get_global_seq() -- no upper-bound guard (INT_MAX check)"
+  }
+}

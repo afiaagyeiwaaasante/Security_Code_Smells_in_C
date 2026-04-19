@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/mesh_plink.c",
+  "line": 115,
+  "col": 45,
+  "varname": "mesh_set_short_slot_time",
+  "note": {
+    "line": 115,
+    "col": 45,
+    "message": "increment (++) in mesh_set_short_slot_time() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mptcp/crypto_test.c",
+  "line": 41,
+  "col": 44,
+  "varname": "mptcp_crypto_test_basic",
+  "note": {
+    "line": 41,
+    "col": 44,
+    "message": "increment (++) in mptcp_crypto_test_basic() -- no upper-bound guard (INT_MAX check)"
+  }
+}

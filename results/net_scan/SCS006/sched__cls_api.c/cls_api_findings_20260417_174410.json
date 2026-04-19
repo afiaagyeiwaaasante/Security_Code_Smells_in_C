@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/cls_api.c",
+  "line": 2768,
+  "col": 41,
+  "varname": "tcf_node_dump",
+  "note": {
+    "line": 2768,
+    "col": 41,
+    "message": "multiplication in tcf_node_dump() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/cls_api.c",
+  "line": 581,
+  "col": 9,
+  "varname": "tcf_chain_hold",
+  "note": {
+    "line": 581,
+    "col": 9,
+    "message": "increment (++) in tcf_chain_hold() -- no upper-bound guard (INT_MAX check)"
+  }
+}

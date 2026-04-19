@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/psp/psp_sock.c",
+  "line": 138,
+  "col": 9,
+  "varname": "psp_sock_assoc_set_rx",
+  "note": {
+    "line": 138,
+    "col": 9,
+    "message": "memcpy() in psp_sock_assoc_set_rx() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

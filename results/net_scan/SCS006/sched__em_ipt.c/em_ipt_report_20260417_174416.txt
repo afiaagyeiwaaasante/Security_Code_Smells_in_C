@@ -1,0 +1,124 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/sched/em_ipt.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/sched__em_ipt.c/em_ipt_report_20260417_174416.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/sched__em_ipt.c/em_ipt_findings_20260417_174416.json
+ Date    : Fri Apr 17 17:44:16 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.025s
+user	0m0.019s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+HERE: /Users/afiaasante/Security-Code-Smells/tools/srcslice/srcDispatch/src/policy_classes/DeclPolicy.hpp operator() 273
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/sched/em_ipt.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/sched/em_ipt.c.json
+
+real	0m0.191s
+user	0m0.048s
+sys	0m0.005s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.166s
+user	0m0.158s
+sys	0m0.004s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sched/em_ipt.c.xml
+    output : /tmp/cwe190_findings_a3FRuk
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.016s
+user	0m0.011s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/sched/em_ipt.c:187:41 -- em_ipt_destroy() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_a3FRuk
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sched/em_ipt.c.xml
+    output : /tmp/cwe190_findings_a3FRuk
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.016s
+user	0m0.010s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_a3FRuk
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/sched/em_ipt.c.xml
+    output : /tmp/cwe190_findings_a3FRuk
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : get_xt_match
+    position : 105:53
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/sched/em_ipt.c:105:53 -- get_xt_match() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_a3FRuk
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/em_ipt.c",
+  "line": 187,
+  "col": 41,
+  "varname": "em_ipt_destroy",
+  "note": {
+    "line": 187,
+    "col": 41,
+    "message": "multiplication in em_ipt_destroy() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/em_ipt.c",
+  "line": 105,
+  "col": 53,
+  "varname": "get_xt_match",
+  "note": {
+    "line": 105,
+    "col": 53,
+    "message": "increment (++) in get_xt_match() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

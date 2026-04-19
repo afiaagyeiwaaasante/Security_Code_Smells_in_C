@@ -1,0 +1,104 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/netfilter/ip6t_hbh.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv6__netfilter__ip6t_hbh.c/ip6t_hbh_report_20260417_174008.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv6__netfilter__ip6t_hbh.c/ip6t_hbh_findings_20260417_174008.json
+ Date    : Fri Apr 17 17:40:08 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.017s
+user	0m0.012s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/netfilter/ip6t_hbh.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/netfilter/ip6t_hbh.c.json
+
+real	0m0.185s
+user	0m0.035s
+sys	0m0.004s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.067s
+user	0m0.063s
+sys	0m0.004s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/netfilter/ip6t_hbh.c.xml
+    output : /tmp/cwe190_findings_bKBFDU
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.013s
+user	0m0.008s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_bKBFDU
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/netfilter/ip6t_hbh.c.xml
+    output : /tmp/cwe190_findings_bKBFDU
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.014s
+user	0m0.008s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_bKBFDU
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/netfilter/ip6t_hbh.c.xml
+    output : /tmp/cwe190_findings_bKBFDU
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : hbh_mt6
+    position : 100:60
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/netfilter/ip6t_hbh.c:100:60 -- hbh_mt6() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_bKBFDU
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/netfilter/ip6t_hbh.c",
+  "line": 100,
+  "col": 60,
+  "varname": "hbh_mt6",
+  "note": {
+    "line": 100,
+    "col": 60,
+    "message": "increment (++) in hbh_mt6() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_increment       1
+========================================

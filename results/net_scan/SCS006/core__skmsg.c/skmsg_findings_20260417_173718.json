@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/skmsg.c",
+  "line": 348,
+  "col": 34,
+  "varname": "sk_msg_zerocopy_from_iter",
+  "note": {
+    "line": 348,
+    "col": 34,
+    "message": "increment (++) in sk_msg_zerocopy_from_iter() -- no upper-bound guard (INT_MAX check)"
+  }
+}

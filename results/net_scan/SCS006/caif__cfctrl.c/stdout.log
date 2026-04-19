@@ -1,0 +1,104 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/caif/cfctrl.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/caif__cfctrl.c/cfctrl_report_20260417_173612.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/caif__cfctrl.c/cfctrl_findings_20260417_173612.json
+ Date    : Fri Apr 17 17:36:12 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.039s
+user	0m0.025s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/caif/cfctrl.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/caif/cfctrl.c.json
+
+real	0m0.190s
+user	0m0.055s
+sys	0m0.004s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.612s
+user	0m0.553s
+sys	0m0.016s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/caif/cfctrl.c.xml
+    output : /tmp/cwe190_findings_T8fqSs
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.020s
+user	0m0.012s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_T8fqSs
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/caif/cfctrl.c.xml
+    output : /tmp/cwe190_findings_T8fqSs
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.024s
+user	0m0.013s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_T8fqSs
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/caif/cfctrl.c.xml
+    output : /tmp/cwe190_findings_T8fqSs
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : cfctrl_cancel_req
+    position : 344:30
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/caif/cfctrl.c:344:30 -- cfctrl_cancel_req() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_T8fqSs
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/caif/cfctrl.c",
+  "line": 344,
+  "col": 30,
+  "varname": "cfctrl_cancel_req",
+  "note": {
+    "line": 344,
+    "col": 30,
+    "message": "increment (++) in cfctrl_cancel_req() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_increment       1
+========================================

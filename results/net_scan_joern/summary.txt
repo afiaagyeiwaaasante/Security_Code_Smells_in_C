@@ -1,0 +1,54 @@
+════════════════════════════════════════════════════════════
+ Joern Scan Summary
+ Target       : /Users/afiaasante/Security-Code-Smells/linux/net
+ SCS detectors: SCS006,SCS007
+ Date         : 2026-04-18 17:50
+════════════════════════════════════════════════════════════
+
+ Files scanned       : 1533
+ Files with findings : 1174  (77%)
+ Files clean         : 359  (23%)
+
+ Total findings      : 20212
+   warning/smell      : 20212  (100%)
+
+── By rule ─────────────────────────────────────────────────
+  unchecked_add                         9177
+  unchecked_increment                   6567
+  unchecked_multiply                    2380
+  signedUnsignedConversion              2088
+
+── By detector ─────────────────────────────────────────────
+  joern_scs006                         18124
+  joern_scs007                          2088
+
+── Top 20 files by finding count ──────────────────────────
+   336  wireless/nl80211.c
+   300  mac80211/mlme.c
+   264  core/filter.c
+   223  core/skbuff.c
+   178  mac80211/util.c
+   173  key/af_key.c
+   168  bluetooth/mgmt.c
+   167  sunrpc/xdr.c
+   157  mac80211/rc80211_minstrel_ht.c
+   150  wireless/scan.c
+   144  sched/sch_cake.c
+   143  ipv4/tcp_input.c
+   143  mac80211/rx.c
+   137  mac80211/tx.c
+   135  wireless/util.c
+   130  tipc/link.c
+   122  netfilter/nf_tables_api.c
+   118  ceph/osdmap.c
+   108  ipv6/addrconf.c
+   106  ipv4/tcp_output.c
+
+── Timing & Memory ─────────────────────────────────────────
+  CPG build  (c2cpg.sh)            : 27.500s   peak 3944.5 MB
+  Query      (joern --script)      : 3.830s   peak 2307.8 MB
+  Total wall time                  : 31.330s
+  Peak RSS   (max of both phases)  : 3944.5 MB
+
+ Findings JSON : /Users/afiaasante/Security-Code-Smells/results/net_scan_joern/findings_all.json
+════════════════════════════════════════════════════════════

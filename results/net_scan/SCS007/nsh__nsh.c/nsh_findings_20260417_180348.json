@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/nsh/nsh.c",
+  "line": 35,
+  "col": 9,
+  "varname": "nsh_push",
+  "note": {
+    "line": 35,
+    "col": 9,
+    "message": "memcpy() in nsh_push() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

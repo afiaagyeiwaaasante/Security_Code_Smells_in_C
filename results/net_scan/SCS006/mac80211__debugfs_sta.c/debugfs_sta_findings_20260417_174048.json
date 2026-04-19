@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/debugfs_sta.c",
+  "line": 141,
+  "col": 42,
+  "varname": "sta_aqm_read",
+  "note": {
+    "line": 141,
+    "col": 42,
+    "message": "multiplication in sta_aqm_read() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/debugfs_sta.c",
+  "line": 88,
+  "col": 25,
+  "varname": "sta_flags_read",
+  "note": {
+    "line": 88,
+    "col": 25,
+    "message": "addition in sta_flags_read() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/debugfs_sta.c",
+  "line": 94,
+  "col": 52,
+  "varname": "sta_flags_read",
+  "note": {
+    "line": 94,
+    "col": 52,
+    "message": "increment (++) in sta_flags_read() -- no upper-bound guard (INT_MAX check)"
+  }
+}

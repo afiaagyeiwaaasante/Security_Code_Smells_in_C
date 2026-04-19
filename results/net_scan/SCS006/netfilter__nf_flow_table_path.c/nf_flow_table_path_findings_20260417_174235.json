@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_flow_table_path.c",
+  "line": 101,
+  "col": 44,
+  "varname": "nft_dev_path_info",
+  "note": {
+    "line": 101,
+    "col": 44,
+    "message": "increment (++) in nft_dev_path_info() -- no upper-bound guard (INT_MAX check)"
+  }
+}

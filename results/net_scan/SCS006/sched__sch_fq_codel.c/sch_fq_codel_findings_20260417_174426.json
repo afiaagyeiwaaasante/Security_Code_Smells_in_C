@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_fq_codel.c",
+  "line": 342,
+  "col": 55,
+  "varname": "fq_codel_reset",
+  "note": {
+    "line": 342,
+    "col": 55,
+    "message": "addition in fq_codel_reset() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_fq_codel.c",
+  "line": 154,
+  "col": 40,
+  "varname": "fq_codel_drop",
+  "note": {
+    "line": 154,
+    "col": 40,
+    "message": "increment (++) in fq_codel_drop() -- no upper-bound guard (INT_MAX check)"
+  }
+}

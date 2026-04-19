@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/net-procfs.c",
+  "line": 34,
+  "col": 9,
+  "varname": "dev_seq_next",
+  "note": {
+    "line": 34,
+    "col": 9,
+    "message": "increment (++) in dev_seq_next() -- no upper-bound guard (INT_MAX check)"
+  }
+}

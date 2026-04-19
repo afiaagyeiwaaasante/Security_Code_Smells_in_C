@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_byteorder.c",
+  "line": 36,
+  "col": 21,
+  "varname": "nft_byteorder_eval",
+  "note": {
+    "line": 36,
+    "col": 21,
+    "message": "multiplication in nft_byteorder_eval() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nft_byteorder.c",
+  "line": 46,
+  "col": 57,
+  "varname": "nft_byteorder_eval",
+  "note": {
+    "line": 46,
+    "col": 57,
+    "message": "increment (++) in nft_byteorder_eval() -- no upper-bound guard (INT_MAX check)"
+  }
+}

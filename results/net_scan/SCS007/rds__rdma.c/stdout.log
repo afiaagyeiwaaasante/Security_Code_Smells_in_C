@@ -1,0 +1,113 @@
+========================================
+ CWE-195 Signed-to-Unsigned Conversion Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/rds/rdma.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS007/rds__rdma.c/rdma_report_20260417_180417.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS007/rds__rdma.c/rdma_findings_20260417_180417.json
+ Date    : Fri Apr 17 18:04:17 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.075s
+user	0m0.058s
+sys	0m0.007s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/rds/rdma.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/rds/rdma.c.json
+
+real	0m0.258s
+user	0m0.125s
+sys	0m0.006s
+
+=== Stage 3: srcattributor ===
+
+real	0m2.175s
+user	0m1.930s
+sys	0m0.030s
+
+=== Detector 1: signed_malloc ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/rds/rdma.c.xml
+    output : /tmp/cwe195_findings_rTxByE
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS malloc($A)
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.032s
+user	0m0.021s
+sys	0m0.006s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor malloc found
+
+[ signed_malloc ] 0 finding(s) written to /tmp/cwe195_findings_rTxByE
+=== Detector 2: signed_memcpy ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/rds/rdma.c.xml
+    output : /tmp/cwe195_findings_rTxByE
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS memcpy($A, $B, $C)
+
+real	0m0.031s
+user	0m0.021s
+sys	0m0.006s
+
+--- Stage 1 (memcpy): checking srcQL result for positivity guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/rds/rdma.c:820:9 -- rds_cmsg_rdma_dest() memcpy without positivity guard
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS memmove($A, $B, $C)
+
+real	0m0.027s
+user	0m0.020s
+sys	0m0.006s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+
+[ signed_memcpy ] 1 finding(s) written to /tmp/cwe195_findings_rTxByE
+=== Detector 3: signed_strncpy ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/rds/rdma.c.xml
+    output : /tmp/cwe195_findings_rTxByE
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS strncpy($A, $B, $C)
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.031s
+user	0m0.021s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor strncpy found
+
+[ signed_strncpy ] 0 finding(s) written to /tmp/cwe195_findings_rTxByE
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rds/rdma.c",
+  "line": 820,
+  "col": 9,
+  "varname": "rds_cmsg_rdma_dest",
+  "note": {
+    "line": 820,
+    "col": 9,
+    "message": "memcpy() in rds_cmsg_rdma_dest() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   signed_memcpy             1
+========================================

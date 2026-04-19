@@ -1,0 +1,123 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/xdp/xsk_buff_pool.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/xdp__xsk_buff_pool.c/xsk_buff_pool_report_20260417_174701.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/xdp__xsk_buff_pool.c/xsk_buff_pool_findings_20260417_174701.json
+ Date    : Fri Apr 17 17:47:01 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.055s
+user	0m0.048s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/xdp/xsk_buff_pool.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/xdp/xsk_buff_pool.c.json
+
+real	0m0.254s
+user	0m0.101s
+sys	0m0.005s
+
+=== Stage 3: srcattributor ===
+
+real	0m1.581s
+user	0m1.530s
+sys	0m0.013s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/xdp/xsk_buff_pool.c.xml
+    output : /tmp/cwe190_findings_fSE9ZK
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.026s
+user	0m0.019s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_fSE9ZK
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/xdp/xsk_buff_pool.c.xml
+    output : /tmp/cwe190_findings_fSE9ZK
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.026s
+user	0m0.019s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/xdp/xsk_buff_pool.c:162:34 -- xp_assign_dev() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_fSE9ZK
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/xdp/xsk_buff_pool.c.xml
+    output : /tmp/cwe190_findings_fSE9ZK
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : xp_create_and_assign_umem
+    position : 101:48
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/xdp/xsk_buff_pool.c:101:48 -- xp_create_and_assign_umem() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_fSE9ZK
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/xdp/xsk_buff_pool.c",
+  "line": 162,
+  "col": 34,
+  "varname": "xp_assign_dev",
+  "note": {
+    "line": 162,
+    "col": 34,
+    "message": "addition in xp_assign_dev() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/xdp/xsk_buff_pool.c",
+  "line": 101,
+  "col": 48,
+  "varname": "xp_create_and_assign_umem",
+  "note": {
+    "line": 101,
+    "col": 48,
+    "message": "increment (++) in xp_create_and_assign_umem() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+========================================

@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/act_ct.c",
+  "line": 1271,
+  "col": 82,
+  "varname": "tcf_ct_fill_params",
+  "note": {
+    "line": 1271,
+    "col": 82,
+    "message": "multiplication in tcf_ct_fill_params() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/act_ct.c",
+  "line": 72,
+  "col": 41,
+  "varname": "tcf_ct_flow_table_flow_action_get_next",
+  "note": {
+    "line": 72,
+    "col": 41,
+    "message": "increment (++) in tcf_ct_flow_table_flow_action_get_next() -- no upper-bound guard (INT_MAX check)"
+  }
+}

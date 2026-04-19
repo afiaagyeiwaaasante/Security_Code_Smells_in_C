@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/devlink/dev.c",
+  "line": 39,
+  "col": 75,
+  "varname": "devlink_reload_combination_is_invalid",
+  "note": {
+    "line": 39,
+    "col": 75,
+    "message": "increment (++) in devlink_reload_combination_is_invalid() -- no upper-bound guard (INT_MAX check)"
+  }
+}

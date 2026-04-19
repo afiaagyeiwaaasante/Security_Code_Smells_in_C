@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ieee802154/netlink.c",
+  "line": 34,
+  "col": 53,
+  "varname": "ieee802154_nl_create",
+  "note": {
+    "line": 34,
+    "col": 53,
+    "message": "increment (++) in ieee802154_nl_create() -- no upper-bound guard (INT_MAX check)"
+  }
+}

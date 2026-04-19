@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/multicast_forw.c",
+  "line": 378,
+  "col": 9,
+  "varname": "batadv_mcast_forw_scrape",
+  "note": {
+    "line": 378,
+    "col": 9,
+    "message": "memmove() in batadv_mcast_forw_scrape() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

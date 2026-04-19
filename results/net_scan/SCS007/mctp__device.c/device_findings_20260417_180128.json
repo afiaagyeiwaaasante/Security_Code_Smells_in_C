@@ -1,0 +1,30 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mctp/device.c",
+  "line": 229,
+  "col": 9,
+  "varname": "mctp_rtm_newaddr",
+  "note": {
+    "line": 229,
+    "col": 9,
+    "message": "memcpy() in mctp_rtm_newaddr() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mctp/device.c",
+  "line": 292,
+  "col": 9,
+  "varname": "mctp_rtm_deladdr",
+  "note": {
+    "line": 292,
+    "col": 9,
+    "message": "memmove() in mctp_rtm_deladdr() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/6lowpan/iphc.c",
+  "line": 210,
+  "col": 54,
+  "varname": "lowpan_iphc_ctx_get_by_addr",
+  "note": {
+    "line": 210,
+    "col": 54,
+    "message": "increment (++) in lowpan_iphc_ctx_get_by_addr() -- no upper-bound guard (INT_MAX check)"
+  }
+}

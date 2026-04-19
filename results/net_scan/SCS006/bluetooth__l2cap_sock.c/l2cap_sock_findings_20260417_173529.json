@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/l2cap_sock.c",
+  "line": 388,
+  "col": 54,
+  "varname": "l2cap_sock_getname",
+  "note": {
+    "line": 388,
+    "col": 54,
+    "message": "multiplication in l2cap_sock_getname() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/l2cap_sock.c",
+  "line": 1299,
+  "col": 41,
+  "varname": "__l2cap_wait_ack",
+  "note": {
+    "line": 1299,
+    "col": 41,
+    "message": "addition in __l2cap_wait_ack() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/l2cap_sock.c",
+  "line": 1352,
+  "col": 12,
+  "varname": "l2cap_sock_shutdown",
+  "note": {
+    "line": 1352,
+    "col": 12,
+    "message": "increment (++) in l2cap_sock_shutdown() -- no upper-bound guard (INT_MAX check)"
+  }
+}

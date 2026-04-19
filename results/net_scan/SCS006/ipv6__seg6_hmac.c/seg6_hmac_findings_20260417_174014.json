@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/seg6_hmac.c",
+  "line": 67,
+  "col": 63,
+  "varname": "seg6_free_hi",
+  "note": {
+    "line": 67,
+    "col": 63,
+    "message": "multiplication in seg6_free_hi() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/seg6_hmac.c",
+  "line": 134,
+  "col": 13,
+  "varname": "seg6_hmac_compute",
+  "note": {
+    "line": 134,
+    "col": 13,
+    "message": "increment (++) in seg6_hmac_compute() -- no upper-bound guard (INT_MAX check)"
+  }
+}

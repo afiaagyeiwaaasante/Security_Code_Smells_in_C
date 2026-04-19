@@ -1,0 +1,21 @@
+Picked up JAVA_TOOL_OPTIONS: -Xmx8g
+Picked up JAVA_TOOL_OPTIONS: -Xmx8g
+executing /tmp/joern_net_scan_XXXXXX.sc
+        3.83 real        12.05 user         0.53 sys
+          2419851264  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+              170360  page reclaims
+                  51  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   8  messages sent
+                   8  messages received
+                  12  signals received
+                2969  voluntary context switches
+               25623  involuntary context switches
+            38410494  instructions retired
+            17098485  cycles elapsed
+             1261856  peak memory footprint

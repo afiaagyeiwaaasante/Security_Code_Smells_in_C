@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/xprtrdma/svc_rdma_rw.c",
+  "line": 473,
+  "col": 25,
+  "varname": "svc_rdma_pagelist_to_bvec",
+  "note": {
+    "line": 473,
+    "col": 25,
+    "message": "increment (++) in svc_rdma_pagelist_to_bvec() -- no upper-bound guard (INT_MAX check)"
+  }
+}

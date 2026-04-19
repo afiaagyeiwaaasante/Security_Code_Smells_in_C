@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/nfc/nci/data.c",
+  "line": 244,
+  "col": 17,
+  "varname": "nci_add_rx_data_frag",
+  "note": {
+    "line": 244,
+    "col": 17,
+    "message": "memcpy() in nci_add_rx_data_frag() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

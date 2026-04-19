@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_ets.c",
+  "line": 136,
+  "col": 37,
+  "varname": "ets_offload_change",
+  "note": {
+    "line": 136,
+    "col": 37,
+    "message": "increment (++) in ets_offload_change() -- no upper-bound guard (INT_MAX check)"
+  }
+}

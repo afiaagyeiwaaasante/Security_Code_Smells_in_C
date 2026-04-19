@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_multiq.c",
+  "line": 79,
+  "col": 28,
+  "varname": "multiq_enqueue",
+  "note": {
+    "line": 79,
+    "col": 28,
+    "message": "increment (++) in multiq_enqueue() -- no upper-bound guard (INT_MAX check)"
+  }
+}

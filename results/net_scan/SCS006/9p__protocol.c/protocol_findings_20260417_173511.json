@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/9p/protocol.c",
+  "line": 47,
+  "col": 27,
+  "varname": "p9_msg_buf_size",
+  "note": {
+    "line": 47,
+    "col": 27,
+    "message": "addition in p9_msg_buf_size() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/9p/protocol.c",
+  "line": 86,
+  "col": 64,
+  "varname": "p9_msg_buf_size",
+  "note": {
+    "line": 86,
+    "col": 64,
+    "message": "increment (++) in p9_msg_buf_size() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/gre_demux.c",
+  "line": 177,
+  "col": 55,
+  "varname": "gre_err",
+  "note": {
+    "line": 177,
+    "col": 55,
+    "message": "multiplication in gre_err() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/gre_demux.c",
+  "line": 95,
+  "col": 24,
+  "varname": "gre_parse_header",
+  "note": {
+    "line": 95,
+    "col": 24,
+    "message": "increment (++) in gre_parse_header() -- no upper-bound guard (INT_MAX check)"
+  }
+}

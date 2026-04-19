@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/auth_gss/gss_krb5_unseal.c",
+  "line": 103,
+  "col": 29,
+  "varname": "gss_krb5_verify_mic_v2",
+  "note": {
+    "line": 103,
+    "col": 29,
+    "message": "increment (++) in gss_krb5_verify_mic_v2() -- no upper-bound guard (INT_MAX check)"
+  }
+}

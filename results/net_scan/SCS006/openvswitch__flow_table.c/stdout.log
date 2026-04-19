@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/openvswitch/flow_table.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/openvswitch__flow_table.c/flow_table_report_20260417_174327.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/openvswitch__flow_table.c/flow_table_findings_20260417_174327.json
+ Date    : Fri Apr 17 17:43:27 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.075s
+user	0m0.067s
+sys	0m0.006s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/openvswitch/flow_table.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/openvswitch/flow_table.c.json
+
+real	0m0.245s
+user	0m0.140s
+sys	0m0.005s
+
+=== Stage 3: srcattributor ===
+
+real	0m2.946s
+user	0m2.871s
+sys	0m0.030s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/openvswitch/flow_table.c.xml
+    output : /tmp/cwe190_findings_Ww2yak
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.031s
+user	0m0.023s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/openvswitch/flow_table.c:58:37 -- ovs_flow_mask_key() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_Ww2yak
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/openvswitch/flow_table.c.xml
+    output : /tmp/cwe190_findings_Ww2yak
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.033s
+user	0m0.025s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/openvswitch/flow_table.c:58:63 -- ovs_flow_mask_key() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_Ww2yak
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/openvswitch/flow_table.c.xml
+    output : /tmp/cwe190_findings_Ww2yak
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : ovs_flow_mask_key
+    position : 69:19
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/openvswitch/flow_table.c:69:19 -- ovs_flow_mask_key() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_Ww2yak
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/openvswitch/flow_table.c",
+  "line": 58,
+  "col": 37,
+  "varname": "ovs_flow_mask_key",
+  "note": {
+    "line": 58,
+    "col": 37,
+    "message": "multiplication in ovs_flow_mask_key() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/openvswitch/flow_table.c",
+  "line": 58,
+  "col": 63,
+  "varname": "ovs_flow_mask_key",
+  "note": {
+    "line": 58,
+    "col": 63,
+    "message": "addition in ovs_flow_mask_key() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/openvswitch/flow_table.c",
+  "line": 69,
+  "col": 19,
+  "varname": "ovs_flow_mask_key",
+  "note": {
+    "line": 69,
+    "col": 19,
+    "message": "increment (++) in ovs_flow_mask_key() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

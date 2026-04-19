@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/scm.c",
+  "line": 71,
+  "col": 24,
+  "varname": "scm_fp_copy",
+  "note": {
+    "line": 71,
+    "col": 24,
+    "message": "multiplication in scm_fp_copy() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/scm.c",
+  "line": 110,
+  "col": 28,
+  "varname": "scm_fp_copy",
+  "note": {
+    "line": 110,
+    "col": 28,
+    "message": "increment (++) in scm_fp_copy() -- no upper-bound guard (INT_MAX check)"
+  }
+}

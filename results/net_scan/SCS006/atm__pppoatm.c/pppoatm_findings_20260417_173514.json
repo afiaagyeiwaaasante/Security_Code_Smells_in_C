@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/atm/pppoatm.c",
+  "line": 443,
+  "col": 42,
+  "varname": "pppoatm_ioctl",
+  "note": {
+    "line": 443,
+    "col": 42,
+    "message": "multiplication in pppoatm_ioctl() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}

@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/route.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv6__route.c/route_report_20260417_174013.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv6__route.c/route_findings_20260417_174013.json
+ Date    : Fri Apr 17 17:40:13 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.387s
+user	0m0.359s
+sys	0m0.012s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/route.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/route.c.json
+
+real	0m0.880s
+user	0m0.699s
+sys	0m0.018s
+
+=== Stage 3: srcattributor ===
+
+real	1m30.845s
+user	1m25.108s
+sys	0m0.861s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/route.c.xml
+    output : /tmp/cwe190_findings_udOvaG
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.114s
+user	0m0.100s
+sys	0m0.011s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/route.c:970:55 -- rt6_route_rcv() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_udOvaG
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/route.c.xml
+    output : /tmp/cwe190_findings_udOvaG
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.113s
+user	0m0.099s
+sys	0m0.011s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/route.c:5167:34 -- rtm_to_fib6_config() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_udOvaG
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/route.c.xml
+    output : /tmp/cwe190_findings_udOvaG
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : rt6_insert_exception
+    position : 1771:22
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/route.c:1771:22 -- rt6_insert_exception() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_udOvaG
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/route.c",
+  "line": 970,
+  "col": 55,
+  "varname": "rt6_route_rcv",
+  "note": {
+    "line": 970,
+    "col": 55,
+    "message": "multiplication in rt6_route_rcv() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/route.c",
+  "line": 5167,
+  "col": 34,
+  "varname": "rtm_to_fib6_config",
+  "note": {
+    "line": 5167,
+    "col": 34,
+    "message": "addition in rtm_to_fib6_config() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/route.c",
+  "line": 1771,
+  "col": 22,
+  "varname": "rt6_insert_exception",
+  "note": {
+    "line": 1771,
+    "col": 22,
+    "message": "increment (++) in rt6_insert_exception() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

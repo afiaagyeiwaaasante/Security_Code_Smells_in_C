@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/llc/af_llc.c",
+  "line": 342,
+  "col": 58,
+  "varname": "llc_ui_bind",
+  "note": {
+    "line": 342,
+    "col": 58,
+    "message": "multiplication in llc_ui_bind() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/llc/af_llc.c",
+  "line": 65,
+  "col": 43,
+  "varname": "llc_ui_next_link_no",
+  "note": {
+    "line": 65,
+    "col": 43,
+    "message": "increment (++) in llc_ui_next_link_no() -- no upper-bound guard (INT_MAX check)"
+  }
+}

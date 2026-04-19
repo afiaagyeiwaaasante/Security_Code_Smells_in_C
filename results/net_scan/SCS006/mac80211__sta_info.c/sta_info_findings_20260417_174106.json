@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/sta_info.c",
+  "line": 621,
+  "col": 30,
+  "varname": "__sta_info_alloc",
+  "note": {
+    "line": 621,
+    "col": 30,
+    "message": "multiplication in __sta_info_alloc() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/sta_info.c",
+  "line": 621,
+  "col": 36,
+  "varname": "__sta_info_alloc",
+  "note": {
+    "line": 621,
+    "col": 36,
+    "message": "addition in __sta_info_alloc() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/sta_info.c",
+  "line": 120,
+  "col": 52,
+  "varname": "ieee80211_purge_sta_txqs",
+  "note": {
+    "line": 120,
+    "col": 52,
+    "message": "increment (++) in ieee80211_purge_sta_txqs() -- no upper-bound guard (INT_MAX check)"
+  }
+}

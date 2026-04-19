@@ -1,0 +1,30 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/wep.c",
+  "line": 150,
+  "col": 9,
+  "varname": "ieee80211_wep_encrypt",
+  "note": {
+    "line": 150,
+    "col": 9,
+    "message": "memcpy() in ieee80211_wep_encrypt() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/wep.c",
+  "line": 81,
+  "col": 9,
+  "varname": "ieee80211_wep_add_iv",
+  "note": {
+    "line": 81,
+    "col": 9,
+    "message": "memmove() in ieee80211_wep_add_iv() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/appletalk/ddp.c",
+  "line": 511,
+  "col": 54,
+  "varname": "atrtr_create",
+  "note": {
+    "line": 511,
+    "col": 54,
+    "message": "multiplication in atrtr_create() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/appletalk/ddp.c",
+  "line": 259,
+  "col": 55,
+  "varname": "atif_probe_device",
+  "note": {
+    "line": 259,
+    "col": 55,
+    "message": "addition in atif_probe_device() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/appletalk/ddp.c",
+  "line": 275,
+  "col": 49,
+  "varname": "atif_probe_device",
+  "note": {
+    "line": 275,
+    "col": 49,
+    "message": "increment (++) in atif_probe_device() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ncsi/ncsi-manage.c",
+  "line": 162,
+  "col": 26,
+  "varname": "ncsi_channel_monitor",
+  "note": {
+    "line": 162,
+    "col": 26,
+    "message": "increment (++) in ncsi_channel_monitor() -- no upper-bound guard (INT_MAX check)"
+  }
+}

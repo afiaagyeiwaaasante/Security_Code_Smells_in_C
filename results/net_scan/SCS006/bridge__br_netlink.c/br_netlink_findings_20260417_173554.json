@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_netlink.c",
+  "line": 1088,
+  "col": 52,
+  "varname": "br_setlink",
+  "note": {
+    "line": 1088,
+    "col": 52,
+    "message": "multiplication in br_setlink() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_netlink.c",
+  "line": 764,
+  "col": 69,
+  "varname": "br_process_vlan_info",
+  "note": {
+    "line": 764,
+    "col": 69,
+    "message": "increment (++) in br_process_vlan_info() -- no upper-bound guard (INT_MAX check)"
+  }
+}

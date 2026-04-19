@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/smc/smc_llc.c",
+  "line": 467,
+  "col": 9,
+  "varname": "smc_llc_send_confirm_link",
+  "note": {
+    "line": 467,
+    "col": 9,
+    "message": "memcpy() in smc_llc_send_confirm_link() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

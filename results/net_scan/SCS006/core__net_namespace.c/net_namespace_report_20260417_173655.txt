@@ -1,0 +1,123 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/core/net_namespace.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/core__net_namespace.c/net_namespace_report_20260417_173655.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/core__net_namespace.c/net_namespace_findings_20260417_173655.json
+ Date    : Fri Apr 17 17:36:55 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.052s
+user	0m0.047s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/core/net_namespace.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/core/net_namespace.c.json
+
+real	0m0.236s
+user	0m0.100s
+sys	0m0.004s
+
+=== Stage 3: srcattributor ===
+
+real	0m2.114s
+user	0m2.065s
+sys	0m0.018s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/core/net_namespace.c.xml
+    output : /tmp/cwe190_findings_69SRFl
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.025s
+user	0m0.019s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/core/net_namespace.c:1086:68 -- rtnl_net_dumpid_one() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_69SRFl
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/core/net_namespace.c.xml
+    output : /tmp/cwe190_findings_69SRFl
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.024s
+user	0m0.018s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_69SRFl
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/core/net_namespace.c.xml
+    output : /tmp/cwe190_findings_69SRFl
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : unhash_nsid
+    position : 642:27
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/core/net_namespace.c:642:27 -- unhash_nsid() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_69SRFl
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/net_namespace.c",
+  "line": 1086,
+  "col": 68,
+  "varname": "rtnl_net_dumpid_one",
+  "note": {
+    "line": 1086,
+    "col": 68,
+    "message": "multiplication in rtnl_net_dumpid_one() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/net_namespace.c",
+  "line": 642,
+  "col": 27,
+  "varname": "unhash_nsid",
+  "note": {
+    "line": 642,
+    "col": 27,
+    "message": "increment (++) in unhash_nsid() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

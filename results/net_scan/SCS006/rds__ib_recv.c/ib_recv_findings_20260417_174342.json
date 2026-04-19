@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rds/ib_recv.c",
+  "line": 53,
+  "col": 68,
+  "varname": "rds_ib_recv_init_ring",
+  "note": {
+    "line": 53,
+    "col": 68,
+    "message": "increment (++) in rds_ib_recv_init_ring() -- no upper-bound guard (INT_MAX check)"
+  }
+}

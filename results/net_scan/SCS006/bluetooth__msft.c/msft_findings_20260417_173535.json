@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/msft.c",
+  "line": 513,
+  "col": 41,
+  "varname": "msft_add_monitor_sync",
+  "note": {
+    "line": 513,
+    "col": 41,
+    "message": "addition in msft_add_monitor_sync() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/msft.c",
+  "line": 251,
+  "col": 30,
+  "varname": "msft_monitor_device_del",
+  "note": {
+    "line": 251,
+    "col": 30,
+    "message": "increment (++) in msft_monitor_device_del() -- no upper-bound guard (INT_MAX check)"
+  }
+}

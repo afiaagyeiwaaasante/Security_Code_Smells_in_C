@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sctp/inqueue.c",
+  "line": 87,
+  "col": 44,
+  "varname": "sctp_inq_push",
+  "note": {
+    "line": 87,
+    "col": 44,
+    "message": "increment (++) in sctp_inq_push() -- no upper-bound guard (INT_MAX check)"
+  }
+}

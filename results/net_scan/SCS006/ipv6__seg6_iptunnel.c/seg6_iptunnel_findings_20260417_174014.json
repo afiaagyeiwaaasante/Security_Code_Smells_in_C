@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/seg6_iptunnel.c",
+  "line": 264,
+  "col": 46,
+  "varname": "seg6_do_srh_encap_red",
+  "note": {
+    "line": 264,
+    "col": 46,
+    "message": "multiplication in seg6_do_srh_encap_red() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/seg6_iptunnel.c",
+  "line": 241,
+  "col": 30,
+  "varname": "seg6_do_srh_encap_red",
+  "note": {
+    "line": 241,
+    "col": 30,
+    "message": "addition in seg6_do_srh_encap_red() -- no upper-bound guard before adding"
+  }
+}

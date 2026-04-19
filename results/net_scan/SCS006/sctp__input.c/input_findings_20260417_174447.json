@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sctp/input.c",
+  "line": 609,
+  "col": 55,
+  "varname": "sctp_v4_err",
+  "note": {
+    "line": 609,
+    "col": 55,
+    "message": "multiplication in sctp_v4_err() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sctp/input.c",
+  "line": 753,
+  "col": 28,
+  "varname": "__sctp_hash_endpoint",
+  "note": {
+    "line": 753,
+    "col": 28,
+    "message": "increment (++) in __sctp_hash_endpoint() -- no upper-bound guard (INT_MAX check)"
+  }
+}

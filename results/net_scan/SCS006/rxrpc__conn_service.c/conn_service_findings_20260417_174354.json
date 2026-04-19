@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/conn_service.c",
+  "line": 38,
+  "col": 20,
+  "varname": "rxrpc_find_service_conn_rcu",
+  "note": {
+    "line": 38,
+    "col": 20,
+    "message": "increment (++) in rxrpc_find_service_conn_rcu() -- no upper-bound guard (INT_MAX check)"
+  }
+}

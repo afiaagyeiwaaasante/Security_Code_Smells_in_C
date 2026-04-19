@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_stp_if.c",
+  "line": 226,
+  "col": 49,
+  "varname": "br_stp_change_bridge_id",
+  "note": {
+    "line": 226,
+    "col": 49,
+    "message": "multiplication in br_stp_change_bridge_id() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/call_object.c",
+  "line": 540,
+  "col": 56,
+  "varname": "rxrpc_cleanup_tx_buffers",
+  "note": {
+    "line": 540,
+    "col": 56,
+    "message": "increment (++) in rxrpc_cleanup_tx_buffers() -- no upper-bound guard (INT_MAX check)"
+  }
+}

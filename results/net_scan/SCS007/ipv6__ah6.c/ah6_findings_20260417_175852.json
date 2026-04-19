@@ -1,0 +1,30 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ah6.c",
+  "line": 60,
+  "col": 9,
+  "varname": "ah6_save_hdrs",
+  "note": {
+    "line": 60,
+    "col": 9,
+    "message": "memcpy() in ah6_save_hdrs() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ah6.c",
+  "line": 260,
+  "col": 9,
+  "varname": "ipv6_rearrange_rthdr",
+  "note": {
+    "line": 260,
+    "col": 9,
+    "message": "memmove() in ipv6_rearrange_rthdr() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

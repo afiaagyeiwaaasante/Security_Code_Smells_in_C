@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sctp/ulpqueue.c",
+  "line": 451,
+  "col": 41,
+  "varname": "sctp_ulpq_retrieve_reassembled",
+  "note": {
+    "line": 451,
+    "col": 41,
+    "message": "increment (++) in sctp_ulpq_retrieve_reassembled() -- no upper-bound guard (INT_MAX check)"
+  }
+}

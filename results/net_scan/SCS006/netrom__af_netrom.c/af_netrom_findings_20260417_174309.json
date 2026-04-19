@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netrom/af_netrom.c",
+  "line": 568,
+  "col": 70,
+  "varname": "nr_bind",
+  "note": {
+    "line": 568,
+    "col": 70,
+    "message": "multiplication in nr_bind() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netrom/af_netrom.c",
+  "line": 227,
+  "col": 19,
+  "varname": "nr_find_next_circuit",
+  "note": {
+    "line": 227,
+    "col": 19,
+    "message": "increment (++) in nr_find_next_circuit() -- no upper-bound guard (INT_MAX check)"
+  }
+}

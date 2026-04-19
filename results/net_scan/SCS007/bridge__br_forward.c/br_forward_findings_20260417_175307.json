@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_forward.c",
+  "line": 286,
+  "col": 17,
+  "varname": "maybe_deliver_addr",
+  "note": {
+    "line": 286,
+    "col": 17,
+    "message": "memcpy() in maybe_deliver_addr() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

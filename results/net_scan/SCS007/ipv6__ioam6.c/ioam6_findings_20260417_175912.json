@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ioam6.c",
+  "line": 939,
+  "col": 25,
+  "varname": "__ioam6_fill_trace_data",
+  "note": {
+    "line": 939,
+    "col": 25,
+    "message": "memcpy() in __ioam6_fill_trace_data() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

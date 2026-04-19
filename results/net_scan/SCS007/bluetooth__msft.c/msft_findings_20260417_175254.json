@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/msft.c",
+  "line": 548,
+  "col": 17,
+  "varname": "msft_add_monitor_sync",
+  "note": {
+    "line": 548,
+    "col": 17,
+    "message": "memcpy() in msft_add_monitor_sync() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

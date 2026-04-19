@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/dsa/tag_sja1105.c",
+  "line": 105,
+  "col": 39,
+  "varname": "sja1105_meta_unpack",
+  "note": {
+    "line": 105,
+    "col": 39,
+    "message": "addition in sja1105_meta_unpack() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/dsa/tag_sja1105.c",
+  "line": 549,
+  "col": 33,
+  "varname": "sja1110_rcv_meta",
+  "note": {
+    "line": 549,
+    "col": 33,
+    "message": "increment (++) in sja1110_rcv_meta() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,123 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/atm/lec.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/atm__lec.c/lec_report_20260417_173513.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/atm__lec.c/lec_findings_20260417_173513.json
+ Date    : Fri Apr 17 17:35:13 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.060s
+user	0m0.055s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/atm/lec.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/atm/lec.c.json
+
+real	0m0.307s
+user	0m0.148s
+sys	0m0.006s
+
+=== Stage 3: srcattributor ===
+
+real	0m3.977s
+user	0m3.774s
+sys	0m0.037s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/atm/lec.c.xml
+    output : /tmp/cwe190_findings_hpMHsA
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.037s
+user	0m0.026s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/atm/lec.c:356:53 -- lec_atm_send() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_hpMHsA
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/atm/lec.c.xml
+    output : /tmp/cwe190_findings_hpMHsA
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.027s
+user	0m0.021s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_hpMHsA
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/atm/lec.c.xml
+    output : /tmp/cwe190_findings_hpMHsA
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : lec_handle_bridge
+    position : 141:18
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/atm/lec.c:141:18 -- lec_handle_bridge() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_hpMHsA
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/atm/lec.c",
+  "line": 356,
+  "col": 53,
+  "varname": "lec_atm_send",
+  "note": {
+    "line": 356,
+    "col": 53,
+    "message": "multiplication in lec_atm_send() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/atm/lec.c",
+  "line": 141,
+  "col": 18,
+  "varname": "lec_handle_bridge",
+  "note": {
+    "line": 141,
+    "col": 18,
+    "message": "increment (++) in lec_handle_bridge() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

@@ -1,0 +1,123 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/mesh_hwmp.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/mac80211__mesh_hwmp.c/mesh_hwmp_report_20260417_174057.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/mac80211__mesh_hwmp.c/mesh_hwmp_findings_20260417_174057.json
+ Date    : Fri Apr 17 17:40:57 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.087s
+user	0m0.075s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/mesh_hwmp.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/mesh_hwmp.c.json
+
+real	0m0.313s
+user	0m0.158s
+sys	0m0.006s
+
+=== Stage 3: srcattributor ===
+
+real	0m4.262s
+user	0m4.011s
+sys	0m0.042s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/mesh_hwmp.c.xml
+    output : /tmp/cwe190_findings_IqoPDX
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.035s
+user	0m0.025s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/mesh_hwmp.c:204:59 -- prepare_frame_for_deferred_tx() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_IqoPDX
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/mesh_hwmp.c.xml
+    output : /tmp/cwe190_findings_IqoPDX
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.032s
+user	0m0.025s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_IqoPDX
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/mesh_hwmp.c.xml
+    output : /tmp/cwe190_findings_IqoPDX
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : mesh_path_sel_frame_tx
+    position : 138:21
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/mac80211/mesh_hwmp.c:138:21 -- mesh_path_sel_frame_tx() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_IqoPDX
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/mesh_hwmp.c",
+  "line": 204,
+  "col": 59,
+  "varname": "prepare_frame_for_deferred_tx",
+  "note": {
+    "line": 204,
+    "col": 59,
+    "message": "multiplication in prepare_frame_for_deferred_tx() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/mesh_hwmp.c",
+  "line": 138,
+  "col": 21,
+  "varname": "mesh_path_sel_frame_tx",
+  "note": {
+    "line": 138,
+    "col": 21,
+    "message": "increment (++) in mesh_path_sel_frame_tx() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

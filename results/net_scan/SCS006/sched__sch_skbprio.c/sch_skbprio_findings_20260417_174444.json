@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_skbprio.c",
+  "line": 57,
+  "col": 70,
+  "varname": "calc_new_low_prio",
+  "note": {
+    "line": 57,
+    "col": 70,
+    "message": "increment (++) in calc_new_low_prio() -- no upper-bound guard (INT_MAX check)"
+  }
+}

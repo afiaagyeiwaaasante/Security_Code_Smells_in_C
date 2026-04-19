@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/psp/psp_main.c",
+  "line": 168,
+  "col": 46,
+  "varname": "psp_write_headers",
+  "note": {
+    "line": 168,
+    "col": 46,
+    "message": "multiplication in psp_write_headers() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/psp/psp_main.c",
+  "line": 168,
+  "col": 52,
+  "varname": "psp_write_headers",
+  "note": {
+    "line": 168,
+    "col": 52,
+    "message": "addition in psp_write_headers() -- no upper-bound guard before adding"
+  }
+}

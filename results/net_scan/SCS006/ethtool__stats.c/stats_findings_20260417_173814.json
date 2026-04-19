@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ethtool/stats.c",
+  "line": 515,
+  "col": 36,
+  "varname": "ethtool_aggregate_stats",
+  "note": {
+    "line": 515,
+    "col": 36,
+    "message": "addition in ethtool_aggregate_stats() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ethtool/stats.c",
+  "line": 206,
+  "col": 23,
+  "varname": "stats_reply_size",
+  "note": {
+    "line": 206,
+    "col": 23,
+    "message": "increment (++) in stats_reply_size() -- no upper-bound guard (INT_MAX check)"
+  }
+}

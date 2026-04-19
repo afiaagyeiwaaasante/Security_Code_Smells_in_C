@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_taprio.c",
+  "line": 140,
+  "col": 53,
+  "varname": "taprio_calculate_gate_durations",
+  "note": {
+    "line": 140,
+    "col": 53,
+    "message": "increment (++) in taprio_calculate_gate_durations() -- no upper-bound guard (INT_MAX check)"
+  }
+}

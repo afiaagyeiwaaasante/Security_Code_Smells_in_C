@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/netfilter/ip6t_rt.c",
+  "line": 99,
+  "col": 34,
+  "varname": "rt_mt6",
+  "note": {
+    "line": 99,
+    "col": 34,
+    "message": "increment (++) in rt_mt6() -- no upper-bound guard (INT_MAX check)"
+  }
+}

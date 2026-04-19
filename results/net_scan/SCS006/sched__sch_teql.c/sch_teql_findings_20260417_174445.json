@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_teql.c",
+  "line": 169,
+  "col": 53,
+  "varname": "teql_qdisc_init",
+  "note": {
+    "line": 169,
+    "col": 53,
+    "message": "multiplication in teql_qdisc_init() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_teql.c",
+  "line": 322,
+  "col": 59,
+  "varname": "teql_master_xmit",
+  "note": {
+    "line": 322,
+    "col": 59,
+    "message": "increment (++) in teql_master_xmit() -- no upper-bound guard (INT_MAX check)"
+  }
+}

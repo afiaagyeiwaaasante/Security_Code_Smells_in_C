@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/mesh_pathtbl.c",
+  "line": 466,
+  "col": 59,
+  "varname": "mesh_fast_tx_cache",
+  "note": {
+    "line": 466,
+    "col": 59,
+    "message": "multiplication in mesh_fast_tx_cache() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/mesh_pathtbl.c",
+  "line": 286,
+  "col": 22,
+  "varname": "__mesh_path_lookup_by_idx",
+  "note": {
+    "line": 286,
+    "col": 22,
+    "message": "increment (++) in __mesh_path_lookup_by_idx() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/exthdrs.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv6__exthdrs.c/exthdrs_report_20260417_173937.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv6__exthdrs.c/exthdrs_findings_20260417_173937.json
+ Date    : Fri Apr 17 17:39:37 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.082s
+user	0m0.067s
+sys	0m0.006s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/exthdrs.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/exthdrs.c.json
+
+real	0m0.248s
+user	0m0.148s
+sys	0m0.007s
+
+=== Stage 3: srcattributor ===
+
+real	0m2.926s
+user	0m2.819s
+sys	0m0.027s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/exthdrs.c.xml
+    output : /tmp/cwe190_findings_nbKEVU
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.045s
+user	0m0.025s
+sys	0m0.006s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/exthdrs.c:1221:34 -- ipv6_dup_options() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_nbKEVU
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/exthdrs.c.xml
+    output : /tmp/cwe190_findings_nbKEVU
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.033s
+user	0m0.025s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/exthdrs.c:118:49 -- ip6_parse_tlv() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_nbKEVU
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/exthdrs.c.xml
+    output : /tmp/cwe190_findings_nbKEVU
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : ip6_parse_tlv
+    position : 137:31
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/exthdrs.c:137:31 -- ip6_parse_tlv() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_nbKEVU
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/exthdrs.c",
+  "line": 1221,
+  "col": 34,
+  "varname": "ipv6_dup_options",
+  "note": {
+    "line": 1221,
+    "col": 34,
+    "message": "multiplication in ipv6_dup_options() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/exthdrs.c",
+  "line": 118,
+  "col": 49,
+  "varname": "ip6_parse_tlv",
+  "note": {
+    "line": 118,
+    "col": 49,
+    "message": "addition in ip6_parse_tlv() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/exthdrs.c",
+  "line": 137,
+  "col": 31,
+  "varname": "ip6_parse_tlv",
+  "note": {
+    "line": 137,
+    "col": 31,
+    "message": "increment (++) in ip6_parse_tlv() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

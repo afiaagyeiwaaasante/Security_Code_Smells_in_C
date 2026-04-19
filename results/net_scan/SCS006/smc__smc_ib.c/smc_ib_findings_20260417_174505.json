@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/smc/smc_ib.c",
+  "line": 636,
+  "col": 49,
+  "varname": "smc_ib_qp_event_handler",
+  "note": {
+    "line": 636,
+    "col": 49,
+    "message": "multiplication in smc_ib_qp_event_handler() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/smc/smc_ib.c",
+  "line": 282,
+  "col": 67,
+  "varname": "smc_ib_determine_gid",
+  "note": {
+    "line": 282,
+    "col": 67,
+    "message": "increment (++) in smc_ib_determine_gid() -- no upper-bound guard (INT_MAX check)"
+  }
+}

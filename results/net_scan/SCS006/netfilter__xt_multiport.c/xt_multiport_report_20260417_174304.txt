@@ -1,0 +1,104 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/xt_multiport.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/netfilter__xt_multiport.c/xt_multiport_report_20260417_174304.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/netfilter__xt_multiport.c/xt_multiport_findings_20260417_174304.json
+ Date    : Fri Apr 17 17:43:04 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.019s
+user	0m0.013s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/xt_multiport.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/xt_multiport.c.json
+
+real	0m0.186s
+user	0m0.040s
+sys	0m0.004s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.075s
+user	0m0.064s
+sys	0m0.005s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/xt_multiport.c.xml
+    output : /tmp/cwe190_findings_eOnOZM
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.016s
+user	0m0.008s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_eOnOZM
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/xt_multiport.c.xml
+    output : /tmp/cwe190_findings_eOnOZM
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.018s
+user	0m0.010s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_eOnOZM
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/xt_multiport.c.xml
+    output : /tmp/cwe190_findings_eOnOZM
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : ports_match_v1
+    position : 34:40
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/xt_multiport.c:34:40 -- ports_match_v1() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_eOnOZM
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/xt_multiport.c",
+  "line": 34,
+  "col": 40,
+  "varname": "ports_match_v1",
+  "note": {
+    "line": 34,
+    "col": 40,
+    "message": "increment (++) in ports_match_v1() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_increment       1
+========================================

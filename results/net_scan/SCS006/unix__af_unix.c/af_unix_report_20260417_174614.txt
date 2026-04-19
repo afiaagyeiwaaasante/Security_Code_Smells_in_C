@@ -1,0 +1,124 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/unix/af_unix.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/unix__af_unix.c/af_unix_report_20260417_174614.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/unix__af_unix.c/af_unix_findings_20260417_174614.json
+ Date    : Fri Apr 17 17:46:14 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.253s
+user	0m0.198s
+sys	0m0.007s
+
+=== Stage 2: srcslice ===
+HERE: /Users/afiaasante/Security-Code-Smells/tools/srcslice/srcDispatch/src/policy_classes/DeclPolicy.hpp operator() 273
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/unix/af_unix.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/unix/af_unix.c.json
+
+real	0m0.536s
+user	0m0.408s
+sys	0m0.010s
+
+=== Stage 3: srcattributor ===
+
+real	0m31.506s
+user	0m30.496s
+sys	0m0.278s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/unix/af_unix.c.xml
+    output : /tmp/cwe190_findings_BTaRQ2
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.077s
+user	0m0.065s
+sys	0m0.010s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/unix/af_unix.c:349:66 -- unix_mkname_bsd() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_BTaRQ2
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/unix/af_unix.c.xml
+    output : /tmp/cwe190_findings_BTaRQ2
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.073s
+user	0m0.061s
+sys	0m0.009s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_BTaRQ2
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/unix/af_unix.c.xml
+    output : /tmp/cwe190_findings_BTaRQ2
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : unix_stream_sendmsg
+    position : 2495:21
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/unix/af_unix.c:2495:21 -- unix_stream_sendmsg() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_BTaRQ2
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/unix/af_unix.c",
+  "line": 349,
+  "col": 66,
+  "varname": "unix_mkname_bsd",
+  "note": {
+    "line": 349,
+    "col": 66,
+    "message": "multiplication in unix_mkname_bsd() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/unix/af_unix.c",
+  "line": 2495,
+  "col": 21,
+  "varname": "unix_stream_sendmsg",
+  "note": {
+    "line": 2495,
+    "col": 21,
+    "message": "increment (++) in unix_stream_sendmsg() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

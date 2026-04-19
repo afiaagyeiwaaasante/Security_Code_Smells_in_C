@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/em_meta.c",
+  "line": 115,
+  "col": 50,
+  "varname": "fixed_loadavg",
+  "note": {
+    "line": 115,
+    "col": 50,
+    "message": "multiplication in fixed_loadavg() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/em_meta.c",
+  "line": 114,
+  "col": 29,
+  "varname": "fixed_loadavg",
+  "note": {
+    "line": 114,
+    "col": 29,
+    "message": "addition in fixed_loadavg() -- no upper-bound guard before adding"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/802/stp.c",
+  "line": 67,
+  "col": 27,
+  "varname": "stp_proto_register",
+  "note": {
+    "line": 67,
+    "col": 27,
+    "message": "increment (++) in stp_proto_register() -- no upper-bound guard (INT_MAX check)"
+  }
+}

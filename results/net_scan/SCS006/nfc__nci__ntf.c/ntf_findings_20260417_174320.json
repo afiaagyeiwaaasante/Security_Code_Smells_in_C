@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/nfc/nci/ntf.c",
+  "line": 76,
+  "col": 44,
+  "varname": "nci_core_conn_credits_ntf_packet",
+  "note": {
+    "line": 76,
+    "col": 44,
+    "message": "increment (++) in nci_core_conn_credits_ntf_packet() -- no upper-bound guard (INT_MAX check)"
+  }
+}

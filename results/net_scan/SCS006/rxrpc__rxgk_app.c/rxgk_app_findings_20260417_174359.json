@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rxrpc/rxgk_app.c",
+  "line": 128,
+  "col": 10,
+  "varname": "rxgk_yfs_decode_ticket",
+  "note": {
+    "line": 128,
+    "col": 10,
+    "message": "increment (++) in rxgk_yfs_decode_ticket() -- no upper-bound guard (INT_MAX check)"
+  }
+}

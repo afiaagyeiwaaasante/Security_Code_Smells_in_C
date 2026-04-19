@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/xfrm6_tunnel.c",
+  "line": 128,
+  "col": 30,
+  "varname": "__xfrm6_tunnel_alloc_spi",
+  "note": {
+    "line": 128,
+    "col": 30,
+    "message": "increment (++) in __xfrm6_tunnel_alloc_spi() -- no upper-bound guard (INT_MAX check)"
+  }
+}

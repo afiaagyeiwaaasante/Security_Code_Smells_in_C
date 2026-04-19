@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/hsr/hsr_forward.c",
+  "line": 340,
+  "col": 44,
+  "varname": "hsr_create_tagged_frame",
+  "note": {
+    "line": 340,
+    "col": 44,
+    "message": "multiplication in hsr_create_tagged_frame() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/hsr/hsr_forward.c",
+  "line": 411,
+  "col": 38,
+  "varname": "hsr_deliver_master",
+  "note": {
+    "line": 411,
+    "col": 38,
+    "message": "increment (++) in hsr_deliver_master() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/mgmt.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/bluetooth__mgmt.c/mgmt_report_20260417_173533.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/bluetooth__mgmt.c/mgmt_findings_20260417_173533.json
+ Date    : Fri Apr 17 17:35:33 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.345s
+user	0m0.325s
+sys	0m0.012s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/mgmt.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/mgmt.c.json
+
+real	0m0.836s
+user	0m0.702s
+sys	0m0.015s
+
+=== Stage 3: srcattributor ===
+
+real	2m32.831s
+user	2m23.453s
+sys	0m1.583s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/mgmt.c.xml
+    output : /tmp/cwe190_findings_rlVXIM
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.143s
+user	0m0.125s
+sys	0m0.014s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/mgmt.c:1218:50 -- read_ext_controller_info() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_rlVXIM
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/mgmt.c.xml
+    output : /tmp/cwe190_findings_rlVXIM
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.138s
+user	0m0.121s
+sys	0m0.014s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/mgmt.c:2329:48 -- mesh_send_sync() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_rlVXIM
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/mgmt.c.xml
+    output : /tmp/cwe190_findings_rlVXIM
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : read_commands
+    position : 409:48
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/mgmt.c:409:48 -- read_commands() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_rlVXIM
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/mgmt.c",
+  "line": 1218,
+  "col": 50,
+  "varname": "read_ext_controller_info",
+  "note": {
+    "line": 1218,
+    "col": 50,
+    "message": "multiplication in read_ext_controller_info() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/mgmt.c",
+  "line": 2329,
+  "col": 48,
+  "varname": "mesh_send_sync",
+  "note": {
+    "line": 2329,
+    "col": 48,
+    "message": "addition in mesh_send_sync() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/mgmt.c",
+  "line": 409,
+  "col": 48,
+  "varname": "read_commands",
+  "note": {
+    "line": 409,
+    "col": 48,
+    "message": "increment (++) in read_commands() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

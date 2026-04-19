@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/xdp/xsk_buff_pool.c",
+  "line": 162,
+  "col": 34,
+  "varname": "xp_assign_dev",
+  "note": {
+    "line": 162,
+    "col": 34,
+    "message": "addition in xp_assign_dev() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/xdp/xsk_buff_pool.c",
+  "line": 101,
+  "col": 48,
+  "varname": "xp_create_and_assign_umem",
+  "note": {
+    "line": 101,
+    "col": 48,
+    "message": "increment (++) in xp_create_and_assign_umem() -- no upper-bound guard (INT_MAX check)"
+  }
+}

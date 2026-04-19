@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/netfilter/arp_tables.c",
+  "line": 70,
+  "col": 35,
+  "varname": "ifname_compare",
+  "note": {
+    "line": 70,
+    "col": 35,
+    "message": "multiplication in ifname_compare() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/netfilter/arp_tables.c",
+  "line": 88,
+  "col": 46,
+  "varname": "arp_packet_match",
+  "note": {
+    "line": 88,
+    "col": 46,
+    "message": "addition in arp_packet_match() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/netfilter/arp_tables.c",
+  "line": 53,
+  "col": 31,
+  "varname": "arp_devaddr_compare",
+  "note": {
+    "line": 53,
+    "col": 31,
+    "message": "increment (++) in arp_devaddr_compare() -- no upper-bound guard (INT_MAX check)"
+  }
+}

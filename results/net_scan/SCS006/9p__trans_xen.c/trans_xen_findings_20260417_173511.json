@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/9p/trans_xen.c",
+  "line": 281,
+  "col": 54,
+  "varname": "xen_9pfs_front_free",
+  "note": {
+    "line": 281,
+    "col": 54,
+    "message": "increment (++) in xen_9pfs_front_free() -- no upper-bound guard (INT_MAX check)"
+  }
+}

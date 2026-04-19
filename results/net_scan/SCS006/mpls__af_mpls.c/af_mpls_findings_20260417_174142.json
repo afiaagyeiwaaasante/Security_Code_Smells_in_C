@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mpls/af_mpls.c",
+  "line": 1400,
+  "col": 20,
+  "varname": "mpls_conf_proc",
+  "note": {
+    "line": 1400,
+    "col": 20,
+    "message": "multiplication in mpls_conf_proc() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mpls/af_mpls.c",
+  "line": 1203,
+  "col": 25,
+  "varname": "mpls_netconf_msgsize_devconf",
+  "note": {
+    "line": 1203,
+    "col": 25,
+    "message": "addition in mpls_netconf_msgsize_devconf() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mpls/af_mpls.c",
+  "line": 191,
+  "col": 25,
+  "varname": "mpls_multipath_hash",
+  "note": {
+    "line": 191,
+    "col": 25,
+    "message": "increment (++) in mpls_multipath_hash() -- no upper-bound guard (INT_MAX check)"
+  }
+}

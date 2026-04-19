@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/hsr/hsr_framereg.c",
+  "line": 219,
+  "col": 40,
+  "varname": "hsr_add_node",
+  "note": {
+    "line": 219,
+    "col": 40,
+    "message": "increment (++) in hsr_add_node() -- no upper-bound guard (INT_MAX check)"
+  }
+}

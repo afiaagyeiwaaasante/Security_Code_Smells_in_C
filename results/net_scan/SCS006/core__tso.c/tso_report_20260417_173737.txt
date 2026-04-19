@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/core/tso.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/core__tso.c/tso_report_20260417_173737.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/core__tso.c/tso_findings_20260417_173737.json
+ Date    : Fri Apr 17 17:37:37 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.013s
+user	0m0.008s
+sys	0m0.003s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/core/tso.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/core/tso.c.json
+
+real	0m0.176s
+user	0m0.024s
+sys	0m0.003s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.028s
+user	0m0.024s
+sys	0m0.004s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/core/tso.c.xml
+    output : /tmp/cwe190_findings_C8e7DW
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.013s
+user	0m0.008s
+sys	0m0.004s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/core/tso.c:16:43 -- tso_build_hdr() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_C8e7DW
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/core/tso.c.xml
+    output : /tmp/cwe190_findings_C8e7DW
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.010s
+user	0m0.006s
+sys	0m0.003s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/core/tso.c:11:49 -- tso_build_hdr() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_C8e7DW
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/core/tso.c.xml
+    output : /tmp/cwe190_findings_C8e7DW
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : tso_build_hdr
+    position : 20:27
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/core/tso.c:20:27 -- tso_build_hdr() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_C8e7DW
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/tso.c",
+  "line": 16,
+  "col": 43,
+  "varname": "tso_build_hdr",
+  "note": {
+    "line": 16,
+    "col": 43,
+    "message": "multiplication in tso_build_hdr() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/tso.c",
+  "line": 11,
+  "col": 49,
+  "varname": "tso_build_hdr",
+  "note": {
+    "line": 11,
+    "col": 49,
+    "message": "addition in tso_build_hdr() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/tso.c",
+  "line": 20,
+  "col": 27,
+  "varname": "tso_build_hdr",
+  "note": {
+    "line": 20,
+    "col": 27,
+    "message": "increment (++) in tso_build_hdr() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

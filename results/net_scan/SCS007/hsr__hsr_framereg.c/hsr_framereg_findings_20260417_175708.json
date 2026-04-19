@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/hsr/hsr_framereg.c",
+  "line": 521,
+  "col": 9,
+  "varname": "hsr_addr_subst_source",
+  "note": {
+    "line": 521,
+    "col": 9,
+    "message": "memcpy() in hsr_addr_subst_source() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

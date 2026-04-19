@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/utils.c",
+  "line": 305,
+  "col": 57,
+  "varname": "inet4_pton",
+  "note": {
+    "line": 305,
+    "col": 57,
+    "message": "multiplication in inet4_pton() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/utils.c",
+  "line": 58,
+  "col": 29,
+  "varname": "in_aton",
+  "note": {
+    "line": 58,
+    "col": 29,
+    "message": "increment (++) in in_aton() -- no upper-bound guard (INT_MAX check)"
+  }
+}

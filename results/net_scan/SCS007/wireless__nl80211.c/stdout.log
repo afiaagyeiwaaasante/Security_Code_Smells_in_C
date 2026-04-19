@@ -1,0 +1,95 @@
+========================================
+ CWE-195 Signed-to-Unsigned Conversion Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/wireless/nl80211.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS007/wireless__nl80211.c/nl80211_report_20260417_180754.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS007/wireless__nl80211.c/nl80211_findings_20260417_180754.json
+ Date    : Fri Apr 17 18:07:54 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m1.300s
+user	0m1.195s
+sys	0m0.029s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/wireless/nl80211.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/wireless/nl80211.c.json
+
+real	0m2.963s
+user	0m2.573s
+sys	0m0.065s
+
+=== Stage 3: srcattributor ===
+
+real	6m23.373s
+user	6m15.235s
+sys	0m3.374s
+
+=== Detector 1: signed_malloc ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/wireless/nl80211.c.xml
+    output : /tmp/cwe195_findings_yzgqpU
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS malloc($A)
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.161s
+user	0m0.142s
+sys	0m0.014s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor malloc found
+
+[ signed_malloc ] 0 finding(s) written to /tmp/cwe195_findings_yzgqpU
+=== Detector 2: signed_memcpy ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/wireless/nl80211.c.xml
+    output : /tmp/cwe195_findings_yzgqpU
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS memcpy($A, $B, $C)
+
+real	0m0.163s
+user	0m0.150s
+sys	0m0.012s
+
+--- Stage 1 (memcpy): checking srcQL result for positivity guard in <condition> ---
+    guarded -- > operator found in condition, no finding
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS memmove($A, $B, $C)
+
+real	0m0.153s
+user	0m0.140s
+sys	0m0.012s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor memcpy/memmove found
+
+[ signed_memcpy ] 0 finding(s) written to /tmp/cwe195_findings_yzgqpU
+=== Detector 3: signed_strncpy ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/wireless/nl80211.c.xml
+    output : /tmp/cwe195_findings_yzgqpU
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS strncpy($A, $B, $C)
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.157s
+user	0m0.145s
+sys	0m0.012s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor strncpy found
+
+[ signed_strncpy ] 0 finding(s) written to /tmp/cwe195_findings_yzgqpU
+========================================
+ Findings JSON
+========================================
+
+========================================
+ Summary
+ Total findings : 0
+ Errors         : 0
+ Warnings       : 0
+========================================

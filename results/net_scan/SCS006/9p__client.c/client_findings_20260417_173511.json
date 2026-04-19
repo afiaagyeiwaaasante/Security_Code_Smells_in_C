@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/9p/client.c",
+  "line": 1567,
+  "col": 50,
+  "varname": "p9_client_write_subreq",
+  "note": {
+    "line": 1567,
+    "col": 50,
+    "message": "addition in p9_client_write_subreq() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/9p/client.c",
+  "line": 1079,
+  "col": 46,
+  "varname": "p9_client_walk",
+  "note": {
+    "line": 1079,
+    "col": 46,
+    "message": "increment (++) in p9_client_walk() -- no upper-bound guard (INT_MAX check)"
+  }
+}

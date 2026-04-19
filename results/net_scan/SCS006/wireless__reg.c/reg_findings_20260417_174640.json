@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/wireless/reg.c",
+  "line": 665,
+  "col": 54,
+  "varname": "valid_wmm",
+  "note": {
+    "line": 665,
+    "col": 54,
+    "message": "multiplication in valid_wmm() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/wireless/reg.c",
+  "line": 685,
+  "col": 48,
+  "varname": "valid_rule",
+  "note": {
+    "line": 685,
+    "col": 48,
+    "message": "addition in valid_rule() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/wireless/reg.c",
+  "line": 461,
+  "col": 49,
+  "varname": "reg_copy_regd",
+  "note": {
+    "line": 461,
+    "col": 49,
+    "message": "increment (++) in reg_copy_regd() -- no upper-bound guard (INT_MAX check)"
+  }
+}

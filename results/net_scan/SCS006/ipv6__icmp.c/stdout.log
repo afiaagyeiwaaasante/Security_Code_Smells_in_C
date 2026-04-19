@@ -1,0 +1,119 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/icmp.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv6__icmp.c/icmp_report_20260417_173942.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv6__icmp.c/icmp_findings_20260417_173942.json
+ Date    : Fri Apr 17 17:39:42 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.072s
+user	0m0.064s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/icmp.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/icmp.c.json
+
+real	0m0.250s
+user	0m0.140s
+sys	0m0.008s
+
+=== Stage 3: srcattributor ===
+
+real	0m3.058s
+user	0m2.995s
+sys	0m0.024s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/icmp.c.xml
+    output : /tmp/cwe190_findings_Wr547N
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.033s
+user	0m0.026s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/icmp.c:78:51 -- icmpv6_err() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_Wr547N
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/icmp.c.xml
+    output : /tmp/cwe190_findings_Wr547N
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.029s
+user	0m0.022s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/icmp.c:78:65 -- icmpv6_err() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_Wr547N
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv6/icmp.c.xml
+    output : /tmp/cwe190_findings_Wr547N
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+[ unchecked_increment ] No smell detected.
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/icmp.c",
+  "line": 78,
+  "col": 51,
+  "varname": "icmpv6_err",
+  "note": {
+    "line": 78,
+    "col": 51,
+    "message": "multiplication in icmpv6_err() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/icmp.c",
+  "line": 78,
+  "col": 65,
+  "varname": "icmpv6_err",
+  "note": {
+    "line": 78,
+    "col": 65,
+    "message": "addition in icmpv6_err() -- no upper-bound guard before adding"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_multiply        1
+========================================

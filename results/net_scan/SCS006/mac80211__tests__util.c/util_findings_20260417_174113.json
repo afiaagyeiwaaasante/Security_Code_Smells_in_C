@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mac80211/tests/util.c",
+  "line": 223,
+  "col": 75,
+  "varname": "t_sdata_init",
+  "note": {
+    "line": 223,
+    "col": 75,
+    "message": "increment (++) in t_sdata_init() -- no upper-bound guard (INT_MAX check)"
+  }
+}

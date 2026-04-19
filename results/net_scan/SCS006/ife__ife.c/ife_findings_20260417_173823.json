@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ife/ife.c",
+  "line": 148,
+  "col": 55,
+  "varname": "ife_tlv_meta_next",
+  "note": {
+    "line": 148,
+    "col": 55,
+    "message": "multiplication in ife_tlv_meta_next() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ife/ife.c",
+  "line": 39,
+  "col": 28,
+  "varname": "ife_encode",
+  "note": {
+    "line": 39,
+    "col": 28,
+    "message": "addition in ife_encode() -- no upper-bound guard before adding"
+  }
+}

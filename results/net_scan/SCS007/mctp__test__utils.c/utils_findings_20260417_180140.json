@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/mctp/test/utils.c",
+  "line": 223,
+  "col": 9,
+  "varname": "mctp_test_create_skb",
+  "note": {
+    "line": 223,
+    "col": 9,
+    "message": "memcpy() in mctp_test_create_skb() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

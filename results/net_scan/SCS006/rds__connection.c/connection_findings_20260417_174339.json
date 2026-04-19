@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rds/connection.c",
+  "line": 269,
+  "col": 34,
+  "varname": "__rds_conn_create",
+  "note": {
+    "line": 269,
+    "col": 34,
+    "message": "increment (++) in __rds_conn_create() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/em_ipset.c",
+  "line": 43,
+  "col": 53,
+  "varname": "em_ipset_destroy",
+  "note": {
+    "line": 43,
+    "col": 53,
+    "message": "multiplication in em_ipset_destroy() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}

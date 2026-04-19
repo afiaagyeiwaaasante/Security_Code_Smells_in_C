@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sctp/offload.c",
+  "line": 62,
+  "col": 40,
+  "varname": "sctp_gso_segment",
+  "note": {
+    "line": 62,
+    "col": 40,
+    "message": "increment (++) in sctp_gso_segment() -- no upper-bound guard (INT_MAX check)"
+  }
+}

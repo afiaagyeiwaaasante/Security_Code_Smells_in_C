@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rds/tcp_recv.c",
+  "line": 142,
+  "col": 41,
+  "varname": "rds_tcp_cong_recv",
+  "note": {
+    "line": 142,
+    "col": 41,
+    "message": "increment (++) in rds_tcp_cong_recv() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ceph/auth_none.c",
+  "line": 46,
+  "col": 29,
+  "varname": "ceph_auth_none_build_authorizer",
+  "note": {
+    "line": 46,
+    "col": 29,
+    "message": "addition in ceph_auth_none_build_authorizer() -- no upper-bound guard before adding"
+  }
+}

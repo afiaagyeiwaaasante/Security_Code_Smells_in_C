@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/shaper/shaper.c",
+  "line": 695,
+  "col": 67,
+  "varname": "net_shaper_generic_pre",
+  "note": {
+    "line": 695,
+    "col": 67,
+    "message": "multiplication in net_shaper_generic_pre() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/shaper/shaper.c",
+  "line": 527,
+  "col": 71,
+  "varname": "net_shaper_validate_caps",
+  "note": {
+    "line": 527,
+    "col": 71,
+    "message": "addition in net_shaper_validate_caps() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/shaper/shaper.c",
+  "line": 83,
+  "col": 20,
+  "varname": "net_shaper_list_len",
+  "note": {
+    "line": 83,
+    "col": 20,
+    "message": "increment (++) in net_shaper_list_len() -- no upper-bound guard (INT_MAX check)"
+  }
+}

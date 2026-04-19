@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/6lowpan.c",
+  "line": 170,
+  "col": 17,
+  "varname": "peer_lookup_dst",
+  "note": {
+    "line": 170,
+    "col": 17,
+    "message": "memcpy() in peer_lookup_dst() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

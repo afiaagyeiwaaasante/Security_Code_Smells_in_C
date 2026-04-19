@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/rpl.c",
+  "line": 46,
+  "col": 29,
+  "varname": "ipv6_rpl_srh_decompress",
+  "note": {
+    "line": 46,
+    "col": 29,
+    "message": "increment (++) in ipv6_rpl_srh_decompress() -- no upper-bound guard (INT_MAX check)"
+  }
+}

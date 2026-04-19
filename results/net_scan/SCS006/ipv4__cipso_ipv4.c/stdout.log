@@ -1,0 +1,142 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/cipso_ipv4.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv4__cipso_ipv4.c/cipso_ipv4_report_20260417_173826.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/ipv4__cipso_ipv4.c/cipso_ipv4_findings_20260417_173826.json
+ Date    : Fri Apr 17 17:38:26 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.136s
+user	0m0.080s
+sys	0m0.007s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/cipso_ipv4.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/cipso_ipv4.c.json
+
+real	0m0.310s
+user	0m0.157s
+sys	0m0.007s
+
+=== Stage 3: srcattributor ===
+
+real	0m4.916s
+user	0m4.718s
+sys	0m0.033s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/cipso_ipv4.c.xml
+    output : /tmp/cwe190_findings_JMDyyO
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.032s
+user	0m0.024s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/cipso_ipv4.c:740:42 -- cipso_v4_map_cat_rbm_valid() multiplies without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 1 finding(s) written to /tmp/cwe190_findings_JMDyyO
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/cipso_ipv4.c.xml
+    output : /tmp/cwe190_findings_JMDyyO
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.031s
+user	0m0.025s
+sys	0m0.005s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/cipso_ipv4.c:1010:46 -- cipso_v4_map_cat_rng_valid() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_JMDyyO
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/cipso_ipv4.c.xml
+    output : /tmp/cwe190_findings_JMDyyO
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : cipso_v4_cache_init
+    position : 176:59
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ipv4/cipso_ipv4.c:176:59 -- cipso_v4_cache_init() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_JMDyyO
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/cipso_ipv4.c",
+  "line": 740,
+  "col": 42,
+  "varname": "cipso_v4_map_cat_rbm_valid",
+  "note": {
+    "line": 740,
+    "col": 42,
+    "message": "multiplication in cipso_v4_map_cat_rbm_valid() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/cipso_ipv4.c",
+  "line": 1010,
+  "col": 46,
+  "varname": "cipso_v4_map_cat_rng_valid",
+  "note": {
+    "line": 1010,
+    "col": 46,
+    "message": "addition in cipso_v4_map_cat_rng_valid() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/cipso_ipv4.c",
+  "line": 176,
+  "col": 59,
+  "varname": "cipso_v4_cache_init",
+  "note": {
+    "line": 176,
+    "col": 59,
+    "message": "increment (++) in cipso_v4_cache_init() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 3
+ Errors         : 0
+ Warnings       : 3
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+   unchecked_multiply        1
+========================================

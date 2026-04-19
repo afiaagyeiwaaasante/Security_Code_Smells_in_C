@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/xdp/xsk_buff_pool.c",
+  "line": 135,
+  "col": 17,
+  "varname": "xp_fill_cb",
+  "note": {
+    "line": 135,
+    "col": 17,
+    "message": "memcpy() in xp_fill_cb() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

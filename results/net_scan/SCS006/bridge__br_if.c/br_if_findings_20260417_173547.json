@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bridge/br_if.c",
+  "line": 207,
+  "col": 48,
+  "varname": "nbp_backup_change",
+  "note": {
+    "line": 207,
+    "col": 48,
+    "message": "increment (++) in nbp_backup_change() -- no upper-bound guard (INT_MAX check)"
+  }
+}

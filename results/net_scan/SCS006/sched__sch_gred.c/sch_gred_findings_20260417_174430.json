@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_gred.c",
+  "line": 98,
+  "col": 38,
+  "varname": "gred_wred_mode_check",
+  "note": {
+    "line": 98,
+    "col": 38,
+    "message": "increment (++) in gred_wred_mode_check() -- no upper-bound guard (INT_MAX check)"
+  }
+}

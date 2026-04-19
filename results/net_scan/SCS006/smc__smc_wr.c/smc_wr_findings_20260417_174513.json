@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/smc/smc_wr.c",
+  "line": 164,
+  "col": 59,
+  "varname": "smc_wr_tx_cq_handler",
+  "note": {
+    "line": 164,
+    "col": 59,
+    "message": "multiplication in smc_wr_tx_cq_handler() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/smc/smc_wr.c",
+  "line": 70,
+  "col": 43,
+  "varname": "smc_wr_tx_find_pending_index",
+  "note": {
+    "line": 70,
+    "col": 43,
+    "message": "increment (++) in smc_wr_tx_find_pending_index() -- no upper-bound guard (INT_MAX check)"
+  }
+}

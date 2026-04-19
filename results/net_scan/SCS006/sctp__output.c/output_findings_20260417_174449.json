@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sctp/output.c",
+  "line": 497,
+  "col": 64,
+  "varname": "sctp_packet_pack",
+  "note": {
+    "line": 497,
+    "col": 64,
+    "message": "multiplication in sctp_packet_pack() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sctp/output.c",
+  "line": 313,
+  "col": 56,
+  "varname": "sctp_packet_bundle_sack",
+  "note": {
+    "line": 313,
+    "col": 56,
+    "message": "increment (++) in sctp_packet_bundle_sack() -- no upper-bound guard (INT_MAX check)"
+  }
+}

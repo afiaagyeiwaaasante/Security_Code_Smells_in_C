@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/selftests.c",
+  "line": 260,
+  "col": 25,
+  "varname": "__net_test_loopback",
+  "note": {
+    "line": 260,
+    "col": 25,
+    "message": "increment (++) in __net_test_loopback() -- no upper-bound guard (INT_MAX check)"
+  }
+}

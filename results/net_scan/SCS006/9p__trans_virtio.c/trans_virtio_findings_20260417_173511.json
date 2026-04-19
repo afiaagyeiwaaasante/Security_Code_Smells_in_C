@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/9p/trans_virtio.c",
+  "line": 383,
+  "col": 34,
+  "varname": "handle_rerror",
+  "note": {
+    "line": 383,
+    "col": 34,
+    "message": "addition in handle_rerror() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/9p/trans_virtio.c",
+  "line": 183,
+  "col": 37,
+  "varname": "pack_sg_list",
+  "note": {
+    "line": 183,
+    "col": 37,
+    "message": "increment (++) in pack_sg_list() -- no upper-bound guard (INT_MAX check)"
+  }
+}

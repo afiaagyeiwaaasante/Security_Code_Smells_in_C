@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/flow_dissector.c",
+  "line": 1851,
+  "col": 44,
+  "varname": "make_flow_keys_digest",
+  "note": {
+    "line": 1851,
+    "col": 44,
+    "message": "multiplication in make_flow_keys_digest() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/flow_dissector.c",
+  "line": 1716,
+  "col": 45,
+  "varname": "flow_keys_hash_length",
+  "note": {
+    "line": 1716,
+    "col": 45,
+    "message": "addition in flow_keys_hash_length() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/flow_dissector.c",
+  "line": 54,
+  "col": 37,
+  "varname": "skb_flow_dissector_init",
+  "note": {
+    "line": 54,
+    "col": 37,
+    "message": "increment (++) in skb_flow_dissector_init() -- no upper-bound guard (INT_MAX check)"
+  }
+}

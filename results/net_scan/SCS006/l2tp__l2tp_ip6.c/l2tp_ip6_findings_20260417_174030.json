@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/l2tp/l2tp_ip6.c",
+  "line": 288,
+  "col": 66,
+  "varname": "l2tp_ip6_bind",
+  "note": {
+    "line": 288,
+    "col": 66,
+    "message": "multiplication in l2tp_ip6_bind() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}

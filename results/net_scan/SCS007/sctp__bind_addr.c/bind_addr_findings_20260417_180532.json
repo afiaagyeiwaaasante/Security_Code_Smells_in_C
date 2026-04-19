@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sctp/bind_addr.c",
+  "line": 154,
+  "col": 9,
+  "varname": "sctp_add_bind_addr",
+  "note": {
+    "line": 154,
+    "col": 9,
+    "message": "memcpy() in sctp_add_bind_addr() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

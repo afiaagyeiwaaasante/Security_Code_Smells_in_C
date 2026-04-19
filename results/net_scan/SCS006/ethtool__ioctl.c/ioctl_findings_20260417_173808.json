@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ethtool/ioctl.c",
+  "line": 2467,
+  "col": 44,
+  "varname": "ethtool_phys_id",
+  "note": {
+    "line": 2467,
+    "col": 44,
+    "message": "multiplication in ethtool_phys_id() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ethtool/ioctl.c",
+  "line": 1976,
+  "col": 41,
+  "varname": "ethtool_get_any_eeprom",
+  "note": {
+    "line": 1976,
+    "col": 41,
+    "message": "addition in ethtool_get_any_eeprom() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ethtool/ioctl.c",
+  "line": 97,
+  "col": 52,
+  "varname": "ethtool_get_features",
+  "note": {
+    "line": 97,
+    "col": 52,
+    "message": "increment (++) in ethtool_get_features() -- no upper-bound guard (INT_MAX check)"
+  }
+}

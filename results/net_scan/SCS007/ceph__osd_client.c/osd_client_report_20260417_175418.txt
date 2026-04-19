@@ -1,0 +1,115 @@
+========================================
+ CWE-195 Signed-to-Unsigned Conversion Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/ceph/osd_client.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS007/ceph__osd_client.c/osd_client_report_20260417_175418.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS007/ceph__osd_client.c/osd_client_findings_20260417_175418.json
+ Date    : Fri Apr 17 17:54:18 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.513s
+user	0m0.384s
+sys	0m0.014s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/ceph/osd_client.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/ceph/osd_client.c.json
+
+real	0m0.983s
+user	0m0.744s
+sys	0m0.018s
+
+=== Stage 3: srcattributor ===
+
+real	1m45.027s
+user	1m38.089s
+sys	0m0.684s
+
+=== Detector 1: signed_malloc ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ceph/osd_client.c.xml
+    output : /tmp/cwe195_findings_Ws9z1P
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS malloc($A)
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.130s
+user	0m0.109s
+sys	0m0.012s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor malloc found
+
+[ signed_malloc ] 0 finding(s) written to /tmp/cwe195_findings_Ws9z1P
+=== Detector 2: signed_memcpy ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ceph/osd_client.c.xml
+    output : /tmp/cwe195_findings_Ws9z1P
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS memcpy($A, $B, $C)
+
+real	0m0.128s
+user	0m0.110s
+sys	0m0.012s
+
+--- Stage 1 (memcpy): checking srcQL result for positivity guard in <condition> ---
+    guarded -- > operator found in condition, no finding
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS memmove($A, $B, $C)
+
+real	0m0.149s
+user	0m0.109s
+sys	0m0.014s
+
+--- Stage 1 (memmove): checking srcQL result for positivity guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/ceph/osd_client.c:2285:17 -- encode_request_finish() memmove without positivity guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+
+[ signed_memcpy ] 1 finding(s) written to /tmp/cwe195_findings_Ws9z1P
+=== Detector 3: signed_strncpy ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/ceph/osd_client.c.xml
+    output : /tmp/cwe195_findings_Ws9z1P
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS strncpy($A, $B, $C)
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.130s
+user	0m0.108s
+sys	0m0.011s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor strncpy found
+
+[ signed_strncpy ] 0 finding(s) written to /tmp/cwe195_findings_Ws9z1P
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ceph/osd_client.c",
+  "line": 2285,
+  "col": 17,
+  "varname": "encode_request_finish",
+  "note": {
+    "line": 2285,
+    "col": 17,
+    "message": "memmove() in encode_request_finish() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   signed_memcpy             1
+========================================

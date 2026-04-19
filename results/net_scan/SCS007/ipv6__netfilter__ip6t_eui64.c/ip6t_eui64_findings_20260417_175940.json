@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/netfilter/ip6t_eui64.c",
+  "line": 34,
+  "col": 25,
+  "varname": "eui64_mt6",
+  "note": {
+    "line": 34,
+    "col": 25,
+    "message": "memcpy() in eui64_mt6() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

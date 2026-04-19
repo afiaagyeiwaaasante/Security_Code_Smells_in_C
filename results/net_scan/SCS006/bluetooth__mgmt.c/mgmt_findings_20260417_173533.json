@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/mgmt.c",
+  "line": 1218,
+  "col": 50,
+  "varname": "read_ext_controller_info",
+  "note": {
+    "line": 1218,
+    "col": 50,
+    "message": "multiplication in read_ext_controller_info() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/mgmt.c",
+  "line": 2329,
+  "col": 48,
+  "varname": "mesh_send_sync",
+  "note": {
+    "line": 2329,
+    "col": 48,
+    "message": "addition in mesh_send_sync() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/bluetooth/mgmt.c",
+  "line": 409,
+  "col": 48,
+  "varname": "read_commands",
+  "note": {
+    "line": 409,
+    "col": 48,
+    "message": "increment (++) in read_commands() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,100 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/tp_meter.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/batman-adv__tp_meter.c/tp_meter_report_20260417_173521.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/batman-adv__tp_meter.c/tp_meter_findings_20260417_173521.json
+ Date    : Fri Apr 17 17:35:21 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.049s
+user	0m0.043s
+sys	0m0.004s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/tp_meter.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/tp_meter.c.json
+
+real	0m0.180s
+user	0m0.068s
+sys	0m0.004s
+
+=== Stage 3: srcattributor ===
+
+real	0m1.010s
+user	0m0.988s
+sys	0m0.012s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/tp_meter.c.xml
+    output : /tmp/cwe190_findings_uadtZu
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.021s
+user	0m0.015s
+sys	0m0.004s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_uadtZu
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/tp_meter.c.xml
+    output : /tmp/cwe190_findings_uadtZu
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.013s
+user	0m0.010s
+sys	0m0.003s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/tp_meter.c:122:29 -- batadv_tp_cwnd() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_uadtZu
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/tp_meter.c.xml
+    output : /tmp/cwe190_findings_uadtZu
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+[ unchecked_increment ] No smell detected.
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/batman-adv/tp_meter.c",
+  "line": 122,
+  "col": 29,
+  "varname": "batadv_tp_cwnd",
+  "note": {
+    "line": 122,
+    "col": 29,
+    "message": "addition in batadv_tp_cwnd() -- no upper-bound guard before adding"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 1
+ Errors         : 0
+ Warnings       : 1
+
+ Breakdown by detector:
+   unchecked_add             1
+========================================

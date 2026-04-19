@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/can/gw.c",
+  "line": 206,
+  "col": 51,
+  "varname": "mod_retrieve_ccdlc",
+  "note": {
+    "line": 206,
+    "col": 51,
+    "message": "multiplication in mod_retrieve_ccdlc() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/can/gw.c",
+  "line": 333,
+  "col": 42,
+  "varname": "cgw_csum_xor_rel",
+  "note": {
+    "line": 333,
+    "col": 42,
+    "message": "increment (++) in cgw_csum_xor_rel() -- no upper-bound guard (INT_MAX check)"
+  }
+}

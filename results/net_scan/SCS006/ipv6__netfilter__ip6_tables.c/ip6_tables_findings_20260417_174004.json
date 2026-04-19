@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/netfilter/ip6_tables.c",
+  "line": 185,
+  "col": 52,
+  "varname": "get_chainname_rulenum",
+  "note": {
+    "line": 185,
+    "col": 52,
+    "message": "multiplication in get_chainname_rulenum() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/netfilter/ip6_tables.c",
+  "line": 395,
+  "col": 47,
+  "varname": "mark_source_chains",
+  "note": {
+    "line": 395,
+    "col": 47,
+    "message": "addition in mark_source_chains() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/netfilter/ip6_tables.c",
+  "line": 192,
+  "col": 27,
+  "varname": "get_chainname_rulenum",
+  "note": {
+    "line": 192,
+    "col": 27,
+    "message": "increment (++) in get_chainname_rulenum() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/rpc_pipe.c",
+  "line": 107,
+  "col": 28,
+  "varname": "rpc_pipe_generic_upcall",
+  "note": {
+    "line": 107,
+    "col": 28,
+    "message": "multiplication in rpc_pipe_generic_upcall() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/rpc_pipe.c",
+  "line": 107,
+  "col": 40,
+  "varname": "rpc_pipe_generic_upcall",
+  "note": {
+    "line": 107,
+    "col": 40,
+    "message": "addition in rpc_pipe_generic_upcall() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sunrpc/rpc_pipe.c",
+  "line": 231,
+  "col": 31,
+  "varname": "rpc_pipe_open",
+  "note": {
+    "line": 231,
+    "col": 31,
+    "message": "increment (++) in rpc_pipe_open() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ax25/af_ax25.c",
+  "line": 1100,
+  "col": 70,
+  "varname": "ax25_bind",
+  "note": {
+    "line": 1100,
+    "col": 70,
+    "message": "multiplication in ax25_bind() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ax25/af_ax25.c",
+  "line": 387,
+  "col": 38,
+  "varname": "ax25_ctl_ioctl",
+  "note": {
+    "line": 387,
+    "col": 38,
+    "message": "increment (++) in ax25_ctl_ioctl() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/rose/rose_loopback.c",
+  "line": 69,
+  "col": 59,
+  "varname": "rose_loopback_timer",
+  "note": {
+    "line": 69,
+    "col": 59,
+    "message": "increment (++) in rose_loopback_timer() -- no upper-bound guard (INT_MAX check)"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/tls/tls_device_fallback.c",
+  "line": 73,
+  "col": 9,
+  "varname": "tls_enc_record",
+  "note": {
+    "line": 73,
+    "col": 9,
+    "message": "memcpy() in tls_enc_record() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/mip6.c",
+  "line": 164,
+  "col": 9,
+  "varname": "mip6_destopt_output",
+  "note": {
+    "line": 164,
+    "col": 9,
+    "message": "memcpy() in mip6_destopt_output() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

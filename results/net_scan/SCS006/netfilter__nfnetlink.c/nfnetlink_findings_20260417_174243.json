@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nfnetlink.c",
+  "line": 258,
+  "col": 45,
+  "varname": "nfnetlink_rcv_msg",
+  "note": {
+    "line": 258,
+    "col": 45,
+    "message": "multiplication in nfnetlink_rcv_msg() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nfnetlink.c",
+  "line": 257,
+  "col": 56,
+  "varname": "nfnetlink_rcv_msg",
+  "note": {
+    "line": 257,
+    "col": 56,
+    "message": "addition in nfnetlink_rcv_msg() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nfnetlink.c",
+  "line": 121,
+  "col": 51,
+  "varname": "nfnetlink_subsys_register",
+  "note": {
+    "line": 121,
+    "col": 51,
+    "message": "increment (++) in nfnetlink_subsys_register() -- no upper-bound guard (INT_MAX check)"
+  }
+}

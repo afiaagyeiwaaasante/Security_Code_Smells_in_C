@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ceph/crypto.c",
+  "line": 142,
+  "col": 26,
+  "varname": "ceph_crypto_key_unarmor",
+  "note": {
+    "line": 142,
+    "col": 26,
+    "message": "multiplication in ceph_crypto_key_unarmor() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ceph/crypto.c",
+  "line": 62,
+  "col": 41,
+  "varname": "set_krb5_tfms",
+  "note": {
+    "line": 62,
+    "col": 41,
+    "message": "increment (++) in set_krb5_tfms() -- no upper-bound guard (INT_MAX check)"
+  }
+}

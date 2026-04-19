@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/sch_codel.c",
+  "line": 88,
+  "col": 26,
+  "varname": "codel_qdisc_enqueue",
+  "note": {
+    "line": 88,
+    "col": 26,
+    "message": "increment (++) in codel_qdisc_enqueue() -- no upper-bound guard (INT_MAX check)"
+  }
+}

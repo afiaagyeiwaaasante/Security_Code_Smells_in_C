@@ -1,0 +1,95 @@
+========================================
+ CWE-195 Signed-to-Unsigned Conversion Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_flow_table_ip.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS007/netfilter__nf_flow_table_ip.c/nf_flow_table_ip_report_20260417_180249.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS007/netfilter__nf_flow_table_ip.c/nf_flow_table_ip_findings_20260417_180249.json
+ Date    : Fri Apr 17 18:02:49 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.097s
+user	0m0.085s
+sys	0m0.005s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_flow_table_ip.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_flow_table_ip.c.json
+
+real	0m0.310s
+user	0m0.175s
+sys	0m0.007s
+
+=== Stage 3: srcattributor ===
+
+real	0m4.736s
+user	0m4.459s
+sys	0m0.044s
+
+=== Detector 1: signed_malloc ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_flow_table_ip.c.xml
+    output : /tmp/cwe195_findings_AZDOtD
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS malloc($A)
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.034s
+user	0m0.027s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor malloc found
+
+[ signed_malloc ] 0 finding(s) written to /tmp/cwe195_findings_AZDOtD
+=== Detector 2: signed_memcpy ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_flow_table_ip.c.xml
+    output : /tmp/cwe195_findings_AZDOtD
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS memcpy($A, $B, $C)
+
+real	0m0.039s
+user	0m0.029s
+sys	0m0.005s
+
+--- Stage 1 (memcpy): checking srcQL result for positivity guard in <condition> ---
+    guarded -- > operator found in condition, no finding
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS memmove($A, $B, $C)
+
+real	0m0.038s
+user	0m0.028s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor memcpy/memmove found
+
+[ signed_memcpy ] 0 finding(s) written to /tmp/cwe195_findings_AZDOtD
+=== Detector 3: signed_strncpy ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/netfilter/nf_flow_table_ip.c.xml
+    output : /tmp/cwe195_findings_AZDOtD
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS strncpy($A, $B, $C)
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.041s
+user	0m0.028s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor strncpy found
+
+[ signed_strncpy ] 0 finding(s) written to /tmp/cwe195_findings_AZDOtD
+========================================
+ Findings JSON
+========================================
+
+========================================
+ Summary
+ Total findings : 0
+ Errors         : 0
+ Warnings       : 0
+========================================

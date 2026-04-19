@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6_flowlabel.c",
+  "line": 132,
+  "col": 49,
+  "varname": "fl_release",
+  "note": {
+    "line": 132,
+    "col": 49,
+    "message": "addition in fl_release() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6_flowlabel.c",
+  "line": 151,
+  "col": 41,
+  "varname": "ip6_fl_gc",
+  "note": {
+    "line": 151,
+    "col": 41,
+    "message": "increment (++) in ip6_fl_gc() -- no upper-bound guard (INT_MAX check)"
+  }
+}

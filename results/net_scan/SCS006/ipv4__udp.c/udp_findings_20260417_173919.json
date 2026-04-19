@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/udp.c",
+  "line": 761,
+  "col": 49,
+  "varname": "udp4_lib_lookup_skb",
+  "note": {
+    "line": 761,
+    "col": 49,
+    "message": "multiplication in udp4_lib_lookup_skb() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/udp.c",
+  "line": 761,
+  "col": 62,
+  "varname": "udp4_lib_lookup_skb",
+  "note": {
+    "line": 761,
+    "col": 62,
+    "message": "addition in udp4_lib_lookup_skb() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/udp.c",
+  "line": 285,
+  "col": 26,
+  "varname": "udp_lib_get_port",
+  "note": {
+    "line": 285,
+    "col": 26,
+    "message": "increment (++) in udp_lib_get_port() -- no upper-bound guard (INT_MAX check)"
+  }
+}

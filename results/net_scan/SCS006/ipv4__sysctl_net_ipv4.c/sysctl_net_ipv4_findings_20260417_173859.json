@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/sysctl_net_ipv4.c",
+  "line": 282,
+  "col": 56,
+  "varname": "sscanf_key",
+  "note": {
+    "line": 282,
+    "col": 56,
+    "message": "increment (++) in sscanf_key() -- no upper-bound guard (INT_MAX check)"
+  }
+}

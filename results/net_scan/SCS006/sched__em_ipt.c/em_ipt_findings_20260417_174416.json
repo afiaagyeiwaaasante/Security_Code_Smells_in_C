@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/em_ipt.c",
+  "line": 187,
+  "col": 41,
+  "varname": "em_ipt_destroy",
+  "note": {
+    "line": 187,
+    "col": 41,
+    "message": "multiplication in em_ipt_destroy() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/sched/em_ipt.c",
+  "line": 105,
+  "col": 53,
+  "varname": "get_xt_match",
+  "note": {
+    "line": 105,
+    "col": 53,
+    "message": "increment (++) in get_xt_match() -- no upper-bound guard (INT_MAX check)"
+  }
+}

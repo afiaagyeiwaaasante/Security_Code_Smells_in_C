@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/xdp.c",
+  "line": 56,
+  "col": 22,
+  "varname": "xdp_mem_id_cmp",
+  "note": {
+    "line": 56,
+    "col": 22,
+    "message": "multiplication in xdp_mem_id_cmp() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/xdp.c",
+  "line": 472,
+  "col": 47,
+  "varname": "xdp_return_frame",
+  "note": {
+    "line": 472,
+    "col": 47,
+    "message": "increment (++) in xdp_return_frame() -- no upper-bound guard (INT_MAX check)"
+  }
+}

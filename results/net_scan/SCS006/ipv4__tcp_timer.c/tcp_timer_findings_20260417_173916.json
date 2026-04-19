@@ -1,0 +1,30 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_timer.c",
+  "line": 500,
+  "col": 39,
+  "varname": "tcp_rtx_probe0_timed_out",
+  "note": {
+    "line": 500,
+    "col": 39,
+    "message": "multiplication in tcp_rtx_probe0_timed_out() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv4/tcp_timer.c",
+  "line": 114,
+  "col": 22,
+  "varname": "tcp_out_of_resources",
+  "note": {
+    "line": 114,
+    "col": 22,
+    "message": "increment (++) in tcp_out_of_resources() -- no upper-bound guard (INT_MAX check)"
+  }
+}

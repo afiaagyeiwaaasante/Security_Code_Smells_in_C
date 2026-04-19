@@ -1,0 +1,15 @@
+{
+  "detector": "signed_memcpy",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "signedUnsignedConversion",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/x25/x25_route.c",
+  "line": 46,
+  "col": 9,
+  "varname": "x25_add_route",
+  "note": {
+    "line": 46,
+    "col": 9,
+    "message": "memcpy() in x25_add_route() -- signed int passed as byte count with no positivity guard (data > 0)"
+  }
+}

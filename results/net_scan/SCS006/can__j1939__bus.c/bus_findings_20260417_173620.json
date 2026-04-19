@@ -1,0 +1,15 @@
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/can/j1939/bus.c",
+  "line": 103,
+  "col": 50,
+  "varname": "j1939_ecu_unmap_all",
+  "note": {
+    "line": 103,
+    "col": 50,
+    "message": "increment (++) in j1939_ecu_unmap_all() -- no upper-bound guard (INT_MAX check)"
+  }
+}

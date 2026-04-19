@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/udp.c",
+  "line": 424,
+  "col": 53,
+  "varname": "udp6_lib_lookup_skb",
+  "note": {
+    "line": 424,
+    "col": 53,
+    "message": "multiplication in udp6_lib_lookup_skb() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/udp.c",
+  "line": 424,
+  "col": 66,
+  "varname": "udp6_lib_lookup_skb",
+  "note": {
+    "line": 424,
+    "col": 66,
+    "message": "addition in udp6_lib_lookup_skb() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/udp.c",
+  "line": 153,
+  "col": 22,
+  "varname": "compute_score",
+  "note": {
+    "line": 153,
+    "col": 22,
+    "message": "increment (++) in compute_score() -- no upper-bound guard (INT_MAX check)"
+  }
+}

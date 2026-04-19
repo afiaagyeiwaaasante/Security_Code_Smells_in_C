@@ -1,0 +1,79 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/appletalk/sysctl_net_atalk.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/appletalk__sysctl_net_atalk.c/sysctl_net_atalk_report_20260417_173512.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/appletalk__sysctl_net_atalk.c/sysctl_net_atalk_findings_20260417_173512.json
+ Date    : Fri Apr 17 17:35:12 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.009s
+user	0m0.005s
+sys	0m0.003s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/appletalk/sysctl_net_atalk.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/appletalk/sysctl_net_atalk.c.json
+
+real	0m0.185s
+user	0m0.018s
+sys	0m0.003s
+
+=== Stage 3: srcattributor ===
+
+real	0m0.008s
+user	0m0.005s
+sys	0m0.002s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/appletalk/sysctl_net_atalk.c.xml
+    output : /tmp/cwe190_findings_erNzq2
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.007s
+user	0m0.003s
+sys	0m0.002s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_erNzq2
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/appletalk/sysctl_net_atalk.c.xml
+    output : /tmp/cwe190_findings_erNzq2
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.009s
+user	0m0.005s
+sys	0m0.003s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 0 finding(s) written to /tmp/cwe190_findings_erNzq2
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/appletalk/sysctl_net_atalk.c.xml
+    output : /tmp/cwe190_findings_erNzq2
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+[ unchecked_increment ] No smell detected.
+========================================
+ Findings JSON
+========================================
+
+========================================
+ Summary
+ Total findings : 0
+ Errors         : 0
+ Warnings       : 0
+========================================

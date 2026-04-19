@@ -1,0 +1,123 @@
+========================================
+ CWE-190 Integer Overflow Risk Detector
+ Source  : /Users/afiaasante/Security-Code-Smells/linux/net/core/net-sysfs.c
+ Report  : /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/core__net-sysfs.c/net-sysfs_report_20260417_173654.txt
+ Findings: /Users/afiaasante/Security-Code-Smells/results/net_scan/SCS006/core__net-sysfs.c/net-sysfs_findings_20260417_173654.json
+ Date    : Fri Apr 17 17:36:54 EDT 2026
+========================================
+
+=== Stage 1: srcml ===
+
+real	0m0.092s
+user	0m0.084s
+sys	0m0.006s
+
+=== Stage 2: srcslice ===
+Writing to :: /Users/afiaasante/Security-Code-Smells/linux/net/core/net-sysfs.c.json
+Output Saved to :: /Users/afiaasante/Security-Code-Smells/linux/net/core/net-sysfs.c.json
+
+real	0m0.302s
+user	0m0.163s
+sys	0m0.005s
+
+=== Stage 3: srcattributor ===
+
+real	0m8.670s
+user	0m8.400s
+sys	0m0.073s
+
+=== Detector 1: unchecked_multiply ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/core/net-sysfs.c.xml
+    output : /tmp/cwe190_findings_79mrDt
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A * $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.037s
+user	0m0.028s
+sys	0m0.005s
+
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor multiply found
+
+[ unchecked_multiply ] 0 finding(s) written to /tmp/cwe190_findings_79mrDt
+=== Detector 2: unchecked_add ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/core/net-sysfs.c.xml
+    output : /tmp/cwe190_findings_79mrDt
+
+    query  : FIND $T $FUNC($PARAMS) {} CONTAINS $TYPE $RESULT = $A + $B
+    note   : destructor/constructor blocks covered by XPath fallback
+
+
+real	0m0.039s
+user	0m0.031s
+sys	0m0.006s
+
+--- Stage 1: checking srcQL result for MAX guard in <condition> ---
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/core/net-sysfs.c:1234:50 -- rx_queue_add_kobject() adds without MAX guard
+
+--- Stage 2: XPath destructor/constructor fallback ---
+    no unguarded destructor/constructor addition found
+
+[ unchecked_add ] 1 finding(s) written to /tmp/cwe190_findings_79mrDt
+=== Detector 3: unchecked_increment ===
+    input  : /Users/afiaasante/Security-Code-Smells/linux/net/core/net-sysfs.c.xml
+    output : /tmp/cwe190_findings_79mrDt
+
+    strategy : XPath on srcML XML -- ancestor-scoped guard check
+
+--- extracting finding via XPath ---
+    function : show_rps_map
+    position : 971:44
+
+    no taint source -- warning/smell
+    finding: /Users/afiaasante/Security-Code-Smells/linux/net/core/net-sysfs.c:971:44 -- show_rps_map() increments without MAX guard
+
+[ unchecked_increment ] 1 finding(s) written to /tmp/cwe190_findings_79mrDt
+========================================
+ Findings JSON
+========================================
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/net-sysfs.c",
+  "line": 1234,
+  "col": 50,
+  "varname": "rx_queue_add_kobject",
+  "note": {
+    "line": 1234,
+    "col": 50,
+    "message": "addition in rx_queue_add_kobject() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/core/net-sysfs.c",
+  "line": 971,
+  "col": 44,
+  "varname": "show_rps_map",
+  "note": {
+    "line": 971,
+    "col": 44,
+    "message": "increment (++) in show_rps_map() -- no upper-bound guard (INT_MAX check)"
+  }
+}
+
+========================================
+ Summary
+ Total findings : 2
+ Errors         : 0
+ Warnings       : 2
+
+ Breakdown by detector:
+   unchecked_add             1
+   unchecked_increment       1
+========================================

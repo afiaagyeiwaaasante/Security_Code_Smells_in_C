@@ -1,0 +1,45 @@
+{
+  "detector": "unchecked_multiply",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6mr.c",
+  "line": 360,
+  "col": 51,
+  "varname": "ip6mr_hash_cmp",
+  "note": {
+    "line": 360,
+    "col": 51,
+    "message": "multiplication in ip6mr_hash_cmp() -- no upper-bound guard (INT_MAX / 2)"
+  }
+}
+{
+  "detector": "unchecked_add",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6mr.c",
+  "line": 2546,
+  "col": 17,
+  "varname": "mr6_msgsize",
+  "note": {
+    "line": 2546,
+    "col": 17,
+    "message": "addition in mr6_msgsize() -- no upper-bound guard before adding"
+  }
+}
+{
+  "detector": "unchecked_increment",
+  "severity": "warning",
+  "classification": "smell",
+  "rule": "integerOverflow",
+  "file": "/Users/afiaasante/Security-Code-Smells/linux/net/ipv6/ip6mr.c",
+  "line": 517,
+  "col": 62,
+  "varname": "ipmr_mfc_seq_show",
+  "note": {
+    "line": 517,
+    "col": 62,
+    "message": "increment (++) in ipmr_mfc_seq_show() -- no upper-bound guard (INT_MAX check)"
+  }
+}
