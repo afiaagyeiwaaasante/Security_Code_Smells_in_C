@@ -1,0 +1,32 @@
+{
+"result-16-11-3e98f06c834cf24f5aa27a639b38cd1edaff88dd":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/get_macro/bad_gets_fnptr_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"bad_gets_fnptr",
+    "type":"char*",
+    "name":"result",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/get_macro/bad_gets_fnptr_01.c:16:11",
+    "dependence":[],
+    "aliases":[],
+    "calls":[],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/get_macro/bad_gets_fnptr_01.c:18:9"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/get_macro/bad_gets_fnptr_01.c:16:11","/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/get_macro/bad_gets_fnptr_01.c:17:5"]
+},
+"dest-14-10-3e98f06c834cf24f5aa27a639b38cd1edaff88dd":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/get_macro/bad_gets_fnptr_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"bad_gets_fnptr",
+    "type":"char[]",
+    "name":"dest",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/get_macro/bad_gets_fnptr_01.c:14:10",
+    "dependence":[{"result":"/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/get_macro/bad_gets_fnptr_01.c:17:21"}],
+    "aliases":[],
+    "calls":[{"functionName":"reader","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/get_macro/bad_gets_fnptr_01.c:17:14"},{"functionName":"printLine","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/get_macro/bad_gets_fnptr_01.c:19:5"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/get_macro/bad_gets_fnptr_01.c:17:21","/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/get_macro/bad_gets_fnptr_01.c:19:15"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/get_macro/bad_gets_fnptr_01.c:14:10"]
+}
+}

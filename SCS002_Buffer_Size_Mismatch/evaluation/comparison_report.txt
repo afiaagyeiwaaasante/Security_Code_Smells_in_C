@@ -1,40 +1,62 @@
 
-==============================================================================================================================
-  SCS002 CWE-680  Tool Comparison: SmellDetect vs cppcheck vs Joern
-==============================================================================================================================
-                                     |    Time  Mem Used  Detect |    Time  Mem Used  Detect |    Time  Mem Used  Detect
-Test Case                            |     --- SmellDetect ---     |      --- cppcheck ---       |        --- Joern ---       
-------------------------------------------------------------------------------------------------------------------------------
-bad_malloc_01                        |  0.330s   14.7 MB   FOUND |  0.000s    7.9 MB  MISSED |  4.580s  414.8 MB   FOUND
-good_malloc_01                       |  0.250s   14.7 MB  MISSED |  0.000s    8.0 MB  MISSED |  3.550s  451.6 MB  MISSED
-good_malloc_01_guarded               |  0.280s   14.6 MB  MISSED |  0.000s    7.9 MB  MISSED |  3.630s  415.4 MB   FOUND
-bad_malloc_fixed_01                  |  0.280s   14.7 MB   FOUND |  0.000s    8.0 MB  MISSED |  3.690s  469.7 MB   FOUND
-good_malloc_fixed_01                 |  0.290s   14.7 MB  MISSED |  0.000s    7.9 MB  MISSED |  3.610s  380.8 MB  MISSED
-good_malloc_fixed_01_guarded         |  0.280s   14.7 MB  MISSED |  0.000s    8.0 MB  MISSED |  3.510s  419.3 MB   FOUND
-bad_malloc_fgets_01                  |  0.290s   14.6 MB   FOUND |  0.000s    8.0 MB  MISSED |  3.630s  395.4 MB   FOUND
-good_malloc_fgets_01                 |  0.260s   14.6 MB  MISSED |  0.000s    8.0 MB  MISSED |  3.540s  419.2 MB  MISSED
-good_malloc_fgets_01_guarded         |  0.280s   14.7 MB  MISSED |  0.000s    8.0 MB  MISSED |  3.580s  456.5 MB   FOUND
-bad_malloc_rand_01                   |  0.290s   14.7 MB   FOUND |  0.000s    8.0 MB  MISSED |  3.720s  436.3 MB   FOUND
-good_malloc_rand_01                  |  0.250s   14.7 MB  MISSED |  0.000s    8.0 MB  MISSED |  3.640s  432.1 MB  MISSED
-good_malloc_rand_01_guarded          |  0.290s   14.6 MB  MISSED |  0.000s    8.0 MB  MISSED |  3.690s  469.8 MB   FOUND
-bad_malloc_precomputed_01            |  0.300s   14.6 MB   FOUND |  0.000s    8.0 MB  MISSED |  4.130s  415.4 MB  MISSED
-good_malloc_precomputed_01           |  0.290s   14.6 MB  MISSED |  0.000s    7.9 MB  MISSED |  3.590s  421.2 MB  MISSED
-bad_malloc_return_01                 |  0.300s   14.7 MB   FOUND |  0.000s    7.9 MB  MISSED |  3.620s  432.8 MB   FOUND
-good_malloc_interproc_01             |  0.260s   14.7 MB  MISSED |  0.000s    7.9 MB  MISSED |  3.670s  464.8 MB  MISSED
-bad_malloc_interproc_01              |  0.100s   14.7 MB   FOUND |  0.000s    8.0 MB  MISSED |  3.660s  426.1 MB   FOUND
-bad_malloc_struct_01                 |  0.280s   14.7 MB   FOUND |  0.000s    7.9 MB  MISSED |  3.670s  380.5 MB   FOUND
-good_malloc_struct_01                |  0.250s   14.6 MB  MISSED |  0.000s    7.9 MB  MISSED |  3.690s  430.9 MB  MISSED
-------------------------------------------------------------------------------------------------------------------------------
+=========================================================================================================================================
+  SCS002 CWE-680  TIER 1 — Smell Pattern Variants
+=========================================================================================================================================
+                                       |     Time       Mem    Result |     Time       Mem    Result |     Time       Mem    Result
+Test Case                              |      --- SmellDetect ---       |        --- cppcheck ---        |         --- Joern ---         
+-----------------------------------------------------------------------------------------------------------------------------------------
+bad_malloc_01                          |   0.350s   14.7 MB     FOUND |   0.010s    7.9 MB    MISSED |   4.810s  398.8 MB     FOUND
+good_malloc_01                         |   0.260s   14.7 MB    MISSED |   0.000s    7.9 MB    MISSED |   3.930s  415.2 MB    MISSED
+good_malloc_01_guarded                 |   0.310s   14.7 MB    MISSED |   0.000s    7.9 MB    MISSED |   3.830s  409.4 MB     FOUND
+bad_malloc_fixed_01                    |   0.310s   14.8 MB     FOUND |   0.000s    8.0 MB    MISSED |   3.720s  416.0 MB     FOUND
+good_malloc_fixed_01                   |   0.260s   14.7 MB    MISSED |   0.000s    7.9 MB    MISSED |   3.830s  422.8 MB    MISSED
+good_malloc_fixed_01_guarded           |   0.290s   14.6 MB    MISSED |   0.000s    8.0 MB    MISSED |   4.070s  410.3 MB     FOUND
+bad_malloc_fgets_01                    |   0.310s   14.6 MB     FOUND |   0.000s    8.0 MB    MISSED |   4.110s  427.9 MB     FOUND
+good_malloc_fgets_01                   |   0.270s   14.6 MB    MISSED |   0.000s    8.0 MB    MISSED |   4.130s  433.7 MB    MISSED
+good_malloc_fgets_01_guarded           |   0.300s   14.7 MB    MISSED |   0.000s    8.1 MB    MISSED |   3.980s  400.1 MB     FOUND
+bad_malloc_rand_01                     |   0.310s   14.7 MB     FOUND |   0.000s    7.9 MB    MISSED |   4.070s  426.3 MB     FOUND
+good_malloc_rand_01                    |   0.270s   14.7 MB    MISSED |   0.000s    7.9 MB    MISSED |   4.150s  416.0 MB    MISSED
+good_malloc_rand_01_guarded            |   0.300s   14.7 MB    MISSED |   0.000s    8.0 MB    MISSED |   4.170s  412.3 MB     FOUND
+bad_malloc_precomputed_01              |   0.300s   14.7 MB     FOUND |   0.000s    7.9 MB    MISSED |   3.860s  405.3 MB    MISSED
+good_malloc_precomputed_01             |   0.310s   14.7 MB    MISSED |   0.000s    8.0 MB    MISSED |   4.160s  427.6 MB    MISSED
+-----------------------------------------------------------------------------------------------------------------------------------------
 
-  Detected       : SmellDetect detected 8/19   cppcheck 0/19   Joern 11/19
-  Avg Memory Used  : SmellDetect 14.7 MB   cppcheck 8.0 MB   Joern 428.0 MB
+=========================================================================================================================================
+  SCS002 CWE-680  TIER 2 — Context Variants
+=========================================================================================================================================
+                                       |     Time       Mem    Result |     Time       Mem    Result |     Time       Mem    Result
+Test Case                              |      --- SmellDetect ---       |        --- cppcheck ---        |         --- Joern ---         
+-----------------------------------------------------------------------------------------------------------------------------------------
+bad_malloc_return_01                   |   0.300s   14.7 MB     FOUND |   0.000s    7.9 MB    MISSED |   4.180s  418.4 MB     FOUND
+good_malloc_interproc_01               |   0.300s   14.7 MB    MISSED |   0.000s    7.9 MB    MISSED |   3.730s  435.8 MB    MISSED
+bad_malloc_interproc_01                |   0.110s   14.7 MB     FOUND |   0.000s    7.9 MB    MISSED |   3.710s  430.8 MB     FOUND
+bad_malloc_struct_01                   |   0.300s   14.7 MB     FOUND |   0.010s    7.9 MB    MISSED |   3.770s  438.3 MB     FOUND
+good_malloc_struct_01                  |   0.260s   14.7 MB    MISSED |   0.000s    8.0 MB    MISSED |   3.780s  446.0 MB    MISSED
+-----------------------------------------------------------------------------------------------------------------------------------------
 
-                                  SmellDetect       cppcheck          Joern
-  True Positives  (TP)                      8              0              7
-  True Negatives  (TN)                     11             11              7
-  False Positives (FP)                      0              0              4
-  False Negatives (FN)                      0              8              1
-  Precision  TP/(TP+FP)                100.0%            N/A          63.6%
-  Recall     TP/(TP+FN)                100.0%           0.0%          87.5%
+=========================================================================================================================================
+  SCS002 CWE-680  TIER 3 — Known Limitation Cases (expected: MISSED)
+=========================================================================================================================================
+                                       |     Time       Mem    Result |     Time       Mem    Result |     Time       Mem    Result
+Test Case                              |      --- SmellDetect ---       |        --- cppcheck ---        |         --- Joern ---         
+-----------------------------------------------------------------------------------------------------------------------------------------
+bad_malloc_struct_precomp_01           |   0.250s   14.7 MB    MISSED |   0.000s    8.0 MB    MISSED |   3.790s  446.8 MB    MISSED
+good_malloc_struct_precomp_01          |   0.260s   14.7 MB    MISSED |   0.000s    8.0 MB    MISSED |   3.400s  358.1 MB    MISSED
+-----------------------------------------------------------------------------------------------------------------------------------------
 
-==============================================================================================================================
+=========================================================================================================================================
+  Metrics (Tier 1 + Tier 2 only; Tier 3 limitation cases excluded)
+=========================================================================================================================================
+                                        SmellDetect         cppcheck            Joern
+  True Positives  (TP)                            8                0                7
+  True Negatives  (TN)                           11               11                7
+  False Positives (FP)                            0                0                4
+  False Negatives (FN)                            0                8                1
+  Precision  TP/(TP+FP)                      100.0%              N/A            63.6%
+  Recall     TP/(TP+FN)                      100.0%             0.0%            87.5%
+  F1-score   2PR/(P+R)                       100.0%              N/A            73.7%
+
+  Avg wall time  : SmellDetect 0.282s    cppcheck 0.001s    Joern 3.961s
+  Avg memory     : SmellDetect 14.7 MB   cppcheck 8.0 MB   Joern 418.9 MB
+
+=========================================================================================================================================

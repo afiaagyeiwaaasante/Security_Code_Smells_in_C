@@ -2,11 +2,11 @@
 #include <limits.h>
 
 /* BAD: tainted size is stored in a struct field before being used in malloc.
- * The multiplication appears as (ctx.count * sizeof(int)) — the variable is
- * a struct member, not a plain local, so srcQL's $A * $B metavariable binding
- * does not match it.
- * Flow variant: single function, struct-member data source.
- * Expected: MISSED by SmellDetect (struct field access breaks pattern match). */
+ * The multiplication appears directly as malloc(ctx.count * sizeof(int)) —
+ * srcQL's $A * $B metavariable binds ctx.count to $A and sizeof(int) to $B,
+ * so this IS detected by Detector 1 (buffer_size_mismatch).
+ * Flow variant: single function, struct-member data source, direct multiply.
+ * Expected: FOUND by SmellDetect (direct malloc($A*$B) pattern matches). */
 typedef struct { int count; } Context;
 
 void bad_malloc_struct(void)

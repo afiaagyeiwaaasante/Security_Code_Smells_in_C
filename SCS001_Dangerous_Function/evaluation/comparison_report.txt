@@ -1,28 +1,57 @@
 
-==============================================================================================================================
-  SCS001 CWE-242  Tool Comparison: SmellDetect vs cppcheck vs Joern
-==============================================================================================================================
-                                     |    Time  Mem Used  Detect |    Time  Mem Used  Detect |    Time  Mem Used  Detect
-Test Case                            |     --- SmellDetect ---     |      --- cppcheck ---       |        --- Joern ---       
-------------------------------------------------------------------------------------------------------------------------------
-bad_gets_01                          |  0.310s   14.7 MB   FOUND |  0.010s    7.9 MB   FOUND |  4.050s  364.3 MB   FOUND
-good_gets_01                         |  0.240s   14.7 MB  MISSED |  0.000s    7.9 MB  MISSED |  3.350s  431.8 MB  MISSED
-bad_gets_interprocedural_62          |  0.070s   14.7 MB   FOUND |  0.000s    8.0 MB   FOUND |  3.330s  396.5 MB   FOUND
-bad_gets_multi_01                    |  0.300s   14.7 MB   FOUND |  0.000s    8.0 MB   FOUND |  3.470s  364.1 MB   FOUND
-bad_gets_multi_02                    |  0.280s   14.8 MB   FOUND |  0.000s    7.9 MB   FOUND |  3.510s  466.0 MB   FOUND
-bad_gets_mixed_01                    |  0.270s   14.7 MB   FOUND |  0.000s    7.9 MB   FOUND |  3.520s  416.0 MB   FOUND
-------------------------------------------------------------------------------------------------------------------------------
+=========================================================================================================================================
+  SCS001 CWE-242  TIER 1 — Smell Function Variants
+=========================================================================================================================================
+                                       |     Time       Mem    Result |     Time       Mem    Result |     Time       Mem    Result
+Test Case                              |      --- SmellDetect ---       |        --- cppcheck ---        |         --- Joern ---         
+-----------------------------------------------------------------------------------------------------------------------------------------
+bad_gets_01                            |   0.310s   15.0 MB     FOUND |   0.010s    8.0 MB     FOUND |   3.760s  413.3 MB     FOUND
+good_gets_01                           |   0.260s   14.9 MB    MISSED |   0.000s    8.0 MB    MISSED |   3.440s  423.7 MB    MISSED
+bad_strcpy_01                          |   0.270s   15.0 MB     FOUND |   0.000s    7.9 MB    MISSED |   3.420s  422.8 MB     FOUND
+good_strcpy_01                         |   0.260s   14.9 MB    MISSED |   0.000s    7.8 MB    MISSED |   3.840s  364.5 MB    MISSED
+bad_strcat_01                          |   0.260s   14.9 MB     FOUND |   0.000s    7.8 MB    MISSED |   3.360s  361.5 MB     FOUND
+good_strcat_01                         |   0.270s   14.9 MB    MISSED |   0.000s    7.8 MB    MISSED |   3.370s  380.6 MB    MISSED
+bad_sprintf_01                         |   0.270s   14.9 MB     FOUND |   0.000s    7.8 MB    MISSED |   3.600s  366.9 MB     FOUND
+good_sprintf_01                        |   0.290s   14.9 MB    MISSED |   0.000s    7.8 MB    MISSED |   3.580s  367.8 MB    MISSED
+bad_scanf_01                           |   0.260s   14.9 MB     FOUND |   0.000s    7.8 MB     FOUND |   3.470s  446.4 MB     FOUND
+good_scanf_01                          |   0.270s   14.9 MB    MISSED |   0.000s    7.8 MB    MISSED |   3.700s  408.7 MB     FOUND
+-----------------------------------------------------------------------------------------------------------------------------------------
 
-  Detected       : SmellDetect detected 5/6   cppcheck 5/6   Joern 5/6
-  Avg Run Time : SmellDetect 0.245s   cppcheck 0.010s   Joern 3.538s
-  Avg Memory Used  : SmellDetect 14.7 MB   cppcheck 7.9 MB   Joern 406.4 MB
+=========================================================================================================================================
+  SCS001 CWE-242  TIER 2 — Context Variants
+=========================================================================================================================================
+                                       |     Time       Mem    Result |     Time       Mem    Result |     Time       Mem    Result
+Test Case                              |      --- SmellDetect ---       |        --- cppcheck ---        |         --- Joern ---         
+-----------------------------------------------------------------------------------------------------------------------------------------
+bad_gets_interprocedural_62            |   0.070s   14.9 MB     FOUND |   0.000s    8.0 MB     FOUND |   3.640s  421.0 MB     FOUND
+bad_gets_multi_01                      |   0.260s   14.9 MB     FOUND |   0.000s    7.9 MB     FOUND |   3.630s  436.3 MB     FOUND
+bad_gets_multi_02                      |   0.250s   14.9 MB     FOUND |   0.000s    8.0 MB     FOUND |   3.780s  428.7 MB     FOUND
+bad_gets_mixed_01                      |   0.270s   14.9 MB     FOUND |   0.000s    7.9 MB     FOUND |   3.620s  450.4 MB     FOUND
+-----------------------------------------------------------------------------------------------------------------------------------------
 
-                                  SmellDetect       cppcheck          Joern
-  True Positives  (TP)                      5              5              5
-  True Negatives  (TN)                      1              1              1
-  False Positives (FP)                      0              0              0
-  False Negatives (FN)                      0              0              0
-  Precision  TP/(TP+FP)                100.0%         100.0%         100.0%
-  Recall     TP/(TP+FN)                100.0%         100.0%         100.0%
+=========================================================================================================================================
+  SCS001 CWE-242  TIER 3 — Known Limitation Cases (expected: MISSED)
+=========================================================================================================================================
+                                       |     Time       Mem    Result |     Time       Mem    Result |     Time       Mem    Result
+Test Case                              |      --- SmellDetect ---       |        --- cppcheck ---        |         --- Joern ---         
+-----------------------------------------------------------------------------------------------------------------------------------------
+bad_gets_macro_01                      |   0.260s   14.9 MB    MISSED |   0.000s    8.0 MB     FOUND |   3.830s  386.9 MB     FOUND
+bad_gets_fnptr_01                      |   0.250s   14.9 MB    MISSED |   0.000s    7.9 MB    MISSED |   3.840s  408.4 MB    MISSED
+-----------------------------------------------------------------------------------------------------------------------------------------
 
-==============================================================================================================================
+=========================================================================================================================================
+  Metrics (Tier 1 + Tier 2 only; Tier 3 limitation cases excluded)
+=========================================================================================================================================
+                                        SmellDetect         cppcheck            Joern
+  True Positives  (TP)                            9                6                9
+  True Negatives  (TN)                            5                5                4
+  False Positives (FP)                            0                0                1
+  False Negatives (FN)                            0                3                0
+  Precision  TP/(TP+FP)                      100.0%           100.0%            90.0%
+  Recall     TP/(TP+FN)                      100.0%            66.7%           100.0%
+  F1-score   2PR/(P+R)                       100.0%            80.0%            94.7%
+
+  Avg wall time  : SmellDetect 0.255s    cppcheck 0.001s    Joern 3.618s
+  Avg memory     : SmellDetect 14.9 MB   cppcheck 7.9 MB   Joern 405.5 MB
+
+=========================================================================================================================================

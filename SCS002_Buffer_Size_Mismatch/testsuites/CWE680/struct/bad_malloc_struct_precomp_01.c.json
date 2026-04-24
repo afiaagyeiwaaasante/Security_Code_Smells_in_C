@@ -1,0 +1,32 @@
+{
+"p-20-10-f04b9d60327202bee8b445304092627c399ede03":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS002_Buffer_Size_Mismatch/testsuites/CWE680/struct/bad_malloc_struct_precomp_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"bad_malloc_struct_precomp",
+    "type":"int*",
+    "name":"p",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS002_Buffer_Size_Mismatch/testsuites/CWE680/struct/bad_malloc_struct_precomp_01.c:20:10",
+    "dependence":[],
+    "aliases":[],
+    "calls":[{"functionName":"free","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS002_Buffer_Size_Mismatch/testsuites/CWE680/struct/bad_malloc_struct_precomp_01.c:22:5"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS002_Buffer_Size_Mismatch/testsuites/CWE680/struct/bad_malloc_struct_precomp_01.c:21:9","/Users/afiaasante/Security-Code-Smells/SCS002_Buffer_Size_Mismatch/testsuites/CWE680/struct/bad_malloc_struct_precomp_01.c:22:10"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS002_Buffer_Size_Mismatch/testsuites/CWE680/struct/bad_malloc_struct_precomp_01.c:20:10"]
+},
+"ctx-17-13-f04b9d60327202bee8b445304092627c399ede03":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS002_Buffer_Size_Mismatch/testsuites/CWE680/struct/bad_malloc_struct_precomp_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"bad_malloc_struct_precomp",
+    "type":"Context",
+    "name":"ctx",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS002_Buffer_Size_Mismatch/testsuites/CWE680/struct/bad_malloc_struct_precomp_01.c:17:13",
+    "dependence":[{"size_t":"/Users/afiaasante/Security-Code-Smells/SCS002_Buffer_Size_Mismatch/testsuites/CWE680/struct/bad_malloc_struct_precomp_01.c:19:22"},{"p":"/Users/afiaasante/Security-Code-Smells/SCS002_Buffer_Size_Mismatch/testsuites/CWE680/struct/bad_malloc_struct_precomp_01.c:20:28"}],
+    "aliases":[],
+    "calls":[{"functionName":"malloc","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS002_Buffer_Size_Mismatch/testsuites/CWE680/struct/bad_malloc_struct_precomp_01.c:20:21"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS002_Buffer_Size_Mismatch/testsuites/CWE680/struct/bad_malloc_struct_precomp_01.c:19:22","/Users/afiaasante/Security-Code-Smells/SCS002_Buffer_Size_Mismatch/testsuites/CWE680/struct/bad_malloc_struct_precomp_01.c:20:28"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS002_Buffer_Size_Mismatch/testsuites/CWE680/struct/bad_malloc_struct_precomp_01.c:17:13","/Users/afiaasante/Security-Code-Smells/SCS002_Buffer_Size_Mismatch/testsuites/CWE680/struct/bad_malloc_struct_precomp_01.c:18:5","/Users/afiaasante/Security-Code-Smells/SCS002_Buffer_Size_Mismatch/testsuites/CWE680/struct/bad_malloc_struct_precomp_01.c:19:5"]
+}
+}

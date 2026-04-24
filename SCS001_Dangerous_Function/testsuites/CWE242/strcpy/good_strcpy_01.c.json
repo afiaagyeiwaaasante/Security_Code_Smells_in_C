@@ -1,0 +1,32 @@
+{
+"src-9-10-277cbb04646e4a0f5ec583bafe97a99b7104c20e":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/strcpy/good_strcpy_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"good_strcpy",
+    "type":"char[]",
+    "name":"src",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/strcpy/good_strcpy_01.c:9:10",
+    "dependence":[],
+    "aliases":[],
+    "calls":[{"functionName":"strncpy","parameter":"2","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/strcpy/good_strcpy_01.c:13:5"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/strcpy/good_strcpy_01.c:13:19"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/strcpy/good_strcpy_01.c:9:10"]
+},
+"dest-8-10-277cbb04646e4a0f5ec583bafe97a99b7104c20e":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/strcpy/good_strcpy_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"good_strcpy",
+    "type":"char[]",
+    "name":"dest",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/strcpy/good_strcpy_01.c:8:10",
+    "dependence":[],
+    "aliases":[],
+    "calls":[{"functionName":"strncpy","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/strcpy/good_strcpy_01.c:13:5"},{"functionName":"printLine","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/strcpy/good_strcpy_01.c:15:5"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/strcpy/good_strcpy_01.c:13:13","/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/strcpy/good_strcpy_01.c:15:15"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/strcpy/good_strcpy_01.c:8:10","/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/strcpy/good_strcpy_01.c:14:5"]
+}
+}

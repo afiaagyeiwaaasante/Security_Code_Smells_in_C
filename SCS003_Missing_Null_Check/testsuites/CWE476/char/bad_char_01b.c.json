@@ -1,17 +1,17 @@
 {
 "data-19-11-066831064760284e0d208147368d48d5e8189a8b":{
-    "file":"char/bad_char_01b.c",
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS003_Missing_Null_Check/testsuites/CWE476/char/bad_char_01b.c",
     "language":"C",
     "namespace":[],
     "class":"",
     "function":"bad_char_null_deref",
     "type":"char*",
     "name":"data",
-    "initial":"char/bad_char_01b.c:19:11",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS003_Missing_Null_Check/testsuites/CWE476/char/bad_char_01b.c:19:11",
     "dependence":[],
     "aliases":[],
-    "calls":[{"functionName":"printHexCharLine","parameter":"1","definitionPosition":"","invoke":"char/bad_char_01b.c:25:5"}],
-    "use":["char/bad_char_01b.c:25:22"],
-    "definition":["char/bad_char_01b.c:19:11","char/bad_char_01b.c:22:5"]
+    "calls":[{"functionName":"printHexCharLine","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS003_Missing_Null_Check/testsuites/CWE476/char/bad_char_01b.c:25:5"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS003_Missing_Null_Check/testsuites/CWE476/char/bad_char_01b.c:25:22"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS003_Missing_Null_Check/testsuites/CWE476/char/bad_char_01b.c:19:11","/Users/afiaasante/Security-Code-Smells/SCS003_Missing_Null_Check/testsuites/CWE476/char/bad_char_01b.c:22:5"]
 }
 }

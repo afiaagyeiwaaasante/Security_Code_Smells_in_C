@@ -31,12 +31,12 @@ run_case() {
 
     echo "--- $TEST_NAME ---"
 
-    # Build a temp Scala script that imports the source and queries gets()
+    # Build a temp Scala script that imports the source and queries all dangerous functions
     local SCALA_SCRIPT
     SCALA_SCRIPT=$(mktemp /tmp/joern_script_XXXXXX.sc)
     cat > "$SCALA_SCRIPT" << EOF
 importCode("${SOURCE_PATH}")
-val hits = cpg.call.name("gets").l
+val hits = cpg.call.name("gets", "strcpy", "strcat", "sprintf", "vsprintf", "scanf", "sscanf").l
 val detected = hits.nonEmpty
 println(s"JOERN_RESULT:\$detected")
 EOF
@@ -71,22 +71,33 @@ EOF
     rm -f "$SCALA_SCRIPT" "$TMPOUT" "$TIMEFILE"
 }
 
-# -----------------------------------------------------------------------
-# Single-file test cases
-# -----------------------------------------------------------------------
-run_case "bad_gets_01" \
-    "$TESTSUITE/gets/bad_gets_01.c" \
-    '["bad_gets_01.c"]'
+# =======================================================================
+# TIER 1 — Smell function variants
+# =======================================================================
+echo "=== TIER 1: Smell function variants ==="
 
-run_case "good_gets_01" \
-    "$TESTSUITE/gets/good_gets_01.c" \
-    '["good_gets_01.c"]'
+run_case "bad_gets_01"    "$TESTSUITE/gets/bad_gets_01.c"    '["bad_gets_01.c"]'
+run_case "good_gets_01"   "$TESTSUITE/gets/good_gets_01.c"   '["good_gets_01.c"]'
 
-# -----------------------------------------------------------------------
-# Multi-file interprocedural case
-# Joern's importCode on a directory builds a cross-file CPG — this is
-# where Joern has an advantage over single-file tools.
-# -----------------------------------------------------------------------
+run_case "bad_strcpy_01"  "$TESTSUITE/strcpy/bad_strcpy_01.c"  '["bad_strcpy_01.c"]'
+run_case "good_strcpy_01" "$TESTSUITE/strcpy/good_strcpy_01.c" '["good_strcpy_01.c"]'
+
+run_case "bad_strcat_01"  "$TESTSUITE/strcat/bad_strcat_01.c"  '["bad_strcat_01.c"]'
+run_case "good_strcat_01" "$TESTSUITE/strcat/good_strcat_01.c" '["good_strcat_01.c"]'
+
+run_case "bad_sprintf_01"  "$TESTSUITE/sprintf/bad_sprintf_01.c"  '["bad_sprintf_01.c"]'
+run_case "good_sprintf_01" "$TESTSUITE/sprintf/good_sprintf_01.c" '["good_sprintf_01.c"]'
+
+run_case "bad_scanf_01"   "$TESTSUITE/scanf/bad_scanf_01.c"   '["bad_scanf_01.c"]'
+run_case "good_scanf_01"  "$TESTSUITE/scanf/good_scanf_01.c"  '["good_scanf_01.c"]'
+
+# =======================================================================
+# TIER 2 — Context variants
+# =======================================================================
+echo "=== TIER 2: Context variants ==="
+
+# Multi-file interprocedural case — Joern's importCode on a directory
+# builds a cross-file CPG, so it can track gets() across call boundaries.
 TMPDIR_INTERPROC=$(mktemp -d /tmp/joern_interproc_XXXXXX)
 cp "$TESTSUITE/interprocedural/bad_gets_interprocedural_62a.c" "$TMPDIR_INTERPROC/"
 cp "$TESTSUITE/interprocedural/bad_gets_interprocedural_62b.c" "$TMPDIR_INTERPROC/"
@@ -98,20 +109,17 @@ run_case "bad_gets_interprocedural_62" \
 
 rm -rf "$TMPDIR_INTERPROC"
 
-# -----------------------------------------------------------------------
-# Multi-instance test cases
-# -----------------------------------------------------------------------
-run_case "bad_gets_multi_01" \
-    "$TESTSUITE/multi/bad_gets_multi_01.c" \
-    '["bad_gets_multi_01.c"]'
+run_case "bad_gets_multi_01" "$TESTSUITE/multi/bad_gets_multi_01.c" '["bad_gets_multi_01.c"]'
+run_case "bad_gets_multi_02" "$TESTSUITE/multi/bad_gets_multi_02.c" '["bad_gets_multi_02.c"]'
+run_case "bad_gets_mixed_01" "$TESTSUITE/multi/bad_gets_mixed_01.c" '["bad_gets_mixed_01.c"]'
 
-run_case "bad_gets_multi_02" \
-    "$TESTSUITE/multi/bad_gets_multi_02.c" \
-    '["bad_gets_multi_02.c"]'
+# =======================================================================
+# TIER 3 — Known limitation cases
+# =======================================================================
+echo "=== TIER 3: Known limitation cases ==="
 
-run_case "bad_gets_mixed_01" \
-    "$TESTSUITE/multi/bad_gets_mixed_01.c" \
-    '["bad_gets_mixed_01.c"]'
+run_case "bad_gets_macro_01" "$TESTSUITE/get_macro/bad_gets_macros_01.c" '["bad_gets_macros_01.c"]'
+run_case "bad_gets_fnptr_01" "$TESTSUITE/get_macro/bad_gets_fnptr_01.c"  '["bad_gets_fnptr_01.c"]'
 
 echo "========================================"
 echo " Results saved to: $RESULTS"

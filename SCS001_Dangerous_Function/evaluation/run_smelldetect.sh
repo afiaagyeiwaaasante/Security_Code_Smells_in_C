@@ -30,11 +30,13 @@ echo
 # -----------------------------------------------------------------------
 run_case() {
     local TEST_NAME="$1"
-    local MODE="$2"          # single | multi
-    shift 2
+    local TIER="$2"
+    local EXPECTED="$3"
+    local MODE="$4"          # single | multi
+    shift 4
     local FILES=("$@")
 
-    echo "--- $TEST_NAME ---"
+    echo "--- [$TIER] $TEST_NAME (expected: $EXPECTED) ---"
 
     local TMPOUT TIMEFILE
     TMPOUT=$(mktemp /tmp/smelldetect_out_XXXXXX)
@@ -73,8 +75,8 @@ run_case() {
     done
     FILES_JSON+="]"
 
-    printf '{"test":"%s","files":%s,"detected":%s,"finding_count":%s,"wall_time_s":%s,"peak_rss_kb":%s}\n' \
-        "$TEST_NAME" "$FILES_JSON" "$DETECTED" "$FINDING_COUNT" "$WALL_TIME" "$PEAK_RSS_KB" \
+    printf '{"test":"%s","tier":"%s","expected":"%s","files":%s,"detected":%s,"finding_count":%s,"wall_time_s":%s,"peak_rss_kb":%s}\n' \
+        "$TEST_NAME" "$TIER" "$EXPECTED" "$FILES_JSON" "$DETECTED" "$FINDING_COUNT" "$WALL_TIME" "$PEAK_RSS_KB" \
         >> "$RESULTS"
 
     echo "    detected      : $DETECTED"
@@ -90,24 +92,50 @@ run_case() {
 # Test cases
 # -----------------------------------------------------------------------
 
-# --- Baseline ---
-run_case "bad_gets_01"   single "$TESTSUITE/gets/bad_gets_01.c"
-run_case "good_gets_01"  single "$TESTSUITE/gets/good_gets_01.c"
+echo "=== TIER 1: Smell function variants ==="
+echo
 
-# --- Interprocedural ---
-run_case "bad_gets_interprocedural_62" multi \
+run_case "bad_gets_01"    "tier1" "bad"  single "$TESTSUITE/gets/bad_gets_01.c"
+run_case "good_gets_01"   "tier1" "good" single "$TESTSUITE/gets/good_gets_01.c"
+
+run_case "bad_strcpy_01"  "tier1" "bad"  single "$TESTSUITE/strcpy/bad_strcpy_01.c"
+run_case "good_strcpy_01" "tier1" "good" single "$TESTSUITE/strcpy/good_strcpy_01.c"
+
+run_case "bad_strcat_01"  "tier1" "bad"  single "$TESTSUITE/strcat/bad_strcat_01.c"
+run_case "good_strcat_01" "tier1" "good" single "$TESTSUITE/strcat/good_strcat_01.c"
+
+run_case "bad_sprintf_01" "tier1" "bad"  single "$TESTSUITE/sprintf/bad_sprintf_01.c"
+run_case "good_sprintf_01" "tier1" "good" single "$TESTSUITE/sprintf/good_sprintf_01.c"
+
+run_case "bad_scanf_01"   "tier1" "bad"  single "$TESTSUITE/scanf/bad_scanf_01.c"
+run_case "good_scanf_01"  "tier1" "good" single "$TESTSUITE/scanf/good_scanf_01.c"
+
+echo "=== TIER 2: Context variants ==="
+echo
+
+# Interprocedural: both files combined so srcQL can see across them
+run_case "bad_gets_interprocedural_62" "tier2" "bad" multi \
     "$TESTSUITE/interprocedural/bad_gets_interprocedural_62a.c" \
     "$TESTSUITE/interprocedural/bad_gets_interprocedural_62b.c"
 
-# --- Multi-instance: verify all occurrences are reported ---
+# Multi-instance: verify all occurrences are reported
 # bad_gets_multi_01: 3 functions each calling gets() — expect 3 findings
-run_case "bad_gets_multi_01" single "$TESTSUITE/multi/bad_gets_multi_01.c"
+run_case "bad_gets_multi_01" "tier2" "bad" single "$TESTSUITE/multi/bad_gets_multi_01.c"
 
 # bad_gets_multi_02: 1 function calling gets() twice — expect 2 findings
-run_case "bad_gets_multi_02" single "$TESTSUITE/multi/bad_gets_multi_02.c"
+run_case "bad_gets_multi_02" "tier2" "bad" single "$TESTSUITE/multi/bad_gets_multi_02.c"
 
 # bad_gets_mixed_01: 1 bad function (gets) + 1 good function (fgets) — expect 1 finding
-run_case "bad_gets_mixed_01" single "$TESTSUITE/multi/bad_gets_mixed_01.c"
+run_case "bad_gets_mixed_01" "tier2" "bad" single "$TESTSUITE/multi/bad_gets_mixed_01.c"
+
+echo "=== TIER 3: Known limitation cases (expected: missed) ==="
+echo
+
+# Macro-wrapped gets() — srcML does not expand macros before parsing
+run_case "bad_gets_macro_01" "tier3" "bad" single "$TESTSUITE/get_macro/bad_gets_macros_01.c"
+
+# Function-pointer alias — name-based srcQL cannot resolve the pointer target
+run_case "bad_gets_fnptr_01" "tier3" "bad" single "$TESTSUITE/get_macro/bad_gets_fnptr_01.c"
 
 echo "========================================"
 echo " Results saved to: $RESULTS"

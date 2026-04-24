@@ -1,123 +1,208 @@
 #!/usr/bin/env bash
-# detectors/detect_dangerous_function.sh <annotated.xml> <source.c> <findings.json>
+# SCS001 — detect_dangerous_function.sh
+# Detects calls to inherently dangerous C functions (CWE-242, CWE-120).
 #
-# Detector 1: dangerous_function
-# Detects: calls to inherently dangerous C functions that have no safe variant
-#           Covers: gets, strcpy, strcat, sprintf, vsprintf, scanf, sscanf
-# Severity: error [dangerousFunction]
+# Usage:
+#   bash detect_dangerous_function.sh <annotated.xml> <source.c> <findings.json>
 #
-# Strategy:
-#   srcQL UNION query matches any function body containing a call to one of the
-#   banned functions in a single pass.
+# Pipeline:
+#   1. Build a srcQL UNION query covering all dangerous functions
+#   2. Run srcql against the annotated XML
+#   3. Extract call-site positions via XPath (xmllint)
+#   4. Build one JSON finding per call site (Python)
 #
-#   Position extraction (XPath on srcQL result):
-#   - Call site     : pos:start of the dangerous call          → finding
-#   - Variable name : first argument passed to the call
-#
-# Requires: srcml, xmllint
+# Known limitations:
+#   - Macro-wrapped calls: srcML parses pre-expansion text; the call node
+#     name is the macro name, not the function name. Not matched.
+#   - Function pointer aliases: the call node name is the pointer variable.
+#     Not matched by name-based srcQL.
+set -e
 
-source "$(dirname "$0")/../../../shared/lib/write_finding.sh"
-
-XML=$1
-SRC=$2
-FINDINGS=$3
+XML="$1"
+SRC="$2"
+FINDINGS_OUT="$3"
 
 echo "=== Detector 1: dangerous_function ==="
 echo "    input  : $XML"
-echo "    output : $FINDINGS"
+echo "    output : $FINDINGS_OUT"
 echo
 
-QUERY='FIND $T $FUNC($PARAMS) {} CONTAINS gets($DEST) UNION FIND $T $FUNC($PARAMS) {} CONTAINS strcpy($DST, $SRC) UNION FIND $T $FUNC($PARAMS) {} CONTAINS strcat($DST, $SRC) UNION FIND $T $FUNC($PARAMS) {} CONTAINS sprintf($BUF, $FMT) UNION FIND $T $FUNC($PARAMS) {} CONTAINS vsprintf($BUF, $FMT, $AP) UNION FIND $T $FUNC($PARAMS) {} CONTAINS scanf($FMT, $BUF) UNION FIND $T $FUNC($PARAMS) {} CONTAINS sscanf($STR, $FMT, $BUF)'
+# -----------------------------------------------------------------------
+# Dangerous function catalogue
+# Parallel arrays — portable on bash 3 (macOS) and bash 4+.
+# Each index position ties together: function name, safe alternative,
+# and the human-readable note emitted in the finding.
+# -----------------------------------------------------------------------
+FUNC_NAMES=(   "gets"     "strcpy"                        "strcat"                            "sprintf"                        "vsprintf"                          "scanf"                                    "sscanf"                              )
+FUNC_ALTS=(    "fgets(\$dest, size, stdin)"
+               "strncpy(\$dst, \$src, n) or strlcpy"
+               "strncat(\$dst, \$src, remaining)"
+               "snprintf(\$buf, size, \$fmt, ...)"
+               "vsnprintf(\$buf, size, \$fmt, \$ap)"
+               "scanf with explicit field width (e.g. \"%Ns\")"
+               "sscanf with explicit field width"             )
+FUNC_PARAMS=(  "\$DEST"
+               "\$DST, \$SRC"
+               "\$DST, \$SRC"
+               "\$BUF, \$FMT"
+               "\$BUF, \$FMT, \$AP"
+               "\$FMT, \$BUF"
+               "\$STR, \$FMT, \$BUF"                         )
+
+# -----------------------------------------------------------------------
+# Stage 2: build the srcQL UNION query from the catalogue
+# -----------------------------------------------------------------------
+QUERY=""
+for i in "${!FUNC_NAMES[@]}"; do
+    FUNC="${FUNC_NAMES[$i]}"
+    PARAMS="${FUNC_PARAMS[$i]}"
+    PART="FIND \$T \$FUNC(\$PARAMS) {} CONTAINS ${FUNC}(${PARAMS})"
+    if [ -z "$QUERY" ]; then
+        QUERY="$PART"
+    else
+        QUERY="$QUERY UNION $PART"
+    fi
+done
 
 echo "    query  : $QUERY"
 echo
 
-# -----------------------------------------------------------------------
-# Run the srcQL query
-# -----------------------------------------------------------------------
-TMPRESULT=$(mktemp /tmp/df_result_XXXXXX)
+# Run srcql; capture the result XML in a temp file
+TMPRESULT=$(mktemp /tmp/srcql_result_XXXXXX.xml)
 trap "rm -f $TMPRESULT" EXIT
 
 { time srcml "$XML" --srcql "$QUERY" -q > "$TMPRESULT"; } 2>&1
 echo
 
-if [ -z "$(grep '<function' "$TMPRESULT")" ]; then
-    echo "[ dangerous_function ] No smell detected."
-    exit 0
-fi
-
 # -----------------------------------------------------------------------
-# Extract filename
+# Stage 3: extract positions and build findings
 # -----------------------------------------------------------------------
 echo "--- extracting positions ---"
+echo "--- building findings ---"
 
-FILENAME=$(xmllint --xpath \
-    'string(//*[local-name()="unit"]/@filename)' "$TMPRESULT" 2>/dev/null)
+> "$FINDINGS_OUT"
 
-# -----------------------------------------------------------------------
-# Extract ALL dangerous call positions — one LINE:COL:FUNCNAME:VARNAME per occurrence
-# -----------------------------------------------------------------------
-POSITIONS=$(python3 << PYEOF
+python3 - "$TMPRESULT" "$XML" "$FINDINGS_OUT" \
+    "${FUNC_NAMES[@]}" \
+    << 'PYEOF'
+import sys
 import re
+import json
 
-BANNED = {"gets", "strcpy", "strcat", "sprintf", "vsprintf", "scanf", "sscanf"}
+result_xml  = sys.argv[1]   # srcql output XML (matched function bodies)
+source_xml  = sys.argv[2]   # original annotated XML (for filename lookup)
+findings_out = sys.argv[3]
+# remaining args: the function names from the catalogue
+func_names  = sys.argv[4:]
 
-with open("$TMPRESULT") as f:
-    content = f.read()
+# Read the srcql result XML as plain text; use regex to extract:
+#   - The filename from the enclosing <unit filename="..."> attribute
+#   - Every <call pos:start="LINE:COL"><name>FUNC</name>... occurrence
+#   - The first argument name inside <argument_list><argument><expr><name>
 
-CALL_RE = re.compile(
-    r'<call\b[^>]*pos:start="(\d+):(\d+)"[^>]*>'
-    r'\s*<name[^>]*>\s*(\w+)\s*</name>'
-    r'.*?<argument\b[^>]*>.*?<name[^>]*>([^<\s]+)</name>',
+content = open(result_xml).read()
+
+# Filename: take from the first unit/@filename in the result, or fall back
+# to the source XML filename attribute
+filename = "?"
+fn_match = re.search(r'<unit[^>]+filename="([^"]+)"', content)
+if fn_match:
+    filename = fn_match.group(1)
+else:
+    src_content = open(source_xml).read()
+    fn_match2 = re.search(r'<unit[^>]+filename="([^"]+)"', src_content)
+    if fn_match2:
+        filename = fn_match2.group(1)
+
+# Pattern: <call pos:start="L:C"...><name ...>FUNCNAME</name>...<argument_list>(<argument><expr><name>VAR</name>
+CALL_PAT = re.compile(
+    r'<call[^>]+pos:start="(\d+):(\d+)"[^>]*>'   # call element with position
+    r'(?:.*?)'                                     # anything between call and name
+    r'<name[^>]*>([^<]+)</name>',                  # function name
     re.DOTALL
 )
 
-for m in CALL_RE.finditer(content):
-    dangerous_func = m.group(3).strip()
-    if dangerous_func in BANNED:
-        print(f"{m.group(1)}:{m.group(2)}:{dangerous_func}:{m.group(4).strip()}")
-PYEOF
+# For each matched call that names a dangerous function, extract varname from
+# the first argument
+ARG_PAT = re.compile(
+    r'<argument_list[^>]*>\('                      # opening of argument list
+    r'.*?<argument[^>]*>.*?<expr[^>]*>.*?<name[^>]*>([^<]+)</name>',
+    re.DOTALL
 )
 
-if [ -z "$POSITIONS" ]; then
-    echo "    warning: could not determine call sites — skipping"
-    echo "[ dangerous_function ] 0 finding(s) written to $FINDINGS"
-    exit 0
-fi
+findings = []
+finding_num = 0
 
-# -----------------------------------------------------------------------
-# Emit one finding per dangerous call
-# -----------------------------------------------------------------------
-echo "--- building findings ---"
+for call_match in CALL_PAT.finditer(content):
+    line_str, col_str, called_name = call_match.groups()
+    called_name = called_name.strip()
 
-declare -A REPLACEMENT
-REPLACEMENT[gets]="fgets(buf, size, stdin)"
-REPLACEMENT[strcpy]="strncpy(dst, src, n) or strlcpy"
-REPLACEMENT[strcat]="strncat(dst, src, n) or strlcat"
-REPLACEMENT[sprintf]="snprintf(buf, size, fmt, ...)"
-REPLACEMENT[vsprintf]="vsnprintf(buf, size, fmt, ap)"
-REPLACEMENT[scanf]="scanf with explicit width (e.g. \"%Ns\")"
-REPLACEMENT[sscanf]="sscanf with explicit width (e.g. \"%Ns\")"
+    if called_name not in func_names:
+        continue
 
-COUNT=0
-while IFS=: read -r CALL_LINE CALL_COL DANGEROUS_FUNC VARNAME; do
-    COUNT=$((COUNT + 1))
-    REPL="${REPLACEMENT[$DANGEROUS_FUNC]:-a safe bounded alternative}"
-    write_finding \
-        --findings  "$FINDINGS" \
-        --detector  "dangerous_function" \
-        --severity  "error" \
-        --classification  "vulnerability" \
-        --rule      "dangerousFunction" \
-        --file      "$FILENAME" \
-        --line      "$CALL_LINE" \
-        --col       "$CALL_COL" \
-        --varname   "${VARNAME:-$DANGEROUS_FUNC}" \
-        --note-line "$CALL_LINE" \
-        --note-col  "$CALL_COL" \
-        --note-msg  "${DANGEROUS_FUNC}() is dangerous — use ${REPL} instead"
-    echo "    finding $COUNT: ${FILENAME}:${CALL_LINE}:${CALL_COL} — ${DANGEROUS_FUNC}(${VARNAME})"
-done <<< "$POSITIONS"
+    line = int(line_str)
+    col  = int(col_str)
 
-echo
-echo "[ dangerous_function ] $COUNT finding(s) written to $FINDINGS"
+    # Extract the call body up to </call> for argument inspection
+    call_start = call_match.start()
+    call_end   = content.find('</call>', call_start)
+    call_body  = content[call_start:call_end] if call_end != -1 else content[call_start:]
+
+    # For scanf/sscanf: only flag if the format string literal contains a
+    # bare %s with no explicit width. A bounded specifier like %9s is safe.
+    # If the format is a macro/variable (no literal node), flag conservatively.
+    if called_name in ("scanf", "sscanf"):
+        fmt_lit = re.search(
+            r'<argument_list[^>]*>\(.*?<argument[^>]*>.*?<literal[^>]*type="string"[^>]*>([^<]+)</literal>',
+            call_body, re.DOTALL
+        )
+        if fmt_lit:
+            fmt_val = fmt_lit.group(1)
+            if re.search(r'%\d+s', fmt_val):
+                continue  # explicit width — safe, skip
+
+    varname = "?"
+    arg_match = ARG_PAT.search(call_body)
+    if arg_match:
+        varname = arg_match.group(1).strip()
+
+    # Safe alternative message per function
+    alt_map = {
+        "gets":     f"use fgets({varname}, size, stdin) instead",
+        "strcpy":   f"use strncpy({varname}, src, n) or strlcpy instead",
+        "strcat":   f"use strncat({varname}, src, remaining) instead",
+        "sprintf":  f"use snprintf({varname}, size, fmt, ...) instead",
+        "vsprintf": f"use vsnprintf({varname}, size, fmt, ap) instead",
+        "scanf":    f"use scanf with explicit field width (e.g. \"%Ns\") instead",
+        "sscanf":   f"use sscanf with explicit field width instead",
+    }
+    message = (f"{called_name}() is inherently dangerous — "
+               + alt_map.get(called_name, "use the bounded safe alternative"))
+
+    finding_num += 1
+    print(f"    finding {finding_num}: {filename}:{line}:{col} — {called_name}({varname})")
+
+    finding = {
+        "detector":        "dangerous_function",
+        "severity":        "error",
+        "classification":  "vulnerability",
+        "rule":            "dangerousFunction",
+        "file":            filename,
+        "line":            line,
+        "col":             col,
+        "varname":         varname,
+        "note": {
+            "line":    line,
+            "col":     col,
+            "message": message,
+        }
+    }
+    findings.append(finding)
+
+with open(findings_out, "w") as f:
+    for finding in findings:
+        f.write(json.dumps(finding, indent=2) + "\n")
+
+print()
+print(f"[ dangerous_function ] {len(findings)} finding(s) written to {findings_out}")
+PYEOF

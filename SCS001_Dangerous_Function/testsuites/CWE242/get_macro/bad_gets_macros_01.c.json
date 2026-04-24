@@ -1,0 +1,32 @@
+{
+"result-17-11-61413c54d896c7d7678438786ddb43a2bf276087":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/get_macro/bad_gets_macros_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"bad_gets_macro",
+    "type":"char*",
+    "name":"result",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/get_macro/bad_gets_macros_01.c:17:11",
+    "dependence":[],
+    "aliases":[],
+    "calls":[],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/get_macro/bad_gets_macros_01.c:19:9"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/get_macro/bad_gets_macros_01.c:17:11","/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/get_macro/bad_gets_macros_01.c:18:5"]
+},
+"dest-16-10-61413c54d896c7d7678438786ddb43a2bf276087":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/get_macro/bad_gets_macros_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"bad_gets_macro",
+    "type":"char[]",
+    "name":"dest",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/get_macro/bad_gets_macros_01.c:16:10",
+    "dependence":[{"result":"/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/get_macro/bad_gets_macros_01.c:18:24"}],
+    "aliases":[],
+    "calls":[{"functionName":"READ_LINE","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/get_macro/bad_gets_macros_01.c:18:14"},{"functionName":"printLine","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/get_macro/bad_gets_macros_01.c:20:5"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/get_macro/bad_gets_macros_01.c:18:24","/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/get_macro/bad_gets_macros_01.c:20:15"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/get_macro/bad_gets_macros_01.c:16:10"]
+}
+}

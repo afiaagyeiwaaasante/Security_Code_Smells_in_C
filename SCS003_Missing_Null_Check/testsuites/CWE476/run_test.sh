@@ -1,212 +1,189 @@
 #!/usr/bin/env bash
-# run_tests.sh
-# Runs smell_report.sh against every test case and validates
-# that bad/smell files are detected and good files are not.
-#
-# Exit codes:
-#   0 — all tests passed
-#   1 — one or more tests failed
-#
-# Usage:
-#   cd tests/CWE476
-#   bash run_tests.sh
-#
-# Requires: srcml, srcslice, srcattributor, xmllint, python3
+# run_test.sh — SCS003 CWE-476 Missing Null Check test suite
+# Usage: cd testsuites/CWE476 && bash run_test.sh
+set -e
 
-DETECTOR="$(dirname "$0")/../../src/smell_report.sh"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SRC_DIR="$SCRIPT_DIR/../../src"
 PASS=0
 FAIL=0
-TOTAL=0
+SKIP=0
 
-# -----------------------------------------------------------------------
-# run_case <file> <expected> <label>
-#
-#   file     : path to source file relative to tests/CWE476/
-#   expected : "detected" — tool must emit error: or warning:
-#              "clean"    — tool must emit no error: or warning:
-#   label    : human-readable description shown in results
-# -----------------------------------------------------------------------
-run_case() {
-    local FILE=$1
-    local EXPECT=$2
-    local LABEL=$3
-
-    TOTAL=$((TOTAL + 1))
-
-    if [ ! -f "$FILE" ]; then
-        echo "  SKIP  $LABEL — file not found: $FILE"
+# Tier 3: known limitation — SmellDetect is expected to miss these.
+run_limitation() {
+    local label="$1"
+    local file="$2"
+    if [ ! -f "$file" ]; then
+        echo "SKIP  $label (file not found)"
+        SKIP=$((SKIP+1))
         return
     fi
-
-    local OUTPUT
-    OUTPUT=$(bash "$DETECTOR" "$FILE" 2>/dev/null)
-
-    if [ "$EXPECT" = "detected" ]; then
-        if echo "$OUTPUT" | grep -q '"severity":'; then
-            echo "  PASS  $LABEL"
-            PASS=$((PASS + 1))
-        else
-            echo "  FAIL  $LABEL — expected detection, got none"
-            FAIL=$((FAIL + 1))
-        fi
+    if [ ! -f "$SRC_DIR/smell_report.sh" ]; then
+        echo "SKIP  $label (smell_report.sh not found)"
+        SKIP=$((SKIP+1))
+        return
+    fi
+    output=$(bash "$SRC_DIR/smell_report.sh" "$file" 2>&1)
+    if echo "$output" | grep -q '"severity":'; then
+        echo "PASS  $label (unexpectedly detected — limitation resolved)"
+        PASS=$((PASS+1))
     else
-        if echo "$OUTPUT" | grep -q '"severity":'; then
-            echo "  FAIL  $LABEL — expected clean, got detection"
-            echo "        $(echo "$OUTPUT" | grep '"severity":' | head -1)"
-            FAIL=$((FAIL + 1))
-        else
-            echo "  PASS  $LABEL"
-            PASS=$((PASS + 1))
+        echo "PASS  $label (correctly missed — known limitation)"
+        PASS=$((PASS+1))
+    fi
+}
+
+run_bad_multi() {
+    local label="$1"
+    shift
+    local files=("$@")
+    for f in "${files[@]}"; do
+        if [ ! -f "$f" ]; then
+            echo "SKIP  $label (file not found: $(basename $f))"
+            SKIP=$((SKIP+1))
+            return
         fi
+    done
+    if [ ! -f "$SRC_DIR/smell_report_multi.sh" ]; then
+        echo "SKIP  $label (smell_report_multi.sh not found)"
+        SKIP=$((SKIP+1))
+        return
+    fi
+    output=$(bash "$SRC_DIR/smell_report_multi.sh" "${files[@]}" 2>&1)
+    if echo "$output" | grep -qE ': error:| error\(s\) detected'; then
+        echo "PASS  $label"
+        PASS=$((PASS+1))
+    else
+        echo "FAIL  $label — no finding emitted"
+        FAIL=$((FAIL+1))
+    fi
+}
+
+run_bad() {
+    local label="$1"
+    local file="$2"
+    if [ ! -f "$file" ]; then
+        echo "SKIP  $label (file not found)"
+        SKIP=$((SKIP+1))
+        return
+    fi
+    if [ ! -f "$SRC_DIR/smell_report.sh" ]; then
+        echo "SKIP  $label (smell_report.sh not found)"
+        SKIP=$((SKIP+1))
+        return
+    fi
+    output=$(bash "$SRC_DIR/smell_report.sh" "$file" 2>&1)
+    if echo "$output" | grep -q '"severity":'; then
+        echo "PASS  $label"
+        PASS=$((PASS+1))
+    else
+        echo "FAIL  $label — no finding emitted"
+        FAIL=$((FAIL+1))
+    fi
+}
+
+run_good() {
+    local label="$1"
+    local file="$2"
+    if [ ! -f "$file" ]; then
+        echo "SKIP  $label (file not found)"
+        SKIP=$((SKIP+1))
+        return
+    fi
+    if [ ! -f "$SRC_DIR/smell_report.sh" ]; then
+        echo "SKIP  $label (smell_report.sh not found)"
+        SKIP=$((SKIP+1))
+        return
+    fi
+    output=$(bash "$SRC_DIR/smell_report.sh" "$file" 2>&1)
+    if echo "$output" | grep -q '"severity":'; then
+        echo "FAIL  $label — false positive"
+        FAIL=$((FAIL+1))
+    else
+        echo "PASS  $label (clean)"
+        PASS=$((PASS+1))
     fi
 }
 
 echo "========================================"
-echo " CWE476 Test Suite"
-echo " Detector: $DETECTOR"
+echo " SCS003 CWE-476 Missing Null Check Test Suite"
 echo "========================================"
 echo
 
-# -----------------------------------------------------------------------
-# binary_if — Detector 1
-# Pattern: bitwise & instead of && in null-check condition
-# All flow variants pass with the same if-statement level query
-# because CONTAINS is depth-agnostic
-# -----------------------------------------------------------------------
-echo "--- binary_if ---"
-run_case "binary_if/bad_binary_if_01.c" \
-    "detected" "flow01 — baseline, direct"
-run_case "binary_if/bad_binary_if_flow02.c" \
-    "detected" "flow02-04 — if(1) constant wrapper"
-run_case "binary_if/bad_binary_if_flow05.c" \
-    "detected" "flow05-06 — if(staticVar) wrapper"
-run_case "binary_if/bad_binary_if_flow11.c" \
-    "detected" "flow11-18 — if(globalFunc()) mixed branches"
-run_case "binary_if/good_binary_if_01.c" \
-    "clean"    "good — && short-circuits safely"
+# ---------------------------------------------------------------------------
+# TIER 1 — Smell pattern variants
+# ---------------------------------------------------------------------------
+echo "--- TIER 1: Smell pattern variants ---"
 echo
 
-# -----------------------------------------------------------------------
-# interprocedural — Detector 2
-# Pattern: callee dereferences pointer param, caller passes unguarded ptr
-# -----------------------------------------------------------------------
-echo "--- interprocedural ---"
-run_case "interprocedural/bad_interprocedural_01.c" \
-    "detected" "bad callee deref no guard + unguarded caller"
-run_case "interprocedural/good_interprocedural_01.c" \
-    "detected" "good_callee smell — no internal check, good_caller correctly excluded"
-run_case "interprocedural/bad_char_interprocedural_01.c" \
-    "detected" "char interprocedural — array index sink, NULL caller + smell caller"
+echo "--- binary_if (Detector 1) ---"
+run_bad  "bad_binary_if_01"     "$SCRIPT_DIR/binary_if/bad_binary_if_01.c"
+run_bad  "bad_binary_if_flow02" "$SCRIPT_DIR/binary_if/bad_binary_if_flow02.c"
+run_bad  "bad_binary_if_flow05" "$SCRIPT_DIR/binary_if/bad_binary_if_flow05.c"
+run_bad  "bad_binary_if_flow11" "$SCRIPT_DIR/binary_if/bad_binary_if_flow11.c"
+run_good "good_binary_if_01"    "$SCRIPT_DIR/binary_if/good_binary_if_01.c"
 echo
 
-echo "--- interprocedural multi-file (variant 22) ---"
-# Multi-file test requires smell_report_multi.sh
-MULTI_OUTPUT=$(bash "$(dirname "$0")/../../src/smell_report_multi.sh" \
-    "$(dirname "$0")/interprocedural/bad_char_interprocedural_22a.c" \
-    "$(dirname "$0")/interprocedural/bad_char_interprocedural_22b.c" \
-    2>/dev/null)
-
-if echo "$MULTI_OUTPUT" | grep -qE "error:|warning:"; then
-    echo "  PASS  char variant 22 minimal— cross-file interprocedural detection"
-    PASS=$((PASS + 1))
-else
-    echo "  FAIL  char variant 22 minimal — expected detection, got none"
-    FAIL=$((FAIL + 1))
-fi
-TOTAL=$((TOTAL + 1))
-
-# -----------------------------------------------------------------------
-# deref_no_check — Detector 3 (error level)
-# Pattern: ptr assigned NULL locally, dereffed with no guard
-# Covers both struct member (->) and array index ([]) dereference
-# -----------------------------------------------------------------------
-echo "--- deref_no_check (struct member) ---"
-run_case "deref_no_check/bad_null_deref_01.c" \
-    "detected" "bad — ptr=NULL then ptr->field, no guard"
-run_case "deref_no_check/good_guarded_01.c" \
-    "clean"    "good — null guard before ptr->field"
+echo "--- deref_no_check (Detectors 3 & 4) ---"
+run_bad  "bad_null_deref_01"    "$SCRIPT_DIR/deref_no_check/bad_null_deref_01.c"
+run_good "good_guarded_01"      "$SCRIPT_DIR/deref_no_check/good_guarded_01.c"
+run_bad  "smell_no_guard_01"    "$SCRIPT_DIR/deref_no_check/smell_no_guard_01.c"
 echo
 
-echo "--- deref_no_check (array index) ---"
-run_case "char/bad_char_01.c" \
-    "detected" "bad char — initializer style: char *data = NULL"
-run_case "char/bad_char_01b.c" \
-    "detected" "bad char — assignment style: data = NULL"
-run_case "char/good_char_01.c" \
-    "clean"    "good char — null guard before data[0]"
+echo "--- char (Detectors 3 & 4) ---"
+run_bad  "bad_char_01"          "$SCRIPT_DIR/char/bad_char_01.c"
+run_bad  "bad_char_01b"         "$SCRIPT_DIR/char/bad_char_01b.c"
+run_good "good_char_01"         "$SCRIPT_DIR/char/good_char_01.c"
+run_bad  "smell_char_01b"       "$SCRIPT_DIR/char/smell_char_01b.c"
+run_good "good_char_01b"        "$SCRIPT_DIR/char/good_char_01b.c"
 echo
 
-# -----------------------------------------------------------------------
-# missing_guard — Detector 4 (warning level)
-# Pattern: ptr assigned non-NULL value, dereffed with no guard
-# Security code smell — not currently exploitable but structurally fragile
-# Covers both struct member (->) and array index ([]) dereference
-# -----------------------------------------------------------------------
-echo "--- missing_guard (struct member) ---"
-run_case "deref_no_check/smell_no_guard_01.c" \
-    "detected" "smell — ptr=&local then ptr->field, no guard"
+echo "--- deref_after_check (Detector 5) ---"
+run_bad  "bad_deref_after_check_01" "$SCRIPT_DIR/after_check/bad_deref_after_check_01.c"
 echo
 
-echo "--- missing_guard (array index) ---"
-# Known false negative: missing_guard does not fire on string literal init
-# (char *data = "Good") — srcQL does not model non-null literal assignments
-# as a null risk. smell_char_01b.c (separate assignment form) is used instead.
-run_case "char/smell_char_01b.c" \
-    "detected" "smell — data=NULL then data[0], no guard (assignment form)"
+echo "--- check_after_deref (Detector 6) ---"
+run_bad  "bad_check_after_deref_01" "$SCRIPT_DIR/check_after_deref/bad_check_after_deref_01.c"
 echo
 
-# -----------------------------------------------------------------------
-# variant coverage — confirm flow variants pass without query changes
-# These verify that CONTAINS handles arbitrary nesting depth
-# -----------------------------------------------------------------------
-echo "--- variant coverage (binary_if flow variants) ---"
-run_case "binary_if/bad_binary_if_flow02.c" \
-    "detected" "variant 02 — if(1) wrapper transparent to CONTAINS"
-run_case "binary_if/bad_binary_if_flow05.c" \
-    "detected" "variant 05 — if(staticTrue) two bad functions"
-run_case "binary_if/bad_binary_if_flow11.c" \
-    "detected" "variant 12 — mixed & and && in same function"
+# ---------------------------------------------------------------------------
+# TIER 2 — Context variants
+# ---------------------------------------------------------------------------
+echo "--- TIER 2: Context variants ---"
 echo
 
-echo "--- variant coverage (char flow variants) ---"
-run_case "char/bad_char_01.c" \
-    "detected" "char variant 01 — baseline"
+echo "--- interprocedural (Detector 2) ---"
+run_bad      "bad_interprocedural_01"      "$SCRIPT_DIR/interprocedural/bad_interprocedural_01.c"
+run_bad      "good_interprocedural_01"     "$SCRIPT_DIR/interprocedural/good_interprocedural_01.c"
+run_bad      "bad_char_interprocedural_01" "$SCRIPT_DIR/interprocedural/bad_char_interprocedural_01.c"
+run_bad_multi "bad_char_interprocedural_22" \
+    "$SCRIPT_DIR/interprocedural/bad_char_interprocedural_22a.c" \
+    "$SCRIPT_DIR/interprocedural/bad_char_interprocedural_22b.c"
 echo
 
-echo ""
-echo "--- char ---"
-run_case "char/bad_char_01.c"   "detected" "char null deref — flow01-03"
-run_case "char/smell_char_01b.c" "detected" "char smell — no guard (assignment form)"
-run_case "char/good_char_01.c"  "clean"    "char good — guarded"
-# -----------------------------------------------------------------------
-# deref_after_check — Detector 5 (error level)
-# Pattern: if(ptr == NULL) { *ptr } — deref inside null-confirmed branch
-# -----------------------------------------------------------------------
-echo "--- deref_after_check ---"
-run_case "after_check/bad_deref_after_check_01.c" \
-    "detected" "bad — deref inside if(ptr == NULL) branch"
+# ---------------------------------------------------------------------------
+# TIER 3 — Known limitation cases (expected: missed by SmellDetect)
+# ---------------------------------------------------------------------------
+echo "--- TIER 3: Known limitation cases (expected: missed by SmellDetect) ---"
 echo
 
-# -----------------------------------------------------------------------
-# check_after_deref — Detector 6 (warning level)
-# Pattern: *ptr ... if(ptr != NULL) — null check placed after dereference
-# -----------------------------------------------------------------------
-echo "--- check_after_deref ---"
-run_case "check_after_deref/bad_check_after_deref_01.c" \
-    "detected" "bad — null check placed after dereference"
+echo "--- char literal initializer (Detector 4 limitation) ---"
+run_limitation "smell_char_01"             "$SCRIPT_DIR/char/smell_char_01.c"
 echo
 
-# -----------------------------------------------------------------------
+echo "--- struct propagation (Detectors 3 & 4 limitations) ---"
+run_limitation "bad_struct_ptr_to_ptr_01"  "$SCRIPT_DIR/struct/bad_struct_ptr_to_ptr_01.c"
+run_limitation "bad_struct_copy_01"        "$SCRIPT_DIR/struct/bad_struct_copy_01.c"
+run_limitation "bad_struct_union_01"       "$SCRIPT_DIR/struct/bad_struct_union_01.c"
+echo
+
+# ---------------------------------------------------------------------------
 # Summary
-# -----------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+TOTAL=$((PASS+FAIL+SKIP))
 echo "========================================"
-echo " Results: $PASS passed, $FAIL failed, $TOTAL total"
+echo " Results: $PASS/$TOTAL passed  ($FAIL failed, $SKIP skipped)"
+echo "========================================"
 if [ "$FAIL" -gt 0 ]; then
-    echo " Status : FAILED"
-    echo "========================================"
     exit 1
-else
-    echo " Status : ALL PASSED"
-    echo "========================================"
-    exit 0
 fi

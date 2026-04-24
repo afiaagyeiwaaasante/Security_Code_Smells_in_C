@@ -1,0 +1,17 @@
+{
+"buf-7-10-e303106ada6bc21770fbbf46bbe69d3669dccfe8":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/scanf/bad_scanf_01.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"bad_scanf",
+    "type":"char[]",
+    "name":"buf",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/scanf/bad_scanf_01.c:7:10",
+    "dependence":[],
+    "aliases":[],
+    "calls":[{"functionName":"scanf","parameter":"2","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/scanf/bad_scanf_01.c:13:5"},{"functionName":"printLine","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/scanf/bad_scanf_01.c:14:5"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/scanf/bad_scanf_01.c:13:17","/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/scanf/bad_scanf_01.c:14:15"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS001_Dangerous_Function/testsuites/CWE242/scanf/bad_scanf_01.c:7:10"]
+}
+}

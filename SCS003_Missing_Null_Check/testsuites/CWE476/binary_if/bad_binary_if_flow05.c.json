@@ -1,62 +1,62 @@
 {
 "ptr-32-24-18dd7bbf84093b00f41f63110a69f61e8473f283":{
-    "file":"binary_if/bad_binary_if_flow05.c",
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS003_Missing_Null_Check/testsuites/CWE476/binary_if/bad_binary_if_flow05.c",
     "language":"C",
     "namespace":[],
     "class":"",
     "function":"bad_binary_if_flow05",
     "type":"twoIntsStruct*",
     "name":"ptr",
-    "initial":"binary_if/bad_binary_if_flow05.c:32:24",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS003_Missing_Null_Check/testsuites/CWE476/binary_if/bad_binary_if_flow05.c:32:24",
     "dependence":[],
     "aliases":[],
     "calls":[],
-    "use":["binary_if/bad_binary_if_flow05.c:35:14","binary_if/bad_binary_if_flow05.c:35:30"],
-    "definition":["binary_if/bad_binary_if_flow05.c:32:24"]
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS003_Missing_Null_Check/testsuites/CWE476/binary_if/bad_binary_if_flow05.c:35:14","/Users/afiaasante/Security-Code-Smells/SCS003_Missing_Null_Check/testsuites/CWE476/binary_if/bad_binary_if_flow05.c:35:30"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS003_Missing_Null_Check/testsuites/CWE476/binary_if/bad_binary_if_flow05.c:32:24"]
 },
 "ptr-51-24-18dd7bbf84093b00f41f63110a69f61e8473f283":{
-    "file":"binary_if/bad_binary_if_flow05.c",
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS003_Missing_Null_Check/testsuites/CWE476/binary_if/bad_binary_if_flow05.c",
     "language":"C",
     "namespace":[],
     "class":"",
     "function":"bad_binary_if_flow06",
     "type":"twoIntsStruct*",
     "name":"ptr",
-    "initial":"binary_if/bad_binary_if_flow05.c:51:24",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS003_Missing_Null_Check/testsuites/CWE476/binary_if/bad_binary_if_flow05.c:51:24",
     "dependence":[],
     "aliases":[],
     "calls":[],
-    "use":["binary_if/bad_binary_if_flow05.c:54:14","binary_if/bad_binary_if_flow05.c:54:30"],
-    "definition":["binary_if/bad_binary_if_flow05.c:51:24"]
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS003_Missing_Null_Check/testsuites/CWE476/binary_if/bad_binary_if_flow05.c:54:14","/Users/afiaasante/Security-Code-Smells/SCS003_Missing_Null_Check/testsuites/CWE476/binary_if/bad_binary_if_flow05.c:54:30"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS003_Missing_Null_Check/testsuites/CWE476/binary_if/bad_binary_if_flow05.c:51:24"]
 },
 "staticFalse-26-12-":{
-    "file":"binary_if/bad_binary_if_flow05.c",
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS003_Missing_Null_Check/testsuites/CWE476/binary_if/bad_binary_if_flow05.c",
     "language":"C",
     "namespace":[],
     "class":"",
     "function":"",
     "type":"int",
     "name":"staticFalse",
-    "initial":"binary_if/bad_binary_if_flow05.c:26:12",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS003_Missing_Null_Check/testsuites/CWE476/binary_if/bad_binary_if_flow05.c:26:12",
     "dependence":[],
     "aliases":[],
     "calls":[],
-    "use":["binary_if/bad_binary_if_flow05.c:44:9"],
-    "definition":["binary_if/bad_binary_if_flow05.c:26:12"]
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS003_Missing_Null_Check/testsuites/CWE476/binary_if/bad_binary_if_flow05.c:44:9"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS003_Missing_Null_Check/testsuites/CWE476/binary_if/bad_binary_if_flow05.c:26:12"]
 },
 "staticTrue-23-12-":{
-    "file":"binary_if/bad_binary_if_flow05.c",
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS003_Missing_Null_Check/testsuites/CWE476/binary_if/bad_binary_if_flow05.c",
     "language":"C",
     "namespace":[],
     "class":"",
     "function":"",
     "type":"int",
     "name":"staticTrue",
-    "initial":"binary_if/bad_binary_if_flow05.c:23:12",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS003_Missing_Null_Check/testsuites/CWE476/binary_if/bad_binary_if_flow05.c:23:12",
     "dependence":[],
     "aliases":[],
     "calls":[],
-    "use":["binary_if/bad_binary_if_flow05.c:30:9"],
-    "definition":["binary_if/bad_binary_if_flow05.c:23:12"]
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS003_Missing_Null_Check/testsuites/CWE476/binary_if/bad_binary_if_flow05.c:30:9"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS003_Missing_Null_Check/testsuites/CWE476/binary_if/bad_binary_if_flow05.c:23:12"]
 }
 }

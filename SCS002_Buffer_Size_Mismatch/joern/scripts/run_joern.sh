@@ -105,9 +105,13 @@ cp "$TESTSUITE/interprocedural/bad_malloc_interproc_01b.c" "$TMPDIR_INTERPROC/"
 run_case "bad_malloc_interproc_01" "$TMPDIR_INTERPROC" '["bad_malloc_interproc_01a.c","bad_malloc_interproc_01b.c"]'
 rm -rf "$TMPDIR_INTERPROC"
 
-# --- Struct member ---
+# --- Struct member, direct multiply (tier 2) ---
 run_case "bad_malloc_struct_01"  "$TESTSUITE/struct/bad_malloc_struct_01.c"  '["bad_malloc_struct_01.c"]'
 run_case "good_malloc_struct_01" "$TESTSUITE/struct/good_malloc_struct_01.c" '["good_malloc_struct_01.c"]'
+
+# --- Struct member + precomputed (tier 3 — known limitation) ---
+run_case "bad_malloc_struct_precomp_01"  "$TESTSUITE/struct/bad_malloc_struct_precomp_01.c"  '["bad_malloc_struct_precomp_01.c"]'
+run_case "good_malloc_struct_precomp_01" "$TESTSUITE/struct/good_malloc_struct_precomp_01.c" '["good_malloc_struct_precomp_01.c"]'
 
 echo "========================================"
 echo " Results saved to: $RESULTS"
