@@ -1,8 +1,8 @@
-{"test":"bad_malloc_no_free_01","files":["bad_malloc_no_free_01.c"],"detected":true,"wall_time_s":0.30,"peak_rss_kb":15104}
-{"test":"good_malloc_with_free_01","files":["good_malloc_with_free_01.c"],"detected":false,"wall_time_s":0.28,"peak_rss_kb":15056}
-{"test":"bad_early_return_01","files":["bad_early_return_01.c"],"detected":false,"wall_time_s":0.29,"peak_rss_kb":14992}
-{"test":"good_early_return_01","files":["good_early_return_01.c"],"detected":false,"wall_time_s":0.29,"peak_rss_kb":14992}
-{"test":"bad_overwrite_01","files":["bad_overwrite_01.c"],"detected":true,"wall_time_s":0.31,"peak_rss_kb":15104}
-{"test":"good_overwrite_01","files":["good_overwrite_01.c"],"detected":false,"wall_time_s":0.31,"peak_rss_kb":15120}
-{"test":"bad_new_no_delete_01","files":["bad_new_no_delete_01.cpp"],"detected":true,"wall_time_s":0.29,"peak_rss_kb":15088}
-{"test":"good_new_delete_01","files":["good_new_delete_01.cpp"],"detected":false,"wall_time_s":0.29,"peak_rss_kb":15056}
+{"test":"bad_malloc_no_free_01","tier":"tier1","expected":"bad","files":["bad_malloc_no_free_01.c"],"detected":true,"finding_count":1,"wall_time_s":0.34,"peak_rss_kb":15056}
+{"test":"good_malloc_with_free_01","tier":"tier1","expected":"good","files":["good_malloc_with_free_01.c"],"detected":false,"finding_count":0,"wall_time_s":0.27,"peak_rss_kb":15088}
+{"test":"bad_overwrite_01","tier":"tier1","expected":"bad","files":["bad_overwrite_01.c"],"detected":true,"finding_count":1,"wall_time_s":0.28,"peak_rss_kb":15008}
+{"test":"good_overwrite_01","tier":"tier1","expected":"good","files":["good_overwrite_01.c"],"detected":false,"finding_count":0,"wall_time_s":0.27,"peak_rss_kb":15040}
+{"test":"bad_new_no_delete_01","tier":"tier1","expected":"bad","files":["bad_new_no_delete_01.cpp"],"detected":true,"finding_count":1,"wall_time_s":0.29,"peak_rss_kb":15008}
+{"test":"good_new_delete_01","tier":"tier1","expected":"good","files":["good_new_delete_01.cpp"],"detected":false,"finding_count":0,"wall_time_s":0.27,"peak_rss_kb":15088}
+{"test":"bad_early_return_01","tier":"tier3","expected":"bad","files":["bad_early_return_01.c"],"detected":false,"finding_count":0,"wall_time_s":0.30,"peak_rss_kb":14976}
+{"test":"good_early_return_01","tier":"tier3","expected":"good","files":["good_early_return_01.c"],"detected":false,"finding_count":0,"wall_time_s":0.28,"peak_rss_kb":15072}
