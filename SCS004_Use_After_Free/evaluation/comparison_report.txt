@@ -1,30 +1,78 @@
 
-==============================================================================================================================
-  SCS004 CWE-416  Tool Comparison: SmellDetect vs cppcheck vs Joern
-==============================================================================================================================
-                                     |    Time  Peak RSS   Det |    Time  Peak RSS   Det |    Time  Peak RSS   Det
-Test Case                            |      --- SmellDetect ---       |      --- cppcheck ---       |        --- Joern ---       
-------------------------------------------------------------------------------------------------------------------------------
-bad_use_after_free_int_01            |  0.390s   14.7 MB   YES |  0.010s    8.2 MB    NO |  4.100s  385.2 MB   YES
-good_use_after_free_int_01           |  0.310s   14.7 MB    NO |  0.000s    8.2 MB    NO |  3.910s  414.9 MB   YES
-bad_new_delete_int_01                |  0.350s   14.7 MB   YES |  0.000s    8.4 MB   YES |  3.410s  393.4 MB   YES
-good_new_delete_int_01               |  0.320s   14.6 MB    NO |  0.010s    8.4 MB    NO |  3.520s  427.6 MB   YES
-bad_return_freed_ptr_01              |  0.350s   14.6 MB   YES |  0.000s    8.3 MB   YES |  3.820s  438.4 MB   YES
-good_return_freed_ptr_01             |  0.330s   14.7 MB    NO |  0.000s    8.2 MB    NO |  3.770s  420.7 MB   YES
-bad_operator_equals_01               |  0.370s   14.7 MB   YES |  0.000s    8.5 MB   YES |  3.760s  405.6 MB    NO
-good_operator_equals_01              |  0.350s   14.7 MB    NO |  0.000s    8.4 MB    NO |  3.920s  385.6 MB    NO
-------------------------------------------------------------------------------------------------------------------------------
+=========================================================================================================================================
+  SCS004 CWE-416  TIER 1 — Smell Pattern Variants
+=========================================================================================================================================
+                                       |     Time       Mem    Result |     Time       Mem    Result |     Time       Mem    Result
+Test Case                              |      --- SmellDetect ---       |        --- cppcheck ---        |         --- Joern ---         
+-----------------------------------------------------------------------------------------------------------------------------------------
+bad_use_after_free_char_01             |   0.450s   14.7 MB     FOUND |   0.010s    8.3 MB    MISSED |   4.570s  362.3 MB     FOUND
+good_use_after_free_char_01            |   0.340s   14.7 MB    MISSED |   0.000s    8.3 MB    MISSED |   3.910s  406.6 MB     FOUND
+bad_use_after_free_int_01              |   0.360s   14.7 MB     FOUND |   0.000s    8.3 MB    MISSED |   4.000s  393.6 MB     FOUND
+good_use_after_free_int_01             |   0.350s   14.7 MB    MISSED |   0.000s    8.2 MB    MISSED |   3.570s  389.4 MB     FOUND
+bad_use_after_free_int64_01            |   0.390s   14.6 MB     FOUND |   0.000s    8.2 MB    MISSED |   4.230s  350.9 MB     FOUND
+good_use_after_free_int64_01           |   0.390s   14.7 MB    MISSED |   0.000s    8.2 MB    MISSED |   4.620s  343.0 MB     FOUND
+bad_use_after_free_long_01             |   0.480s   14.7 MB     FOUND |   0.000s    8.3 MB    MISSED |   3.500s  427.7 MB     FOUND
+good_use_after_free_long_01            |   0.380s   14.7 MB    MISSED |   0.000s    8.2 MB    MISSED |   3.610s  420.0 MB     FOUND
+bad_double_free_01                     |   0.500s   14.8 MB     FOUND |   0.010s    8.3 MB    MISSED |   3.520s  454.5 MB     FOUND
+good_double_free_01                    |   0.350s   14.6 MB    MISSED |   0.010s    8.2 MB    MISSED |   3.800s  395.3 MB     FOUND
+bad_delete_array_char_01               |   0.440s   14.7 MB     FOUND |   0.000s    8.5 MB    MISSED |   3.640s  421.7 MB     FOUND
+good_delete_array_char_01              |   0.370s   14.7 MB    MISSED |   0.010s    8.5 MB    MISSED |   3.600s  425.6 MB     FOUND
+bad_delete_array_int64_01              |   0.430s   14.7 MB     FOUND |   0.010s    8.4 MB    MISSED |   3.970s  424.5 MB     FOUND
+good_delete_array_int64_01             |   0.340s   14.7 MB    MISSED |   0.000s    8.5 MB    MISSED |   3.750s  379.0 MB     FOUND
+bad_delete_array_long_01               |   0.410s   14.7 MB     FOUND |   0.000s    8.4 MB    MISSED |   3.600s  413.6 MB     FOUND
+good_delete_array_long_01              |   0.360s   14.7 MB    MISSED |   0.000s    8.5 MB    MISSED |   3.760s  389.2 MB     FOUND
+bad_delete_array_wchar_01              |   0.480s   14.7 MB     FOUND |   0.000s    8.5 MB    MISSED |   3.840s  376.5 MB     FOUND
+good_delete_array_wchar_01             |   0.370s   14.6 MB    MISSED |   0.000s    8.5 MB    MISSED |   3.620s  386.2 MB     FOUND
+bad_return_freed_ptr_01                |   0.410s   14.8 MB     FOUND |   0.000s    8.4 MB     FOUND |   3.610s  402.7 MB     FOUND
+good_return_freed_ptr_01               |   0.350s   14.6 MB    MISSED |   0.000s    8.3 MB    MISSED |   3.960s  363.2 MB     FOUND
+bad_new_delete_char_01                 |   0.380s   14.6 MB     FOUND |   0.000s    8.4 MB     FOUND |   4.040s  381.2 MB     FOUND
+good_new_delete_char_01                |   0.340s   14.6 MB    MISSED |   0.000s    8.4 MB    MISSED |   3.780s  393.9 MB     FOUND
+bad_new_delete_int_01                  |   0.400s   14.7 MB     FOUND |   0.000s    8.5 MB     FOUND |   3.770s  410.1 MB     FOUND
+good_new_delete_int_01                 |   0.330s   14.6 MB    MISSED |   0.000s    8.4 MB    MISSED |   3.670s  416.6 MB     FOUND
+bad_new_delete_int64_01                |   0.410s   14.7 MB     FOUND |   0.000s    8.4 MB     FOUND |   3.610s  439.1 MB     FOUND
+good_new_delete_int64_01               |   0.350s   14.8 MB    MISSED |   0.000s    8.4 MB    MISSED |   4.000s  371.8 MB     FOUND
+bad_new_delete_long_01                 |   0.400s   14.7 MB     FOUND |   0.000s    8.5 MB     FOUND |   3.980s  407.9 MB     FOUND
+good_new_delete_long_01                |   0.350s   14.7 MB    MISSED |   0.000s    8.5 MB    MISSED |   3.780s  400.2 MB     FOUND
+bad_new_delete_wchar_01                |   0.380s   14.7 MB     FOUND |   0.000s    8.4 MB     FOUND |   3.940s  413.8 MB     FOUND
+good_new_delete_wchar_01               |   0.360s   14.7 MB    MISSED |   0.000s    8.4 MB    MISSED |   3.620s  377.6 MB     FOUND
+bad_operator_equals_01                 |   0.430s   14.7 MB     FOUND |   0.000s    8.5 MB     FOUND |   4.230s  389.8 MB    MISSED
+good_operator_equals_01                |   0.380s   14.7 MB    MISSED |   0.000s    8.4 MB    MISSED |   3.630s  396.5 MB    MISSED
+-----------------------------------------------------------------------------------------------------------------------------------------
 
-  Detections    : SmellDetect 4/8   cppcheck 3/8   Joern 6/8
-  Avg wall time : SmellDetect 0.346s   cppcheck 0.010s   Joern 3.776s
-  Avg peak RSS  : SmellDetect 14.7 MB   cppcheck 8.3 MB   Joern 408.9 MB
+=========================================================================================================================================
+  SCS004 CWE-416  TIER 2 — Context Variants
+=========================================================================================================================================
+                                       |     Time       Mem    Result |     Time       Mem    Result |     Time       Mem    Result
+Test Case                              |      --- SmellDetect ---       |        --- cppcheck ---        |         --- Joern ---         
+-----------------------------------------------------------------------------------------------------------------------------------------
+bad_use_after_free_struct_01           |   0.390s   14.7 MB     FOUND |   0.000s    8.3 MB    MISSED |   3.930s  404.4 MB     FOUND
+good_use_after_free_struct_01          |   0.340s   14.7 MB    MISSED |   0.000s    8.3 MB    MISSED |   3.750s  399.5 MB     FOUND
+bad_delete_array_struct_01             |   0.410s   14.7 MB     FOUND |   0.000s    8.5 MB    MISSED |   3.730s  400.2 MB     FOUND
+good_delete_array_struct_01            |   0.400s   14.7 MB    MISSED |   0.000s    8.5 MB    MISSED |   3.790s  367.5 MB     FOUND
+bad_new_delete_struct_01               |   0.380s   14.6 MB     FOUND |   0.000s    8.5 MB    MISSED |   3.850s  417.9 MB     FOUND
+good_new_delete_struct_01              |   0.350s   14.7 MB    MISSED |   0.000s    8.4 MB    MISSED |   3.490s  383.5 MB     FOUND
+bad_new_delete_class_01                |   0.370s   14.7 MB     FOUND |   0.000s    8.5 MB    MISSED |   3.600s  424.8 MB     FOUND
+good_new_delete_class_01               |   0.380s   14.7 MB    MISSED |   0.000s    8.4 MB    MISSED |   3.810s  424.7 MB     FOUND
+bad_interprocedural_uaf_long_22        |   0.330s   15.0 MB     FOUND |   0.000s    8.3 MB    MISSED |   3.940s  383.8 MB     FOUND
+bad_interprocedural_delete_array_char_62 |   0.360s   15.0 MB     FOUND |   0.000s    8.5 MB    MISSED |   3.900s  433.6 MB     FOUND
+bad_interprocedural_new_delete_char_62 |   0.350s   15.0 MB     FOUND |   0.000s    8.6 MB    MISSED |   3.970s  390.7 MB     FOUND
+bad_interprocedural_new_delete_class_62 |   0.360s   15.0 MB     FOUND |   0.010s    8.5 MB    MISSED |   3.940s  456.2 MB     FOUND
+bad_interprocedural_uaf_struct_62      |   0.350s   15.0 MB     FOUND |   0.000s    8.4 MB    MISSED |   5.270s  394.7 MB    MISSED
+-----------------------------------------------------------------------------------------------------------------------------------------
 
-                                     SmellDetect       cppcheck          Joern
-  True Positives  (TP)                      4              3              3
-  True Negatives  (TN)                      4              4              1
-  False Positives (FP)                      0              0              3
-  False Negatives (FN)                      0              1              1
-  Precision  TP/(TP+FP)                100.0%         100.0%          50.0%
-  Recall     TP/(TP+FN)                100.0%          75.0%          75.0%
+=========================================================================================================================================
+  Metrics (Tier 1 + Tier 2 only; Tier 3 limitation cases excluded)
+=========================================================================================================================================
+                                        SmellDetect         cppcheck            Joern
+  True Positives  (TP)                           25                7               23
+  True Negatives  (TN)                           20               20                1
+  False Positives (FP)                            0                0               19
+  False Negatives (FN)                            0               18                2
+  Precision  TP/(TP+FP)                      100.0%           100.0%            54.8%
+  Recall     TP/(TP+FN)                      100.0%            28.0%            92.0%
+  F1-score   2PR/(P+R)                       100.0%            43.8%            68.7%
 
-==============================================================================================================================
+  Avg wall time  : SmellDetect 0.383s    cppcheck 0.001s    Joern 3.860s
+  Avg memory     : SmellDetect 14.7 MB   cppcheck 8.4 MB   Joern 400.1 MB
+
+=========================================================================================================================================

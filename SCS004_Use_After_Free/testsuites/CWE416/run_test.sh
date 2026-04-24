@@ -17,6 +17,11 @@ run_bad() {
         SKIP=$((SKIP+1))
         return
     fi
+    if [ ! -f "$SRC_DIR/smell_report.sh" ]; then
+        echo "SKIP  $label (smell_report.sh not found)"
+        SKIP=$((SKIP+1))
+        return
+    fi
     output=$(bash "$SRC_DIR/smell_report.sh" "$file" 2>&1)
     if echo "$output" | grep -q '"severity":'; then
         echo "PASS  $label"
@@ -35,6 +40,11 @@ run_good() {
         SKIP=$((SKIP+1))
         return
     fi
+    if [ ! -f "$SRC_DIR/smell_report.sh" ]; then
+        echo "SKIP  $label (smell_report.sh not found)"
+        SKIP=$((SKIP+1))
+        return
+    fi
     output=$(bash "$SRC_DIR/smell_report.sh" "$file" 2>&1)
     if echo "$output" | grep -q '"severity":'; then
         echo "FAIL  $label — false positive"
@@ -48,15 +58,21 @@ run_good() {
 run_multi_bad() {
     local label="$1"
     shift
-    for f in "$@"; do
+    local files=("$@")
+    for f in "${files[@]}"; do
         if [ ! -f "$f" ]; then
-            echo "SKIP  $label (file not found: $f)"
+            echo "SKIP  $label (file not found: $(basename $f))"
             SKIP=$((SKIP+1))
             return
         fi
     done
-    output=$(bash "$SRC_DIR/smell_report_multi.sh" "$@" 2>&1)
-    if echo "$output" | grep -qE "error:|warning:"; then
+    if [ ! -f "$SRC_DIR/smell_report_multi.sh" ]; then
+        echo "SKIP  $label (smell_report_multi.sh not found)"
+        SKIP=$((SKIP+1))
+        return
+    fi
+    output=$(bash "$SRC_DIR/smell_report_multi.sh" "${files[@]}" 2>&1)
+    if echo "$output" | grep -qE ': error:| error\(s\) detected'; then
         echo "PASS  $label"
         PASS=$((PASS+1))
     else
@@ -71,91 +87,85 @@ echo "========================================"
 echo
 
 # ---------------------------------------------------------------------------
-# Detector 1 — use_after_free
+# TIER 1 — Smell pattern variants
 # ---------------------------------------------------------------------------
-echo "--- Detector 1: use_after_free ---"
-run_bad  "bad_use_after_free_char_01"   "$SCRIPT_DIR/char/bad_use_after_free_char_01.c"
-run_good "good_use_after_free_char_01"  "$SCRIPT_DIR/char/good_use_after_free_char_01.c"
-run_bad  "bad_use_after_free_int_01"    "$SCRIPT_DIR/int/bad_use_after_free_int_01.c"
-run_good "good_use_after_free_int_01"   "$SCRIPT_DIR/int/good_use_after_free_int_01.c"
-run_bad  "bad_use_after_free_int64_01"  "$SCRIPT_DIR/int64/bad_use_after_free_int64_01.c"
-run_good "good_use_after_free_int64_01" "$SCRIPT_DIR/int64/good_use_after_free_int64_01.c"
-run_bad  "bad_use_after_free_long_01"   "$SCRIPT_DIR/long/bad_use_after_free_long_01.c"
-run_good "good_use_after_free_long_01"  "$SCRIPT_DIR/long/good_use_after_free_long_01.c"
-run_bad  "bad_use_after_free_struct_01" "$SCRIPT_DIR/struct/bad_use_after_free_struct_01.c"
-run_good "good_use_after_free_struct_01" "$SCRIPT_DIR/struct/good_use_after_free_struct_01.c"
-
+echo "--- TIER 1: Smell pattern variants ---"
 echo
 
-# ---------------------------------------------------------------------------
-# Detector 2 — double_free
-# ---------------------------------------------------------------------------
-# ---------------------------------------------------------------------------
-# Detector 4 — delete_array_uaf (C++ new[]/delete[])
-# ---------------------------------------------------------------------------
-echo "--- Detector 4: delete_array_uaf ---"
-run_bad  "bad_delete_array_char_01"    "$SCRIPT_DIR/delete_array_char/bad_delete_array_char_01.cpp"
-run_good "good_delete_array_char_01"   "$SCRIPT_DIR/delete_array_char/good_delete_array_char_01.cpp"
-run_bad  "bad_delete_array_int64_01"  "$SCRIPT_DIR/delete_array_int64_t/bad_delete_array_int64_01.cpp"
-run_good "good_delete_array_int64_01" "$SCRIPT_DIR/delete_array_int64_t/good_delete_array_int64_01.cpp"
-run_bad  "bad_delete_array_long_01"   "$SCRIPT_DIR/delete_array_long/bad_delete_array_long_01.cpp"
-run_good "good_delete_array_long_01"  "$SCRIPT_DIR/delete_array_long/good_delete_array_long_01.cpp"
-run_bad  "bad_delete_array_wchar_01"   "$SCRIPT_DIR/delete_array_wchar_t/bad_delete_array_wchar_01.cpp"
-run_good "good_delete_array_wchar_01"  "$SCRIPT_DIR/delete_array_wchar_t/good_delete_array_wchar_01.cpp"
-run_bad  "bad_delete_array_struct_01"  "$SCRIPT_DIR/delete_array_struct/bad_delete_array_struct_01.cpp"
-run_good "good_delete_array_struct_01" "$SCRIPT_DIR/delete_array_struct/good_delete_array_struct_01.cpp"
-
+echo "--- Detector 1: use_after_free (scalar types) ---"
+run_bad  "bad_use_after_free_char_01"    "$SCRIPT_DIR/char/bad_use_after_free_char_01.c"
+run_good "good_use_after_free_char_01"   "$SCRIPT_DIR/char/good_use_after_free_char_01.c"
+run_bad  "bad_use_after_free_int_01"     "$SCRIPT_DIR/int/bad_use_after_free_int_01.c"
+run_good "good_use_after_free_int_01"    "$SCRIPT_DIR/int/good_use_after_free_int_01.c"
+run_bad  "bad_use_after_free_int64_01"   "$SCRIPT_DIR/int64/bad_use_after_free_int64_01.c"
+run_good "good_use_after_free_int64_01"  "$SCRIPT_DIR/int64/good_use_after_free_int64_01.c"
+run_bad  "bad_use_after_free_long_01"    "$SCRIPT_DIR/long/bad_use_after_free_long_01.c"
+run_good "good_use_after_free_long_01"   "$SCRIPT_DIR/long/good_use_after_free_long_01.c"
 echo
 
-# ---------------------------------------------------------------------------
-# Detector 2 — double_free
-# ---------------------------------------------------------------------------
-# ---------------------------------------------------------------------------
-# Detector 5 — return_freed_ptr
-# ---------------------------------------------------------------------------
-# ---------------------------------------------------------------------------
-# Detector 6 — new_delete_uaf (scalar new/delete)
-# ---------------------------------------------------------------------------
-echo "--- Detector 6: new_delete_uaf ---"
-run_bad  "bad_new_delete_char_01"    "$SCRIPT_DIR/new_delete_char/bad_new_delete_char_01.cpp"
-run_good "good_new_delete_char_01"   "$SCRIPT_DIR/new_delete_char/good_new_delete_char_01.cpp"
-run_bad  "bad_new_delete_int_01"     "$SCRIPT_DIR/new_delete_int/bad_new_delete_int_01.cpp"
-run_good "good_new_delete_int_01"    "$SCRIPT_DIR/new_delete_int/good_new_delete_int_01.cpp"
-run_bad  "bad_new_delete_int64_01"   "$SCRIPT_DIR/new_delete_int64_t/bad_new_delete_int64_01.cpp"
-run_good "good_new_delete_int64_01"  "$SCRIPT_DIR/new_delete_int64_t/good_new_delete_int64_01.cpp"
-run_bad  "bad_new_delete_long_01"    "$SCRIPT_DIR/new_delete_long/bad_new_delete_long_01.cpp"
-run_good "good_new_delete_long_01"   "$SCRIPT_DIR/new_delete_long/good_new_delete_long_01.cpp"
-run_bad  "bad_new_delete_wchar_01"   "$SCRIPT_DIR/new_delete_wchar_t/bad_new_delete_wchar_01.cpp"
-run_good "good_new_delete_wchar_01"  "$SCRIPT_DIR/new_delete_wchar_t/good_new_delete_wchar_01.cpp"
-run_bad  "bad_new_delete_struct_01"  "$SCRIPT_DIR/new_delete_struct/bad_new_delete_struct_01.cpp"
-run_good "good_new_delete_struct_01" "$SCRIPT_DIR/new_delete_struct/good_new_delete_struct_01.cpp"
-run_bad  "bad_new_delete_class_01"   "$SCRIPT_DIR/new_delete_class/bad_new_delete_class_01.cpp"
-run_good "good_new_delete_class_01"  "$SCRIPT_DIR/new_delete_class/good_new_delete_class_01.cpp"
-
-echo
-
-# ---------------------------------------------------------------------------
-# Detector 5 — return_freed_ptr
-# ---------------------------------------------------------------------------
-echo "--- Detector 5: return_freed_ptr ---"
-run_bad  "bad_return_freed_ptr_01"   "$SCRIPT_DIR/freed_pointer/bad_return_freed_ptr_01.c"
-run_good "good_return_freed_ptr_01"  "$SCRIPT_DIR/freed_pointer/good_return_freed_ptr_01.c"
-
-echo
-
-# ---------------------------------------------------------------------------
-# Detector 2 — double_free
-# ---------------------------------------------------------------------------
 echo "--- Detector 2: double_free ---"
-run_bad  "bad_double_free_01"        "$SCRIPT_DIR/char/bad_double_free_01.c"
-run_good "good_double_free_01"       "$SCRIPT_DIR/char/good_double_free_01.c"
+run_bad  "bad_double_free_01"            "$SCRIPT_DIR/char/bad_double_free_01.c"
+run_good "good_double_free_01"           "$SCRIPT_DIR/char/good_double_free_01.c"
+echo
 
+echo "--- Detector 4: delete_array_uaf (scalar types) ---"
+run_bad  "bad_delete_array_char_01"      "$SCRIPT_DIR/delete_array_char/bad_delete_array_char_01.cpp"
+run_good "good_delete_array_char_01"     "$SCRIPT_DIR/delete_array_char/good_delete_array_char_01.cpp"
+run_bad  "bad_delete_array_int64_01"     "$SCRIPT_DIR/delete_array_int64_t/bad_delete_array_int64_01.cpp"
+run_good "good_delete_array_int64_01"    "$SCRIPT_DIR/delete_array_int64_t/good_delete_array_int64_01.cpp"
+run_bad  "bad_delete_array_long_01"      "$SCRIPT_DIR/delete_array_long/bad_delete_array_long_01.cpp"
+run_good "good_delete_array_long_01"     "$SCRIPT_DIR/delete_array_long/good_delete_array_long_01.cpp"
+run_bad  "bad_delete_array_wchar_01"     "$SCRIPT_DIR/delete_array_wchar_t/bad_delete_array_wchar_01.cpp"
+run_good "good_delete_array_wchar_01"    "$SCRIPT_DIR/delete_array_wchar_t/good_delete_array_wchar_01.cpp"
+echo
+
+echo "--- Detector 5: return_freed_ptr ---"
+run_bad  "bad_return_freed_ptr_01"       "$SCRIPT_DIR/freed_pointer/bad_return_freed_ptr_01.c"
+run_good "good_return_freed_ptr_01"      "$SCRIPT_DIR/freed_pointer/good_return_freed_ptr_01.c"
+echo
+
+echo "--- Detector 6: new_delete_uaf (scalar types) ---"
+run_bad  "bad_new_delete_char_01"        "$SCRIPT_DIR/new_delete_char/bad_new_delete_char_01.cpp"
+run_good "good_new_delete_char_01"       "$SCRIPT_DIR/new_delete_char/good_new_delete_char_01.cpp"
+run_bad  "bad_new_delete_int_01"         "$SCRIPT_DIR/new_delete_int/bad_new_delete_int_01.cpp"
+run_good "good_new_delete_int_01"        "$SCRIPT_DIR/new_delete_int/good_new_delete_int_01.cpp"
+run_bad  "bad_new_delete_int64_01"       "$SCRIPT_DIR/new_delete_int64_t/bad_new_delete_int64_01.cpp"
+run_good "good_new_delete_int64_01"      "$SCRIPT_DIR/new_delete_int64_t/good_new_delete_int64_01.cpp"
+run_bad  "bad_new_delete_long_01"        "$SCRIPT_DIR/new_delete_long/bad_new_delete_long_01.cpp"
+run_good "good_new_delete_long_01"       "$SCRIPT_DIR/new_delete_long/good_new_delete_long_01.cpp"
+run_bad  "bad_new_delete_wchar_01"       "$SCRIPT_DIR/new_delete_wchar_t/bad_new_delete_wchar_01.cpp"
+run_good "good_new_delete_wchar_01"      "$SCRIPT_DIR/new_delete_wchar_t/good_new_delete_wchar_01.cpp"
+echo
+
+echo "--- Detector 7: operator_equals_uaf ---"
+run_bad  "bad_operator_equals_01"        "$SCRIPT_DIR/operator_equals/bad_operator_equals_01.cpp"
+run_good "good_operator_equals_01"       "$SCRIPT_DIR/operator_equals/good_operator_equals_01.cpp"
 echo
 
 # ---------------------------------------------------------------------------
-# Detector 3 — interprocedural_uaf (multi-file)
+# TIER 2 — Context variants
 # ---------------------------------------------------------------------------
-echo "--- Detector 3: interprocedural_uaf ---"
+echo "--- TIER 2: Context variants ---"
+echo
+
+echo "--- Detector 1: use_after_free (struct) ---"
+run_bad  "bad_use_after_free_struct_01"  "$SCRIPT_DIR/struct/bad_use_after_free_struct_01.c"
+run_good "good_use_after_free_struct_01" "$SCRIPT_DIR/struct/good_use_after_free_struct_01.c"
+echo
+
+echo "--- Detector 4: delete_array_uaf (struct) ---"
+run_bad  "bad_delete_array_struct_01"    "$SCRIPT_DIR/delete_array_struct/bad_delete_array_struct_01.cpp"
+run_good "good_delete_array_struct_01"   "$SCRIPT_DIR/delete_array_struct/good_delete_array_struct_01.cpp"
+echo
+
+echo "--- Detector 6: new_delete_uaf (struct, class) ---"
+run_bad  "bad_new_delete_struct_01"      "$SCRIPT_DIR/new_delete_struct/bad_new_delete_struct_01.cpp"
+run_good "good_new_delete_struct_01"     "$SCRIPT_DIR/new_delete_struct/good_new_delete_struct_01.cpp"
+run_bad  "bad_new_delete_class_01"       "$SCRIPT_DIR/new_delete_class/bad_new_delete_class_01.cpp"
+run_good "good_new_delete_class_01"      "$SCRIPT_DIR/new_delete_class/good_new_delete_class_01.cpp"
+echo
+
+echo "--- Detector 3: interprocedural_uaf (multi-file) ---"
 run_multi_bad "bad_interprocedural_uaf_long_22" \
     "$SCRIPT_DIR/interprocedural/bad_interprocedural_uaf_long_22a.c" \
     "$SCRIPT_DIR/interprocedural/bad_interprocedural_uaf_long_22b.c"
@@ -171,16 +181,6 @@ run_multi_bad "bad_interprocedural_new_delete_class_62" \
 run_multi_bad "bad_interprocedural_uaf_struct_62" \
     "$SCRIPT_DIR/interprocedural/bad_interprocedural_uaf_struct_62a.c" \
     "$SCRIPT_DIR/interprocedural/bad_interprocedural_uaf_struct_62b.c"
-
-echo
-
-# ---------------------------------------------------------------------------
-# Detector 7 — operator_equals_uaf (C++ operator= without self-assignment guard)
-# ---------------------------------------------------------------------------
-echo "--- Detector 7: operator_equals_uaf ---"
-run_bad  "bad_operator_equals_01"   "$SCRIPT_DIR/operator_equals/bad_operator_equals_01.cpp"
-run_good "good_operator_equals_01"  "$SCRIPT_DIR/operator_equals/good_operator_equals_01.cpp"
-
 echo
 
 # ---------------------------------------------------------------------------
