@@ -1,36 +1,36 @@
 #!/usr/bin/env bash
 # cppcheck/scripts/run_cppcheck.sh
-# Runs cppcheck on representative CWE-190 test cases and records:
-#   - wall-clock time
-#   - peak RSS (resident set size)
-#   - whether an integer overflow smell was detected
-# Detection keywords: integerOverflow | signedIntegerOverflow | unsignedIntegerOverflow
-#                     integerOverflowCast | shiftTooManyBits | multiCondition
+# Runs cppcheck on each CWE-190 test case and records:
+#   - wall-clock time, peak RSS, detection result, tier, expected outcome
+# Detection: integerOverflow | signedIntegerOverflow | unsignedIntegerOverflow
+#            integerOverflowCast | shiftTooManyBits
 # Output: cppcheck/results/cppcheck_results.json  (one JSON object per line)
-set -e
+set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 TESTSUITE="$PROJECT_ROOT/testsuites/CWE190"
 RESULTS="$SCRIPT_DIR/../results/cppcheck_results.json"
-
 mkdir -p "$(dirname "$RESULTS")"
+
 > "$RESULTS"
 
 echo "========================================"
-echo " SCS006 — cppcheck Benchmark"
-echo " cppcheck version: $(cppcheck --version 2>&1)"
-echo " Output: $RESULTS"
-echo " Date  : $(date)"
+echo " SCS006 — cppcheck Benchmark (all tiers)"
+echo " cppcheck version : $(cppcheck --version 2>&1)"
+echo " Output : $RESULTS"
+echo " Date   : $(date)"
 echo "========================================"
 echo
 
 run_case() {
     local TEST_NAME="$1"
-    shift
+    local TIER="$2"
+    local EXPECTED="$3"
+    shift 3
     local FILES=("$@")
 
-    echo "--- $TEST_NAME ---"
+    echo "--- [$TIER] $TEST_NAME (expected: $EXPECTED) ---"
 
     local TMPOUT TIMEFILE
     TMPOUT=$(mktemp /tmp/cppcheck_out_XXXXXX)
@@ -57,16 +57,18 @@ run_case() {
 
     local FILES_JSON="["
     for i in "${!FILES[@]}"; do
+        local BASENAME
+        BASENAME=$(basename "${FILES[$i]}")
         [ "$i" -gt 0 ] && FILES_JSON+=","
-        FILES_JSON+="\"$(basename "${FILES[$i]}")\""
+        FILES_JSON+="\"${BASENAME}\""
     done
     FILES_JSON+="]"
 
-    printf '{"test":"%s","files":%s,"detected":%s,"wall_time_s":%s,"peak_rss_kb":%s}\n' \
-        "$TEST_NAME" "$FILES_JSON" "$DETECTED" "$WALL_TIME" "$PEAK_RSS_KB" \
+    printf '{"test":"%s","tier":"%s","expected":"%s","files":%s,"detected":%s,"wall_time_s":%s,"peak_rss_kb":%s}\n' \
+        "$TEST_NAME" "$TIER" "$EXPECTED" "$FILES_JSON" "$DETECTED" "$WALL_TIME" "$PEAK_RSS_KB" \
         >> "$RESULTS"
 
-    echo "    detected  : $DETECTED"
+    echo "    detected  : $DETECTED  (expected: $EXPECTED)"
     echo "    wall time : ${WALL_TIME}s"
     echo "    peak RSS  : ${PEAK_RSS_KB} KB"
     echo
@@ -74,40 +76,71 @@ run_case() {
     rm -f "$TMPOUT" "$TIMEFILE"
 }
 
-# Detector 1 — unchecked_multiply
-run_case "bad_int_multiply_01"   "$TESTSUITE/multiply/bad_int_multiply_01.c"
-run_case "good_int_multiply_01"  "$TESTSUITE/multiply/good_int_multiply_01.c"
+# =======================================================================
+# TIER 1 — Smell pattern variants
+# =======================================================================
+echo "=== TIER 1: Smell pattern variants ==="
+echo
 
-# Detector 2 — unchecked_add
-run_case "bad_char_add_01"           "$TESTSUITE/add/bad_char_add_01.c"
-run_case "good_char_add_01"          "$TESTSUITE/add/good_char_add_01.c"
-run_case "bad_unsigned_int_add_01"   "$TESTSUITE/add/bad_unsigned_int_add_01.c"
-run_case "good_unsigned_int_add_01"  "$TESTSUITE/add/good_unsigned_int_add_01.c"
+run_case "bad_char_add_01"           "tier1" "bad"  "$TESTSUITE/add/bad_char_add_01.c"
+run_case "good_char_add_01"          "tier1" "good" "$TESTSUITE/add/good_char_add_01.c"
+run_case "smell_char_add_01"         "tier1" "bad"  "$TESTSUITE/add/smell_char_add_01.c"
+run_case "bad_unsigned_int_add_01"   "tier1" "bad"  "$TESTSUITE/add/bad_unsigned_int_add_01.c"
+run_case "good_unsigned_int_add_01"  "tier1" "good" "$TESTSUITE/add/good_unsigned_int_add_01.c"
 
-# Square (multiply variant)
-run_case "bad_int64_square_01"   "$TESTSUITE/square/bad_int64_square_01.c"
-run_case "good_int64_square_01"  "$TESTSUITE/square/good_int64_square_01.c"
-run_case "bad_short_square_01"   "$TESTSUITE/square/bad_short_square_01.c"
-run_case "good_short_square_01"  "$TESTSUITE/square/good_short_square_01.c"
+run_case "bad_int_multiply_01"   "tier1" "bad"  "$TESTSUITE/multiply/bad_int_multiply_01.c"
+run_case "good_int_multiply_01"  "tier1" "good" "$TESTSUITE/multiply/good_int_multiply_01.c"
+run_case "smell_int_multiply_01" "tier1" "bad"  "$TESTSUITE/multiply/smell_int_multiply_01.c"
 
-# Detector 3 — unchecked_increment (postfix)
-run_case "bad_int_postinc_01"   "$TESTSUITE/postinc/bad_int_postinc_01.c"
-run_case "good_int_postinc_01"  "$TESTSUITE/postinc/good_int_postinc_01.c"
+run_case "bad_int64_square_01"    "tier1" "bad"  "$TESTSUITE/square/bad_int64_square_01.c"
+run_case "good_int64_square_01"   "tier1" "good" "$TESTSUITE/square/good_int64_square_01.c"
+run_case "smell_int64_square_01"  "tier1" "bad"  "$TESTSUITE/square/smell_int64_square_01.c"
+run_case "bad_short_square_01"    "tier1" "bad"  "$TESTSUITE/square/bad_short_square_01.c"
+run_case "good_short_square_01"   "tier1" "good" "$TESTSUITE/square/good_short_square_01.c"
+run_case "smell_short_square_01"  "tier1" "bad"  "$TESTSUITE/square/smell_short_square_01.c"
 
-# Detector 3 — unchecked_increment (prefix)
-run_case "bad_int_preinc_01"    "$TESTSUITE/preinc/bad_int_preinc_01.c"
-run_case "good_int_preinc_01"   "$TESTSUITE/preinc/good_int_preinc_01.c"
+run_case "bad_int_postinc_01"    "tier1" "bad"  "$TESTSUITE/postinc/bad_int_postinc_01.c"
+run_case "good_int_postinc_01"   "tier1" "good" "$TESTSUITE/postinc/good_int_postinc_01.c"
+run_case "smell_int_postinc_01"  "tier1" "bad"  "$TESTSUITE/postinc/smell_int_postinc_01.c"
 
-# C++ class variants
-run_case "bad_int_multiply_81"   "$TESTSUITE/cpp_virtual_ref/bad_int_multiply_81.cpp"
-run_case "good_int_multiply_81"  "$TESTSUITE/cpp_virtual_ref/good_int_multiply_81.cpp"
-run_case "bad_int_multiply_82"   "$TESTSUITE/cpp_virtual_ptr/bad_int_multiply_82.cpp"
-run_case "good_int_multiply_82"  "$TESTSUITE/cpp_virtual_ptr/good_int_multiply_82.cpp"
-run_case "bad_int_multiply_83"   "$TESTSUITE/cpp_ctor_stack/bad_int_multiply_83.cpp"
-run_case "good_int_multiply_83"  "$TESTSUITE/cpp_ctor_stack/good_int_multiply_83.cpp"
-run_case "bad_int_multiply_84"   "$TESTSUITE/cpp_ctor_heap/bad_int_multiply_84.cpp"
-run_case "good_int_multiply_84"  "$TESTSUITE/cpp_ctor_heap/good_int_multiply_84.cpp"
+run_case "bad_int_preinc_01"    "tier1" "bad"  "$TESTSUITE/preinc/bad_int_preinc_01.c"
+run_case "good_int_preinc_01"   "tier1" "good" "$TESTSUITE/preinc/good_int_preinc_01.c"
+run_case "smell_int_preinc_01"  "tier1" "bad"  "$TESTSUITE/preinc/smell_int_preinc_01.c"
+
+# =======================================================================
+# TIER 2 — Context variants (C++ class patterns)
+# =======================================================================
+echo "=== TIER 2: Context variants ==="
+echo
+
+run_case "bad_int_multiply_81"   "tier2" "bad"  "$TESTSUITE/cpp_virtual_ref/bad_int_multiply_81.cpp"
+run_case "good_int_multiply_81"  "tier2" "good" "$TESTSUITE/cpp_virtual_ref/good_int_multiply_81.cpp"
+run_case "bad_int_multiply_82"   "tier2" "bad"  "$TESTSUITE/cpp_virtual_ptr/bad_int_multiply_82.cpp"
+run_case "good_int_multiply_82"  "tier2" "good" "$TESTSUITE/cpp_virtual_ptr/good_int_multiply_82.cpp"
+run_case "bad_int_multiply_83"   "tier2" "bad"  "$TESTSUITE/cpp_ctor_stack/bad_int_multiply_83.cpp"
+run_case "good_int_multiply_83"  "tier2" "good" "$TESTSUITE/cpp_ctor_stack/good_int_multiply_83.cpp"
+run_case "bad_int_multiply_84"   "tier2" "bad"  "$TESTSUITE/cpp_ctor_heap/bad_int_multiply_84.cpp"
+run_case "good_int_multiply_84"  "tier2" "good" "$TESTSUITE/cpp_ctor_heap/good_int_multiply_84.cpp"
+
+# =======================================================================
+# TIER 3 — Interprocedural multi-file cases
+# =======================================================================
+echo "=== TIER 3: Interprocedural multi-file cases ==="
+echo
+
+run_case "bad_int_add_22"       "tier3" "bad"  \
+    "$TESTSUITE/interprocedural/bad_int_add_22a.c" \
+    "$TESTSUITE/interprocedural/bad_int_add_22b.c"
+run_case "good_int_add_22"      "tier3" "good" \
+    "$TESTSUITE/interprocedural/good_int_add_22a.c" \
+    "$TESTSUITE/interprocedural/good_int_add_22b.c"
+run_case "bad_int_multiply_22"  "tier3" "bad"  \
+    "$TESTSUITE/interprocedural/bad_int_multiply_22a.c" \
+    "$TESTSUITE/interprocedural/bad_int_multiply_22b.c"
+run_case "good_int_multiply_22" "tier3" "good" \
+    "$TESTSUITE/interprocedural/good_int_multiply_22a.c" \
+    "$TESTSUITE/interprocedural/good_int_multiply_22b.c"
 
 echo "========================================"
-echo " Results saved to: $RESULTS"
+echo " Results saved to : $RESULTS"
 echo "========================================"

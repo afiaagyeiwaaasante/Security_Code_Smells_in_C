@@ -1,50 +1,73 @@
 
-=======================================================================================================================================
-  SCS006 CWE-190  Tool Comparison: SmellDetect vs cppcheck vs Joern
-=======================================================================================================================================
-                                     |    Time  Mem Used  Detect  Sev/Cls |    Time  Mem Used  Detect |    Time  Mem Used  Detect
-Test Case                            |         --- SmellDetect ---          |      --- cppcheck ---       |        --- Joern ---       
----------------------------------------------------------------------------------------------------------------------------------------
-bad_int_multiply_01                  |  0.320s   14.7 MB   FOUND  wrn/sml |  0.010s    7.8 MB  MISSED |  3.900s  435.8 MB   FOUND
-good_int_multiply_01                 |  0.270s   14.7 MB  MISSED        - |  0.000s    7.9 MB  MISSED |  3.620s  454.1 MB   FOUND
-smell_int_multiply_01                |  0.280s   14.7 MB   FOUND  wrn/sml |    -         -     MISSED |    -         -     MISSED
-bad_char_add_01                      |  0.280s   14.6 MB   FOUND err/vuln |  0.000s    7.8 MB  MISSED |  3.580s  427.3 MB   FOUND
-good_char_add_01                     |  0.300s   14.6 MB  MISSED        - |  0.000s    7.9 MB  MISSED |  3.550s  429.6 MB   FOUND
-smell_char_add_01                    |  0.290s   14.7 MB   FOUND  wrn/sml |    -         -     MISSED |    -         -     MISSED
-bad_unsigned_int_add_01              |  0.290s   14.7 MB   FOUND  wrn/sml |  0.000s    7.8 MB  MISSED |  3.620s  410.2 MB   FOUND
-good_unsigned_int_add_01             |  0.280s   14.7 MB  MISSED        - |  0.000s    7.8 MB  MISSED |  3.600s  441.5 MB   FOUND
-bad_int64_square_01                  |  0.290s   14.7 MB   FOUND  wrn/sml |  0.000s    7.8 MB  MISSED |  3.510s  411.7 MB   FOUND
-good_int64_square_01                 |  0.280s   14.7 MB  MISSED        - |  0.000s    7.9 MB  MISSED |  3.640s  438.4 MB   FOUND
-smell_int64_square_01                |  0.290s   14.6 MB   FOUND  wrn/sml |    -         -     MISSED |    -         -     MISSED
-bad_short_square_01                  |  0.290s   14.7 MB   FOUND  wrn/sml |  0.000s    7.7 MB  MISSED |  3.670s  378.4 MB   FOUND
-good_short_square_01                 |  0.280s   14.6 MB  MISSED        - |  0.000s    7.9 MB  MISSED |  3.440s  441.4 MB   FOUND
-smell_short_square_01                |  0.280s   14.6 MB   FOUND  wrn/sml |    -         -     MISSED |    -         -     MISSED
-bad_int_postinc_01                   |  0.280s   14.7 MB   FOUND  wrn/sml |  0.000s    7.7 MB  MISSED |  3.620s  412.7 MB   FOUND
-good_int_postinc_01                  |  0.270s   14.7 MB  MISSED        - |  0.000s    7.8 MB  MISSED |  3.640s  384.2 MB   FOUND
-smell_int_postinc_01                 |  0.280s   14.7 MB   FOUND  wrn/sml |    -         -     MISSED |    -         -     MISSED
-bad_int_preinc_01                    |  0.290s   14.7 MB   FOUND  wrn/sml |  0.000s    7.6 MB  MISSED |  3.530s  429.6 MB   FOUND
-good_int_preinc_01                   |  0.280s   14.6 MB  MISSED        - |  0.000s    7.8 MB  MISSED |  3.620s  419.2 MB   FOUND
-smell_int_preinc_01                  |  0.270s   14.6 MB   FOUND  wrn/sml |    -         -     MISSED |    -         -     MISSED
-bad_int_multiply_81                  |  0.290s   14.6 MB   FOUND  wrn/sml |  0.000s    8.1 MB  MISSED |  3.650s  418.6 MB   FOUND
-good_int_multiply_81                 |  0.280s   14.6 MB  MISSED        - |  0.000s    8.0 MB  MISSED |  3.890s  379.6 MB   FOUND
-bad_int_multiply_82                  |  0.290s   14.7 MB   FOUND  wrn/sml |  0.000s    8.1 MB  MISSED |  3.700s  449.3 MB   FOUND
-good_int_multiply_82                 |  0.280s   14.6 MB  MISSED        - |  0.000s    8.0 MB  MISSED |  3.910s  419.1 MB   FOUND
-bad_int_multiply_83                  |  0.280s   14.8 MB   FOUND  wrn/sml |  0.000s    8.1 MB  MISSED |  3.730s  435.3 MB   FOUND
-good_int_multiply_83                 |  0.280s   14.6 MB  MISSED        - |  0.000s    8.1 MB  MISSED |  3.750s  433.0 MB   FOUND
-bad_int_multiply_84                  |  0.280s   14.6 MB   FOUND  wrn/sml |  0.000s    8.1 MB  MISSED |  3.550s  439.6 MB   FOUND
-good_int_multiply_84                 |  0.280s   14.6 MB  MISSED        - |  0.000s    8.1 MB  MISSED |  3.790s  426.7 MB   FOUND
----------------------------------------------------------------------------------------------------------------------------------------
+=========================================================================================================================================
+  SCS006 CWE-190  TIER 1 — Smell Pattern Variants
+=========================================================================================================================================
+                                       |     Time       Mem    Result |     Time       Mem    Result |     Time       Mem    Result
+Test Case                              |      --- SmellDetect ---       |        --- cppcheck ---        |         --- Joern ---         
+-----------------------------------------------------------------------------------------------------------------------------------------
+bad_char_add_01                        |   0.390s   14.6 MB     FOUND |   0.010s    7.8 MB    MISSED |   4.390s  379.2 MB     FOUND
+good_char_add_01                       |   0.310s   14.6 MB    MISSED |   0.000s    7.8 MB    MISSED |   3.560s  387.3 MB     FOUND
+smell_char_add_01                      |   0.290s   14.6 MB     FOUND |   0.000s    7.8 MB    MISSED |   3.610s  367.7 MB     FOUND
+bad_unsigned_int_add_01                |   0.280s   14.6 MB     FOUND |   0.000s    7.8 MB    MISSED |   3.570s  403.8 MB     FOUND
+good_unsigned_int_add_01               |   0.260s   14.7 MB    MISSED |   0.000s    7.8 MB    MISSED |   3.930s  382.3 MB     FOUND
+bad_int_multiply_01                    |   0.290s   14.6 MB     FOUND |   0.000s    7.9 MB    MISSED |   3.480s  380.3 MB     FOUND
+good_int_multiply_01                   |   0.270s   14.6 MB    MISSED |   0.000s    7.9 MB    MISSED |   4.250s  396.5 MB     FOUND
+smell_int_multiply_01                  |   0.290s   14.6 MB     FOUND |   0.000s    7.8 MB    MISSED |   3.710s  432.4 MB     FOUND
+bad_int64_square_01                    |   0.290s   14.6 MB     FOUND |   0.000s    7.8 MB    MISSED |   3.550s  444.2 MB     FOUND
+good_int64_square_01                   |   0.270s   14.7 MB    MISSED |   0.000s    7.9 MB    MISSED |   3.550s  425.3 MB     FOUND
+smell_int64_square_01                  |   0.290s   14.7 MB     FOUND |   0.000s    7.8 MB    MISSED |   3.560s  400.0 MB     FOUND
+bad_short_square_01                    |   0.330s   14.7 MB     FOUND |   0.000s    7.7 MB    MISSED |   4.810s  360.8 MB     FOUND
+good_short_square_01                   |   0.300s   14.7 MB    MISSED |   0.000s    7.9 MB    MISSED |   3.750s  400.6 MB     FOUND
+smell_short_square_01                  |   0.290s   14.7 MB     FOUND |   0.000s    7.8 MB    MISSED |   3.690s  394.0 MB     FOUND
+bad_int_postinc_01                     |   0.290s   14.7 MB     FOUND |   0.000s    7.7 MB    MISSED |   4.010s  358.4 MB     FOUND
+good_int_postinc_01                    |   0.270s   14.7 MB    MISSED |   0.000s    7.8 MB    MISSED |   3.630s  426.6 MB     FOUND
+smell_int_postinc_01                   |   0.270s   14.6 MB     FOUND |   0.000s    7.8 MB    MISSED |   3.750s  431.0 MB     FOUND
+bad_int_preinc_01                      |   0.280s   14.6 MB     FOUND |   0.010s    7.7 MB    MISSED |   3.550s  421.3 MB     FOUND
+good_int_preinc_01                     |   0.320s   14.7 MB    MISSED |   0.000s    7.8 MB    MISSED |   3.710s  439.7 MB     FOUND
+smell_int_preinc_01                    |   0.390s   14.7 MB     FOUND |   0.000s    7.7 MB    MISSED |   3.740s  432.2 MB     FOUND
+-----------------------------------------------------------------------------------------------------------------------------------------
 
-  Detected       : SmellDetect detected 17/28   cppcheck 0/28   Joern 22/28
-  Avg Run Time : SmellDetect 0.284s   cppcheck 0.010s   Joern 3.660s
-  Avg Memory Used  : SmellDetect 14.7 MB   cppcheck 7.9 MB   Joern 423.4 MB
+=========================================================================================================================================
+  SCS006 CWE-190  TIER 2 — Context Variants
+=========================================================================================================================================
+                                       |     Time       Mem    Result |     Time       Mem    Result |     Time       Mem    Result
+Test Case                              |      --- SmellDetect ---       |        --- cppcheck ---        |         --- Joern ---         
+-----------------------------------------------------------------------------------------------------------------------------------------
+bad_int_multiply_81                    |   0.380s   14.7 MB     FOUND |   0.000s    8.0 MB    MISSED |   5.770s  396.0 MB     FOUND
+good_int_multiply_81                   |   0.290s   14.7 MB    MISSED |   0.000s    8.1 MB    MISSED |   3.890s  369.1 MB     FOUND
+bad_int_multiply_82                    |   0.290s   14.6 MB     FOUND |   0.010s    8.1 MB    MISSED |   3.640s  366.3 MB     FOUND
+good_int_multiply_82                   |   0.280s   14.7 MB    MISSED |   0.010s    8.1 MB    MISSED |   3.830s  362.3 MB     FOUND
+bad_int_multiply_83                    |   0.280s   14.6 MB     FOUND |   0.010s    8.1 MB    MISSED |   3.740s  416.5 MB     FOUND
+good_int_multiply_83                   |   0.270s   14.7 MB    MISSED |   0.010s    8.1 MB    MISSED |   3.670s  365.7 MB     FOUND
+bad_int_multiply_84                    |   0.310s   14.7 MB     FOUND |   0.000s    8.1 MB    MISSED |   4.150s  447.7 MB     FOUND
+good_int_multiply_84                   |   0.280s   14.7 MB    MISSED |   0.000s    8.1 MB    MISSED |   4.180s  458.2 MB     FOUND
+-----------------------------------------------------------------------------------------------------------------------------------------
 
-                                  SmellDetect       cppcheck          Joern
-  True Positives  (TP)                     17              0             11
-  True Negatives  (TN)                     11             11              0
-  False Positives (FP)                      0              0             11
-  False Negatives (FN)                      0             11              0
-  Precision  TP/(TP+FP)                100.0%            N/A          50.0%
-  Recall     TP/(TP+FN)                100.0%           0.0%         100.0%
+=========================================================================================================================================
+  SCS006 CWE-190  TIER 3 — Known Limitation Cases (interprocedural)
+=========================================================================================================================================
+                                       |     Time       Mem    Result |     Time       Mem    Result |     Time       Mem    Result
+Test Case                              |      --- SmellDetect ---       |        --- cppcheck ---        |         --- Joern ---         
+-----------------------------------------------------------------------------------------------------------------------------------------
+bad_int_add_22                         |   0.280s   14.7 MB    MISSED |   0.000s    7.8 MB    MISSED |   3.670s  395.0 MB     FOUND
+good_int_add_22                        |   0.280s   14.7 MB    MISSED |   0.000s    7.8 MB    MISSED |   4.830s  357.2 MB     FOUND
+bad_int_multiply_22                    |   0.280s   14.7 MB    MISSED |   0.000s    7.9 MB    MISSED |   4.050s  416.8 MB     FOUND
+good_int_multiply_22                   |   0.270s   14.7 MB    MISSED |   0.000s    7.9 MB    MISSED |   3.640s  400.0 MB     FOUND
+-----------------------------------------------------------------------------------------------------------------------------------------
 
-=======================================================================================================================================
+=========================================================================================================================================
+  Metrics (Tier 1 + Tier 2 only; Tier 3 limitation cases excluded)
+=========================================================================================================================================
+                                        SmellDetect         cppcheck            Joern
+  True Positives  (TP)                           17                0               17
+  True Negatives  (TN)                           11               11                0
+  False Positives (FP)                            0                0               11
+  False Negatives (FN)                            0               17                0
+  Precision  TP/(TP+FP)                      100.0%              N/A            60.7%
+  Recall     TP/(TP+FN)                      100.0%             0.0%           100.0%
+  F1-score   2PR/(P+R)                       100.0%              N/A            75.5%
+
+  Avg wall time  : SmellDetect 0.296s    cppcheck 0.002s    Joern 3.902s
+  Avg memory     : SmellDetect 14.7 MB   cppcheck 7.9 MB   Joern 400.5 MB
+
+=========================================================================================================================================
