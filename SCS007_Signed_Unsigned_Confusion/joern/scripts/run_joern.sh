@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # joern/scripts/run_joern.sh
-# Runs Joern on representative CWE-195 test cases and records:
+# Runs Joern on each CWE-195 test case and records:
 #   - wall-clock time  (includes JVM startup + CPG build + query)
 #   - peak RSS (resident set size)
 #   - whether a signed-to-unsigned conversion smell was detected
@@ -9,7 +9,6 @@
 #   Find functions that call malloc/memcpy/memmove/strncpy (the sinks) where
 #   no sibling call in the same method uses a greaterThan (>) or
 #   greaterEqualsThan (>=) comparison with the literal 0 or 1.
-#   This mirrors the structural guard-check used by our srcML detector.
 #
 # Output: joern/results/joern_results.json  (one JSON object per line)
 set -e
@@ -18,8 +17,8 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 TESTSUITE="$PROJECT_ROOT/testsuites/CWE195"
 RESULTS="$SCRIPT_DIR/../results/joern_results.json"
-
 mkdir -p "$(dirname "$RESULTS")"
+
 > "$RESULTS"
 
 echo "========================================"
@@ -31,9 +30,12 @@ echo
 
 run_case() {
     local TEST_NAME="$1"
-    local SOURCE_PATH="$2"
+    local TIER="$2"
+    local EXPECTED="$3"
+    local SOURCE_PATH="$4"
+    local FILES_JSON="$5"
 
-    echo "--- $TEST_NAME ---"
+    echo "--- [$TIER] $TEST_NAME (expected: $EXPECTED) ---"
 
     local SCALA_SCRIPT TMPOUT TIMEFILE
     SCALA_SCRIPT=$(mktemp /tmp/joern_script_XXXXXX.sc)
@@ -82,8 +84,8 @@ SCALAEOF
         DETECTED="false"
     fi
 
-    printf '{"test":"%s","files":["%s"],"detected":%s,"wall_time_s":%s,"peak_rss_kb":%s}\n' \
-        "$TEST_NAME" "$(basename "$SOURCE_PATH")" "$DETECTED" "$WALL_TIME" "$PEAK_RSS_KB" \
+    printf '{"test":"%s","tier":"%s","expected":"%s","files":%s,"detected":%s,"wall_time_s":%s,"peak_rss_kb":%s}\n' \
+        "$TEST_NAME" "$TIER" "$EXPECTED" "$FILES_JSON" "$DETECTED" "$WALL_TIME" "$PEAK_RSS_KB" \
         >> "$RESULTS"
 
     echo "    detected  : $DETECTED"
@@ -94,25 +96,44 @@ SCALAEOF
     rm -f "$SCALA_SCRIPT" "$TMPOUT" "$TIMEFILE"
 }
 
-# Group 1 — malloc_size
-run_case "bad_malloc_size_01"   "$TESTSUITE/malloc_size/bad_malloc_size_01.c"
-run_case "good_malloc_size_01"  "$TESTSUITE/malloc_size/good_malloc_size_01.c"
+# =======================================================================
+# TIER 1 — Smell pattern variants
+# =======================================================================
+echo "=== TIER 1: Smell pattern variants ==="
+echo
 
-# Group 2 — memcpy_count
-run_case "bad_memcpy_count_01"   "$TESTSUITE/memcpy_count/bad_memcpy_count_01.c"
-run_case "good_memcpy_count_01"  "$TESTSUITE/memcpy_count/good_memcpy_count_01.c"
+run_case "bad_malloc_size_01"    "tier1" "bad"  "$TESTSUITE/malloc_size/bad_malloc_size_01.c"    '["bad_malloc_size_01.c"]'
+run_case "good_malloc_size_01"   "tier1" "good" "$TESTSUITE/malloc_size/good_malloc_size_01.c"   '["good_malloc_size_01.c"]'
+run_case "smell_malloc_size_01"  "tier1" "bad"  "$TESTSUITE/malloc_size/smell_malloc_size_01.c"  '["smell_malloc_size_01.c"]'
 
-# Group 3 — strncpy_count
-run_case "bad_strncpy_count_01"   "$TESTSUITE/strncpy_count/bad_strncpy_count_01.c"
-run_case "good_strncpy_count_01"  "$TESTSUITE/strncpy_count/good_strncpy_count_01.c"
+run_case "bad_memcpy_count_01"    "tier1" "bad"  "$TESTSUITE/memcpy_count/bad_memcpy_count_01.c"    '["bad_memcpy_count_01.c"]'
+run_case "good_memcpy_count_01"   "tier1" "good" "$TESTSUITE/memcpy_count/good_memcpy_count_01.c"   '["good_memcpy_count_01.c"]'
+run_case "smell_memcpy_count_01"  "tier1" "bad"  "$TESTSUITE/memcpy_count/smell_memcpy_count_01.c"  '["smell_memcpy_count_01.c"]'
 
-# Group 4 — interprocedural (sink file)
-run_case "bad_signed_malloc_22b"   "$TESTSUITE/interprocedural/bad_signed_malloc_22b.c"
-run_case "good_signed_malloc_22b"  "$TESTSUITE/interprocedural/good_signed_malloc_22b.c"
+run_case "bad_strncpy_count_01"    "tier1" "bad"  "$TESTSUITE/strncpy_count/bad_strncpy_count_01.c"    '["bad_strncpy_count_01.c"]'
+run_case "good_strncpy_count_01"   "tier1" "good" "$TESTSUITE/strncpy_count/good_strncpy_count_01.c"   '["good_strncpy_count_01.c"]'
+run_case "smell_strncpy_count_01"  "tier1" "bad"  "$TESTSUITE/strncpy_count/smell_strncpy_count_01.c"  '["smell_strncpy_count_01.c"]'
 
-# Group 5 — cpp_class (flow 84)
-run_case "bad_signed_malloc_84"   "$TESTSUITE/cpp_class/bad_signed_malloc_84.cpp"
-run_case "good_signed_malloc_84"  "$TESTSUITE/cpp_class/good_signed_malloc_84.cpp"
+# =======================================================================
+# TIER 2 — Context variants
+# =======================================================================
+echo "=== TIER 2: Context variants ==="
+echo
+
+run_case "bad_signed_malloc_22b"   "tier2" "bad"  "$TESTSUITE/interprocedural/bad_signed_malloc_22b.c"   '["bad_signed_malloc_22b.c"]'
+run_case "good_signed_malloc_22b"  "tier2" "good" "$TESTSUITE/interprocedural/good_signed_malloc_22b.c"  '["good_signed_malloc_22b.c"]'
+
+run_case "bad_signed_malloc_84"   "tier2" "bad"  "$TESTSUITE/cpp_class/bad_signed_malloc_84.cpp"   '["bad_signed_malloc_84.cpp"]'
+run_case "good_signed_malloc_84"  "tier2" "good" "$TESTSUITE/cpp_class/good_signed_malloc_84.cpp"  '["good_signed_malloc_84.cpp"]'
+
+# =======================================================================
+# TIER 3 — Known limitation cases (interprocedural source-only)
+# =======================================================================
+echo "=== TIER 3: Known limitation cases (interprocedural source-only) ==="
+echo
+
+run_case "bad_signed_malloc_22a"   "tier3" "bad"  "$TESTSUITE/interprocedural/bad_signed_malloc_22a.c"   '["bad_signed_malloc_22a.c"]'
+run_case "good_signed_malloc_22a"  "tier3" "good" "$TESTSUITE/interprocedural/good_signed_malloc_22a.c"  '["good_signed_malloc_22a.c"]'
 
 echo "========================================"
 echo " Results saved to: $RESULTS"

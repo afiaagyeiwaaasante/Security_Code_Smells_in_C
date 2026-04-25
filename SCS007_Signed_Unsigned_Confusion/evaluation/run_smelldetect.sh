@@ -1,17 +1,24 @@
 #!/usr/bin/env bash
 # evaluation/run_smelldetect.sh
-# Runs our SCS007 tool on representative CWE-195 test cases and records:
+# Runs our SCS007 tool on each CWE-195 test case and records:
 #   - wall-clock time
 #   - peak RSS (resident set size)
 #   - whether a finding was detected
 # Output: evaluation/smelldetect_results.json  (one JSON object per line)
-set -e
+#
+# Note: smell_ cases (expected="bad") emit warning/smell severity rather than
+#       error/vulnerability — both are counted as detected.
+# Note: interprocedural 22a files (tier3) contain only the taint source with no
+#       sink call; single-file analysis cannot detect the pattern there.
+set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 SRC_DIR="$PROJECT_ROOT/src"
 TESTSUITE="$PROJECT_ROOT/testsuites/CWE195"
 RESULTS="$SCRIPT_DIR/smelldetect_results.json"
+
+SMELL_REPORT="$SRC_DIR/smell_report.sh"
 
 > "$RESULTS"
 
@@ -24,74 +31,88 @@ echo
 
 run_case() {
     local TEST_NAME="$1"
-    local FILE="$2"
+    local TIER="$2"
+    local EXPECTED="$3"
+    local FILE="$4"
 
-    echo "--- $TEST_NAME ---"
+    echo "--- [$TIER] $TEST_NAME (expected: $EXPECTED) ---"
 
     local TMPOUT TIMEFILE
     TMPOUT=$(mktemp /tmp/smelldetect_out_XXXXXX)
     TIMEFILE=$(mktemp /tmp/smelldetect_time_XXXXXX)
 
-    /usr/bin/time -l bash "$SRC_DIR/smell_report.sh" "$FILE" \
+    /usr/bin/time -l bash "$SMELL_REPORT" "$FILE" \
         > "$TMPOUT" 2>"$TIMEFILE" || true
 
-    local WALL_TIME PEAK_RSS_BYTES PEAK_RSS_KB DETECTED
+    local WALL_TIME PEAK_RSS_BYTES PEAK_RSS_KB
     WALL_TIME=$(grep real "$TIMEFILE" | awk '{print $1}')
     PEAK_RSS_BYTES=$(grep "maximum resident set size" "$TIMEFILE" | awk '{print $1}')
     PEAK_RSS_KB=$(( PEAK_RSS_BYTES / 1024 ))
 
-    local SEVERITY="" CLASSIFICATION=""
-    if grep -q '"severity":' "$TMPOUT" 2>/dev/null; then
-        DETECTED="true"
-        SEVERITY=$(grep '"severity"' "$TMPOUT" | head -1 | grep -o '"error"\|"warning"' | tr -d '"')
-        CLASSIFICATION=$(grep '"classification"' "$TMPOUT" | head -1 | grep -o '"vulnerability"\|"smell"' | tr -d '"')
-    else
-        DETECTED="false"
-    fi
+    local FINDING_COUNT DETECTED
+    FINDING_COUNT=$(grep -c '"severity":' "$TMPOUT" 2>/dev/null || true)
+    FINDING_COUNT=${FINDING_COUNT:-0}
+    if [ "$FINDING_COUNT" -gt 0 ]; then DETECTED="true"; else DETECTED="false"; fi
 
-    printf '{"test":"%s","files":["%s"],"detected":%s,"severity":"%s","classification":"%s","wall_time_s":%s,"peak_rss_kb":%s}\n' \
-        "$TEST_NAME" "$(basename "$FILE")" "$DETECTED" "$SEVERITY" "$CLASSIFICATION" \
-        "$WALL_TIME" "$PEAK_RSS_KB" \
+    printf '{"test":"%s","tier":"%s","expected":"%s","files":["%s"],"detected":%s,"finding_count":%s,"wall_time_s":%s,"peak_rss_kb":%s}\n' \
+        "$TEST_NAME" "$TIER" "$EXPECTED" "$(basename "$FILE")" \
+        "$DETECTED" "$FINDING_COUNT" "$WALL_TIME" "$PEAK_RSS_KB" \
         >> "$RESULTS"
 
-    echo "    detected       : $DETECTED"
-    echo "    severity       : ${SEVERITY:-(none)}"
-    echo "    classification : ${CLASSIFICATION:-(none)}"
-    echo "    wall time      : ${WALL_TIME}s"
-    echo "    peak RSS       : ${PEAK_RSS_KB} KB"
+    echo "    detected      : $DETECTED"
+    echo "    finding count : $FINDING_COUNT"
+    echo "    wall time     : ${WALL_TIME}s"
+    echo "    peak RSS      : ${PEAK_RSS_KB} KB"
     echo
 
     rm -f "$TMPOUT" "$TIMEFILE"
 }
 
-# Group 1 — malloc_size
-# bad_malloc_size_01 uses fscanf → taint present → error/vulnerability
-run_case "bad_malloc_size_01"    "$TESTSUITE/malloc_size/bad_malloc_size_01.c"
-run_case "good_malloc_size_01"   "$TESTSUITE/malloc_size/good_malloc_size_01.c"
-run_case "smell_malloc_size_01"  "$TESTSUITE/malloc_size/smell_malloc_size_01.c"
+# -----------------------------------------------------------------------
+echo "=== TIER 1: Smell pattern variants ==="
+echo
 
-# Group 2 — memcpy_count
-# bad_memcpy_count_01 uses fscanf → taint present → error/vulnerability
-run_case "bad_memcpy_count_01"    "$TESTSUITE/memcpy_count/bad_memcpy_count_01.c"
-run_case "good_memcpy_count_01"   "$TESTSUITE/memcpy_count/good_memcpy_count_01.c"
-run_case "smell_memcpy_count_01"  "$TESTSUITE/memcpy_count/smell_memcpy_count_01.c"
+echo "--- Detector 1: signed_malloc (malloc_size) ---"
+run_case "bad_malloc_size_01"    "tier1" "bad"  "$TESTSUITE/malloc_size/bad_malloc_size_01.c"
+run_case "good_malloc_size_01"   "tier1" "good" "$TESTSUITE/malloc_size/good_malloc_size_01.c"
+run_case "smell_malloc_size_01"  "tier1" "bad"  "$TESTSUITE/malloc_size/smell_malloc_size_01.c"
+echo
 
-# Group 3 — strncpy_count
-# bad_strncpy_count_01 uses fscanf → taint present → error/vulnerability
-run_case "bad_strncpy_count_01"    "$TESTSUITE/strncpy_count/bad_strncpy_count_01.c"
-run_case "good_strncpy_count_01"   "$TESTSUITE/strncpy_count/good_strncpy_count_01.c"
-run_case "smell_strncpy_count_01"  "$TESTSUITE/strncpy_count/smell_strncpy_count_01.c"
+echo "--- Detector 2: signed_memcpy (memcpy_count) ---"
+run_case "bad_memcpy_count_01"    "tier1" "bad"  "$TESTSUITE/memcpy_count/bad_memcpy_count_01.c"
+run_case "good_memcpy_count_01"   "tier1" "good" "$TESTSUITE/memcpy_count/good_memcpy_count_01.c"
+run_case "smell_memcpy_count_01"  "tier1" "bad"  "$TESTSUITE/memcpy_count/smell_memcpy_count_01.c"
+echo
 
-# Group 4 — interprocedural (sink file only — source taint comes from 22a)
-run_case "bad_signed_malloc_22b"   "$TESTSUITE/interprocedural/bad_signed_malloc_22b.c"
-run_case "good_signed_malloc_22b"  "$TESTSUITE/interprocedural/good_signed_malloc_22b.c"
+echo "--- Detector 3: signed_strncpy (strncpy_count) ---"
+run_case "bad_strncpy_count_01"    "tier1" "bad"  "$TESTSUITE/strncpy_count/bad_strncpy_count_01.c"
+run_case "good_strncpy_count_01"   "tier1" "good" "$TESTSUITE/strncpy_count/good_strncpy_count_01.c"
+run_case "smell_strncpy_count_01"  "tier1" "bad"  "$TESTSUITE/strncpy_count/smell_strncpy_count_01.c"
+echo
 
-# Group 5 — cpp_class (flow 84)
-run_case "bad_signed_malloc_84"   "$TESTSUITE/cpp_class/bad_signed_malloc_84.cpp"
-run_case "good_signed_malloc_84"  "$TESTSUITE/cpp_class/good_signed_malloc_84.cpp"
+# -----------------------------------------------------------------------
+echo "=== TIER 2: Context variants ==="
+echo
 
-# NOTE: full interprocedural taint tracking (22a→22b) requires multi-file analysis
-# and is not benchmarked here (no smell_report_multi.sh for SCS007).
+echo "--- Detector 1: signed_malloc (interprocedural sink-side) ---"
+run_case "bad_signed_malloc_22b"   "tier2" "bad"  "$TESTSUITE/interprocedural/bad_signed_malloc_22b.c"
+run_case "good_signed_malloc_22b"  "tier2" "good" "$TESTSUITE/interprocedural/good_signed_malloc_22b.c"
+echo
+
+echo "--- Detector 1: signed_malloc (C++ class variant) ---"
+run_case "bad_signed_malloc_84"   "tier2" "bad"  "$TESTSUITE/cpp_class/bad_signed_malloc_84.cpp"
+run_case "good_signed_malloc_84"  "tier2" "good" "$TESTSUITE/cpp_class/good_signed_malloc_84.cpp"
+echo
+
+# -----------------------------------------------------------------------
+echo "=== TIER 3: Known limitation cases (interprocedural source-only) ==="
+echo "    (22a files contain only the taint source — no sink call present;"
+echo "     single-file analysis cannot detect the pattern)"
+echo
+
+run_case "bad_signed_malloc_22a"   "tier3" "bad"  "$TESTSUITE/interprocedural/bad_signed_malloc_22a.c"
+run_case "good_signed_malloc_22a"  "tier3" "good" "$TESTSUITE/interprocedural/good_signed_malloc_22a.c"
+echo
 
 echo "========================================"
 echo " Results saved to: $RESULTS"
