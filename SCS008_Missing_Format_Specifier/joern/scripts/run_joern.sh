@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # joern/scripts/run_joern.sh
-# Runs Joern on representative CWE-134 test cases and records:
+# Runs Joern on each CWE-134 test case and records:
 #   - wall-clock time  (includes JVM startup + CPG build + query)
 #   - peak RSS (resident set size)
 #   - whether a missing format specifier smell was detected
@@ -9,8 +9,8 @@
 #   Find calls to printf/fprintf/vprintf/vfprintf/syslog where the format
 #   argument is NOT a string literal.  In the Joern CPG, a string literal
 #   appears as a Literal node; a variable appears as an Identifier node.
-#   printf: format = argument index 0
-#   fprintf/vfprintf/syslog: format = argument index 1
+#   printf/vprintf: format = argument at index 0 (order 1)
+#   fprintf/vfprintf/syslog: format = argument at index 1 (order 2)
 #
 # Output: joern/results/joern_results.json  (one JSON object per line)
 set -e
@@ -19,8 +19,8 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 TESTSUITE="$PROJECT_ROOT/testsuites/CWE134"
 RESULTS="$SCRIPT_DIR/../results/joern_results.json"
-
 mkdir -p "$(dirname "$RESULTS")"
+
 > "$RESULTS"
 
 echo "========================================"
@@ -32,9 +32,12 @@ echo
 
 run_case() {
     local TEST_NAME="$1"
-    local SOURCE_PATH="$2"
+    local TIER="$2"
+    local EXPECTED="$3"
+    local SOURCE_PATH="$4"
+    local FILES_JSON="$5"
 
-    echo "--- $TEST_NAME ---"
+    echo "--- [$TIER] $TEST_NAME (expected: $EXPECTED) ---"
 
     local SCALA_SCRIPT TMPOUT TIMEFILE
     SCALA_SCRIPT=$(mktemp /tmp/joern_script_XXXXXX.sc)
@@ -44,7 +47,7 @@ run_case() {
     cat > "$SCALA_SCRIPT" << 'SCALAEOF'
 importCode("SOURCE_PATH_PLACEHOLDER")
 
-// printf/vprintf: format is argument at index 0 — must be a Literal
+// printf/vprintf: format is argument at index 0 (order 1) — must be a Literal
 val printfBad = cpg.call
   .nameExact("printf", "vprintf")
   .filter { c =>
@@ -80,8 +83,8 @@ SCALAEOF
         DETECTED="false"
     fi
 
-    printf '{"test":"%s","files":["%s"],"detected":%s,"wall_time_s":%s,"peak_rss_kb":%s}\n' \
-        "$TEST_NAME" "$(basename "$SOURCE_PATH")" "$DETECTED" "$WALL_TIME" "$PEAK_RSS_KB" \
+    printf '{"test":"%s","tier":"%s","expected":"%s","files":%s,"detected":%s,"wall_time_s":%s,"peak_rss_kb":%s}\n' \
+        "$TEST_NAME" "$TIER" "$EXPECTED" "$FILES_JSON" "$DETECTED" "$WALL_TIME" "$PEAK_RSS_KB" \
         >> "$RESULTS"
 
     echo "    detected  : $DETECTED"
@@ -92,25 +95,41 @@ SCALAEOF
     rm -f "$SCALA_SCRIPT" "$TMPOUT" "$TIMEFILE"
 }
 
-# Group 1 — printf_direct
-run_case "bad_printf_direct_01"  "$TESTSUITE/printf_direct/bad_printf_direct_01.c"
-run_case "good_printf_direct_01" "$TESTSUITE/printf_direct/good_printf_direct_01.c"
+# =======================================================================
+# TIER 1 — Smell pattern variants
+# =======================================================================
+echo "=== TIER 1: Smell pattern variants ==="
+echo
 
-# Group 2 — fprintf_direct
-run_case "bad_fprintf_direct_01"  "$TESTSUITE/fprintf_direct/bad_fprintf_direct_01.c"
-run_case "good_fprintf_direct_01" "$TESTSUITE/fprintf_direct/good_fprintf_direct_01.c"
+run_case "bad_printf_direct_01"  "tier1" "bad"  "$TESTSUITE/printf_direct/bad_printf_direct_01.c"  '["bad_printf_direct_01.c"]'
+run_case "good_printf_direct_01" "tier1" "good" "$TESTSUITE/printf_direct/good_printf_direct_01.c" '["good_printf_direct_01.c"]'
 
-# Group 3 — env_format
-run_case "bad_env_format_01"  "$TESTSUITE/env_format/bad_env_format_01.c"
-run_case "good_env_format_01" "$TESTSUITE/env_format/good_env_format_01.c"
+run_case "bad_fprintf_direct_01"  "tier1" "bad"  "$TESTSUITE/fprintf_direct/bad_fprintf_direct_01.c"  '["bad_fprintf_direct_01.c"]'
+run_case "good_fprintf_direct_01" "tier1" "good" "$TESTSUITE/fprintf_direct/good_fprintf_direct_01.c" '["good_fprintf_direct_01.c"]'
 
-# Group 4 — interprocedural (sink file)
-run_case "bad_printf_interprocedural_22b"  "$TESTSUITE/interprocedural/bad_printf_interprocedural_22b.c"
-run_case "good_printf_interprocedural_22b" "$TESTSUITE/interprocedural/good_printf_interprocedural_22b.c"
+run_case "bad_env_format_01"  "tier1" "bad"  "$TESTSUITE/env_format/bad_env_format_01.c"  '["bad_env_format_01.c"]'
+run_case "good_env_format_01" "tier1" "good" "$TESTSUITE/env_format/good_env_format_01.c" '["good_env_format_01.c"]'
 
-# Group 5 — cpp_class (flow 84)
-run_case "bad_printf_class_84"  "$TESTSUITE/cpp_class/bad_printf_class_84.cpp"
-run_case "good_printf_class_84" "$TESTSUITE/cpp_class/good_printf_class_84.cpp"
+# =======================================================================
+# TIER 2 — Context variants
+# =======================================================================
+echo "=== TIER 2: Context variants ==="
+echo
+
+run_case "bad_printf_interprocedural_22b"  "tier2" "bad"  "$TESTSUITE/interprocedural/bad_printf_interprocedural_22b.c"  '["bad_printf_interprocedural_22b.c"]'
+run_case "good_printf_interprocedural_22b" "tier2" "good" "$TESTSUITE/interprocedural/good_printf_interprocedural_22b.c" '["good_printf_interprocedural_22b.c"]'
+
+run_case "bad_printf_class_84"  "tier2" "bad"  "$TESTSUITE/cpp_class/bad_printf_class_84.cpp"  '["bad_printf_class_84.cpp"]'
+run_case "good_printf_class_84" "tier2" "good" "$TESTSUITE/cpp_class/good_printf_class_84.cpp" '["good_printf_class_84.cpp"]'
+
+# =======================================================================
+# TIER 3 — Known limitation cases (interprocedural source-only)
+# =======================================================================
+echo "=== TIER 3: Known limitation cases (interprocedural source-only) ==="
+echo
+
+run_case "bad_printf_interprocedural_22a"  "tier3" "bad"  "$TESTSUITE/interprocedural/bad_printf_interprocedural_22a.c"  '["bad_printf_interprocedural_22a.c"]'
+run_case "good_printf_interprocedural_22a" "tier3" "good" "$TESTSUITE/interprocedural/good_printf_interprocedural_22a.c" '["good_printf_interprocedural_22a.c"]'
 
 echo "========================================"
 echo " Results saved to: $RESULTS"

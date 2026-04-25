@@ -1,123 +1,148 @@
 #!/usr/bin/env bash
-# run_test.sh
-# CWE-134 Missing Format Specifier — SmellDetect test runner
-#
-# Runs smell_report.sh on every test case, collects results, and prints
-# a pass/fail summary table.
+# run_test.sh — SCS008 CWE-134 Missing Format Specifier test suite
+# Usage: cd testsuites/CWE134 && bash run_test.sh
 #
 # Expected:
-#   bad_*.c / bad_*.cpp   →  at least one finding, any severity (TP)
-#   good_*.c / good_*.cpp →  zero findings (TN)
+#   bad_*   → at least one finding, any severity (TP)
+#   good_*  → zero findings (TN)
 #
 # Note: all SCS008 findings are error/vulnerability (tainted input to printf-family).
 #       No smell_ variants exist for this detector.
-#
-# Usage: bash run_test.sh [output_dir]
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
-SMELL_REPORT="$PROJECT_ROOT/src/smell_report.sh"
-OUTPUT_DIR="${1:-$SCRIPT_DIR/results}"
-
-mkdir -p "$OUTPUT_DIR"
-
+SRC_DIR="$SCRIPT_DIR/../../src"
 PASS=0
 FAIL=0
-TOTAL=0
+SKIP=0
 
-declare -a RESULTS
-
-run_case() {
-    local src="$1"
-    local expect="$2"   # "bad" or "good"
-    local base; base=$(basename "$src")
-
-    bash "$SMELL_REPORT" "$src" "$OUTPUT_DIR" > /dev/null 2>&1
-
-    local findings_file
-    findings_file=$(ls -t "$OUTPUT_DIR/${base%.*}_findings_"*.json 2>/dev/null | head -1)
-
-    local count=0
-    if [ -f "$findings_file" ]; then
-        count=$(python3 -c "
-import json, sys
-content = open('$findings_file').read().strip()
-findings = []
-depth, buf = 0, ''
-for ch in content:
-    if ch == '{': depth += 1
-    if depth > 0: buf += ch
-    if ch == '}':
-        depth -= 1
-        if depth == 0 and buf.strip():
-            try: findings.append(json.loads(buf))
-            except: pass
-            buf = ''
-print(len(findings))
-" 2>/dev/null || echo 0)
+run_bad() {
+    local label="$1"
+    local file="$2"
+    if [ ! -f "$file" ]; then
+        echo "SKIP  $label (file not found)"
+        SKIP=$((SKIP+1))
+        return
     fi
-
-    local status
-    if [ "$expect" = "bad" ] && [ "$count" -gt 0 ]; then
-        status="PASS (TP)"
-        PASS=$((PASS + 1))
-    elif [ "$expect" = "good" ] && [ "$count" -eq 0 ]; then
-        status="PASS (TN)"
-        PASS=$((PASS + 1))
-    elif [ "$expect" = "bad" ] && [ "$count" -eq 0 ]; then
-        status="FAIL (FN)"
-        FAIL=$((FAIL + 1))
+    if [ ! -f "$SRC_DIR/smell_report.sh" ]; then
+        echo "SKIP  $label (smell_report.sh not found)"
+        SKIP=$((SKIP+1))
+        return
+    fi
+    output=$(bash "$SRC_DIR/smell_report.sh" "$file" 2>&1)
+    if echo "$output" | grep -q '"severity":'; then
+        echo "PASS  $label"
+        PASS=$((PASS+1))
     else
-        status="FAIL (FP)"
-        FAIL=$((FAIL + 1))
+        echo "FAIL  $label — no finding emitted"
+        FAIL=$((FAIL+1))
     fi
+}
 
-    TOTAL=$((TOTAL + 1))
-    RESULTS+=("$(printf '%-50s  %-8s  %s' "$base" "$expect" "$status")")
+run_good() {
+    local label="$1"
+    local file="$2"
+    if [ ! -f "$file" ]; then
+        echo "SKIP  $label (file not found)"
+        SKIP=$((SKIP+1))
+        return
+    fi
+    if [ ! -f "$SRC_DIR/smell_report.sh" ]; then
+        echo "SKIP  $label (smell_report.sh not found)"
+        SKIP=$((SKIP+1))
+        return
+    fi
+    output=$(bash "$SRC_DIR/smell_report.sh" "$file" 2>&1)
+    if echo "$output" | grep -q '"severity":'; then
+        echo "FAIL  $label — false positive"
+        FAIL=$((FAIL+1))
+    else
+        echo "PASS  $label (clean)"
+        PASS=$((PASS+1))
+    fi
+}
+
+run_limitation() {
+    local label="$1"
+    local file="$2"
+    if [ ! -f "$file" ]; then
+        echo "SKIP  $label (file not found)"
+        SKIP=$((SKIP+1))
+        return
+    fi
+    if [ ! -f "$SRC_DIR/smell_report.sh" ]; then
+        echo "SKIP  $label (smell_report.sh not found)"
+        SKIP=$((SKIP+1))
+        return
+    fi
+    output=$(bash "$SRC_DIR/smell_report.sh" "$file" 2>&1)
+    if echo "$output" | grep -q '"severity":'; then
+        echo "NOTE  $label — unexpectedly detected (limitation resolved?)"
+    else
+        echo "NOTE  $label — missed as expected (source-only file — known limitation)"
+    fi
 }
 
 echo "========================================"
-echo " CWE-134 Missing Format Specifier — Test Suite"
-echo " Tool   : smell_report.sh"
-echo " Date   : $(date)"
+echo " SCS008 CWE-134 Missing Format Specifier Test Suite"
 echo "========================================"
 echo
 
-# --- printf_direct group ---
-echo "[ printf_direct ]"
-for f in "$SCRIPT_DIR/printf_direct"/bad_*.c;  do [ -f "$f" ] && run_case "$f" bad; done
-for f in "$SCRIPT_DIR/printf_direct"/good_*.c; do [ -f "$f" ] && run_case "$f" good; done
-
-# --- fprintf_direct group ---
-echo "[ fprintf_direct ]"
-for f in "$SCRIPT_DIR/fprintf_direct"/bad_*.c;  do [ -f "$f" ] && run_case "$f" bad; done
-for f in "$SCRIPT_DIR/fprintf_direct"/good_*.c; do [ -f "$f" ] && run_case "$f" good; done
-
-# --- env_format group ---
-echo "[ env_format ]"
-for f in "$SCRIPT_DIR/env_format"/bad_*.c;  do [ -f "$f" ] && run_case "$f" bad; done
-for f in "$SCRIPT_DIR/env_format"/good_*.c; do [ -f "$f" ] && run_case "$f" good; done
-
-# --- cpp_class group (flow 84) ---
-echo "[ cpp_class ]"
-for f in "$SCRIPT_DIR/cpp_class"/bad_*.cpp;  do [ -f "$f" ] && run_case "$f" bad; done
-for f in "$SCRIPT_DIR/cpp_class"/good_*.cpp; do [ -f "$f" ] && run_case "$f" good; done
-
-# --- interprocedural group (sink file only — source taint comes from 22a) ---
-# NOTE: 22a files contain only the taint source, no sink — single-file analysis
-# cannot detect them. Only 22b (sink side) is tested here.
-echo "[ interprocedural ]"
-for f in "$SCRIPT_DIR/interprocedural"/bad_*_22b.c;  do [ -f "$f" ] && run_case "$f" bad; done
-for f in "$SCRIPT_DIR/interprocedural"/good_*_22b.c; do [ -f "$f" ] && run_case "$f" good; done
-
+# ---------------------------------------------------------------------------
+# TIER 1 — Smell pattern variants
+# ---------------------------------------------------------------------------
+echo "--- TIER 1: Smell pattern variants ---"
 echo
-echo "========================================"
-echo " Results"
-echo "========================================"
-for r in "${RESULTS[@]}"; do
-    echo "  $r"
-done
+
+echo "--- Detector 1: printf_direct ---"
+run_bad  "bad_printf_direct_01"  "$SCRIPT_DIR/printf_direct/bad_printf_direct_01.c"
+run_good "good_printf_direct_01" "$SCRIPT_DIR/printf_direct/good_printf_direct_01.c"
 echo
-echo "  Total: $TOTAL   Pass: $PASS   Fail: $FAIL"
+
+echo "--- Detector 2: fprintf_direct ---"
+run_bad  "bad_fprintf_direct_01"  "$SCRIPT_DIR/fprintf_direct/bad_fprintf_direct_01.c"
+run_good "good_fprintf_direct_01" "$SCRIPT_DIR/fprintf_direct/good_fprintf_direct_01.c"
+echo
+
+echo "--- Detector 1/2: env_format ---"
+run_bad  "bad_env_format_01"  "$SCRIPT_DIR/env_format/bad_env_format_01.c"
+run_good "good_env_format_01" "$SCRIPT_DIR/env_format/good_env_format_01.c"
+echo
+
+# ---------------------------------------------------------------------------
+# TIER 2 — Context variants
+# ---------------------------------------------------------------------------
+echo "--- TIER 2: Context variants ---"
+echo
+
+echo "--- Interprocedural (sink-side) ---"
+run_bad  "bad_printf_interprocedural_22b"  "$SCRIPT_DIR/interprocedural/bad_printf_interprocedural_22b.c"
+run_good "good_printf_interprocedural_22b" "$SCRIPT_DIR/interprocedural/good_printf_interprocedural_22b.c"
+echo
+
+echo "--- C++ class variant ---"
+run_bad  "bad_printf_class_84"  "$SCRIPT_DIR/cpp_class/bad_printf_class_84.cpp"
+run_good "good_printf_class_84" "$SCRIPT_DIR/cpp_class/good_printf_class_84.cpp"
+echo
+
+# ---------------------------------------------------------------------------
+# TIER 3 — Known limitation cases (excluded from pass/fail counts)
+# ---------------------------------------------------------------------------
+echo "--- TIER 3: Known limitation cases ---"
+echo "    (22a files contain only the taint source — no sink call present;"
+echo "     single-file analysis cannot detect the pattern here)"
+echo
+run_limitation "bad_printf_interprocedural_22a"  "$SCRIPT_DIR/interprocedural/bad_printf_interprocedural_22a.c"
+run_limitation "good_printf_interprocedural_22a" "$SCRIPT_DIR/interprocedural/good_printf_interprocedural_22a.c"
+echo
+
+# ---------------------------------------------------------------------------
+# Summary
+# ---------------------------------------------------------------------------
+TOTAL=$((PASS+FAIL+SKIP))
 echo "========================================"
+echo " Results: $PASS/$TOTAL passed  ($FAIL failed, $SKIP skipped)"
+echo "========================================"
+if [ "$FAIL" -gt 0 ]; then
+    exit 1
+fi
