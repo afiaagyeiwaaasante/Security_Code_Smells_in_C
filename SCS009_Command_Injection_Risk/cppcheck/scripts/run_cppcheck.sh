@@ -1,39 +1,37 @@
 #!/usr/bin/env bash
 # cppcheck/scripts/run_cppcheck.sh
-# Runs cppcheck on representative CWE-78 test cases and records:
-#   - wall-clock time
-#   - peak RSS (resident set size)
-#   - whether a command injection smell was detected
-#
-# Detection keywords: constArgument | invalidFunctionArg | CommandInjection
-#   cppcheck --enable=all may flag certain uses of system()/popen() as
-#   security issues (checkLibraryUseReturnValue, etc.) depending on version.
-#
+# Runs cppcheck on each CWE-78 test case and records:
+#   - wall-clock time, peak RSS, detection result, tier, expected outcome
+# Detection: commandInjection | dangerousFunction | taintedData | useInputInFunctionCall
+#   Note: cppcheck requires value-flow analysis to trace tainted arguments
+#   into system/popen/execl; for runtime-determined values it typically misses cases.
 # Output: cppcheck/results/cppcheck_results.json  (one JSON object per line)
-set -e
+set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 TESTSUITE="$PROJECT_ROOT/testsuites/CWE78"
 RESULTS="$SCRIPT_DIR/../results/cppcheck_results.json"
-
 mkdir -p "$(dirname "$RESULTS")"
+
 > "$RESULTS"
 
 echo "========================================"
-echo " SCS009 — cppcheck Benchmark"
-echo " cppcheck version: $(cppcheck --version 2>&1)"
-echo " Output: $RESULTS"
-echo " Date  : $(date)"
+echo " SCS009 — cppcheck Benchmark (all tiers)"
+echo " cppcheck version : $(cppcheck --version 2>&1)"
+echo " Output : $RESULTS"
+echo " Date   : $(date)"
 echo "========================================"
 echo
 
 run_case() {
     local TEST_NAME="$1"
-    shift
+    local TIER="$2"
+    local EXPECTED="$3"
+    shift 3
     local FILES=("$@")
 
-    echo "--- $TEST_NAME ---"
+    echo "--- [$TIER] $TEST_NAME (expected: $EXPECTED) ---"
 
     local TMPOUT TIMEFILE
     TMPOUT=$(mktemp /tmp/cppcheck_out_XXXXXX)
@@ -60,16 +58,18 @@ run_case() {
 
     local FILES_JSON="["
     for i in "${!FILES[@]}"; do
+        local BASENAME
+        BASENAME=$(basename "${FILES[$i]}")
         [ "$i" -gt 0 ] && FILES_JSON+=","
-        FILES_JSON+="\"$(basename "${FILES[$i]}")\""
+        FILES_JSON+="\"${BASENAME}\""
     done
     FILES_JSON+="]"
 
-    printf '{"test":"%s","files":%s,"detected":%s,"wall_time_s":%s,"peak_rss_kb":%s}\n' \
-        "$TEST_NAME" "$FILES_JSON" "$DETECTED" "$WALL_TIME" "$PEAK_RSS_KB" \
+    printf '{"test":"%s","tier":"%s","expected":"%s","files":%s,"detected":%s,"wall_time_s":%s,"peak_rss_kb":%s}\n' \
+        "$TEST_NAME" "$TIER" "$EXPECTED" "$FILES_JSON" "$DETECTED" "$WALL_TIME" "$PEAK_RSS_KB" \
         >> "$RESULTS"
 
-    echo "    detected  : $DETECTED"
+    echo "    detected  : $DETECTED  (expected: $EXPECTED)"
     echo "    wall time : ${WALL_TIME}s"
     echo "    peak RSS  : ${PEAK_RSS_KB} KB"
     echo
@@ -77,26 +77,44 @@ run_case() {
     rm -f "$TMPOUT" "$TIMEFILE"
 }
 
-# Group 1 — system_console
-run_case "bad_system_console_01"  "$TESTSUITE/system_console/bad_system_console_01.c"
-run_case "good_system_console_01" "$TESTSUITE/system_console/good_system_console_01.c"
+# =======================================================================
+# TIER 1 — Smell pattern variants
+# =======================================================================
+echo "=== TIER 1: Smell pattern variants ==="
+echo
 
-# Group 2 — system_env
-run_case "bad_system_env_01"  "$TESTSUITE/system_env/bad_system_env_01.c"
-run_case "good_system_env_01" "$TESTSUITE/system_env/good_system_env_01.c"
+run_case "bad_system_console_01"  "tier1" "bad"  "$TESTSUITE/system_console/bad_system_console_01.c"
+run_case "good_system_console_01" "tier1" "good" "$TESTSUITE/system_console/good_system_console_01.c"
 
-# Group 3 — popen_console
-run_case "bad_popen_console_01"  "$TESTSUITE/popen_console/bad_popen_console_01.c"
-run_case "good_popen_console_01" "$TESTSUITE/popen_console/good_popen_console_01.c"
+run_case "bad_system_env_01"  "tier1" "bad"  "$TESTSUITE/system_env/bad_system_env_01.c"
+run_case "good_system_env_01" "tier1" "good" "$TESTSUITE/system_env/good_system_env_01.c"
 
-# Group 4 — interprocedural (sink file only)
-run_case "bad_system_interprocedural_22b"  "$TESTSUITE/interprocedural/bad_system_interprocedural_22b.c"
-run_case "good_system_interprocedural_22b" "$TESTSUITE/interprocedural/good_system_interprocedural_22b.c"
+run_case "bad_popen_console_01"  "tier1" "bad"  "$TESTSUITE/popen_console/bad_popen_console_01.c"
+run_case "good_popen_console_01" "tier1" "good" "$TESTSUITE/popen_console/good_popen_console_01.c"
 
-# Group 5 — cpp_class (flow 84)
-run_case "bad_system_class_84"  "$TESTSUITE/cpp_class/bad_system_class_84.cpp"
-run_case "good_system_class_84" "$TESTSUITE/cpp_class/good_system_class_84.cpp"
+run_case "bad_execl_console_01"  "tier1" "bad"  "$TESTSUITE/execl_console/bad_execl_console_01.c"
+run_case "good_execl_console_01" "tier1" "good" "$TESTSUITE/execl_console/good_execl_console_01.c"
+
+# =======================================================================
+# TIER 2 — Context variants
+# =======================================================================
+echo "=== TIER 2: Context variants ==="
+echo
+
+run_case "bad_system_interprocedural_22b"  "tier2" "bad"  "$TESTSUITE/interprocedural/bad_system_interprocedural_22b.c"
+run_case "good_system_interprocedural_22b" "tier2" "good" "$TESTSUITE/interprocedural/good_system_interprocedural_22b.c"
+
+run_case "bad_system_class_84"  "tier2" "bad"  "$TESTSUITE/cpp_class/bad_system_class_84.cpp"
+run_case "good_system_class_84" "tier2" "good" "$TESTSUITE/cpp_class/good_system_class_84.cpp"
+
+# =======================================================================
+# TIER 3 — Known limitation cases (interprocedural source-only)
+# =======================================================================
+echo "=== TIER 3: Known limitation cases (interprocedural source-only) ==="
+echo
+
+run_case "bad_system_interprocedural_22a" "tier3" "bad" "$TESTSUITE/interprocedural/bad_system_interprocedural_22a.c"
 
 echo "========================================"
-echo " Results saved to: $RESULTS"
+echo " Results saved to : $RESULTS"
 echo "========================================"
