@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # joern/scripts/run_joern.sh
-# Runs Joern on representative CWE-259 test cases and records:
+# Runs Joern on each CWE-259 test case and records:
 #   - wall-clock time  (includes JVM startup + CPG build + query)
 #   - peak RSS (resident set size)
 #   - whether a hardcoded credential smell was detected
@@ -17,8 +17,8 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 TESTSUITE="$PROJECT_ROOT/testsuites/CWE259"
 RESULTS="$SCRIPT_DIR/../results/joern_results.json"
-
 mkdir -p "$(dirname "$RESULTS")"
+
 > "$RESULTS"
 
 echo "========================================"
@@ -30,9 +30,12 @@ echo
 
 run_case() {
     local TEST_NAME="$1"
-    local SOURCE_PATH="$2"
+    local TIER="$2"
+    local EXPECTED="$3"
+    local SOURCE_PATH="$4"
+    local FILES_JSON="$5"
 
-    echo "--- $TEST_NAME ---"
+    echo "--- [$TIER] $TEST_NAME (expected: $EXPECTED) ---"
 
     local SCALA_SCRIPT TMPOUT TIMEFILE
     SCALA_SCRIPT=$(mktemp /tmp/joern_script_XXXXXX.sc)
@@ -82,8 +85,8 @@ SCALAEOF
         DETECTED="false"
     fi
 
-    printf '{"test":"%s","files":["%s"],"detected":%s,"wall_time_s":%s,"peak_rss_kb":%s}\n' \
-        "$TEST_NAME" "$(basename "$SOURCE_PATH")" "$DETECTED" "$WALL_TIME" "$PEAK_RSS_KB" \
+    printf '{"test":"%s","tier":"%s","expected":"%s","files":%s,"detected":%s,"wall_time_s":%s,"peak_rss_kb":%s}\n' \
+        "$TEST_NAME" "$TIER" "$EXPECTED" "$FILES_JSON" "$DETECTED" "$WALL_TIME" "$PEAK_RSS_KB" \
         >> "$RESULTS"
 
     echo "    detected  : $DETECTED"
@@ -94,25 +97,40 @@ SCALAEOF
     rm -f "$SCALA_SCRIPT" "$TMPOUT" "$TIMEFILE"
 }
 
-# Group 1 — password_var
-run_case "bad_password_var_01"  "$TESTSUITE/password_var/bad_password_var_01.c"
-run_case "good_password_var_01" "$TESTSUITE/password_var/good_password_var_01.c"
+# =======================================================================
+# TIER 1 — Smell pattern variants
+# =======================================================================
+echo "=== TIER 1: Smell pattern variants ==="
+echo
 
-# Group 2 — define_const
-run_case "bad_define_const_01"  "$TESTSUITE/define_const/bad_define_const_01.c"
-run_case "good_define_const_01" "$TESTSUITE/define_const/good_define_const_01.c"
+run_case "bad_password_var_01"  "tier1" "bad"  "$TESTSUITE/password_var/bad_password_var_01.c"  '["bad_password_var_01.c"]'
+run_case "good_password_var_01" "tier1" "good" "$TESTSUITE/password_var/good_password_var_01.c" '["good_password_var_01.c"]'
 
-# Group 3 — strcmp_auth
-run_case "bad_strcmp_auth_01"  "$TESTSUITE/strcmp_auth/bad_strcmp_auth_01.c"
-run_case "good_strcmp_auth_01" "$TESTSUITE/strcmp_auth/good_strcmp_auth_01.c"
+run_case "bad_define_const_01"  "tier1" "bad"  "$TESTSUITE/define_const/bad_define_const_01.c"  '["bad_define_const_01.c"]'
+run_case "good_define_const_01" "tier1" "good" "$TESTSUITE/define_const/good_define_const_01.c" '["good_define_const_01.c"]'
 
-# Group 4 — interprocedural (source file)
-run_case "bad_password_interprocedural_22a"  "$TESTSUITE/interprocedural/bad_password_interprocedural_22a.c"
-run_case "good_password_interprocedural_22b" "$TESTSUITE/interprocedural/good_password_interprocedural_22b.c"
+run_case "bad_strcmp_auth_01"  "tier1" "bad"  "$TESTSUITE/strcmp_auth/bad_strcmp_auth_01.c"  '["bad_strcmp_auth_01.c"]'
+run_case "good_strcmp_auth_01" "tier1" "good" "$TESTSUITE/strcmp_auth/good_strcmp_auth_01.c" '["good_strcmp_auth_01.c"]'
 
-# Group 5 — cpp_class (flow 84)
-run_case "bad_password_class_84"  "$TESTSUITE/cpp_class/bad_password_class_84.cpp"
-run_case "good_password_class_84" "$TESTSUITE/cpp_class/good_password_class_84.cpp"
+# =======================================================================
+# TIER 2 — Context variants
+# =======================================================================
+echo "=== TIER 2: Context variants ==="
+echo
+
+run_case "bad_password_interprocedural_22a"  "tier2" "bad"  "$TESTSUITE/interprocedural/bad_password_interprocedural_22a.c"  '["bad_password_interprocedural_22a.c"]'
+run_case "good_password_interprocedural_22b" "tier2" "good" "$TESTSUITE/interprocedural/good_password_interprocedural_22b.c" '["good_password_interprocedural_22b.c"]'
+
+run_case "bad_password_class_84"  "tier2" "bad"  "$TESTSUITE/cpp_class/bad_password_class_84.cpp"  '["bad_password_class_84.cpp"]'
+run_case "good_password_class_84" "tier2" "good" "$TESTSUITE/cpp_class/good_password_class_84.cpp" '["good_password_class_84.cpp"]'
+
+# =======================================================================
+# TIER 3 — Known limitation cases (interprocedural sink-only)
+# =======================================================================
+echo "=== TIER 3: Known limitation cases (interprocedural sink-only) ==="
+echo
+
+run_case "bad_password_interprocedural_22b" "tier3" "bad" "$TESTSUITE/interprocedural/bad_password_interprocedural_22b.c" '["bad_password_interprocedural_22b.c"]'
 
 echo "========================================"
 echo " Results saved to: $RESULTS"
