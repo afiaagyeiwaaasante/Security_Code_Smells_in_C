@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" xmlns:cpp="http://www.srcML.org/srcML/cpp" xmlns:pos="http://www.srcML.org/srcML/position" xmlns:slice="http://www.srcML.org/srcML/slice" revision="1.0.0" language="C" filename="/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/interprocedural/bad_int_multiply_22a.c" pos:tabs="8" hash="caf9df7abab3fc45c15f0e3aba24265d83a4790a"><comment type="block" pos:start="1:1" pos:end="5:3">/* CWE-190 Integer Overflow â bad: interprocedural multiply, source file (22a)
+ * Flow: bad source sets data via rand() in this file;
+ *       bad sink in 22b multiplies without bounds check.
+ * FLAW: overflow-risky value crosses a function boundary unchecked.
+ */</comment>
+<cpp:include pos:start="6:1" pos:end="6:19">#<cpp:directive pos:start="6:2" pos:end="6:8">include</cpp:directive> <cpp:file pos:start="6:10" pos:end="6:19">&lt;stdlib.h&gt;</cpp:file></cpp:include>
+
+<comment type="block" pos:start="8:1" pos:end="8:53">/* Sink function defined in bad_int_multiply_22b.c */</comment>
+<function_decl pos:start="9:1" pos:end="9:41"><type pos:start="9:1" pos:end="9:4"><name pos:start="9:1" pos:end="9:4">void</name></type> <name pos:start="9:6" pos:end="9:30">bad_int_multiply_22b_sink</name><parameter_list pos:start="9:31" pos:end="9:40">(<parameter pos:start="9:32" pos:end="9:39"><decl pos:start="9:32" pos:end="9:39" slice:use="3ef13b47b251975ce1202f7460404275cd4618d6" slice:decl="6fd73b48bed1792288ebdb91e9141c240063a5db"><type pos:start="9:32" pos:end="9:34"><name pos:start="9:32" pos:end="9:34">int</name></type> <name pos:start="9:36" pos:end="9:39">data</name></decl></parameter>)</parameter_list>;</function_decl>
+
+<function pos:start="11:1" pos:end="17:1"><type pos:start="11:1" pos:end="11:4"><name pos:start="11:1" pos:end="11:4">void</name></type> <name pos:start="11:6" pos:end="11:25">bad_int_multiply_22a</name><parameter_list pos:start="11:26" pos:end="11:31">(<parameter pos:start="11:27" pos:end="11:30"><decl pos:start="11:27" pos:end="11:30"><type pos:start="11:27" pos:end="11:30"><name pos:start="11:27" pos:end="11:30">void</name></type></decl></parameter>)</parameter_list>
+<block pos:start="12:1" pos:end="17:1">{<block_content pos:start="12:2" pos:end="17:0">
+    <decl_stmt pos:start="13:5" pos:end="13:17"><decl pos:start="13:5" pos:end="13:16" slice:decl="3ef13b47b251975ce1202f7460404275cd4618d6"><type pos:start="13:5" pos:end="13:7"><name pos:start="13:5" pos:end="13:7">int</name></type> <name pos:start="13:9" pos:end="13:12">data</name> <init pos:start="13:14" pos:end="13:16">= <expr pos:start="13:16" pos:end="13:16"><literal type="number" pos:start="13:16" pos:end="13:16">0</literal></expr></init></decl>;</decl_stmt>
+    <comment type="block" pos:start="14:5" pos:end="14:56">/* POTENTIAL FLAW: value from rand() may be large */</comment>
+    <expr_stmt pos:start="15:5" pos:end="15:18"><expr pos:start="15:5" pos:end="15:17" slice:def="3ef13b47b251975ce1202f7460404275cd4618d6"><name pos:start="15:5" pos:end="15:8">data</name> <operator pos:start="15:10" pos:end="15:10">=</operator> <call pos:start="15:12" pos:end="15:17"><name pos:start="15:12" pos:end="15:15">rand</name><argument_list pos:start="15:16" pos:end="15:17">()</argument_list></call></expr>;</expr_stmt>
+    <expr_stmt pos:start="16:5" pos:end="16:36"><expr pos:start="16:5" pos:end="16:35" slice:use="3ef13b47b251975ce1202f7460404275cd4618d6"><call pos:start="16:5" pos:end="16:35"><name pos:start="16:5" pos:end="16:29">bad_int_multiply_22b_sink</name><argument_list pos:start="16:30" pos:end="16:35">(<argument pos:start="16:31" pos:end="16:34"><expr pos:start="16:31" pos:end="16:34"><name pos:start="16:31" pos:end="16:34">data</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+</block_content>}</block></function>
+</unit>

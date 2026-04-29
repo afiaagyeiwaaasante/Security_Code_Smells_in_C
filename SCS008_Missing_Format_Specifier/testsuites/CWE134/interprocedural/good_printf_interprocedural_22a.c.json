@@ -1,0 +1,47 @@
+{
+"len-15-16-d0639af0e6162c20777829439df65ded2ff9dc40":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/interprocedural/good_printf_interprocedural_22a.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"good_printf_interprocedural_22a_source",
+    "type":"size_t",
+    "name":"len",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/interprocedural/good_printf_interprocedural_22a.c:15:16",
+    "dependence":[],
+    "aliases":[],
+    "calls":[],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/interprocedural/good_printf_interprocedural_22a.c:16:13","/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/interprocedural/good_printf_interprocedural_22a.c:16:29","/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/interprocedural/good_printf_interprocedural_22a.c:16:52"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/interprocedural/good_printf_interprocedural_22a.c:15:16"]
+},
+"data-12-11-d0639af0e6162c20777829439df65ded2ff9dc40":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/interprocedural/good_printf_interprocedural_22a.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"good_printf_interprocedural_22a_source",
+    "type":"char*",
+    "name":"data",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/interprocedural/good_printf_interprocedural_22a.c:12:11",
+    "dependence":[{"len":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/interprocedural/good_printf_interprocedural_22a.c:15:29"}],
+    "aliases":[],
+    "calls":[{"functionName":"fgets","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/interprocedural/good_printf_interprocedural_22a.c:14:9"},{"functionName":"strlen","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/interprocedural/good_printf_interprocedural_22a.c:15:22"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/interprocedural/good_printf_interprocedural_22a.c:14:15","/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/interprocedural/good_printf_interprocedural_22a.c:15:29","/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/interprocedural/good_printf_interprocedural_22a.c:16:24"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/interprocedural/good_printf_interprocedural_22a.c:12:11","/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/interprocedural/good_printf_interprocedural_22a.c:13:5","/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/interprocedural/good_printf_interprocedural_22a.c:16:47"]
+},
+"good_printf_interprocedural_22a_data-8-6-":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/interprocedural/good_printf_interprocedural_22a.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"",
+    "type":"char[]",
+    "name":"good_printf_interprocedural_22a_data",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/interprocedural/good_printf_interprocedural_22a.c:8:6",
+    "dependence":[{"data":"/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/interprocedural/good_printf_interprocedural_22a.c:12:18"}],
+    "aliases":[],
+    "calls":[],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/interprocedural/good_printf_interprocedural_22a.c:12:18"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS008_Missing_Format_Specifier/testsuites/CWE134/interprocedural/good_printf_interprocedural_22a.c:8:6"]
+}
+}

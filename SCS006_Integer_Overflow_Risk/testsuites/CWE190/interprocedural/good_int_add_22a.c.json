@@ -1,0 +1,32 @@
+{
+"data-8-32-dae72f68da5c94221dd2fc386e70316fe5a82c8a":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/interprocedural/good_int_add_22a.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"good_int_add_22b_sink",
+    "type":"int",
+    "name":"data",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/interprocedural/good_int_add_22a.c:8:32",
+    "dependence":[],
+    "aliases":[],
+    "calls":[],
+    "use":[],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/interprocedural/good_int_add_22a.c:8:32"]
+},
+"data-12-9-dae72f68da5c94221dd2fc386e70316fe5a82c8a":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/interprocedural/good_int_add_22a.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"good_int_add_22a",
+    "type":"int",
+    "name":"data",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/interprocedural/good_int_add_22a.c:12:9",
+    "dependence":[],
+    "aliases":[],
+    "calls":[{"functionName":"fscanf","parameter":"3","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/interprocedural/good_int_add_22a.c:14:5"},{"functionName":"good_int_add_22b_sink","parameter":"1","definitionPosition":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/interprocedural/good_int_add_22a.c:8:1","invoke":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/interprocedural/good_int_add_22a.c:15:5"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/interprocedural/good_int_add_22a.c:8:32","/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/interprocedural/good_int_add_22a.c:14:26","/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/interprocedural/good_int_add_22a.c:15:27"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/interprocedural/good_int_add_22a.c:12:9"]
+}
+}

@@ -1,0 +1,32 @@
+{
+"data-9-36-caf9df7abab3fc45c15f0e3aba24265d83a4790a":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/interprocedural/bad_int_multiply_22a.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"bad_int_multiply_22b_sink",
+    "type":"int",
+    "name":"data",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/interprocedural/bad_int_multiply_22a.c:9:36",
+    "dependence":[],
+    "aliases":[],
+    "calls":[],
+    "use":[],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/interprocedural/bad_int_multiply_22a.c:9:36"]
+},
+"data-13-9-caf9df7abab3fc45c15f0e3aba24265d83a4790a":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/interprocedural/bad_int_multiply_22a.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"bad_int_multiply_22a",
+    "type":"int",
+    "name":"data",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/interprocedural/bad_int_multiply_22a.c:13:9",
+    "dependence":[],
+    "aliases":[],
+    "calls":[{"functionName":"bad_int_multiply_22b_sink","parameter":"1","definitionPosition":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/interprocedural/bad_int_multiply_22a.c:9:1","invoke":"/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/interprocedural/bad_int_multiply_22a.c:16:5"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/interprocedural/bad_int_multiply_22a.c:9:36","/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/interprocedural/bad_int_multiply_22a.c:16:31"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/interprocedural/bad_int_multiply_22a.c:13:9","/Users/afiaasante/Security-Code-Smells/SCS006_Integer_Overflow_Risk/testsuites/CWE190/interprocedural/bad_int_multiply_22a.c:15:5"]
+}
+}

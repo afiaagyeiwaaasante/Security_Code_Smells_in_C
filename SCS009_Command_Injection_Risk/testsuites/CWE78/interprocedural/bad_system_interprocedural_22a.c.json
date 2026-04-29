@@ -1,0 +1,17 @@
+{
+"badData-12-6-":{
+    "file":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/interprocedural/bad_system_interprocedural_22a.c",
+    "language":"C",
+    "namespace":[],
+    "class":"",
+    "function":"",
+    "type":"char[]",
+    "name":"badData",
+    "initial":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/interprocedural/bad_system_interprocedural_22a.c:12:6",
+    "dependence":[],
+    "aliases":[],
+    "calls":[{"functionName":"fgets","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/interprocedural/bad_system_interprocedural_22a.c:17:9"},{"functionName":"strcspn","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/interprocedural/bad_system_interprocedural_22a.c:18:17"},{"functionName":"strcspn","parameter":"1","definitionPosition":"","invoke":"/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/interprocedural/bad_system_interprocedural_22a.c:18:17"}],
+    "use":["/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/interprocedural/bad_system_interprocedural_22a.c:17:15","/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/interprocedural/bad_system_interprocedural_22a.c:18:25"],
+    "definition":["/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/interprocedural/bad_system_interprocedural_22a.c:12:6","/Users/afiaasante/Security-Code-Smells/SCS009_Command_Injection_Risk/testsuites/CWE78/interprocedural/bad_system_interprocedural_22a.c:18:9"]
+}
+}
